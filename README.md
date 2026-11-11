@@ -1,7 +1,7 @@
-# LexiFlow Phase 2 Android APK
+# LexiFlow Android test APK
 
-Download LexiFlow-phase2.apk from this branch. Source code and tests are on the main branch.
+Download LexiFlow-phase2.apk from this branch. The current build is version 1.0.1 (6), with the custom book launcher icon and adaptive Android icon support. Source code is on main.
 
-Version 1.0.0 (5), Android API 23+. This is a debug-signed test build, not a production-signed release. Device audio/lifecycle and live AI verification remain pending. 127 automated tests passed; static analysis and both Android builds passed.
+Android API 23+. Debug-signed test build, not production-signed. Android release build, APK signature verification and static analysis passed. Physical launcher/audio/lifecycle and live AI provider testing remain pending. The Phase 2 functionality previously passed 127 automated tests; this update changes launcher resources and version metadata only.
 
-SHA-256: b5bf669c8b1a2708fd86436f15507a27924468c67dc28f93acc5462609764a4b
+SHA-256: c6773e1bce070a387fbf457bb1bf309240b5eadb1bef5e9cd574f74f481ca033
