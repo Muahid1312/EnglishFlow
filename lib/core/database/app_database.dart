@@ -1,4 +1,10 @@
 import 'dart:io';
+import 'dart:convert';
+
+import '../utils/id_utils.dart';
+import '../services/review_schedule.dart';
+import '../utils/answer_utils.dart';
+import '../utils/date_utils.dart';
 
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -7,24 +13,39 @@ import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 
 /// Lightweight offline database for LexiFlow Phase 1.
 class AppDatabase {
+  AppDatabase({String? path}) : _path = path;
+
+  final String? _path;
   Database? _db;
+  Future<Database>? _opening;
 
   Future<Database> get db async {
     if (_db != null) return _db!;
-    _db = await _open();
-    return _db!;
+    return _opening ??= _open().then((database) {
+      _db = database;
+      return database;
+    }).whenComplete(() => _opening = null);
   }
 
   Future<Database> _open() async {
     if (Platform.isAndroid) {
       await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();
     }
-    final dir = await getApplicationDocumentsDirectory();
-    final path = p.join(dir.path, 'lexiflow.sqlite');
+    final path = _path ??
+        p.join(
+            (await getApplicationDocumentsDirectory()).path, 'lexiflow.sqlite');
     final database = sqlite3.open(path);
     database.execute('PRAGMA foreign_keys = ON;');
-    await _migrate(database);
-    return database;
+    database.execute('BEGIN IMMEDIATE');
+    try {
+      await _migrate(database);
+      database.execute('COMMIT');
+      return database;
+    } catch (_) {
+      database.execute('ROLLBACK');
+      database.dispose();
+      rethrow;
+    }
   }
 
   Future<void> _migrate(Database database) async {
@@ -464,6 +485,837 @@ class AppDatabase {
       ''');
       database.execute('PRAGMA user_version = 4;');
     }
+    if (version < 5) {
+      database.execute('''CREATE TABLE reading_articles (
+        id TEXT PRIMARY KEY, title TEXT NOT NULL, body TEXT NOT NULL,
+        source_name TEXT, scroll_offset REAL NOT NULL DEFAULT 0,
+        created_at TEXT NOT NULL, updated_at TEXT NOT NULL)''');
+      database.execute(
+          'ALTER TABLE vocabulary_entries ADD COLUMN normalized_word TEXT');
+      database.execute(
+          'ALTER TABLE vocabulary_entries ADD COLUMN duplicate_of TEXT REFERENCES vocabulary_entries(id)');
+      database.execute(
+          "ALTER TABLE vocabulary_entries ADD COLUMN contexts_json TEXT NOT NULL DEFAULT '[]'");
+      final canonical = <String, String>{};
+      for (final row in database.select(
+          'SELECT * FROM vocabulary_entries ORDER BY is_saved DESC, created_at, id')) {
+        final word = normalizeWord(row['word'] as String);
+        final id = row['id'] as String;
+        final first = canonical[word];
+        database.execute(
+            'UPDATE vocabulary_entries SET normalized_word = ?, duplicate_of = ?, contexts_json = ? WHERE id = ?',
+            [
+              first == null ? word : null,
+              first,
+              jsonEncode([
+                if ((row['example_sentence'] as String?)?.isNotEmpty == true)
+                  {
+                    'sentence': row['example_sentence'],
+                    'source': 'Original context'
+                  }
+              ]),
+              id
+            ]);
+        canonical.putIfAbsent(word, () => id);
+      }
+      // Preserve legacy duplicate rows and their schedules, while exposing one
+      // canonical word and all of its original source sentences.
+      for (final id in canonical.values) {
+        final related = database.select(
+            'SELECT * FROM vocabulary_entries WHERE id=? OR duplicate_of=?',
+            [id, id]);
+        final contexts = <dynamic>[];
+        for (final row in related) {
+          for (final item
+              in jsonDecode(row['contexts_json'] as String) as List) {
+            if (!contexts.any((c) => c['sentence'] == item['sentence'])) {
+              contexts.add(item);
+            }
+          }
+        }
+        database.execute(
+            'UPDATE vocabulary_entries SET contexts_json=? WHERE id=?',
+            [jsonEncode(contexts), id]);
+        if (database.select(
+            'SELECT id FROM vocabulary_reviews WHERE entry_id=?',
+            [id]).isEmpty) {
+          final schedules = database.select(
+              '''SELECT r.* FROM vocabulary_reviews r JOIN vocabulary_entries e ON e.id=r.entry_id
+            WHERE e.duplicate_of=? ORDER BY julianday(r.next_review_at),r.id LIMIT 1''',
+              [id]);
+          if (schedules.isNotEmpty) {
+            final r = schedules.first;
+            database.execute(
+                'INSERT INTO vocabulary_reviews(id,entry_id,next_review_at,interval_days,ease_factor,review_count,last_reviewed_at) VALUES(?,?,?,?,?,?,?)',
+                [
+                  newId(),
+                  id,
+                  r['next_review_at'],
+                  r['interval_days'],
+                  r['ease_factor'],
+                  r['review_count'],
+                  r['last_reviewed_at']
+                ]);
+          } else {
+            database.execute(
+                'INSERT INTO vocabulary_reviews(id,entry_id,next_review_at,interval_days) VALUES(?,?,?,0)',
+                [newId(), id, DateTime.now().toUtc().toIso8601String()]);
+          }
+        }
+      }
+      database.execute(
+          'CREATE UNIQUE INDEX idx_vocabulary_normalized ON vocabulary_entries(normalized_word) WHERE normalized_word IS NOT NULL');
+      database.execute(
+          'ALTER TABLE vocabulary_reviews ADD COLUMN successful_streak INTEGER NOT NULL DEFAULT 0');
+      database.execute(
+          'UPDATE vocabulary_reviews SET successful_streak=MAX(0,review_count)');
+      database.execute('''CREATE TABLE vocabulary_review_history (
+        id TEXT PRIMARY KEY, entry_id TEXT NOT NULL REFERENCES vocabulary_entries(id),
+        rating TEXT NOT NULL, reviewed_at TEXT NOT NULL,
+        previous_due TEXT NOT NULL, next_due TEXT NOT NULL,
+        previous_interval INTEGER NOT NULL, next_interval INTEGER NOT NULL,
+        review_number INTEGER NOT NULL)''');
+      database.execute(
+          'CREATE INDEX idx_review_history_entry ON vocabulary_review_history(entry_id, reviewed_at)');
+      database.execute('''CREATE TABLE completion_requirements (
+        target_type TEXT NOT NULL CHECK(target_type IN ('book','course')),
+        target_id TEXT NOT NULL, assessment_id TEXT NOT NULL REFERENCES assessment_definitions(id),
+        PRIMARY KEY(target_type, target_id, assessment_id))''');
+      database.execute('''CREATE TABLE study_session_days (
+        session_id TEXT NOT NULL REFERENCES study_sessions(id) ON DELETE CASCADE,
+        local_date TEXT NOT NULL, duration_ms INTEGER NOT NULL DEFAULT 0 CHECK(duration_ms >= 0),
+        PRIMARY KEY(session_id, local_date))''');
+      // Old active intervals cannot be reconstructed. Preserve their recorded date.
+      database.execute(
+          'INSERT INTO study_session_days SELECT id, local_date, MAX(0, duration_seconds) * 1000 FROM study_sessions');
+      database.execute('PRAGMA user_version = 5');
+    }
+    if (version < 6) {
+      database.execute(
+          'ALTER TABLE listening_lessons ADD COLUMN transcript_revealed INTEGER NOT NULL DEFAULT 0');
+      database.execute(
+          "ALTER TABLE listening_lessons ADD COLUMN comprehension_draft TEXT NOT NULL DEFAULT '{}' ");
+      database.execute(
+          'ALTER TABLE comprehension_attempts ADD COLUMN submission_id TEXT');
+      database.execute(
+          'ALTER TABLE comprehension_attempts ADD COLUMN question_snapshot TEXT');
+      database.execute(
+          'CREATE UNIQUE INDEX idx_comprehension_submission ON comprehension_attempts(submission_id,question_id) WHERE submission_id IS NOT NULL');
+      database.execute(
+          'CREATE INDEX idx_comprehension_lesson ON comprehension_attempts(lesson_id,created_at)');
+      database.execute(
+          'ALTER TABLE ai_messages ADD COLUMN is_local INTEGER NOT NULL DEFAULT 1');
+      database.execute(
+          "ALTER TABLE ai_messages ADD COLUMN request_state TEXT NOT NULL DEFAULT 'complete'");
+      database.execute('ALTER TABLE ai_messages ADD COLUMN error_code TEXT');
+      database.execute(
+          'CREATE INDEX idx_ai_message_order ON ai_messages(conversation_id,created_at)');
+      database.execute(
+          'ALTER TABLE shadowing_attempts ADD COLUMN saved INTEGER NOT NULL DEFAULT 1');
+      database
+          .execute('ALTER TABLE writing_mistakes ADD COLUMN updated_at TEXT');
+      database.execute('UPDATE writing_mistakes SET updated_at=created_at');
+      database.execute(
+          "CREATE TABLE pending_file_deletions(path TEXT PRIMARY KEY,created_at TEXT NOT NULL DEFAULT (datetime('now')))");
+      database.execute(
+          'ALTER TABLE writing_feedback ADD COLUMN body_snapshot TEXT');
+      database.execute('PRAGMA user_version=6');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getArticles() async => (await db)
+      .select('SELECT * FROM reading_articles ORDER BY updated_at DESC');
+
+  Future<Map<String, dynamic>?> getArticle(String id) async {
+    final rows =
+        (await db).select('SELECT * FROM reading_articles WHERE id = ?', [id]);
+    return rows.isEmpty ? null : rows.first;
+  }
+
+  Future<String> saveArticle(String title, String body,
+      {String? sourceName}) async {
+    if (title.trim().isEmpty || body.trim().isEmpty) {
+      throw ArgumentError('Article title and text are required.');
+    }
+    final id = newId();
+    final now = DateTime.now().toUtc().toIso8601String();
+    (await db).execute(
+        'INSERT INTO reading_articles (id,title,body,source_name,created_at,updated_at) VALUES (?,?,?,?,?,?)',
+        [id, title.trim(), body, sourceName, now, now]);
+    return id;
+  }
+
+  Future<void> saveReadingPosition(String id, double offset) async {
+    if (!offset.isFinite || offset < 0) return;
+    (await db).execute(
+        'UPDATE reading_articles SET scroll_offset = ?, updated_at = ? WHERE id = ?',
+        [offset, DateTime.now().toUtc().toIso8601String(), id]);
+  }
+
+  Future<List<Map<String, dynamic>>> getVocabulary() async => (await db).select(
+      'SELECT * FROM vocabulary_entries WHERE is_saved = 1 AND duplicate_of IS NULL ORDER BY word COLLATE NOCASE');
+
+  /// Duplicate reading saves append provenance; they never overwrite the first context.
+  Future<String> saveVocabulary(
+      {String? id,
+      required String word,
+      String? definition,
+      String? translation,
+      String? sentence,
+      String? source,
+      String? articleId}) async {
+    final normalized = normalizeWord(word);
+    if (normalized.isEmpty || normalized.length > 100) {
+      throw ArgumentError(
+          'Enter a word or short phrase (up to 100 characters).');
+    }
+    final d = await db;
+    d.execute('BEGIN IMMEDIATE');
+    try {
+      final matches = d.select(
+          'SELECT * FROM vocabulary_entries WHERE normalized_word = ?',
+          [normalized]);
+      if (id != null && matches.isNotEmpty && matches.first['id'] != id) {
+        throw StateError('This word already exists. Edit its existing card.');
+      }
+      final existing = id == null
+          ? matches
+          : d.select(
+              'SELECT * FROM vocabulary_entries WHERE id = ? AND duplicate_of IS NULL',
+              [id]);
+      if (id != null && existing.isEmpty) throw StateError('Word not found.');
+      final entryId =
+          existing.isEmpty ? newId() : existing.first['id'] as String;
+      final contexts = existing.isEmpty
+          ? <dynamic>[]
+          : jsonDecode(existing.first['contexts_json'] as String) as List;
+      final context = sentence?.trim();
+      if (context != null &&
+          context.isNotEmpty &&
+          !contexts.any((c) =>
+              c['sentence'] == context && c['article_id'] == articleId)) {
+        contexts.add({
+          'sentence': context,
+          'source': source ?? 'Manual',
+          'article_id': articleId
+        });
+      }
+      if (existing.isEmpty) {
+        d.execute(
+            'INSERT INTO vocabulary_entries (id,word,normalized_word,definition,translation,example_sentence,contexts_json) VALUES (?,?,?,?,?,?,?)',
+            [
+              entryId,
+              word.trim(),
+              normalized,
+              definition,
+              translation,
+              context,
+              jsonEncode(contexts)
+            ]);
+      } else if (id != null) {
+        d.execute(
+            'UPDATE vocabulary_entries SET word=?, normalized_word=?, definition=?, translation=?, contexts_json=?, is_saved=1 WHERE id=?',
+            [
+              word.trim(),
+              normalized,
+              definition,
+              translation,
+              jsonEncode(contexts),
+              entryId
+            ]);
+      } else {
+        d.execute(
+            'UPDATE vocabulary_entries SET contexts_json=?, is_saved=1 WHERE id=?',
+            [jsonEncode(contexts), entryId]);
+      }
+      if (d.select('SELECT id FROM vocabulary_reviews WHERE entry_id=?',
+          [entryId]).isEmpty) {
+        d.execute(
+            'INSERT INTO vocabulary_reviews (id,entry_id,next_review_at,interval_days) VALUES (?,?,?,0)',
+            [newId(), entryId, DateTime.now().toUtc().toIso8601String()]);
+      }
+      if (existing.isEmpty) {
+        _activity(d, 'word:$entryId', 'word_saved', 'vocabulary');
+      }
+      d.execute('COMMIT');
+      return entryId;
+    } catch (_) {
+      d.execute('ROLLBACK');
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getDueVocabulary({DateTime? now}) async =>
+      (await db).select('''
+    SELECT e.*, r.id AS schedule_id, r.review_count, r.next_review_at
+    FROM vocabulary_entries e JOIN vocabulary_reviews r ON r.entry_id=e.id
+    WHERE e.is_saved=1 AND e.duplicate_of IS NULL AND julianday(r.next_review_at)<=julianday(?)
+      AND r.id=(SELECT r2.id FROM vocabulary_reviews r2 WHERE r2.entry_id=e.id ORDER BY julianday(r2.next_review_at),r2.id LIMIT 1)
+    ORDER BY julianday(r.next_review_at),e.word''',
+          [(now ?? DateTime.now()).toUtc().toIso8601String()]);
+
+  Future<void> reviewVocabulary(
+      {required String entryId,
+      required String reviewId,
+      required ReviewRating rating,
+      required int expectedReviewCount,
+      DateTime? now}) async {
+    final d = await db;
+    d.execute('BEGIN IMMEDIATE');
+    try {
+      if (d.select('SELECT id FROM vocabulary_review_history WHERE id=?',
+          [reviewId]).isNotEmpty) {
+        d.execute('COMMIT');
+        return;
+      }
+      final rows = d.select(
+          'SELECT r.* FROM vocabulary_reviews r JOIN vocabulary_entries e ON e.id=r.entry_id WHERE r.entry_id=? AND e.is_saved=1 AND e.duplicate_of IS NULL ORDER BY julianday(r.next_review_at),r.id LIMIT 1',
+          [entryId]);
+      if (rows.isEmpty) throw StateError('Review card not found.');
+      final r = rows.first;
+      if (r['review_count'] != expectedReviewCount) {
+        throw StateError('Card already reviewed. Refresh the queue.');
+      }
+      final at = (now ?? DateTime.now()).toUtc();
+      if (DateTime.parse(r['next_review_at'] as String).isAfter(at)) {
+        throw StateError('Card is not due yet.');
+      }
+      final next = scheduleReview(
+          now: at,
+          rating: rating,
+          intervalDays: r['interval_days'] as int,
+          ease: r['ease_factor'] as int,
+          streak: r['successful_streak'] as int);
+      final due = next.due.toIso8601String();
+      d.execute(
+          'INSERT INTO vocabulary_review_history (id,entry_id,rating,reviewed_at,previous_due,next_due,previous_interval,next_interval,review_number) VALUES (?,?,?,?,?,?,?,?,?)',
+          [
+            reviewId,
+            entryId,
+            rating.name,
+            at.toIso8601String(),
+            r['next_review_at'],
+            due,
+            r['interval_days'],
+            next.intervalDays,
+            expectedReviewCount + 1
+          ]);
+      // Synchronize any legacy duplicate schedule rows without deleting their records.
+      d.execute(
+          'UPDATE vocabulary_reviews SET next_review_at=?, interval_days=?, ease_factor=?, successful_streak=?, review_count=?, last_reviewed_at=? WHERE entry_id=?',
+          [
+            due,
+            next.intervalDays,
+            next.ease,
+            next.streak,
+            expectedReviewCount + 1,
+            at.toIso8601String(),
+            entryId
+          ]);
+      _activity(d, 'review:$reviewId', 'vocabulary_reviewed', 'vocabulary');
+      d.execute('COMMIT');
+    } catch (_) {
+      d.execute('ROLLBACK');
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getReviewHistory(String entryId) async =>
+      (await db).select(
+          'SELECT * FROM vocabulary_review_history WHERE entry_id=? ORDER BY reviewed_at DESC, review_number DESC',
+          [entryId]);
+
+  Future<void> setCompletionRequirements(
+      String type, String id, List<String> assessmentIds) async {
+    final d = await db;
+    final table = type == 'book'
+        ? 'imported_books'
+        : (type == 'course' ? 'courses' : null);
+    if (table == null ||
+        d.select('SELECT id FROM $table WHERE id=?', [id]).isEmpty) {
+      throw StateError('Learning material not found.');
+    }
+    d.execute('BEGIN IMMEDIATE');
+    try {
+      d.execute(
+          'DELETE FROM completion_requirements WHERE target_type=? AND target_id=?',
+          [type, id]);
+      for (final assessment in assessmentIds.toSet()) {
+        d.execute('INSERT INTO completion_requirements VALUES (?,?,?)',
+            [type, id, assessment]);
+      }
+      d.execute('COMMIT');
+    } catch (_) {
+      d.execute('ROLLBACK');
+      rethrow;
+    }
+  }
+
+  Future<List<String>> getCompletionRequirements(
+          String type, String id) async =>
+      (await db)
+          .select(
+              'SELECT assessment_id FROM completion_requirements WHERE target_type=? AND target_id=?',
+              [type, id])
+          .map((r) => r['assessment_id'] as String)
+          .toList();
+
+  /// Atomic, idempotent daily checkpoint. Each service checkpoint supplies cumulative totals.
+  Future<void> checkpointSession(String id, Map<String, int> milliseconds,
+      {bool completed = false,
+      bool interrupted = true,
+      DateTime? endedAt}) async {
+    final d = await db;
+    d.execute('BEGIN IMMEDIATE');
+    try {
+      final row =
+          d.select('SELECT * FROM study_sessions WHERE id=?', [id]).single;
+      if (row['completed'] == 1) {
+        d.execute('COMMIT');
+        return;
+      }
+      for (final item in milliseconds.entries) {
+        d.execute(
+            '''INSERT INTO study_session_days(session_id,local_date,duration_ms) VALUES (?,?,?)
+          ON CONFLICT(session_id,local_date) DO UPDATE SET duration_ms=MAX(duration_ms,excluded.duration_ms)''',
+            [id, item.key, item.value]);
+      }
+      final total = d.select(
+          'SELECT COALESCE(SUM(duration_ms),0) AS t FROM study_session_days WHERE session_id=?',
+          [id]).first['t'] as int;
+      d.execute(
+          'UPDATE study_sessions SET duration_seconds=?,completed=?,interrupted=?,ended_at=? WHERE id=?',
+          [
+            total ~/ 1000,
+            completed ? 1 : 0,
+            interrupted ? 1 : 0,
+            endedAt?.toUtc().toIso8601String(),
+            id
+          ]);
+      if (completed) {
+        final target = d
+            .select('SELECT daily_target_minutes FROM user_preferences LIMIT 1')
+            .first['daily_target_minutes'] as int;
+        for (final day in d.select(
+            'SELECT local_date FROM study_session_days WHERE session_id=?',
+            [id])) {
+          final date = day['local_date'] as String;
+          final ms = d.select(
+              '''SELECT COALESCE(SUM(days.duration_ms),0) AS t FROM study_session_days days
+            JOIN study_sessions s ON s.id=days.session_id WHERE s.completed=1 AND days.local_date=?''',
+              [date]).first['t'] as int;
+          final minutes = ms ~/ 60000;
+          d.execute(
+              '''INSERT INTO daily_goals(local_date,target_minutes,completed_minutes,goal_met) VALUES (?,?,?,?)
+            ON CONFLICT(local_date) DO UPDATE SET target_minutes=excluded.target_minutes,completed_minutes=excluded.completed_minutes,goal_met=excluded.goal_met''',
+              [date, target, minutes, minutes >= target ? 1 : 0]);
+        }
+        d.execute(
+            'INSERT OR IGNORE INTO learning_activities(id,type,module,metadata,local_date) VALUES (?,?,?,?,?)',
+            [
+              'session:$id',
+              interrupted ? 'session_interrupted' : 'session_completed',
+              row['module'],
+              jsonEncode({'seconds': total ~/ 1000}),
+              row['local_date']
+            ]);
+      }
+      d.execute('COMMIT');
+    } catch (_) {
+      d.execute('ROLLBACK');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, int>> getSessionDays(String id) async => {
+        for (final row in (await db).select(
+            'SELECT * FROM study_session_days WHERE session_id=?', [id]))
+          row['local_date'] as String: row['duration_ms'] as int,
+      };
+  T _atomic<T>(Database d, T Function() action) {
+    d.execute('BEGIN IMMEDIATE');
+    try {
+      final result = action();
+      d.execute('COMMIT');
+      return result;
+    } catch (_) {
+      d.execute('ROLLBACK');
+      rethrow;
+    }
+  }
+
+  void _activity(Database d, String id, String type, String module,
+      {Map<String, Object?>? metadata}) {
+    d.execute(
+        'INSERT OR IGNORE INTO learning_activities(id,type,module,metadata,local_date) VALUES(?,?,?,?,?)',
+        [id, type, module, jsonEncode(metadata ?? {}), localDateString()]);
+  }
+
+  Future<void> saveComprehensionQuestion(
+      {String? id,
+      required String lessonId,
+      required String question,
+      required String type,
+      List<String> choices = const [],
+      String? correct}) async {
+    if (question.trim().isEmpty ||
+        !['mc', 'main_idea', 'details', 'intention', 'short'].contains(type)) {
+      throw ArgumentError('Enter a question and valid question type.');
+    }
+    final options =
+        choices.map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
+    if (type != 'short' &&
+        (options.length < 2 ||
+            options.length > 6 ||
+            options.toSet().length != options.length ||
+            !options.contains(correct))) {
+      throw ArgumentError(
+          'Provide 2–6 distinct choices and select the correct answer.');
+    }
+    final d = await db;
+    if (d.select(
+        'SELECT id FROM listening_lessons WHERE id=?', [lessonId]).isEmpty) {
+      throw StateError('Lesson not found.');
+    }
+    if (id != null &&
+        d.select(
+            'SELECT id FROM comprehension_questions WHERE id=? AND lesson_id=?',
+            [id, lessonId]).isEmpty) throw StateError('Question not found.');
+    d.execute(
+        '''INSERT INTO comprehension_questions(id,lesson_id,question,question_type,choices,correct_answer,order_index)
+      VALUES(?,?,?,?,?,?,(SELECT COUNT(*) FROM comprehension_questions WHERE lesson_id=?))
+      ON CONFLICT(id) DO UPDATE SET question=excluded.question,question_type=excluded.question_type,
+        choices=excluded.choices,correct_answer=excluded.correct_answer''',
+        [
+          id ?? newId(),
+          lessonId,
+          question.trim(),
+          type,
+          jsonEncode(type == 'short' ? [] : options),
+          type == 'short' ? null : correct,
+          lessonId
+        ]);
+  }
+
+  Future<void> saveComprehensionDraft(
+          String lessonId, Map<String, String> answers) async =>
+      (await db).execute(
+          'UPDATE listening_lessons SET comprehension_draft=? WHERE id=?',
+          [jsonEncode(answers), lessonId]);
+  Future<void> revealTranscript(String lessonId) async => (await db).execute(
+      'UPDATE listening_lessons SET transcript_revealed=1 WHERE id=?',
+      [lessonId]);
+  Future<void> submitComprehension(
+      String lessonId, String submissionId, Map<String, String> answers) async {
+    final d = await db;
+    _atomic(d, () {
+      if (d.select(
+          'SELECT id FROM comprehension_attempts WHERE submission_id=?',
+          [submissionId]).isNotEmpty) return;
+      final questions = d.select(
+          'SELECT * FROM comprehension_questions WHERE lesson_id=? ORDER BY order_index',
+          [lessonId]);
+      if (questions.isEmpty ||
+          questions.any((q) => (answers[q['id']] ?? '').trim().isEmpty)) {
+        throw StateError('Answer every saved question before submitting.');
+      }
+      for (final q in questions) {
+        final short = q['question_type'] == 'short';
+        final response = answers[q['id']]!.trim();
+        final correct = short
+            ? null
+            : (matchesAnswer(response, q['correct_answer'] as String?) ? 1 : 0);
+        d.execute(
+            '''INSERT INTO comprehension_attempts(id,question_id,lesson_id,learner_response,is_correct,self_assessed,submission_id,question_snapshot)
+          VALUES(?,?,?,?,?,?,?,?)''',
+            [
+              newId(),
+              q['id'],
+              lessonId,
+              response,
+              correct,
+              short ? 1 : 0,
+              submissionId,
+              jsonEncode(q)
+            ]);
+      }
+      d.execute('UPDATE listening_lessons SET comprehension_draft=? WHERE id=?',
+          [jsonEncode(answers), lessonId]);
+      _activity(d, 'comprehension:$submissionId', 'comprehension_submitted',
+          'listening_speaking');
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> getComprehensionAttempts(
+          String lessonId) async =>
+      (await db).select(
+          'SELECT * FROM comprehension_attempts WHERE lesson_id=? ORDER BY created_at DESC,rowid DESC',
+          [lessonId]);
+  Future<void> selfAssessComprehension(String attemptId, bool metGoal) async =>
+      (await db).execute(
+          'UPDATE comprehension_attempts SET is_correct=? WHERE id=? AND self_assessed=1',
+          [metGoal ? 1 : 0, attemptId]);
+
+  Future<void> renameAiConversation(String id, String title) async {
+    if (title.trim().isEmpty) {
+      throw ArgumentError('Enter a conversation title.');
+    }
+    (await db).execute(
+        'UPDATE ai_conversations SET title=? WHERE id=?', [title.trim(), id]);
+  }
+
+  Future<void> deleteAiConversation(String id) async {
+    final d = await db;
+    _atomic(d, () {
+      d.execute('DELETE FROM ai_messages WHERE conversation_id=?', [id]);
+      d.execute('DELETE FROM ai_conversations WHERE id=?', [id]);
+    });
+  }
+
+  Future<String> beginAiRequest(String conversationId, String text,
+      {String? id}) async {
+    if (text.trim().isEmpty || text.length > 20000) {
+      throw ArgumentError('Enter up to 20,000 characters.');
+    }
+    final d = await db;
+    final request = id ?? newId();
+    _atomic(d, () {
+      d.execute(
+          "INSERT INTO ai_messages(id,conversation_id,role,content,is_local,request_state) VALUES(?,?,'user',?,0,'pending')",
+          [request, conversationId, text.trim()]);
+      d.execute(
+          "UPDATE ai_conversations SET message_count=message_count+1,last_message_at=? WHERE id=?",
+          [DateTime.now().toUtc().toIso8601String(), conversationId]);
+      _activity(d, 'ai-user:$request', 'ai_practice_message', 'ai_teacher');
+    });
+    return request;
+  }
+
+  Future<void> setAiRequestState(String id, String state,
+          {String? errorCode}) async =>
+      (await db).execute(
+          "UPDATE ai_messages SET request_state=?,error_code=? WHERE id=? AND role='user'",
+          [state, errorCode, id]);
+  Future<void> finishAiRequest(String requestId, String reply) async {
+    if (reply.trim().isEmpty) throw ArgumentError('Provider returned no text.');
+    final d = await db;
+    _atomic(d, () {
+      final rows = d.select(
+          "SELECT conversation_id FROM ai_messages WHERE id=? AND role='user'",
+          [requestId]);
+      if (rows.isEmpty) {
+        return; // A user may delete a conversation during a request.
+      }
+      final conversation = rows.single['conversation_id'];
+      if (d.select('SELECT id FROM ai_messages WHERE id=?',
+          ['reply:$requestId']).isEmpty) {
+        d.execute(
+            "INSERT INTO ai_messages(id,conversation_id,role,content,is_local) VALUES(?,?,'assistant',?,0)",
+            ['reply:$requestId', conversation, reply.trim()]);
+        d.execute(
+            'UPDATE ai_conversations SET message_count=message_count+1,last_message_at=? WHERE id=?',
+            [DateTime.now().toUtc().toIso8601String(), conversation]);
+      }
+      d.execute(
+          "UPDATE ai_messages SET request_state='complete',error_code=NULL WHERE id=?",
+          [requestId]);
+    });
+  }
+
+  Future<void> deleteWritingMistake(String id) async =>
+      (await db).execute('DELETE FROM writing_mistakes WHERE id=?', [id]);
+  Future<void> saveAiWritingFeedback(
+      String entryId, String submitted, String response) async {
+    if (response.trim().isEmpty) {
+      throw ArgumentError('No AI feedback was returned.');
+    }
+    final d = await db;
+    _atomic(d, () {
+      if (d.select(
+          'SELECT id FROM writing_entries WHERE id=?', [entryId]).isEmpty) {
+        throw StateError('Writing entry no longer exists.');
+      }
+      final latest = d.select(
+          'SELECT body,label FROM writing_revisions WHERE entry_id=? ORDER BY created_at DESC,rowid DESC LIMIT 1',
+          [entryId]);
+      if (latest.isEmpty ||
+          latest.single['body'] != submitted ||
+          latest.single['label'] != 'Submitted for AI feedback') {
+        final id = newId();
+        d.execute(
+            'INSERT INTO writing_revisions(id,entry_id,body,word_count,label) VALUES(?,?,?,?,?)',
+            [
+              id,
+              entryId,
+              submitted,
+              submitted.trim().isEmpty
+                  ? 0
+                  : submitted.trim().split(RegExp(r'\s+')).length,
+              'Submitted for AI feedback'
+            ]);
+        _activity(
+            d, 'revision:$id', 'writing_revision_saved', 'grammar_writing');
+      }
+      d.execute(
+          "INSERT INTO writing_feedback(id,entry_id,source,content,body_snapshot) VALUES(?,?,'ai',?,?)",
+          [newId(), entryId, response, submitted]);
+    });
+  }
+
+  Future<void> restoreWritingRevision(String entryId, String revisionId) async {
+    final d = await db;
+    _atomic(d, () {
+      final entries =
+          d.select('SELECT * FROM writing_entries WHERE id=?', [entryId]);
+      final revisions = d.select(
+          'SELECT * FROM writing_revisions WHERE id=? AND entry_id=?',
+          [revisionId, entryId]);
+      if (entries.isEmpty || revisions.isEmpty) {
+        throw StateError('Writing entry or revision not found.');
+      }
+      final entry = entries.single;
+      final revision = revisions.single;
+      if (entry['body'] == revision['body']) return;
+      final backup = newId();
+      d.execute(
+          'INSERT INTO writing_revisions(id,entry_id,body,word_count,label) VALUES(?,?,?,?,?)',
+          [
+            backup,
+            entryId,
+            entry['body'],
+            entry['word_count'],
+            'Before restoring ${revision['created_at']}'
+          ]);
+      d.execute(
+          'UPDATE writing_entries SET body=?,word_count=?,updated_at=? WHERE id=?',
+          [
+            revision['body'],
+            revision['word_count'],
+            DateTime.now().toUtc().toIso8601String(),
+            entryId
+          ]);
+      _activity(d, 'revision:$backup', 'writing_revision_restored',
+          'grammar_writing');
+    });
+  }
+
+  Future<void> saveShadowingRecording(
+      {required String attemptId,
+      required String lessonId,
+      required String path,
+      required int startMs,
+      required int endMs,
+      required int durationMs,
+      bool saved = true}) async {
+    if (startMs < 0 || endMs <= startMs || durationMs < 0 || path.isEmpty) {
+      throw ArgumentError('Invalid shadowing segment or recording.');
+    }
+    final d = await db;
+    _atomic(d, () {
+      if (d.select('SELECT id FROM shadowing_attempts WHERE id=?',
+          [attemptId]).isNotEmpty) return;
+      if (d.select(
+          'SELECT id FROM listening_lessons WHERE id=?', [lessonId]).isEmpty) {
+        throw StateError('Listening lesson not found.');
+      }
+      final recording = newId();
+      d.execute(
+          "INSERT INTO speaking_recordings(id,lesson_id,mode,audio_path,duration_ms) VALUES(?,?,'shadowing',?,?)",
+          [recording, lessonId, path, durationMs]);
+      d.execute(
+          'INSERT INTO shadowing_attempts(id,lesson_id,segment_start_ms,segment_end_ms,recording_id,duration_ms,saved) VALUES(?,?,?,?,?,?,?)',
+          [
+            attemptId,
+            lessonId,
+            startMs,
+            endMs,
+            recording,
+            durationMs,
+            saved ? 1 : 0
+          ]);
+      if (saved) {
+        _activity(
+            d, 'shadowing:$attemptId', 'shadowing_saved', 'listening_speaking',
+            metadata: {'duration_ms': durationMs});
+      }
+    });
+  }
+
+  Future<void> confirmShadowingAttempt(String id) async {
+    final d = await db;
+    _atomic(d, () {
+      final rows = d.select(
+          'SELECT duration_ms FROM shadowing_attempts WHERE id=?', [id]);
+      if (rows.isEmpty) throw StateError('Shadowing draft not found.');
+      d.execute('UPDATE shadowing_attempts SET saved=1 WHERE id=?', [id]);
+      _activity(d, 'shadowing:$id', 'shadowing_saved', 'listening_speaking',
+          metadata: {'duration_ms': rows.single['duration_ms']});
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> getShadowingHistory(
+          String lessonId) async =>
+      (await db).select(
+          '''SELECT a.*,r.audio_path FROM shadowing_attempts a LEFT JOIN speaking_recordings r ON r.id=a.recording_id
+      WHERE a.lesson_id=? ORDER BY a.created_at DESC,a.rowid DESC''',
+          [lessonId]);
+  Future<void> deleteShadowingAttempt(String id) async {
+    final d = await db;
+    _atomic(d, () {
+      final rows = d.select(
+          'SELECT a.recording_id,r.audio_path FROM shadowing_attempts a LEFT JOIN speaking_recordings r ON r.id=a.recording_id WHERE a.id=?',
+          [id]);
+      if (rows.isEmpty) return;
+      final row = rows.single;
+      d.execute('DELETE FROM shadowing_attempts WHERE id=?', [id]);
+      if (row['recording_id'] != null &&
+          d.select('SELECT id FROM shadowing_attempts WHERE recording_id=?',
+              [row['recording_id']]).isEmpty) {
+        d.execute('DELETE FROM speaking_recordings WHERE id=?',
+            [row['recording_id']]);
+        if (row['audio_path'] != null) {
+          d.execute(
+              'INSERT OR IGNORE INTO pending_file_deletions(path) VALUES(?)',
+              [row['audio_path']]);
+        }
+      }
+    });
+  }
+
+  Future<List<String>> pendingFileDeletions() async => (await db)
+      .select('SELECT path FROM pending_file_deletions')
+      .map((r) => r['path'] as String)
+      .toList();
+  Future<void> completeFileDeletion(String path) async => (await db)
+      .execute('DELETE FROM pending_file_deletions WHERE path=?', [path]);
+  Future<Map<String, num>> activityStatistics() async {
+    final d = await db;
+    int count(String query) => d.select(query).first['n'] as int;
+    return {
+      'Comprehension answers':
+          count('SELECT COUNT(*) n FROM comprehension_attempts'),
+      'Objective correct': count(
+          'SELECT COUNT(*) n FROM comprehension_attempts WHERE self_assessed=0 AND is_correct=1'),
+      'Objective graded': count(
+          'SELECT COUNT(*) n FROM comprehension_attempts WHERE self_assessed=0 AND is_correct IS NOT NULL'),
+      'Shadowing attempts':
+          count('SELECT COUNT(*) n FROM shadowing_attempts WHERE saved=1'),
+      'Shadowing seconds': count(
+          'SELECT COALESCE(SUM(duration_ms),0)/1000 n FROM shadowing_attempts WHERE saved=1'),
+      'Speaking seconds': count(
+          'SELECT COALESCE(SUM(duration_ms),0)/1000 n FROM speaking_recordings WHERE mode!=\'shadowing\''),
+      'AI practice messages':
+          count("SELECT COUNT(*) n FROM ai_messages WHERE role='user'"),
+      'Writing revisions': count('SELECT COUNT(*) n FROM writing_revisions'),
+      'Open mistakes': count(
+          "SELECT COUNT(*) n FROM writing_mistakes WHERE review_status='open'"),
+      'Reviewed mistakes': count(
+          "SELECT COUNT(*) n FROM writing_mistakes WHERE review_status='understood'"),
+      'Vocabulary reviews':
+          count('SELECT COUNT(*) n FROM vocabulary_review_history'),
+      'Reading opens': count(
+          "SELECT COUNT(*) n FROM learning_activities WHERE type='reading_opened'"),
+    };
   }
 
   void close() {
@@ -536,33 +1388,43 @@ class AppDatabase {
     values.add(id);
     d.execute(
         'UPDATE study_sessions SET ${parts.join(', ')} WHERE id = ?', values);
+    if (durationSeconds != null) {
+      final date =
+          d.select('SELECT local_date FROM study_sessions WHERE id=?', [id]);
+      if (date.isNotEmpty) {
+        d.execute(
+            '''INSERT INTO study_session_days(session_id,local_date,duration_ms) VALUES (?,?,?)
+        ON CONFLICT(session_id,local_date) DO UPDATE SET duration_ms=excluded.duration_ms''',
+            [id, date.first['local_date'], durationSeconds * 1000]);
+      }
+    }
   }
 
   Future<int> getTotalSecondsForDate(String localDate) async {
     final d = await db;
-    final rows = d.select(
-      'SELECT COALESCE(SUM(duration_seconds), 0) AS total FROM study_sessions WHERE local_date = ? AND completed = 1',
-      [localDate],
-    );
-    return rows.first['total'] as int;
+    final ms = d.select('''SELECT COALESCE(SUM(days.duration_ms),0) AS total
+      FROM study_session_days days JOIN study_sessions s ON s.id=days.session_id
+      WHERE days.local_date=? AND s.completed=1''', [localDate]).first['total']
+        as int;
+    return ms ~/ 1000;
   }
 
   Future<List<String>> getCompletedStudyDates({int limit = 400}) async {
     final d = await db;
-    final rows = d.select(
-      '''SELECT local_date FROM study_sessions
-         WHERE completed = 1 AND duration_seconds > 0
-         GROUP BY local_date ORDER BY local_date DESC LIMIT ?''',
-      [limit],
-    );
-    return rows.map((r) => r['local_date'] as String).toList();
+    return d
+        .select('''SELECT days.local_date FROM study_session_days days
+      JOIN study_sessions s ON s.id=days.session_id
+      WHERE s.completed=1 AND days.duration_ms>0 GROUP BY days.local_date
+      ORDER BY days.local_date DESC LIMIT ?''', [limit])
+        .map((r) => r['local_date'] as String)
+        .toList();
   }
 
   Future<Map<String, dynamic>?> getActiveInterruptedSession() async {
     final d = await db;
     final rows = d.select(
       '''SELECT * FROM study_sessions
-         WHERE completed = 0 AND interrupted = 1
+         WHERE completed = 0
          ORDER BY started_at DESC LIMIT 1''',
     );
     return rows.isEmpty ? null : rows.first;
@@ -622,7 +1484,7 @@ class AppDatabase {
   Future<int> getSavedWordCount() async {
     final d = await db;
     final rows = d.select(
-        'SELECT COUNT(*) AS c FROM vocabulary_entries WHERE is_saved = 1');
+        'SELECT COUNT(*) AS c FROM vocabulary_entries WHERE is_saved = 1 AND duplicate_of IS NULL');
     return rows.first['c'] as int;
   }
 
@@ -630,7 +1492,7 @@ class AppDatabase {
     final d = await db;
     final now = DateTime.now().toUtc().toIso8601String();
     final rows = d.select(
-        'SELECT COUNT(*) AS c FROM vocabulary_reviews WHERE next_review_at <= ?',
+        'SELECT COUNT(DISTINCT r.entry_id) AS c FROM vocabulary_reviews r JOIN vocabulary_entries e ON e.id = r.entry_id WHERE e.is_saved = 1 AND e.duplicate_of IS NULL AND julianday(r.next_review_at) <= julianday(?)',
         [now]);
     return rows.first['c'] as int;
   }
@@ -691,11 +1553,19 @@ class AppDatabase {
 
   Future<void> deleteListeningLesson(String id) async {
     final d = await db;
-    d.execute('DELETE FROM playback_bookmarks WHERE lesson_id = ?', [id]);
-    d.execute('DELETE FROM comprehension_attempts WHERE lesson_id = ?', [id]);
-    d.execute('DELETE FROM comprehension_questions WHERE lesson_id = ?', [id]);
-    d.execute('DELETE FROM shadowing_attempts WHERE lesson_id = ?', [id]);
-    d.execute('DELETE FROM listening_lessons WHERE id = ?', [id]);
+    d.execute('BEGIN IMMEDIATE');
+    try {
+      d.execute('DELETE FROM playback_bookmarks WHERE lesson_id = ?', [id]);
+      d.execute('DELETE FROM comprehension_attempts WHERE lesson_id = ?', [id]);
+      d.execute(
+          'DELETE FROM comprehension_questions WHERE lesson_id = ?', [id]);
+      d.execute('DELETE FROM shadowing_attempts WHERE lesson_id = ?', [id]);
+      d.execute('DELETE FROM listening_lessons WHERE id = ?', [id]);
+      d.execute('COMMIT');
+    } catch (_) {
+      d.execute('ROLLBACK');
+      rethrow;
+    }
   }
 
   Future<void> addBookmark(String id, String lessonId, int positionMs,
@@ -774,7 +1644,7 @@ class AppDatabase {
   Future<void> insertSpeakingPrompt(Map<String, Object?> p) async {
     final d = await db;
     d.execute(
-      'INSERT INTO speaking_prompts (id, title, difficulty, category, prompt_text, guidance, suggested_seconds, is_builtin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT OR IGNORE INTO speaking_prompts (id, title, difficulty, category, prompt_text, guidance, suggested_seconds, is_builtin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
       [
         p['id'],
         p['title'],
@@ -795,7 +1665,6 @@ class AppDatabase {
   }
 
   Future<void> seedBuiltinPromptsIfEmpty() async {
-    if (await countSpeakingPrompts() > 0) return;
     final prompts = <List<Object?>>[
       [
         'sp_daily_1',
@@ -971,31 +1840,42 @@ class AppDatabase {
   }
 
   Future<void> insertAiMessage(
-      String id, String conversationId, String role, String content) async {
+      String id, String conversationId, String role, String content,
+      {bool isLocal = true}) async {
     final d = await db;
-    d.execute(
-      'INSERT INTO ai_messages (id, conversation_id, role, content) VALUES (?, ?, ?, ?)',
-      [id, conversationId, role, content],
-    );
-    d.execute(
-      'UPDATE ai_conversations SET message_count = message_count + 1, last_message_at = ? WHERE id = ?',
-      [DateTime.now().toUtc().toIso8601String(), conversationId],
-    );
+    d.execute('BEGIN IMMEDIATE');
+    try {
+      d.execute(
+        'INSERT INTO ai_messages (id, conversation_id, role, content,is_local) VALUES (?, ?, ?, ?,?)',
+        [id, conversationId, role, content, isLocal ? 1 : 0],
+      );
+      d.execute(
+        'UPDATE ai_conversations SET message_count = message_count + 1, last_message_at = ? WHERE id = ?',
+        [DateTime.now().toUtc().toIso8601String(), conversationId],
+      );
+      d.execute('COMMIT');
+    } catch (_) {
+      d.execute('ROLLBACK');
+      rethrow;
+    }
   }
 
-  Future<List<Map<String, dynamic>>> getAiMessages(
-      String conversationId) async {
+  Future<List<Map<String, dynamic>>> getAiMessages(String conversationId,
+      {int offset = 0}) async {
     final d = await db;
-    return d.select(
-      'SELECT * FROM ai_messages WHERE conversation_id = ? ORDER BY created_at',
-      [conversationId],
-    );
+    return d
+        .select(
+          'SELECT * FROM ai_messages WHERE conversation_id = ? ORDER BY created_at DESC, rowid DESC LIMIT 100 OFFSET ?',
+          [conversationId, offset.clamp(0, 1000000)],
+        )
+        .reversed
+        .toList();
   }
 
   Future<List<Map<String, dynamic>>> getAiConversations() async {
     final d = await db;
     return d.select(
-        'SELECT * FROM ai_conversations WHERE is_active = 1 ORDER BY started_at DESC');
+        'SELECT * FROM ai_conversations WHERE is_active = 1 ORDER BY started_at DESC, rowid DESC');
   }
 
   // ─── Phase 4: Grammar ──────────────────────────────────────────
@@ -1125,23 +2005,45 @@ class AppDatabase {
 
   Future<void> deleteWritingEntry(String id) async {
     final d = await db;
-    d.execute('DELETE FROM writing_revisions WHERE entry_id = ?', [id]);
-    d.execute('DELETE FROM writing_feedback WHERE entry_id = ?', [id]);
-    d.execute('DELETE FROM writing_entries WHERE id = ?', [id]);
+    d.execute('BEGIN IMMEDIATE');
+    try {
+      d.execute('DELETE FROM writing_revisions WHERE entry_id = ?', [id]);
+      d.execute('DELETE FROM writing_feedback WHERE entry_id = ?', [id]);
+      d.execute('DELETE FROM writing_entries WHERE id = ?', [id]);
+      d.execute('COMMIT');
+    } catch (_) {
+      d.execute('ROLLBACK');
+      rethrow;
+    }
   }
 
   Future<void> saveWritingRevision(Map<String, Object?> m) async {
     final d = await db;
-    d.execute(
-      'INSERT INTO writing_revisions (id, entry_id, body, word_count, label) VALUES (?, ?, ?, ?, ?)',
-      [m['id'], m['entry_id'], m['body'], m['word_count'] ?? 0, m['label']],
-    );
+    _atomic(d, () {
+      final latest = d.select(
+          'SELECT body,label FROM writing_revisions WHERE entry_id=? ORDER BY created_at DESC,rowid DESC LIMIT 1',
+          [m['entry_id']]);
+      if (latest.isNotEmpty &&
+          latest.single['body'] == m['body'] &&
+          latest.single['label'] == m['label']) return;
+      d.execute(
+          'INSERT INTO writing_revisions(id,entry_id,body,word_count,label) VALUES(?,?,?,?,?)',
+          [
+            m['id'],
+            m['entry_id'],
+            m['body'],
+            m['word_count'] ?? 0,
+            m['label']
+          ]);
+      _activity(d, 'revision:${m['id']}', 'writing_revision_saved',
+          'grammar_writing');
+    });
   }
 
   Future<List<Map<String, dynamic>>> getWritingRevisions(String entryId) async {
     final d = await db;
     return d.select(
-        'SELECT * FROM writing_revisions WHERE entry_id = ? ORDER BY created_at DESC',
+        'SELECT * FROM writing_revisions WHERE entry_id = ? ORDER BY created_at DESC,rowid DESC',
         [entryId]);
   }
 
@@ -1156,24 +2058,40 @@ class AppDatabase {
   Future<List<Map<String, dynamic>>> getWritingFeedback(String entryId) async {
     final d = await db;
     return d.select(
-        'SELECT * FROM writing_feedback WHERE entry_id = ? ORDER BY created_at DESC',
+        'SELECT * FROM writing_feedback WHERE entry_id = ? ORDER BY created_at DESC,rowid DESC',
         [entryId]);
   }
 
   Future<void> saveWritingMistake(Map<String, Object?> m) async {
+    final original = (m['original_sentence'] as String? ?? '').trim();
+    final correction = (m['correction'] as String? ?? '').trim();
+    if (original.isEmpty || correction.isEmpty) {
+      throw ArgumentError('Original and corrected sentences are required.');
+    }
     final d = await db;
-    d.execute(
-      'INSERT INTO writing_mistakes (id, entry_id, grammar_topic, original_sentence, correction, explanation, review_status) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [
-        m['id'],
-        m['entry_id'],
-        m['grammar_topic'],
-        m['original_sentence'],
-        m['correction'],
-        m['explanation'],
-        m['review_status'] ?? 'open'
-      ],
-    );
+    _atomic(d, () {
+      final existed = d.select(
+          'SELECT id FROM writing_mistakes WHERE id=?', [m['id']]).isNotEmpty;
+      d.execute(
+          '''INSERT INTO writing_mistakes(id,entry_id,grammar_topic,original_sentence,correction,explanation,review_status,updated_at)
+        VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET grammar_topic=excluded.grammar_topic,
+        original_sentence=excluded.original_sentence,correction=excluded.correction,explanation=excluded.explanation,
+        review_status=excluded.review_status,updated_at=excluded.updated_at''',
+          [
+            m['id'],
+            m['entry_id'],
+            m['grammar_topic'] ?? 'general',
+            original,
+            correction,
+            m['explanation'],
+            m['review_status'] ?? 'open',
+            DateTime.now().toUtc().toIso8601String()
+          ]);
+      if (!existed) {
+        _activity(d, 'mistake:${m['id']}', 'writing_mistake_created',
+            'grammar_writing');
+      }
+    });
   }
 
   Future<List<Map<String, dynamic>>> getWritingMistakes() async {
@@ -1183,8 +2101,9 @@ class AppDatabase {
 
   Future<void> markMistakeReviewed(String id) async {
     final d = await db;
-    d.execute('UPDATE writing_mistakes SET review_status = ? WHERE id = ?',
-        ['understood', id]);
+    d.execute(
+        'UPDATE writing_mistakes SET review_status = ?,updated_at=? WHERE id = ?',
+        ['understood', DateTime.now().toUtc().toIso8601String(), id]);
   }
 
   // Books
@@ -1235,10 +2154,20 @@ class AppDatabase {
 
   Future<void> deleteImportedBook(String id) async {
     final d = await db;
-    d.execute('DELETE FROM book_bookmarks WHERE book_id = ?', [id]);
-    d.execute('DELETE FROM book_lessons WHERE book_id = ?', [id]);
-    d.execute('DELETE FROM book_units WHERE book_id = ?', [id]);
-    d.execute('DELETE FROM imported_books WHERE id = ?', [id]);
+    d.execute('BEGIN IMMEDIATE');
+    try {
+      d.execute('DELETE FROM book_bookmarks WHERE book_id = ?', [id]);
+      d.execute('DELETE FROM book_lessons WHERE book_id = ?', [id]);
+      d.execute('DELETE FROM book_units WHERE book_id = ?', [id]);
+      d.execute(
+          "DELETE FROM completion_requirements WHERE target_type='book' AND target_id=?",
+          [id]);
+      d.execute('DELETE FROM imported_books WHERE id = ?', [id]);
+      d.execute('COMMIT');
+    } catch (_) {
+      d.execute('ROLLBACK');
+      rethrow;
+    }
   }
 
   Future<void> insertBookUnit(Map<String, Object?> m) async {
@@ -1393,8 +2322,113 @@ class AppDatabase {
         .select('SELECT * FROM assessment_attempts ORDER BY completed_at DESC');
   }
 
+  /// Certificate evidence is read from persisted records, never a UI flag.
+  Future<Map<String, dynamic>?> certificateEvidence(
+      String type, String id) async {
+    final d = await db;
+    return _certificateEvidence(d, type, id);
+  }
+
+  Map<String, dynamic>? _certificateEvidence(
+      Database d, String type, String id) {
+    Map<String, dynamic>? passing(String assessmentId) {
+      final rows =
+          d.select('''SELECT a.score, def.title FROM assessment_attempts a
+        JOIN assessment_definitions def ON def.id=a.assessment_id
+        WHERE a.assessment_id=? AND a.completed_at IS NOT NULL
+          AND a.self_assessed=0 AND a.passed=1 AND a.score>=def.pass_threshold
+          AND a.score<=1 AND a.max_score=1 AND a.score>=0
+          AND EXISTS (SELECT 1 FROM assessment_questions q WHERE q.assessment_id=def.id)
+        ORDER BY a.completed_at DESC LIMIT 1''', [assessmentId]);
+      return rows.isEmpty ? null : rows.first;
+    }
+
+    if (type == 'assessment') {
+      final evidence = passing(id);
+      return evidence == null
+          ? null
+          : {...evidence, 'verification_type': 'assessment_pass'};
+    }
+    final String table;
+    final String lessons;
+    final String parent;
+    if (type == 'book') {
+      table = 'imported_books';
+      lessons = 'book_lessons';
+      parent = 'book_id';
+    } else if (type == 'course') {
+      table = 'courses';
+      lessons = 'lessons';
+      parent = 'course_id';
+    } else {
+      return null;
+    }
+    final targets = d.select('SELECT * FROM $table WHERE id=?', [id]);
+    if (targets.isEmpty) return null;
+    final required =
+        d.select('SELECT completed FROM $lessons WHERE $parent=?', [id]);
+    if (required.isEmpty || required.any((r) => r['completed'] != 1)) {
+      return null;
+    }
+    if (type == 'course' &&
+        required.length < (targets.first['total_lessons'] as int)) return null;
+    if (type == 'book' &&
+        d.select('SELECT id FROM book_units WHERE book_id=?', [id]).isEmpty) {
+      return null;
+    }
+    if (type == 'book' &&
+        d.select('''SELECT u.id FROM book_units u WHERE u.book_id=?
+      AND NOT EXISTS (SELECT 1 FROM book_lessons l WHERE l.unit_id=u.id AND l.book_id=u.book_id)''',
+            [id]).isNotEmpty) return null;
+    final assessments = d.select(
+        'SELECT assessment_id FROM completion_requirements WHERE target_type=? AND target_id=?',
+        [type, id]);
+    // Unconfigured requirements are not permission to issue a certificate.
+    if (assessments.isEmpty) return null;
+    var score = 0.0;
+    for (final requirement in assessments) {
+      final pass = passing(requirement['assessment_id'] as String);
+      if (pass == null) return null;
+      score += (pass['score'] as num).toDouble();
+    }
+    return {
+      'title': targets.first['title'],
+      'score': score / assessments.length,
+      'verification_type': 'lessons_and_assessments'
+    };
+  }
+
+  Future<void> saveCertificateWithCompletion(
+      Map<String, Object?> completion, Map<String, Object?> certificate) async {
+    final d = await db;
+    d.execute('BEGIN IMMEDIATE');
+    try {
+      final evidence = _certificateEvidence(
+          d,
+          completion['target_type'] as String,
+          completion['target_id'] as String);
+      if (evidence == null ||
+          evidence['title'] != completion['target_title'] ||
+          evidence['score'] != completion['assessment_score'] ||
+          evidence['verification_type'] != completion['verification_type']) {
+        throw StateError(
+            'Completion evidence changed. Verify requirements before issuing.');
+      }
+      _insertCompletionRecord(d, completion);
+      _insertCertificate(d, certificate);
+      d.execute('COMMIT');
+    } catch (_) {
+      d.execute('ROLLBACK');
+      rethrow;
+    }
+  }
+
   Future<void> insertCompletionRecord(Map<String, Object?> m) async {
     final d = await db;
+    _insertCompletionRecord(d, m);
+  }
+
+  void _insertCompletionRecord(Database d, Map<String, Object?> m) {
     d.execute(
       'INSERT INTO completion_records (id, target_type, target_id, target_title, verification_type, assessment_score, completed_at, certificate_eligible, certificate_ref) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
@@ -1419,6 +2453,10 @@ class AppDatabase {
 
   Future<void> insertCertificate(Map<String, Object?> m) async {
     final d = await db;
+    _insertCertificate(d, m);
+  }
+
+  void _insertCertificate(Database d, Map<String, Object?> m) {
     d.execute(
       'INSERT INTO certificates (id, completion_id, learner_name, title, ref_number, score_text, verification_type, issued_at, file_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
@@ -1442,12 +2480,17 @@ class AppDatabase {
 
   Future<List<Map<String, dynamic>>> getSessionsLastDays(int days) async {
     final d = await db;
-    final since = DateTime.now().subtract(Duration(days: days));
+    if (days < 1) return [];
+    final now = DateTime.now();
+    final since = DateTime(now.year, now.month, now.day - days + 1);
     final start =
         '${since.year.toString().padLeft(4, '0')}-${since.month.toString().padLeft(2, '0')}-${since.day.toString().padLeft(2, '0')}';
     return d.select(
-      'SELECT local_date, SUM(duration_seconds) AS total_seconds FROM study_sessions WHERE completed = 1 AND local_date >= ? GROUP BY local_date ORDER BY local_date',
-      [start],
+      'SELECT days.local_date, CAST(SUM(days.duration_ms)/1000 AS INTEGER) AS total_seconds, SUM(days.duration_ms) AS total_ms FROM study_session_days days JOIN study_sessions s ON s.id=days.session_id WHERE s.completed = 1 AND days.local_date >= ? AND days.local_date <= ? GROUP BY days.local_date ORDER BY days.local_date',
+      [
+        start,
+        '${now.year.toString().padLeft(4, '0')}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}'
+      ],
     );
   }
 
@@ -1455,7 +2498,7 @@ class AppDatabase {
     final d = await db;
     return d
         .select(
-            'SELECT COALESCE(SUM(duration_seconds), 0) AS t FROM study_sessions WHERE completed = 1')
+            'SELECT CAST(COALESCE(SUM(days.duration_ms),0)/1000 AS INTEGER) AS t FROM study_session_days days JOIN study_sessions s ON s.id=days.session_id WHERE s.completed=1')
         .first['t'] as int;
   }
 
@@ -1468,14 +2511,17 @@ class AppDatabase {
 
   Future<int> countGrammarAttempts() async {
     final d = await db;
-    return d.select('SELECT COUNT(*) AS c FROM grammar_attempts').first['c']
-        as int;
+    return d
+        .select(
+            'SELECT COUNT(*) AS c FROM grammar_attempts WHERE is_correct IS NOT NULL')
+        .first['c'] as int;
   }
 
   Future<double> grammarAccuracy() async {
     final d = await db;
     final total = d
-        .select('SELECT COUNT(*) AS c FROM grammar_attempts')
+        .select(
+            'SELECT COUNT(*) AS c FROM grammar_attempts WHERE is_correct IS NOT NULL')
         .first['c'] as int;
     if (total == 0) return 0;
     final correct = d

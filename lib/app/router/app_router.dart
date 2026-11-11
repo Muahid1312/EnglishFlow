@@ -10,7 +10,6 @@ import '../../features/grammar_writing/grammar_writing_screen.dart';
 import '../../features/grammar_writing/grammar/grammar_studio_screen.dart';
 import '../../features/grammar_writing/grammar/grammar_lesson_screen.dart';
 import '../../features/grammar_writing/writing/writing_studio_screen.dart';
-import '../../features/books/books_screen.dart';
 
 import '../../features/listening_speaking/listening_speaking_screen.dart';
 import '../../features/listening_speaking/listening/listening_library_screen.dart';
@@ -28,7 +27,6 @@ import '../../features/settings/settings_screen.dart';
 import '../../features/vocabulary/vocabulary_screen.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
-final _shellKey = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -69,7 +67,13 @@ final routerProvider = Provider<GoRouter>((ref) {
                 routes: [
                   GoRoute(
                       path: 'reading',
-                      builder: (_, __) => const ReadingScreen()),
+                      builder: (_, __) => const ReadingScreen(),
+                      routes: [
+                        GoRoute(
+                            path: ':id',
+                            builder: (_, s) => ArticleReaderScreen(
+                                articleId: s.pathParameters['id']!))
+                      ]),
                   GoRoute(
                       path: 'vocabulary',
                       builder: (_, __) => const VocabularyScreen()),
@@ -100,17 +104,25 @@ final routerProvider = Provider<GoRouter>((ref) {
                     path: 'grammar',
                     builder: (_, __) => const GrammarWritingScreen(),
                     routes: [
-                      GoRoute(path: 'studio', builder: (_, __) => const GrammarStudioScreen()),
+                      GoRoute(
+                          path: 'studio',
+                          builder: (_, __) => const GrammarStudioScreen()),
                       GoRoute(
                         path: 'lesson/:id',
-                        builder: (_, s) => GrammarLessonScreen(lessonId: s.pathParameters['id']!),
+                        builder: (_, s) => GrammarLessonScreen(
+                            lessonId: s.pathParameters['id']!),
                       ),
-                      GoRoute(path: 'writing', builder: (_, __) => const WritingStudioScreen()),
+                      GoRoute(
+                          path: 'writing',
+                          builder: (_, __) => const WritingStudioScreen()),
                       GoRoute(
                         path: 'writing/:id',
-                        builder: (_, s) => WritingEditorScreen(entryId: s.pathParameters['id']!),
+                        builder: (_, s) => WritingEditorScreen(
+                            entryId: s.pathParameters['id']!),
                       ),
-                      GoRoute(path: 'mistakes', builder: (_, __) => const MistakeJournalScreen()),
+                      GoRoute(
+                          path: 'mistakes',
+                          builder: (_, __) => const MistakeJournalScreen()),
                     ],
                   ),
                   GoRoute(
@@ -119,16 +131,18 @@ final routerProvider = Provider<GoRouter>((ref) {
                     routes: [
                       GoRoute(
                         path: ':id',
-                        builder: (_, s) => BookDetailScreen(bookId: s.pathParameters['id']!),
+                        builder: (_, s) =>
+                            BookDetailScreen(bookId: s.pathParameters['id']!),
                         routes: [
                           GoRoute(
                             path: 'read',
-                            builder: (_, s) => BookReaderScreen(bookId: s.pathParameters['id']!),
+                            builder: (_, s) => BookReaderScreen(
+                                bookId: s.pathParameters['id']!),
                           ),
                         ],
                       ),
                     ],
-                  ),,
+                  ),
                 ],
               ),
             ],
@@ -148,11 +162,20 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: '/progress',
                 builder: (context, state) => const ProgressScreen(),
                 routes: [
-                  GoRoute(path: 'assessments', builder: (_, __) => const AssessmentsScreen(), routes: [
-                    GoRoute(path: ':id', builder: (_, s) => AssessmentTakeScreen(assessmentId: s.pathParameters['id']!)),
-                  ]),
-                  GoRoute(path: 'certificates', builder: (_, __) => const CertificatesScreen()),
-                  GoRoute(path: 'export', builder: (_, __) => const ExportScreen()),
+                  GoRoute(
+                      path: 'assessments',
+                      builder: (_, __) => const AssessmentsScreen(),
+                      routes: [
+                        GoRoute(
+                            path: ':id',
+                            builder: (_, s) => AssessmentTakeScreen(
+                                assessmentId: s.pathParameters['id']!)),
+                      ]),
+                  GoRoute(
+                      path: 'certificates',
+                      builder: (_, __) => const CertificatesScreen()),
+                  GoRoute(
+                      path: 'export', builder: (_, __) => const ExportScreen()),
                 ],
               ),
             ],

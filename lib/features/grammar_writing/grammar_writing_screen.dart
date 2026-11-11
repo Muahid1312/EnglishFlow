@@ -15,7 +15,7 @@ class GrammarWritingScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          SectionHeader(title: 'Grammar Studio'),
+          const SectionHeader(title: 'Grammar Studio'),
           ModuleTile(
             icon: Icons.rule_outlined,
             iconColor: AppColors.violet,
@@ -24,7 +24,7 @@ class GrammarWritingScreen extends ConsumerWidget {
             onTap: () => context.push('/learn/grammar/studio'),
           ),
           const SizedBox(height: 20),
-          SectionHeader(title: 'Writing Studio'),
+          const SectionHeader(title: 'Writing Studio'),
           ModuleTile(
             icon: Icons.edit_note_outlined,
             iconColor: AppColors.teal,

@@ -30,11 +30,12 @@ class _GrammarStudioScreenState extends ConsumerState<GrammarStudioScreen> {
     final db = ref.read(appDatabaseProvider);
     await GrammarCurriculum.seedIfEmpty(db);
     final rows = await db.getGrammarLessons();
-    if (mounted)
+    if (mounted) {
       setState(() {
         _lessons = rows;
         _loading = false;
       });
+    }
   }
 
   @override
@@ -71,8 +72,11 @@ class _GrammarStudioScreenState extends ConsumerState<GrammarStudioScreen> {
                       final l = filtered[i];
                       final done = (l['completed'] as int?) == 1;
                       return LexiCard(
-                        onTap: () =>
-                            context.push('/learn/grammar/lesson/${l['id']}'),
+                        onTap: () async {
+                          await context
+                              .push('/learn/grammar/lesson/${l['id']}');
+                          if (mounted) await _load();
+                        },
                         child: Row(
                           children: [
                             Container(
@@ -81,7 +85,7 @@ class _GrammarStudioScreenState extends ConsumerState<GrammarStudioScreen> {
                               decoration: BoxDecoration(
                                 color:
                                     (done ? AppColors.teal : AppColors.violet)
-                                        .withValues(alpha: 0.12),
+                                        .withOpacity(0.12),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Icon(

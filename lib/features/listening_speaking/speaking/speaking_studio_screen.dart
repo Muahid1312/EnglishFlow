@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,11 +34,12 @@ class _SpeakingStudioScreenState extends ConsumerState<SpeakingStudioScreen> {
     final db = ref.read(appDatabaseProvider);
     await db.seedBuiltinPromptsIfEmpty();
     final rows = await db.getSpeakingPrompts();
-    if (mounted)
+    if (mounted) {
       setState(() {
         _prompts = rows;
         _loading = false;
       });
+    }
   }
 
   @override
@@ -128,10 +130,13 @@ class PromptRecordScreen extends ConsumerStatefulWidget {
   ConsumerState<PromptRecordScreen> createState() => _PromptRecordScreenState();
 }
 
-class _PromptRecordScreenState extends ConsumerState<PromptRecordScreen> {
+class _PromptRecordScreenState extends ConsumerState<PromptRecordScreen>
+    with WidgetsBindingObserver {
   final _recorder = RecordingService();
   final _player = AudioPlayer();
   bool _recording = false;
+  bool _busy = false;
+  bool _foreground = true;
   String? _lastPath;
   int _lastMs = 0;
   List<Map<String, dynamic>> _history = [];
@@ -140,6 +145,7 @@ class _PromptRecordScreenState extends ConsumerState<PromptRecordScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _loadHistory();
   }
 
@@ -151,14 +157,39 @@ class _PromptRecordScreenState extends ConsumerState<PromptRecordScreen> {
   }
 
   Future<void> _toggleRecord() async {
+    if (_busy) return;
+    setState(() => _busy = true);
+    try {
+      await _toggleRecordImpl();
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _recording = false;
+          _permissionError =
+              'Recording failed. Check microphone access and available storage.';
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _toggleRecordImpl() async {
     if (_recording) {
+      final db = ref.read(appDatabaseProvider);
       final result = await _recorder.stop();
-      setState(() => _recording = false);
-      if (result == null) return;
+      if (mounted) setState(() => _recording = false);
+      if (result == null) {
+        if (mounted) {
+          setState(() => _permissionError =
+              'No audio was produced. Check the microphone and try again.');
+        }
+        return;
+      }
       _lastPath = result.path;
       _lastMs = result.durationMs;
       final id = newId();
-      await ref.read(appDatabaseProvider).insertRecording({
+      await db.insertRecording({
         'id': id,
         'prompt_id': widget.prompt['id'],
         'lesson_id': null,
@@ -168,7 +199,7 @@ class _PromptRecordScreenState extends ConsumerState<PromptRecordScreen> {
         'self_rating': null,
         'notes': null,
       });
-      await _loadHistory();
+      if (mounted) await _loadHistory();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Recording saved locally')));
@@ -176,7 +207,9 @@ class _PromptRecordScreenState extends ConsumerState<PromptRecordScreen> {
       return;
     }
 
+    await _player.pause();
     final status = await Permission.microphone.request();
+    if (!mounted || !_foreground) return;
     if (!status.isGranted) {
       setState(() =>
           _permissionError = 'Microphone permission is required to record.');
@@ -184,6 +217,10 @@ class _PromptRecordScreenState extends ConsumerState<PromptRecordScreen> {
     }
     setState(() => _permissionError = null);
     final path = await _recorder.start();
+    if (!mounted || !_foreground) {
+      await _recorder.cancel();
+      return;
+    }
     if (path == null) {
       setState(() => _permissionError = 'Could not start recording.');
       return;
@@ -192,6 +229,7 @@ class _PromptRecordScreenState extends ConsumerState<PromptRecordScreen> {
   }
 
   Future<void> _play(String path) async {
+    if (_recording || _busy || !_foreground) return;
     if (!File(path).existsSync()) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -199,22 +237,41 @@ class _PromptRecordScreenState extends ConsumerState<PromptRecordScreen> {
       }
       return;
     }
-    await _player.setFilePath(path);
-    await _player.play();
+    try {
+      await _player.setFilePath(path);
+      await _player.play();
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not play this recording.')));
+      }
+    }
   }
 
   Future<void> _delete(String id, String path) async {
-    await ref.read(appDatabaseProvider).deleteRecording(id);
+    final db = ref.read(appDatabaseProvider);
+    await _player.stop();
+    await db.deleteRecording(id);
     try {
       final f = File(path);
       if (await f.exists()) await f.delete();
     } catch (_) {}
-    await _loadHistory();
+    if (mounted) await _loadHistory();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _foreground = state == AppLifecycleState.resumed;
+    if (!_foreground) {
+      _player.pause();
+      if (_recording && !_busy) _toggleRecord();
+    }
   }
 
   @override
   void dispose() {
-    _recorder.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    unawaited(_recorder.dispose().catchError((Object _) {}));
     _player.dispose();
     super.dispose();
   }
@@ -259,7 +316,7 @@ class _PromptRecordScreenState extends ConsumerState<PromptRecordScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
               ),
-              onPressed: _toggleRecord,
+              onPressed: _busy ? null : _toggleRecord,
               icon: Icon(_recording ? Icons.stop : Icons.mic),
               label: Text(_recording ? 'Stop & save' : 'Record'),
             ),
@@ -272,7 +329,7 @@ class _PromptRecordScreenState extends ConsumerState<PromptRecordScreen> {
             ),
           ],
           const SizedBox(height: 24),
-          SectionHeader(title: 'Previous attempts'),
+          const SectionHeader(title: 'Previous attempts'),
           if (_history.isEmpty)
             Text('No recordings yet.',
                 style: Theme.of(context).textTheme.bodySmall)
@@ -291,9 +348,7 @@ class _PromptRecordScreenState extends ConsumerState<PromptRecordScreen> {
                     ),
                     Expanded(
                       child: Text(
-                        '${(ms / 1000).toStringAsFixed(1)}s · ${r['created_at']}'
-                            .substring(0,
-                                30.clamp(0, '${r['created_at']}'.length + 10)),
+                        '${(ms / 1000).toStringAsFixed(1)}s · ${r['created_at']}',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),

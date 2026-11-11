@@ -5,10 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/app_theme.dart';
-import '../../../core/services/ai_teacher_service.dart';
+import '../../../core/database/app_database.dart';
 import '../../../core/services/providers.dart';
 import '../../../core/utils/id_utils.dart';
 import '../../../core/widgets/common_widgets.dart';
+import '../../../core/widgets/ai_help_button.dart';
+import '../../../core/services/ai_teacher_service.dart';
+import 'writing_history_screens.dart';
 
 const _categories = [
   'journal',
@@ -47,11 +50,12 @@ class _WritingStudioScreenState extends ConsumerState<WritingStudioScreen> {
 
   Future<void> _load() async {
     final rows = await ref.read(appDatabaseProvider).getWritingEntries();
-    if (mounted)
+    if (mounted) {
       setState(() {
         _entries = rows;
         _loading = false;
       });
+    }
   }
 
   Future<void> _newEntry({String? prompt, String category = 'free'}) async {
@@ -69,7 +73,10 @@ class _WritingStudioScreenState extends ConsumerState<WritingStudioScreen> {
       'created_at': DateTime.now().toUtc().toIso8601String(),
       'updated_at': DateTime.now().toUtc().toIso8601String(),
     });
-    if (mounted) context.push('/learn/grammar/writing/$id');
+    if (mounted) {
+      await context.push('/learn/grammar/writing/$id');
+      if (mounted) await _load();
+    }
   }
 
   @override
@@ -86,7 +93,7 @@ class _WritingStudioScreenState extends ConsumerState<WritingStudioScreen> {
           : ListView(
               padding: const EdgeInsets.all(20),
               children: [
-                SectionHeader(title: 'Prompts'),
+                const SectionHeader(title: 'Prompts'),
                 ..._prompts.map((p) => Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: ModuleTile(
@@ -97,7 +104,7 @@ class _WritingStudioScreenState extends ConsumerState<WritingStudioScreen> {
                       ),
                     )),
                 const SizedBox(height: 16),
-                SectionHeader(title: 'Your writing'),
+                const SectionHeader(title: 'Your writing'),
                 if (_entries.isEmpty)
                   const EmptyState(
                     icon: Icons.edit_note,
@@ -109,8 +116,11 @@ class _WritingStudioScreenState extends ConsumerState<WritingStudioScreen> {
                   ..._entries.map((e) => Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: LexiCard(
-                          onTap: () =>
-                              context.push('/learn/grammar/writing/${e['id']}'),
+                          onTap: () async {
+                            await context
+                                .push('/learn/grammar/writing/${e['id']}');
+                            if (mounted) await _load();
+                          },
                           child: Row(
                             children: [
                               Expanded(
@@ -156,17 +166,25 @@ class WritingEditorScreen extends ConsumerStatefulWidget {
       _WritingEditorScreenState();
 }
 
-class _WritingEditorScreenState extends ConsumerState<WritingEditorScreen> {
+class _WritingEditorScreenState extends ConsumerState<WritingEditorScreen>
+    with WidgetsBindingObserver {
   final _titleCtrl = TextEditingController();
   final _bodyCtrl = TextEditingController();
   String _category = 'free';
   Timer? _debounce;
   bool _loading = true;
+  bool _deleted = false;
+  String? _saveError;
+  bool _dirty = false;
+  late final AppDatabase _db;
+  int _editVersion = 0;
   List<Map<String, dynamic>> _feedback = [];
 
   @override
   void initState() {
     super.initState();
+    _db = ref.read(appDatabaseProvider);
+    WidgetsBinding.instance.addObserver(this);
     _load();
   }
 
@@ -195,12 +213,16 @@ class _WritingEditorScreenState extends ConsumerState<WritingEditorScreen> {
   }
 
   void _scheduleSave() {
+    _dirty = true;
+    _editVersion++;
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 600), _save);
   }
 
   Future<void> _save() async {
-    await ref.read(appDatabaseProvider).upsertWritingEntry({
+    if (_loading || _deleted || !_dirty) return;
+    final version = _editVersion;
+    final data = <String, Object?>{
       'id': widget.entryId,
       'title':
           _titleCtrl.text.trim().isEmpty ? 'Untitled' : _titleCtrl.text.trim(),
@@ -208,17 +230,31 @@ class _WritingEditorScreenState extends ConsumerState<WritingEditorScreen> {
       'body': _bodyCtrl.text,
       'word_count': _wordCount,
       'updated_at': DateTime.now().toUtc().toIso8601String(),
-    });
+    };
+    try {
+      await _db.upsertWritingEntry(data);
+      if (_editVersion == version) _dirty = false;
+      if (mounted && _saveError != null) setState(() => _saveError = null);
+    } catch (_) {
+      if (mounted) {
+        setState(() => _saveError =
+            'Draft could not be saved. Keep this screen open and retry.');
+      }
+    }
   }
 
   Future<void> _snapshot() async {
     await _save();
-    await ref.read(appDatabaseProvider).saveWritingRevision({
+    if (!mounted || _dirty || _loading || _deleted) return;
+    final label = await showDialog<String>(
+        context: context, builder: (_) => const RevisionLabelDialog());
+    if (label == null || !mounted) return;
+    await _db.saveWritingRevision({
       'id': newId(),
       'entry_id': widget.entryId,
       'body': _bodyCtrl.text,
       'word_count': _wordCount,
-      'label': 'Manual snapshot',
+      'label': label,
     });
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -226,45 +262,13 @@ class _WritingEditorScreenState extends ConsumerState<WritingEditorScreen> {
     }
   }
 
-  Future<void> _requestAiFeedback() async {
-    final status = await ref.read(aiTeacherServiceProvider).checkStatus();
-    final confirmed = await showConfirmDialog(
-      context,
-      title: 'Request AI feedback?',
-      message: status.isReady
-          ? 'Your writing text will be prepared for an AI provider. Live HTTP is not enabled in this build; a structured offline checklist will be saved instead if the provider client is unavailable.'
-          : 'No AI key configured. A self-review checklist will be saved. Automated corrections are not invented offline.',
-      confirmLabel: 'Continue',
-    );
-    if (confirmed != true) return;
-
-    final checklist = StringBuffer()
-      ..writeln('Writing self-review / AI placeholder')
-      ..writeln('Words: $_wordCount')
-      ..writeln('')
-      ..writeln(
-          '1. Overall: Check if your main idea is clear in the first sentence.')
-      ..writeln(
-          '2. Grammar: Scan articles (a/an/the), subject–verb agreement, and tense consistency.')
-      ..writeln(
-          '3. Vocabulary: Replace repeated words with more precise ones where natural.')
-      ..writeln('4. Structure: Each paragraph should develop one idea.')
-      ..writeln(
-          '5. American English: Prefer American spelling if that is your target (color, organize, traveled).')
-      ..writeln('')
-      ..writeln(status.isReady
-          ? 'Note: API credentials are present, but a live provider HTTP client is not wired in this build. This checklist is not model-generated feedback.'
-          : 'AI unavailable offline. This is a self-review checklist, not automated correction.');
-
-    await ref.read(appDatabaseProvider).saveWritingFeedback({
-      'id': newId(),
-      'entry_id': widget.entryId,
-      'source': status.isReady ? 'ai_pending' : 'self_checklist',
-      'content': checklist.toString(),
-    });
-    final fb =
-        await ref.read(appDatabaseProvider).getWritingFeedback(widget.entryId);
-    setState(() => _feedback = fb);
+  Future<void> _showHistory() async {
+    await _save();
+    if (!mounted || _dirty) return;
+    final restored = await Navigator.of(context).push<bool>(MaterialPageRoute(
+        builder: (_) =>
+            RevisionHistoryScreen(db: _db, entryId: widget.entryId)));
+    if (restored == true && mounted) await _load();
   }
 
   Future<void> _delete() async {
@@ -272,13 +276,26 @@ class _WritingEditorScreenState extends ConsumerState<WritingEditorScreen> {
         title: 'Delete entry?',
         message: 'This removes the entry, revisions, and feedback.');
     if (ok != true) return;
-    await ref.read(appDatabaseProvider).deleteWritingEntry(widget.entryId);
+    _debounce?.cancel();
+    await _save();
+    await _db.deleteWritingEntry(widget.entryId);
+    _deleted = true;
     if (mounted) context.pop();
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) {
+      _debounce?.cancel();
+      unawaited(_save());
+    }
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _debounce?.cancel();
+    unawaited(_save());
     _titleCtrl.dispose();
     _bodyCtrl.dispose();
     super.dispose();
@@ -296,6 +313,10 @@ class _WritingEditorScreenState extends ConsumerState<WritingEditorScreen> {
               onPressed: _snapshot,
               icon: const Icon(Icons.history)),
           IconButton(
+              tooltip: 'Revision history',
+              onPressed: _showHistory,
+              icon: const Icon(Icons.restore)),
+          IconButton(
               tooltip: 'Delete',
               onPressed: _delete,
               icon: const Icon(Icons.delete_outline)),
@@ -304,6 +325,8 @@ class _WritingEditorScreenState extends ConsumerState<WritingEditorScreen> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
+          if (_saveError != null)
+            ErrorView(message: _saveError!, onRetry: _save),
           TextField(
             controller: _titleCtrl,
             decoration: const InputDecoration(labelText: 'Title'),
@@ -339,13 +362,23 @@ class _WritingEditorScreenState extends ConsumerState<WritingEditorScreen> {
             },
           ),
           const SizedBox(height: 16),
-          PrimaryButton(
-              label: 'Request feedback',
-              onPressed: _requestAiFeedback,
-              icon: Icons.auto_awesome),
+          AiHelpButton(
+              label: 'Request AI feedback',
+              task: AiTask.writing,
+              content: () => _bodyCtrl.text,
+              beforeSend: () async {
+                await _save();
+                return !_dirty && !_deleted;
+              },
+              onResponse: (response, submitted) async {
+                await _db.saveAiWritingFeedback(
+                    widget.entryId, submitted, response);
+                final feedback = await _db.getWritingFeedback(widget.entryId);
+                if (mounted) setState(() => _feedback = feedback);
+              }),
           if (_feedback.isNotEmpty) ...[
             const SizedBox(height: 20),
-            SectionHeader(title: 'Saved feedback'),
+            const SectionHeader(title: 'Saved feedback'),
             ..._feedback.map((f) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: LexiCard(
@@ -392,24 +425,32 @@ class _MistakeJournalScreenState extends ConsumerState<MistakeJournalScreen> {
     if (mounted) setState(() => _items = rows);
   }
 
+  Future<void> _editMistake([Map<String, dynamic>? mistake]) async {
+    final db = ref.read(appDatabaseProvider);
+    await showDialog<bool>(
+        context: context,
+        builder: (_) => MistakeEditorDialog(db: db, mistake: mistake));
+    if (mounted) await _load();
+  }
+
+  Future<void> _removeMistake(Map<String, dynamic> mistake) async {
+    final db = ref.read(appDatabaseProvider);
+    final accepted = await showConfirmDialog(context,
+        title: 'Delete mistake?',
+        message: 'This permanently removes the selected mistake record.');
+    if (accepted == true) {
+      await db.deleteWritingMistake(mistake['id'] as String);
+      if (mounted) await _load();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Mistake journal')),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final id = newId();
-          await ref.read(appDatabaseProvider).saveWritingMistake({
-            'id': id,
-            'entry_id': null,
-            'grammar_topic': 'manual',
-            'original_sentence': 'Add your sentence here',
-            'correction': '',
-            'explanation': 'Manually added',
-            'review_status': 'open',
-          });
-          await _load();
-        },
+        tooltip: 'Add mistake',
+        onPressed: () => _editMistake(),
         child: const Icon(Icons.add),
       ),
       body: _items.isEmpty
@@ -417,7 +458,7 @@ class _MistakeJournalScreenState extends ConsumerState<MistakeJournalScreen> {
               icon: Icons.checklist,
               title: 'No mistakes logged',
               message:
-                  'Save mistakes from writing feedback or add them manually.',
+                  'Create a mistake with its correction and explanation, or review saved mistakes.',
             )
           : ListView.separated(
               padding: const EdgeInsets.all(20),
@@ -430,11 +471,21 @@ class _MistakeJournalScreenState extends ConsumerState<MistakeJournalScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Row(children: [
+                        IconButton(
+                            tooltip: 'Edit mistake',
+                            onPressed: () => _editMistake(m),
+                            icon: const Icon(Icons.edit_outlined)),
+                        IconButton(
+                            tooltip: 'Delete mistake',
+                            onPressed: () => _removeMistake(m),
+                            icon: const Icon(Icons.delete_outline))
+                      ]),
                       Text('${m['original_sentence']}',
                           style: Theme.of(context).textTheme.titleSmall),
                       if ((m['correction'] as String?)?.isNotEmpty == true)
                         Text('→ ${m['correction']}',
-                            style: TextStyle(color: AppColors.teal)),
+                            style: const TextStyle(color: AppColors.teal)),
                       if (m['explanation'] != null)
                         Text('${m['explanation']}',
                             style: Theme.of(context).textTheme.bodySmall),

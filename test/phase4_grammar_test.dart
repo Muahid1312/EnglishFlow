@@ -1,13 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lexiflow/core/utils/answer_utils.dart';
 
-bool matchesAnswer(String learner, String correct, List<String> alternatives) {
-  final a = learner.trim().toLowerCase();
-  if (a == correct.trim().toLowerCase()) return true;
-  for (final alt in alternatives) {
-    if (a == alt.trim().toLowerCase()) return true;
-  }
-  return false;
-}
+// Exercise the production matcher rather than a duplicate implementation.
 
 int wordCount(String body) {
   final t = body.trim();
@@ -17,6 +11,10 @@ int wordCount(String body) {
 
 void main() {
   group('grammar answer matching', () {
+    test('missing or empty answers never earn credit', () {
+      expect(matchesAnswer('', ''), isFalse);
+      expect(matchesAnswer(' ', null), isFalse);
+    });
     test('exact', () {
       expect(matchesAnswer('has gone', 'has gone', []), isTrue);
     });

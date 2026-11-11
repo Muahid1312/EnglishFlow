@@ -26,11 +26,12 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
 
   Future<void> _load() async {
     final snap = await AnalyticsService(ref.read(appDatabaseProvider)).build();
-    if (mounted)
+    if (mounted) {
       setState(() {
         _snap = snap;
         _loading = false;
       });
+    }
   }
 
   @override
@@ -82,7 +83,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            SectionHeader(title: '7-day activity (real sessions)'),
+            const SectionHeader(title: '7-day activity (real sessions)'),
             LexiCard(
               child: s.last7Days.isEmpty
                   ? Text('No completed sessions in the last 7 days.',
@@ -117,7 +118,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                     ),
             ),
             const SizedBox(height: 16),
-            SectionHeader(title: 'Skills (persisted counts)'),
+            const SectionHeader(title: 'Skills (persisted counts)'),
             Wrap(
               spacing: 10,
               runSpacing: 10,
@@ -133,10 +134,18 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                 _chip('Speaking recordings', '${s.speakingRecordings}'),
                 _chip('Saved words', '${s.savedWords}'),
                 _chip('Books', '${s.books}'),
+                for (final item in s.activityCounts.entries
+                    .where((e) => !e.key.startsWith('Objective')))
+                  _chip(item.key, '${item.value}'),
+                _chip(
+                    'Comprehension accuracy',
+                    (s.activityCounts['Objective graded'] ?? 0) == 0
+                        ? '—'
+                        : '${(100 * (s.activityCounts['Objective correct'] ?? 0) / s.activityCounts['Objective graded']!).round()}%'),
               ],
             ),
             const SizedBox(height: 20),
-            SectionHeader(title: 'Recommendations'),
+            const SectionHeader(title: 'Recommendations'),
             if (s.insights.isEmpty)
               Text('Keep practicing — no urgent recommendations right now.',
                   style: Theme.of(context).textTheme.bodyMedium)
@@ -152,7 +161,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                           const SizedBox(width: 12),
                           Expanded(child: Text(i.message)),
                           Text(i.actionLabel,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: AppColors.violet,
                                   fontWeight: FontWeight.w600)),
                         ],

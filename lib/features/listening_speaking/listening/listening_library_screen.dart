@@ -40,64 +40,67 @@ class _ListeningLibraryScreenState
     try {
       final db = ref.read(appDatabaseProvider);
       final rows = await db.getListeningLessons();
-      if (mounted)
+      if (mounted) {
         setState(() {
           _lessons = rows;
           _loading = false;
         });
+      }
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _error = 'Could not load lessons.';
           _loading = false;
         });
+      }
     }
   }
 
+  bool _importing = false;
   Future<void> _import() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: const ['mp3', 'm4a', 'wav', 'aac', 'ogg'],
-    );
-    if (result == null || result.files.isEmpty) return;
-    final path = result.files.single.path;
-    if (path == null) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not access the selected file.')),
-        );
-      }
-      return;
-    }
+    if (_importing) return;
+    _importing = true;
+    final db = ref.read(appDatabaseProvider);
+    String? copied;
+    var registered = false;
     try {
-      final storage = MediaStorage();
-      final dest = await storage.importAudio(File(path));
-      final title = p.basenameWithoutExtension(path);
-      final id = newId();
-      await ref.read(appDatabaseProvider).insertListeningLesson({
-        'id': id,
-        'title': title,
+      final result = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: const ['mp3', 'm4a', 'wav', 'aac', 'ogg']);
+      if (result == null || result.files.isEmpty) return;
+      final path = result.files.single.path;
+      if (path == null) throw StateError('Selected file is inaccessible.');
+      copied = await MediaStorage().importAudio(File(path));
+      await db.insertListeningLesson({
+        'id': newId(),
+        'title': p.basenameWithoutExtension(path),
         'topic': 'Imported',
         'difficulty': 'B1',
-        'audio_path': dest,
+        'audio_path': copied,
         'duration_ms': 0,
         'last_position_ms': 0,
         'transcript': null,
-        'transcript_path': null,
+        'transcript_path': null
       });
-      await _load();
+      registered = true;
+      if (mounted) await _load();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Audio imported and saved offline.')),
-        );
+            const SnackBar(content: Text('Audio imported and saved offline.')));
       }
-    } catch (e) {
+    } catch (_) {
+      if (copied != null && !registered) {
+        try {
+          await MediaStorage().deleteFile(copied);
+        } catch (_) {}
+      }
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Import failed. Try another file format.')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content:
+                Text('Import failed. Check the file and available storage.')));
       }
+    } finally {
+      _importing = false;
     }
   }
 
@@ -155,8 +158,7 @@ class _ListeningLibraryScreenState
                                   width: 48,
                                   height: 48,
                                   decoration: BoxDecoration(
-                                    color: AppColors.violet
-                                        .withValues(alpha: 0.12),
+                                    color: AppColors.violet.withOpacity(0.12),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: const Icon(Icons.headphones,
@@ -194,7 +196,7 @@ class _ListeningLibraryScreenState
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurface
-                                        .withValues(alpha: 0.4)),
+                                        .withOpacity(0.4)),
                               ],
                             ),
                           );

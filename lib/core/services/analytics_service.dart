@@ -22,6 +22,7 @@ class ProgressSnapshot {
   final int savedWords;
   final List<Map<String, dynamic>> last7Days;
   final List<Insight> insights;
+  final Map<String, num> activityCounts;
 
   ProgressSnapshot({
     required this.totalMinutes,
@@ -37,6 +38,7 @@ class ProgressSnapshot {
     required this.savedWords,
     required this.last7Days,
     required this.insights,
+    this.activityCounts = const {},
   });
 }
 
@@ -49,10 +51,11 @@ class AnalyticsService {
     final today = localDateString();
     final todaySec = await _db.getTotalSecondsForDate(today);
     final last7 = await _db.getSessionsLastDays(7);
-    var weekSec = 0;
+    var weekMs = 0;
     for (final r in last7) {
-      weekSec += (r['total_seconds'] as int?) ?? 0;
+      weekMs += (r['total_ms'] as int?) ?? 0;
     }
+    final weekSec = weekMs ~/ 1000;
     final dates = await _db.getCompletedStudyDates();
     final streak = calculateStreak(dates);
     final gDone = await _db.countCompletedGrammarLessons();
@@ -115,6 +118,7 @@ class AnalyticsService {
       savedWords: words,
       last7Days: last7,
       insights: insights,
+      activityCounts: await _db.activityStatistics(),
     );
   }
 }

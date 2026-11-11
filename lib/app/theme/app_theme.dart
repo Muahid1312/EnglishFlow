@@ -45,7 +45,7 @@ class AppTheme {
       colorScheme: ColorScheme.light(
         primary: AppColors.violet,
         onPrimary: Colors.white,
-        primaryContainer: AppColors.violetSoft.withValues(alpha: 0.25),
+        primaryContainer: AppColors.violetSoft.withOpacity(0.25),
         secondary: AppColors.teal,
         onSecondary: Colors.white,
         secondaryContainer: AppColors.tealSoft,
@@ -62,20 +62,20 @@ class AppTheme {
     return base.copyWith(
       textTheme: _textTheme(base.textTheme, AppColors.textPrimaryLight,
           AppColors.textSecondaryLight),
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         elevation: 0,
         scrolledUnderElevation: 0.5,
         backgroundColor: AppColors.surfaceLight,
         foregroundColor: AppColors.textPrimaryLight,
         centerTitle: false,
-        titleTextStyle: const TextStyle(
+        titleTextStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimaryLight,
           letterSpacing: -0.3,
         ),
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         elevation: 0,
         color: AppColors.surfaceCardLight,
         shape: RoundedRectangleBorder(
@@ -137,8 +137,8 @@ class AppTheme {
           borderSide: const BorderSide(color: AppColors.error),
         ),
         labelStyle: const TextStyle(color: AppColors.textSecondaryLight),
-        hintStyle: TextStyle(
-            color: AppColors.textSecondaryLight.withValues(alpha: 0.7)),
+        hintStyle:
+            TextStyle(color: AppColors.textSecondaryLight.withOpacity(0.7)),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.surfaceCardLight,
@@ -152,7 +152,7 @@ class AppTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: AppColors.surfaceCardLight,
-        indicatorColor: AppColors.violet.withValues(alpha: 0.12),
+        indicatorColor: AppColors.violet.withOpacity(0.12),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return const TextStyle(
@@ -181,7 +181,7 @@ class AppTheme {
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
-      dialogTheme: DialogThemeData(
+      dialogTheme: DialogTheme(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         backgroundColor: AppColors.surfaceCardLight,
       ),
@@ -198,7 +198,7 @@ class AppTheme {
         primaryContainer: AppColors.violetDeep,
         secondary: AppColors.tealLight,
         onSecondary: AppColors.navy,
-        secondaryContainer: AppColors.teal.withValues(alpha: 0.25),
+        secondaryContainer: AppColors.teal.withOpacity(0.25),
         surface: AppColors.surfaceDark,
         onSurface: AppColors.textPrimaryDark,
         error: AppColors.error,
@@ -212,20 +212,20 @@ class AppTheme {
     return base.copyWith(
       textTheme: _textTheme(base.textTheme, AppColors.textPrimaryDark,
           AppColors.textSecondaryDark),
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         elevation: 0,
         scrolledUnderElevation: 0.5,
         backgroundColor: AppColors.surfaceDark,
         foregroundColor: AppColors.textPrimaryDark,
         centerTitle: false,
-        titleTextStyle: const TextStyle(
+        titleTextStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimaryDark,
           letterSpacing: -0.3,
         ),
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         elevation: 0,
         color: AppColors.surfaceCardDark,
         shape: RoundedRectangleBorder(
@@ -253,6 +253,7 @@ class AppTheme {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
@@ -292,7 +293,7 @@ class AppTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: AppColors.surfaceCardDark,
-        indicatorColor: AppColors.violetSoft.withValues(alpha: 0.18),
+        indicatorColor: AppColors.violetSoft.withOpacity(0.18),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return const TextStyle(
@@ -313,11 +314,11 @@ class AppTheme {
       ),
       dividerTheme: const DividerThemeData(
           color: AppColors.borderDark, thickness: 1, space: 1),
-      progressIndicatorTheme: ProgressIndicatorThemeData(
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.violetSoft,
         linearTrackColor: AppColors.borderDark,
       ),
-      dialogTheme: DialogThemeData(
+      dialogTheme: DialogTheme(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         backgroundColor: AppColors.surfaceCardDark,
       ),

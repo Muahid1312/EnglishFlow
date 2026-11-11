@@ -106,12 +106,12 @@ class DashboardScreen extends ConsumerWidget {
                                         ),
                                         const SizedBox(height: 8),
                                         if (data.goalMet)
-                                          Row(
+                                          const Row(
                                             children: [
                                               Icon(Icons.check_circle,
                                                   size: 18,
                                                   color: AppColors.success),
-                                              const SizedBox(width: 6),
+                                              SizedBox(width: 6),
                                               Text('Goal reached!',
                                                   style: TextStyle(
                                                       color: AppColors.success,
@@ -149,7 +149,7 @@ class DashboardScreen extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        SectionHeader(title: 'Continue learning'),
+                        const SectionHeader(title: 'Continue learning'),
                         ModuleTile(
                           icon: Icons.play_circle_outline,
                           iconColor: AppColors.violet,
@@ -176,7 +176,7 @@ class DashboardScreen extends ConsumerWidget {
                             onTap: () => context.push('/learn/vocabulary'),
                           ),
                         const SizedBox(height: 20),
-                        SectionHeader(title: 'Quick access'),
+                        const SectionHeader(title: 'Quick access'),
                         Row(
                           children: [
                             Expanded(
@@ -208,7 +208,7 @@ class DashboardScreen extends ConsumerWidget {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        SectionHeader(title: 'Recent activity'),
+                        const SectionHeader(title: 'Recent activity'),
                         if (data.recentActivities.isEmpty)
                           LexiCard(
                             child: Text(
@@ -291,7 +291,7 @@ class _StatChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
+        color: color.withOpacity(0.12),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(

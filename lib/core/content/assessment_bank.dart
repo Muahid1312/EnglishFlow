@@ -3,8 +3,6 @@ import '../database/app_database.dart';
 /// Small original offline assessment bank (not accredited CEFR exams).
 class AssessmentBank {
   static Future<void> seedIfEmpty(AppDatabase db) async {
-    if (await db.countAssessments() > 0) return;
-
     Future<void> add(String id, String title, String category, String desc,
         List<List<Object?>> qs) async {
       await db.insertAssessmentDefinition({

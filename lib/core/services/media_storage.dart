@@ -22,8 +22,13 @@ class MediaStorage {
     final safeExt =
         ['.mp3', '.m4a', '.wav', '.aac', '.ogg'].contains(ext) ? ext : '.mp3';
     final dest = File(p.join(dir.path, '${_uuid.v4()}$safeExt'));
-    await source.copy(dest.path);
-    return dest.path;
+    try {
+      await source.copy(dest.path);
+      return dest.path;
+    } catch (_) {
+      if (await dest.exists()) await dest.delete();
+      rethrow;
+    }
   }
 
   Future<String> recordingPath({String folder = 'speaking'}) async {

@@ -21,8 +21,8 @@ int calculateStreak(List<String> completedDatesNewestFirst) {
   if (completedDatesNewestFirst.isEmpty) return 0;
 
   final today = localDateString();
-  final yesterday =
-      localDateString(DateTime.now().subtract(const Duration(days: 1)));
+  final now = DateTime.now();
+  final yesterday = localDateString(DateTime(now.year, now.month, now.day - 1));
 
   final set = completedDatesNewestFirst.toSet();
   String cursor;
@@ -37,7 +37,8 @@ int calculateStreak(List<String> completedDatesNewestFirst) {
   int streak = 0;
   while (set.contains(cursor)) {
     streak++;
-    final d = parseLocalDate(cursor).subtract(const Duration(days: 1));
+    final date = parseLocalDate(cursor);
+    final d = DateTime(date.year, date.month, date.day - 1);
     cursor = localDateString(d);
   }
   return streak;

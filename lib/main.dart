@@ -5,7 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/app.dart';
 import 'core/services/providers.dart';
-import 'core/services/study_session_service.dart';
+import 'core/database/app_database.dart';
+import 'features/settings/settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,10 +18,19 @@ void main() async {
   ]);
 
   final prefs = await SharedPreferences.getInstance();
+  final database = AppDatabase();
+  final preferences = await database.getPreferences();
+  final theme = switch (preferences.themeMode) {
+    'dark' => ThemeMode.dark,
+    'light' => ThemeMode.light,
+    _ => ThemeMode.system,
+  };
 
   runApp(
     ProviderScope(
       overrides: [
+        appDatabaseProvider.overrideWithValue(database),
+        themeModeProvider.overrideWith((ref) => theme),
         sharedPreferencesProvider.overrideWithValue(prefs),
       ],
       child: const _AppLifecycleWrapper(child: LexiFlowApp()),
@@ -44,6 +54,7 @@ class _AppLifecycleWrapperState extends ConsumerState<_AppLifecycleWrapper>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    ref.read(studySessionServiceProvider).recoverInterrupted();
   }
 
   @override
@@ -53,11 +64,11 @@ class _AppLifecycleWrapperState extends ConsumerState<_AppLifecycleWrapper>
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive) {
       try {
-        ref.read(studySessionServiceProvider).onAppPaused();
+        await ref.read(studySessionServiceProvider).onAppPaused();
       } catch (_) {}
     }
   }

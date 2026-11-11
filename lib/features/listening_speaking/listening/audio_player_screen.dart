@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
@@ -7,6 +9,8 @@ import '../../../core/services/audio_player_controller.dart';
 import '../../../core/services/providers.dart';
 import '../../../core/utils/id_utils.dart';
 import '../../../core/widgets/common_widgets.dart';
+import 'comprehension_screen.dart';
+import 'shadowing_screen.dart';
 
 class AudioPlayerScreen extends ConsumerStatefulWidget {
   final String lessonId;
@@ -23,6 +27,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
   bool _showTranscript = false;
   bool _loading = true;
   double _speed = 1.0;
+  StreamSubscription<Duration>? _positionSubscription;
   final _transcriptCtrl = TextEditingController();
 
   static const _speeds = [0.75, 1.0, 1.25, 1.5];
@@ -41,13 +46,17 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
       return;
     }
     final bookmarks = await db.getBookmarks(widget.lessonId);
+    if (!mounted) return;
     _transcriptCtrl.text = (lesson['transcript'] as String?) ?? '';
     await _ctrl.load(
       lesson['audio_path'] as String,
       startMs: (lesson['last_position_ms'] as int?) ?? 0,
     );
-    // Persist position periodically
-    _ctrl.positionStream.listen((pos) async {
+    if (!mounted) return;
+    // Keep and cancel the subscription before disposing the controller.
+    _positionSubscription = _ctrl.positionStream
+        .distinct((a, b) => a.inSeconds == b.inSeconds)
+        .listen((pos) async {
       final dur = _ctrl.duration;
       await ref.read(appDatabaseProvider).updateLessonPosition(
             widget.lessonId,
@@ -58,6 +67,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
     if (mounted) {
       setState(() {
         _lesson = lesson;
+        _showTranscript = lesson['transcript_revealed'] == 1;
         _bookmarks = bookmarks;
         _loading = false;
       });
@@ -70,6 +80,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
     await ref.read(appDatabaseProvider).addBookmark(id, widget.lessonId, pos);
     final list =
         await ref.read(appDatabaseProvider).getBookmarks(widget.lessonId);
+    if (!mounted) return;
     setState(() => _bookmarks = list);
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -99,6 +110,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
 
   @override
   void dispose() {
+    _positionSubscription?.cancel();
     _ctrl.dispose();
     _transcriptCtrl.dispose();
     super.dispose();
@@ -151,7 +163,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
                   Slider(
                     value:
                         pos.inMilliseconds.clamp(0, maxMs.toInt()).toDouble(),
-                    max: maxMs,
+                    max: maxMs.toDouble(),
                     onChanged: (v) =>
                         _ctrl.seek(Duration(milliseconds: v.round())),
                   ),
@@ -203,7 +215,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
             },
           ),
           const SizedBox(height: 20),
-          SectionHeader(title: 'Playback speed'),
+          const SectionHeader(title: 'Playback speed'),
           Wrap(
             spacing: 8,
             children: _speeds.map((s) {
@@ -220,7 +232,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
           ),
           if (_bookmarks.isNotEmpty) ...[
             const SizedBox(height: 20),
-            SectionHeader(title: 'Bookmarks'),
+            const SectionHeader(title: 'Bookmarks'),
             ..._bookmarks.map((b) {
               final ms = b['position_ms'] as int;
               return ListTile(
@@ -236,8 +248,14 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
           SectionHeader(
             title: 'Transcript',
             trailing: TextButton(
-              onPressed: () =>
-                  setState(() => _showTranscript = !_showTranscript),
+              onPressed: () async {
+                if (!_showTranscript) {
+                  await ref
+                      .read(appDatabaseProvider)
+                      .revealTranscript(widget.lessonId);
+                }
+                if (mounted) setState(() => _showTranscript = !_showTranscript);
+              },
               child: Text(_showTranscript ? 'Hide' : 'Show'),
             ),
           ),
@@ -265,11 +283,10 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
             title: 'Comprehension practice',
             subtitle: 'Answer questions for this lesson',
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                    content: Text(
-                        'Add questions from the lesson menu in a future update. You can still track listening time from Learn.')),
-              );
+              _ctrl.pause();
+              Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (_) =>
+                      ComprehensionScreen(lessonId: widget.lessonId)));
             },
           ),
           const SizedBox(height: 10),
@@ -278,7 +295,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
             title: 'Shadowing practice',
             subtitle: 'Listen, then record yourself',
             onTap: () {
-              context_push_shadow();
+              _pushShadow();
             },
           ),
         ],
@@ -286,101 +303,13 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
     );
   }
 
-  void context_push_shadow() {
+  void _pushShadow() {
     // Navigate via go_router if route exists; otherwise snackbar
+    _ctrl.pause();
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => ShadowingScreen(
             lessonId: widget.lessonId, title: '${_lesson!['title']}'),
-      ),
-    );
-  }
-}
-
-/// Minimal shadowing UI (offline).
-class ShadowingScreen extends ConsumerStatefulWidget {
-  final String lessonId;
-  final String title;
-  const ShadowingScreen(
-      {super.key, required this.lessonId, required this.title});
-
-  @override
-  ConsumerState<ShadowingScreen> createState() => _ShadowingScreenState();
-}
-
-class _ShadowingScreenState extends ConsumerState<ShadowingScreen> {
-  final _player = AudioPlayerController();
-  bool _recording = false;
-  String? _status;
-
-  @override
-  void initState() {
-    super.initState();
-    _load();
-  }
-
-  Future<void> _load() async {
-    final lesson =
-        await ref.read(appDatabaseProvider).getListeningLesson(widget.lessonId);
-    if (lesson != null) {
-      await _player.load(lesson['audio_path'] as String);
-    }
-  }
-
-  @override
-  void dispose() {
-    _player.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Shadowing')),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Text(widget.title, style: Theme.of(context).textTheme.titleLarge),
-          const SizedBox(height: 8),
-          Text(
-            '1. Play a short segment of the reference.\n2. Pause and record yourself repeating it.\n3. Replay both and compare.\n\nNo automatic pronunciation score is claimed — rate yourself honestly.',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 20),
-          SectionHeader(title: 'Reference audio'),
-          Row(
-            children: [
-              ElevatedButton.icon(
-                onPressed: () =>
-                    _player.playing ? _player.pause() : _player.play(),
-                icon: Icon(_player.playing ? Icons.pause : Icons.play_arrow),
-                label: Text(_player.playing ? 'Pause' : 'Play'),
-              ),
-              const SizedBox(width: 12),
-              OutlinedButton(
-                  onPressed: () => _player.skip(-5), child: const Text('-5s')),
-              const SizedBox(width: 8),
-              OutlinedButton(
-                  onPressed: () => _player.skip(5), child: const Text('+5s')),
-            ],
-          ),
-          const SizedBox(height: 24),
-          SectionHeader(title: 'Your recording'),
-          Text(
-            _status ??
-                'Recording UI uses the Speaking Studio recorder. Open a speaking prompt to capture attempts, or use the full recorder from Speaking Studio.',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-          const SizedBox(height: 12),
-          PrimaryButton(
-            label: _recording
-                ? 'Stop (open Speaking Studio)'
-                : 'Open Speaking Studio',
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
       ),
     );
   }

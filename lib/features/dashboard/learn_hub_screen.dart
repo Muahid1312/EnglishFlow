@@ -50,10 +50,15 @@ class LearnHubScreen extends ConsumerWidget {
                       else
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: () =>
-                                ref.read(studySessionServiceProvider).resume(),
+                            onPressed: session.isAwaitingAi
+                                ? null
+                                : () => ref
+                                    .read(studySessionServiceProvider)
+                                    .resume(),
                             icon: const Icon(Icons.play_arrow),
-                            label: const Text('Resume'),
+                            label: Text(session.isAwaitingAi
+                                ? 'Waiting for AI'
+                                : 'Resume'),
                           ),
                         ),
                       const SizedBox(width: 10),
@@ -81,7 +86,7 @@ class LearnHubScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
           ],
-          SectionHeader(title: 'Modules'),
+          const SectionHeader(title: 'Modules'),
           ModuleTile(
             icon: Icons.menu_book_outlined,
             title: 'Reading',
@@ -117,16 +122,16 @@ class LearnHubScreen extends ConsumerWidget {
             onTap: () => context.push('/learn/books'),
           ),
           const SizedBox(height: 24),
-          SectionHeader(title: 'Start timed session'),
+          const SectionHeader(title: 'Start timed session'),
           Text(
             'Start a session to count minutes toward your daily goal. Time pauses when the app is backgrounded.',
             style: Theme.of(context).textTheme.bodySmall,
           ),
           const SizedBox(height: 12),
-          Wrap(
+          const Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: const [
+            children: [
               _SessionChip(label: 'Reading', module: 'reading'),
               _SessionChip(label: 'Vocabulary', module: 'vocabulary'),
               _SessionChip(label: 'Listening', module: 'listening_speaking'),

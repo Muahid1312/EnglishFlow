@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:cross_file/cross_file.dart';
 
-import '../../app/theme/app_theme.dart';
 import '../../core/content/assessment_bank.dart';
 import '../../core/services/certificate_service.dart';
 import '../../core/services/providers.dart';
 import '../../core/utils/id_utils.dart';
+import '../../core/utils/answer_utils.dart';
 import '../../core/widgets/common_widgets.dart';
 
 class AssessmentsScreen extends ConsumerStatefulWidget {
@@ -34,11 +33,12 @@ class _AssessmentsScreenState extends ConsumerState<AssessmentsScreen> {
     final db = ref.read(appDatabaseProvider);
     await AssessmentBank.seedIfEmpty(db);
     final rows = await db.getAssessments();
-    if (mounted)
+    if (mounted) {
       setState(() {
         _items = rows;
         _loading = false;
       });
+    }
   }
 
   @override
@@ -87,6 +87,8 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
   final Map<String, String> _answers = {};
   bool _loading = true;
   bool _done = false;
+  bool _submitting = false;
+  final _startedAt = DateTime.now().toUtc().toIso8601String();
   double? _score;
 
   @override
@@ -99,12 +101,13 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
     final db = ref.read(appDatabaseProvider);
     final def = await db.getAssessment(widget.assessmentId);
     final qs = await db.getAssessmentQuestions(widget.assessmentId);
-    if (mounted)
+    if (mounted) {
       setState(() {
         _def = def;
         _questions = qs;
         _loading = false;
       });
+    }
   }
 
   List<String> _choices(Map<String, dynamic> q) {
@@ -118,35 +121,66 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
   }
 
   Future<void> _submit() async {
-    if (_questions.isEmpty) return;
-    var correct = 0;
-    for (final q in _questions) {
-      final a = (_answers[q['id'] as String] ?? '').trim().toLowerCase();
-      final c = ((q['correct_answer'] as String?) ?? '').trim().toLowerCase();
-      if (a == c) correct++;
+    if (_questions.isEmpty || _done || _submitting) return;
+    setState(() => _submitting = true);
+    try {
+      var correct = 0;
+      for (final q in _questions) {
+        final a = (_answers[q['id'] as String] ?? '').trim().toLowerCase();
+        final c = ((q['correct_answer'] as String?) ?? '').trim().toLowerCase();
+        if (matchesAnswer(a, c)) correct++;
+      }
+      final score = correct / _questions.length;
+      final threshold = (_def?['pass_threshold'] as num?)?.toDouble() ?? 0.7;
+      final passed = score >= threshold;
+      final started = DateTime.now().toUtc().toIso8601String();
+      await ref.read(appDatabaseProvider).saveAssessmentAttempt({
+        'id': newId(),
+        'assessment_id': widget.assessmentId,
+        'score': score,
+        'max_score': 1.0,
+        'passed': passed ? 1 : 0,
+        'self_assessed': 0,
+        'answers_json': jsonEncode(_answers),
+        'started_at': _startedAt,
+        'completed_at': started,
+      });
+      if (!mounted) return;
+      setState(() {
+        _done = true;
+        _submitting = false;
+        _score = score;
+      });
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                'Could not save assessment. Your answers are retained; please retry.')));
+      }
+    } finally {
+      if (mounted) setState(() => _submitting = false);
     }
-    final score = correct / _questions.length;
-    final threshold = (_def?['pass_threshold'] as num?)?.toDouble() ?? 0.7;
-    final passed = score >= threshold;
-    final started = DateTime.now().toUtc().toIso8601String();
-    await ref.read(appDatabaseProvider).saveAssessmentAttempt({
-      'id': newId(),
-      'assessment_id': widget.assessmentId,
-      'score': score,
-      'max_score': 1.0,
-      'passed': passed ? 1 : 0,
-      'self_assessed': 0,
-      'answers_json': jsonEncode(_answers),
-      'started_at': started,
-      'completed_at': started,
-    });
-    setState(() {
-      _done = true;
-      _score = score;
-    });
   }
 
+  bool _issuing = false;
+
   Future<void> _maybeCertificate() async {
+    if (_issuing) return;
+    _issuing = true;
+    try {
+      await _issueCertificate();
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                'Certificate could not be saved. Check eligibility and storage.')));
+      }
+    } finally {
+      _issuing = false;
+    }
+  }
+
+  Future<void> _issueCertificate() async {
     if (_score == null || _def == null) return;
     final threshold = (_def!['pass_threshold'] as num?)?.toDouble() ?? 0.7;
     if (_score! < threshold) {
@@ -174,10 +208,11 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
   @override
   Widget build(BuildContext context) {
     if (_loading) return const Scaffold(body: LoadingView());
-    if (_def == null)
+    if (_def == null) {
       return Scaffold(
           appBar: AppBar(),
           body: const ErrorView(message: 'Assessment not found'));
+    }
 
     if (_done) {
       return Scaffold(
@@ -229,7 +264,8 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
             ),
             const SizedBox(height: 10),
           ],
-          PrimaryButton(label: 'Submit', onPressed: _submit),
+          PrimaryButton(
+              label: 'Submit', onPressed: _submitting ? null : _submit),
         ],
       ),
     );
@@ -289,10 +325,11 @@ class _CertificatesScreenState extends ConsumerState<CertificatesScreen> {
                         child: TextButton(
                           onPressed: () {
                             final path = c['file_path'] as String?;
-                            if (path != null)
+                            if (path != null) {
                               Share.shareXFiles([XFile(path)],
                                   text:
                                       'LexiFlow certificate ${c['ref_number']}');
+                            }
                           },
                           child: const Text('Share PDF'),
                         ),
@@ -319,7 +356,7 @@ class ExportScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Exports study sessions, grammar attempts, writing metadata, and completions as JSON. API keys are never included.',
+              'Shares a JSON summary of study dates, total study time, completed grammar lessons, and writing counts. API keys and writing text are excluded.',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 20),

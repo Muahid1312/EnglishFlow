@@ -129,7 +129,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             width: 72,
             height: 72,
             decoration: BoxDecoration(
-              color: AppColors.violet.withValues(alpha: 0.12),
+              color: AppColors.violet.withOpacity(0.12),
               borderRadius: BorderRadius.circular(20),
             ),
             child: const Icon(Icons.auto_stories_rounded,

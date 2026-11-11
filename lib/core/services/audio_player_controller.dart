@@ -1,10 +1,15 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:just_audio/just_audio.dart';
 
 /// Thin wrapper around just_audio with speed, seek, and position hooks.
-class AudioPlayerController extends ChangeNotifier {
+class AudioPlayerController extends ChangeNotifier with WidgetsBindingObserver {
+  AudioPlayerController() {
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  bool _disposed = false;
   final AudioPlayer _player = AudioPlayer();
   bool _ready = false;
   String? _error;
@@ -23,14 +28,17 @@ class AudioPlayerController extends ChangeNotifier {
   Future<void> load(String path, {int startMs = 0}) async {
     _error = null;
     _ready = false;
-    notifyListeners();
+    _notify();
     try {
+      await _player.stop();
+      if (_disposed) return;
       if (path.isEmpty || !File(path).existsSync()) {
         _error = 'Audio file is missing or was moved.';
-        notifyListeners();
+        _notify();
         return;
       }
       await _player.setFilePath(path);
+      if (_disposed) return;
       if (startMs > 0) {
         await _player.seek(Duration(milliseconds: startMs));
       }
@@ -39,10 +47,26 @@ class AudioPlayerController extends ChangeNotifier {
       _error = 'Could not load audio. Unsupported or corrupted file.';
       _ready = false;
     }
-    notifyListeners();
+    _notify();
   }
 
-  Future<void> play() => _player.play();
+  Future<void> play() async {
+    if (!_ready || _disposed) return;
+    if (_player.processingState == ProcessingState.completed) {
+      await _player.seek(Duration.zero);
+    }
+    await _player.play();
+  }
+
+  void _notify() {
+    if (!_disposed) notifyListeners();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) _player.pause();
+  }
+
   Future<void> pause() => _player.pause();
 
   Future<void> stop() async {
@@ -64,6 +88,8 @@ class AudioPlayerController extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
+    WidgetsBinding.instance.removeObserver(this);
     _player.dispose();
     super.dispose();
   }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -28,6 +29,14 @@ class CertificateService {
     if (!eligible) {
       throw StateError('Not eligible for a certificate.');
     }
+    final evidence = await _db.certificateEvidence(targetType, targetId);
+    if (evidence == null) {
+      throw StateError(
+          'Persisted lesson completion and required passing assessments are missing.');
+    }
+    verificationType = evidence['verification_type'] as String;
+    assessmentScore = (evidence['score'] as num).toDouble();
+    targetTitle = evidence['title'] as String;
     final name = learnerName.trim().isEmpty ? 'Learner' : learnerName.trim();
     final completionId = newId();
     final certId = newId();
@@ -35,7 +44,7 @@ class CertificateService {
         'LF-${DateTime.now().year}-${_uuid.v4().substring(0, 8).toUpperCase()}';
     final now = DateTime.now().toUtc().toIso8601String();
 
-    await _db.insertCompletionRecord({
+    final completion = <String, Object?>{
       'id': completionId,
       'target_type': targetType,
       'target_id': targetId,
@@ -45,13 +54,22 @@ class CertificateService {
       'completed_at': now,
       'certificate_eligible': 1,
       'certificate_ref': ref,
-    });
+    };
 
-    final doc = pw.Document();
+    final regular = await rootBundle.load('assets/fonts/NotoSans-Regular.ttf');
+    final bold = await rootBundle.load('assets/fonts/NotoSans-Bold.ttf');
+    final italic = await rootBundle.load('assets/fonts/NotoSans-Italic.ttf');
+    final arabic =
+        await rootBundle.load('assets/fonts/NotoNaskhArabic-Regular.ttf');
+    final doc = pw.Document(
+        theme: pw.ThemeData.withFont(
+      base: pw.Font.ttf(regular),
+      bold: pw.Font.ttf(bold),
+      italic: pw.Font.ttf(italic),
+      fontFallback: [pw.Font.ttf(arabic)],
+    ));
     final dateStr = DateFormat.yMMMMd().format(DateTime.now());
-    final scoreText = assessmentScore == null
-        ? null
-        : '${(assessmentScore * 100).round()}% assessment score';
+    final scoreText = '${(assessmentScore * 100).round()}% assessment score';
 
     doc.addPage(
       pw.Page(
@@ -82,23 +100,32 @@ class CertificateService {
                 pw.Text('This certificate recognizes that',
                     style: const pw.TextStyle(fontSize: 12)),
                 pw.SizedBox(height: 8),
-                pw.Text(name,
-                    style: pw.TextStyle(
-                        fontSize: 22, fontWeight: pw.FontWeight.bold)),
+                pw.SizedBox(
+                    height: 38,
+                    child: pw.FittedBox(
+                        fit: pw.BoxFit.scaleDown,
+                        child: pw.Text(name,
+                            style: pw.TextStyle(
+                                fontSize: 22,
+                                fontWeight: pw.FontWeight.bold)))),
                 pw.SizedBox(height: 8),
                 pw.Text('has completed the learning requirements for',
                     style: const pw.TextStyle(fontSize: 12)),
                 pw.SizedBox(height: 8),
-                pw.Text(targetTitle,
-                    textAlign: pw.TextAlign.center,
-                    style: pw.TextStyle(
-                        fontSize: 16,
-                        fontWeight: pw.FontWeight.bold,
-                        color: PdfColor.fromHex('#4A3F6B'))),
+                pw.SizedBox(
+                    height: 40,
+                    child: pw.FittedBox(
+                        fit: pw.BoxFit.scaleDown,
+                        child: pw.Text(targetTitle,
+                            textAlign: pw.TextAlign.center,
+                            style: pw.TextStyle(
+                                fontSize: 16,
+                                fontWeight: pw.FontWeight.bold,
+                                color: PdfColor.fromHex('#4A3F6B'))))),
                 pw.SizedBox(height: 16),
                 pw.Text('within the LexiFlow learning application.',
                     style: const pw.TextStyle(fontSize: 11)),
-                if (scoreText != null) ...[
+                ...[
                   pw.SizedBox(height: 10),
                   pw.Text(scoreText, style: const pw.TextStyle(fontSize: 11)),
                 ],
@@ -135,17 +162,22 @@ class CertificateService {
     final file = File(filePath);
     await file.writeAsBytes(await doc.save());
 
-    await _db.insertCertificate({
-      'id': certId,
-      'completion_id': completionId,
-      'learner_name': name,
-      'title': targetTitle,
-      'ref_number': ref,
-      'score_text': scoreText,
-      'verification_type': verificationType,
-      'issued_at': now,
-      'file_path': filePath,
-    });
+    try {
+      await _db.saveCertificateWithCompletion(completion, {
+        'id': certId,
+        'completion_id': completionId,
+        'learner_name': name,
+        'title': targetTitle,
+        'ref_number': ref,
+        'score_text': scoreText,
+        'verification_type': verificationType,
+        'issued_at': now,
+        'file_path': filePath,
+      });
+    } catch (_) {
+      await file.delete();
+      rethrow;
+    }
 
     return filePath;
   }

@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdfx/pdfx.dart';
 
 import '../../app/theme/app_theme.dart';
+import 'completion_panel.dart';
 import '../../core/services/providers.dart';
 import '../../core/utils/id_utils.dart';
 import '../../core/widgets/common_widgets.dart';
@@ -32,49 +33,59 @@ class _BooksScreenState extends ConsumerState<BooksScreen> {
 
   Future<void> _load() async {
     final rows = await ref.read(appDatabaseProvider).getImportedBooks();
-    if (mounted)
+    if (mounted) {
       setState(() {
         _books = rows;
         _loading = false;
       });
+    }
   }
 
+  bool _importing = false;
   Future<void> _importPdf() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: const ['pdf'],
-    );
-    if (result == null ||
-        result.files.isEmpty ||
-        result.files.single.path == null) return;
-    final srcPath = result.files.single.path!;
+    if (_importing) return;
+    _importing = true;
+    final db = ref.read(appDatabaseProvider);
+    String? copied;
+    var registered = false;
     try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: const ['pdf'],
+      );
+      if (result == null ||
+          result.files.isEmpty ||
+          result.files.single.path == null) return;
+      final srcPath = result.files.single.path!;
       final docs = await getApplicationDocumentsDirectory();
       final dir = Directory(p.join(docs.path, 'media', 'books'));
       if (!await dir.exists()) await dir.create(recursive: true);
       final id = newId();
       final dest = p.join(dir.path, '$id.pdf');
+      copied = dest;
       await File(srcPath).copy(dest);
 
-      int pages = 0;
+      int pages;
       try {
         final doc = await PdfDocument.openFile(dest);
         pages = doc.pagesCount;
         await doc.close();
+        if (pages < 1) throw StateError('PDF has no pages');
       } catch (_) {
-        // Corrupted / password-protected / unsupported — still register path
-        pages = 0;
+        await File(dest).delete();
+        rethrow;
       }
 
       final title = p.basenameWithoutExtension(srcPath);
-      await ref.read(appDatabaseProvider).insertImportedBook({
+      await db.insertImportedBook({
         'id': id,
         'title': title,
         'file_path': dest,
         'page_count': pages,
         'current_page': 1,
       });
-      await _load();
+      registered = true;
+      if (mounted) await _load();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -84,6 +95,11 @@ class _BooksScreenState extends ConsumerState<BooksScreen> {
         );
       }
     } catch (e) {
+      if (copied != null && !registered) {
+        try {
+          if (await File(copied).exists()) await File(copied).delete();
+        } catch (_) {}
+      }
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -91,13 +107,20 @@ class _BooksScreenState extends ConsumerState<BooksScreen> {
                   'Could not import PDF. File may be corrupted or protected.')),
         );
       }
+    } finally {
+      _importing = false;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Books')),
+      appBar: AppBar(title: const Text('Books'), actions: [
+        TextButton(
+            onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(builder: (_) => const CoursesScreen())),
+            child: const Text('Courses'))
+      ]),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _importPdf,
         icon: const Icon(Icons.upload_file),
@@ -125,14 +148,17 @@ class _BooksScreenState extends ConsumerState<BooksScreen> {
                     final page = b['current_page'] as int? ?? 1;
                     final total = b['page_count'] as int? ?? 0;
                     return LexiCard(
-                      onTap: () => context.push('/learn/books/${b['id']}'),
+                      onTap: () async {
+                        await context.push('/learn/books/${b['id']}');
+                        if (mounted) await _load();
+                      },
                       child: Row(
                         children: [
                           Container(
                             width: 44,
                             height: 44,
                             decoration: BoxDecoration(
-                              color: AppColors.violet.withValues(alpha: 0.12),
+                              color: AppColors.violet.withOpacity(0.12),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Icon(Icons.picture_as_pdf,
@@ -286,9 +312,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   @override
   Widget build(BuildContext context) {
     if (_loading) return const Scaffold(body: LoadingView());
-    if (_book == null)
+    if (_book == null) {
       return Scaffold(
           appBar: AppBar(), body: const ErrorView(message: 'Book not found'));
+    }
     final b = _book!;
     final path = b['file_path'] as String;
     final exists = File(path).existsSync();
@@ -310,9 +337,13 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
             PrimaryButton(
               label: 'Continue reading (page ${b['current_page']})',
               icon: Icons.menu_book,
-              onPressed: () =>
-                  context.push('/learn/books/${widget.bookId}/read'),
+              onPressed: () async {
+                await context.push('/learn/books/${widget.bookId}/read');
+                if (mounted) await _load();
+              },
             ),
+          const SizedBox(height: 20),
+          CompletionPanel(type: 'book', id: widget.bookId),
           const SizedBox(height: 20),
           SectionHeader(
             title: 'Units & lessons',
@@ -393,6 +424,7 @@ class _BookReaderScreenState extends ConsumerState<BookReaderScreen> {
   Future<void> _open() async {
     final book =
         await ref.read(appDatabaseProvider).getImportedBook(widget.bookId);
+    if (!mounted) return;
     if (book == null) {
       setState(() => _error = 'Book not found');
       return;
@@ -403,16 +435,23 @@ class _BookReaderScreenState extends ConsumerState<BookReaderScreen> {
       return;
     }
     try {
-      final start = (book['current_page'] as int?) ?? 1;
+      final doc = await PdfDocument.openFile(path);
+      if (!mounted) {
+        await doc.close();
+        return;
+      }
+      final start =
+          ((book['current_page'] as int?) ?? 1).clamp(1, doc.pagesCount);
       final ctrl = PdfControllerPinch(
-        document: PdfDocument.openFile(path),
-        initialPage: start.clamp(1, 99999),
+        document: Future.value(doc),
+        initialPage: start,
       );
       setState(() {
         _controller = ctrl;
         _page = start;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() => _error =
           'Could not open PDF (corrupted, password-protected, or unsupported).');
     }
@@ -451,7 +490,7 @@ class _BookReaderScreenState extends ConsumerState<BookReaderScreen> {
               await ref
                   .read(appDatabaseProvider)
                   .addBookBookmark(newId(), widget.bookId, _page);
-              if (mounted) {
+              if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Bookmarked page $_page')));
               }
@@ -462,6 +501,9 @@ class _BookReaderScreenState extends ConsumerState<BookReaderScreen> {
       ),
       body: PdfViewPinch(
         controller: _controller!,
+        onDocumentError: (_) {
+          if (mounted) setState(() => _error = 'Could not open PDF.');
+        },
         onDocumentLoaded: (doc) {
           setState(() => _pageCount = doc.pagesCount);
           ref.read(appDatabaseProvider).updateBookProgress(widget.bookId, _page,

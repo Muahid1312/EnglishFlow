@@ -1,11 +1,8 @@
 import '../database/app_database.dart';
-import '../utils/id_utils.dart';
 
 /// Original offline B1–B2 grammar curriculum for LexiFlow.
 class GrammarCurriculum {
   static Future<void> seedIfEmpty(AppDatabase db) async {
-    if (await db.countGrammarLessons() > 0) return;
-
     final lessons = <_Lesson>[
       // ——— B1 ———
       _Lesson(

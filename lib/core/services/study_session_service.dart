@@ -1,13 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../database/app_database.dart';
 import '../utils/date_utils.dart';
 import '../utils/id_utils.dart';
+import '../utils/study_days.dart';
 
 enum SessionState { idle, running, paused, finished }
+
+const _unchanged = Object();
 
 class ActiveSession {
   final String id;
@@ -26,9 +28,11 @@ class ActiveSession {
     required this.state,
   });
 
-  int get elapsedSeconds {
+  int get elapsedSeconds => elapsedSecondsAt(DateTime.now());
+
+  int elapsedSecondsAt(DateTime now) {
     if (state == SessionState.running && runStartedAt != null) {
-      final extra = DateTime.now().difference(runStartedAt!).inSeconds;
+      final extra = now.difference(runStartedAt!).inSeconds;
       return accumulatedSeconds + (extra > 0 ? extra : 0);
     }
     return accumulatedSeconds;
@@ -36,7 +40,7 @@ class ActiveSession {
 
   ActiveSession copyWith({
     int? accumulatedSeconds,
-    DateTime? runStartedAt,
+    Object? runStartedAt = _unchanged,
     SessionState? state,
   }) {
     return ActiveSession(
@@ -44,42 +48,68 @@ class ActiveSession {
       module: module,
       startedAt: startedAt,
       accumulatedSeconds: accumulatedSeconds ?? this.accumulatedSeconds,
-      runStartedAt: runStartedAt ?? this.runStartedAt,
+      runStartedAt: identical(runStartedAt, _unchanged)
+          ? this.runStartedAt
+          : runStartedAt as DateTime?,
       state: state ?? this.state,
     );
   }
 }
 
 class StudySessionService extends ChangeNotifier {
-  StudySessionService(this._db);
+  StudySessionService(this._db, {DateTime Function()? now})
+      : _now = now ?? DateTime.now;
+
+  final DateTime Function() _now;
 
   final AppDatabase _db;
   ActiveSession? _active;
   Timer? _ticker;
+  Future<void>? _finishing;
+  Future<ActiveSession?>? _recovering;
+  Future<void> _starting = Future.value();
+  final _days = <String, int>{};
+  DateTime? _checkpointAt;
+  bool _disposed = false;
+  int _aiWaits = 0;
+  int _transition = 0;
+  String? _resumeAfterAi;
+  int? _resumeAiTransition;
+  bool get isAwaitingAi => _aiWaits > 0;
 
   ActiveSession? get active => _active;
   bool get isRunning => _active?.state == SessionState.running;
   bool get hasActive =>
       _active != null && _active!.state != SessionState.finished;
 
-  Future<ActiveSession> start(String module) async {
+  Future<ActiveSession> start(String module) {
+    final result = _starting.then((_) => _start(module));
+    _starting =
+        result.then<void>((_) {}, onError: (Object _, StackTrace __) {});
+    return result;
+  }
+
+  Future<ActiveSession> _start(String module) async {
+    if (_recovering != null) await _recovering;
     if (_active != null && _active!.state != SessionState.finished) {
       await finish(interrupted: true);
     }
 
     final id = newId();
-    final now = DateTime.now().toUtc();
-    final local = localDateString();
+    final now = _now().toUtc();
+    final local = localDateString(_now());
 
     await _db.insertSession(
         id: id, module: module, startedAt: now, localDate: local);
 
+    _days.clear();
+    _checkpointAt = _now();
     _active = ActiveSession(
       id: id,
       module: module,
       startedAt: now,
       accumulatedSeconds: 0,
-      runStartedAt: DateTime.now(),
+      runStartedAt: _now(),
       state: SessionState.running,
     );
     _startTicker();
@@ -87,9 +117,11 @@ class StudySessionService extends ChangeNotifier {
     return _active!;
   }
 
-  void pause() {
+  Future<void> pause() async {
+    _transition++;
     if (_active == null || _active!.state != SessionState.running) return;
-    final elapsed = _active!.elapsedSeconds;
+    _allocate();
+    final elapsed = _days.values.fold<int>(0, (a, b) => a + b) ~/ 1000;
     _active = _active!.copyWith(
       accumulatedSeconds: elapsed,
       runStartedAt: null,
@@ -97,66 +129,97 @@ class StudySessionService extends ChangeNotifier {
     );
     _stopTicker();
     notifyListeners();
+    await _db.checkpointSession(_active!.id, Map.of(_days));
   }
 
   void resume() {
+    if (isAwaitingAi) return;
+    _transition++;
     if (_active == null || _active!.state != SessionState.paused) return;
+    if (_finishing != null) return;
+    _checkpointAt = _now();
     _active = _active!.copyWith(
-      runStartedAt: DateTime.now(),
+      runStartedAt: _now(),
       state: SessionState.running,
     );
     _startTicker();
     notifyListeners();
   }
 
-  void onAppPaused() {
-    if (isRunning) pause();
+  Future<void> onAppPaused() async {
+    await pause();
   }
 
-  Future<void> finish({bool interrupted = false}) async {
+  Future<T> withoutAiWaitingTime<T>(Future<T> Function() action) async {
+    final outermost = _aiWaits++ == 0;
+    try {
+      if (outermost && isRunning) {
+        _resumeAfterAi = _active!.id;
+        await pause();
+        _resumeAiTransition = _transition;
+      }
+      if (!_disposed) notifyListeners();
+      return await action();
+    } finally {
+      _aiWaits--;
+      if (_aiWaits == 0) {
+        final shouldResume = _resumeAfterAi != null &&
+            _active?.id == _resumeAfterAi &&
+            _resumeAiTransition == _transition;
+        _resumeAfterAi = null;
+        _resumeAiTransition = null;
+        if (shouldResume && !_disposed) resume();
+      }
+      if (!_disposed) notifyListeners();
+    }
+  }
+
+  Future<void> finish({bool interrupted = false}) {
+    return _finishing ??=
+        _finish(interrupted: interrupted).whenComplete(() => _finishing = null);
+  }
+
+  Future<void> _finish({required bool interrupted}) async {
     if (_active == null || _active!.state == SessionState.finished) return;
 
-    final seconds = _active!.elapsedSeconds;
-    final id = _active!.id;
-    final now = DateTime.now().toUtc();
-
-    await _db.updateSession(
-      id,
-      endedAt: now,
-      durationSeconds: seconds,
-      completed: true,
-      interrupted: interrupted,
-    );
-
-    final local = localDateString();
-    final prefs = await _db.getPreferences();
-    final totalSec = await _db.getTotalSecondsForDate(local);
-    final totalMin = (totalSec / 60).floor();
-    await _db.upsertDailyGoal(
-      localDate: local,
-      targetMinutes: prefs.dailyTargetMinutes,
-      completedMinutes: totalMin,
-      goalMet: totalMin >= prefs.dailyTargetMinutes,
-    );
-
-    await _db.logActivity(
-      id: newId(),
-      type: interrupted ? 'session_interrupted' : 'session_completed',
-      module: _active!.module,
-      localDate: local,
-      metadata: '{"seconds":$seconds}',
-    );
-
-    _active = _active!
-        .copyWith(state: SessionState.finished, accumulatedSeconds: seconds);
+    _allocate();
+    final active = _active!;
+    final seconds = _days.values.fold<int>(0, (a, b) => a + b) ~/ 1000;
+    _active = active.copyWith(
+        accumulatedSeconds: seconds,
+        runStartedAt: null,
+        state: SessionState.paused);
     _stopTicker();
-    notifyListeners();
+    await _db.checkpointSession(active.id, Map.of(_days),
+        completed: true, interrupted: interrupted, endedAt: _now());
     _active = null;
+    if (!_disposed) notifyListeners();
   }
 
-  Future<ActiveSession?> recoverInterrupted() async {
+  void _allocate() {
+    if (_active?.state != SessionState.running || _checkpointAt == null) return;
+    final now = _now();
+    if (!now.isAfter(_checkpointAt!)) return;
+    final split = splitStudyDays(_checkpointAt!, now);
+    for (final item in split.entries) {
+      _days.update(item.key, (value) => value + item.value,
+          ifAbsent: () => item.value);
+    }
+    _checkpointAt = now;
+  }
+
+  Future<ActiveSession?> recoverInterrupted() {
+    return _recovering ??= _recover().whenComplete(() => _recovering = null);
+  }
+
+  Future<ActiveSession?> _recover() async {
+    if (hasActive) return _active;
     final row = await _db.getActiveInterruptedSession();
-    if (row == null) return null;
+    if (row == null || hasActive) return _active;
+    _days
+      ..clear()
+      ..addAll(await _db.getSessionDays(row['id'] as String));
+    _checkpointAt = null;
     _active = ActiveSession(
       id: row['id'] as String,
       module: row['module'] as String,
@@ -171,7 +234,23 @@ class StudySessionService extends ChangeNotifier {
   void _startTicker() {
     _ticker?.cancel();
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (_active?.state == SessionState.running) notifyListeners();
+      if (_active?.state == SessionState.running) {
+        final active = _active!;
+        _allocate();
+        unawaited(_db
+            .checkpointSession(active.id, Map.of(_days))
+            .catchError((Object error) {
+          if (!_disposed) {
+            _stopTicker();
+            _active = active.copyWith(
+                accumulatedSeconds: active.elapsedSecondsAt(_now()),
+                runStartedAt: null,
+                state: SessionState.paused);
+            notifyListeners();
+          }
+        }));
+        notifyListeners();
+      }
     });
   }
 
@@ -182,6 +261,7 @@ class StudySessionService extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
     _stopTicker();
     super.dispose();
   }

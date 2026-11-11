@@ -15,7 +15,7 @@ class ListeningSpeakingScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          SectionHeader(title: 'Listening Studio'),
+          const SectionHeader(title: 'Listening Studio'),
           ModuleTile(
             icon: Icons.headphones_outlined,
             iconColor: AppColors.violet,
@@ -24,7 +24,7 @@ class ListeningSpeakingScreen extends ConsumerWidget {
             onTap: () => context.push('/learn/listening/library'),
           ),
           const SizedBox(height: 20),
-          SectionHeader(title: 'Speaking Studio'),
+          const SectionHeader(title: 'Speaking Studio'),
           ModuleTile(
             icon: Icons.mic_none,
             iconColor: AppColors.teal,

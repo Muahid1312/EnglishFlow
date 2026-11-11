@@ -85,7 +85,7 @@ class EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 56, color: cs.primary.withValues(alpha: 0.5)),
+            Icon(icon, size: 56, color: cs.primary.withOpacity(0.5)),
             const SizedBox(height: 16),
             Text(title,
                 style: Theme.of(context).textTheme.titleMedium,
@@ -96,7 +96,7 @@ class EmptyState extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium
-                  ?.copyWith(color: cs.onSurface.withValues(alpha: 0.65)),
+                  ?.copyWith(color: cs.onSurface.withOpacity(0.65)),
               textAlign: TextAlign.center,
             ),
             if (action != null) ...[const SizedBox(height: 20), action!],
@@ -186,7 +186,7 @@ class ProgressRing extends StatelessWidget {
             child: CircularProgressIndicator(
               value: progress.clamp(0.0, 1.0),
               strokeWidth: 10,
-              backgroundColor: cs.outline.withValues(alpha: 0.25),
+              backgroundColor: cs.outline.withOpacity(0.25),
               valueColor: AlwaysStoppedAnimation(cs.primary),
               strokeCap: StrokeCap.round,
             ),
@@ -238,7 +238,7 @@ class ModuleTile extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: (iconColor ?? cs.primary).withValues(alpha: 0.12),
+              color: (iconColor ?? cs.primary).withOpacity(0.12),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, color: iconColor ?? cs.primary),
@@ -258,18 +258,17 @@ class ModuleTile extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: AppColors.teal.withValues(alpha: 0.15),
+                color: AppColors.teal.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(badge!,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                       color: AppColors.teal)),
             )
           else
-            Icon(Icons.chevron_right,
-                color: cs.onSurface.withValues(alpha: 0.4)),
+            Icon(Icons.chevron_right, color: cs.onSurface.withOpacity(0.4)),
         ],
       ),
     );
