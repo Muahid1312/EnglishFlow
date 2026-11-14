@@ -120,6 +120,20 @@ jobs:
               } >> "$GITHUB_STEP_SUMMARY"
             fi
           done
+          python3 - <<'PYLOG'
+          from pathlib import Path
+          for name in ['pub-get.log', 'analyze.log', 'targeted-tests.log', 'full-tests.log', 'build.log']:
+              path = Path(name)
+              if not path.is_file():
+                  continue
+              text = path.read_text(errors='replace')
+              if name in ['analyze.log', 'build.log']:
+                  excerpt = text if len(text) <= 24000 else text[:12000] + '\n...\n' + text[-12000:]
+              else:
+                  excerpt = text[-12000:]
+              escaped = excerpt.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+              print(f'::warning title=CI diagnostic {name}::{escaped}')
+          PYLOG
           test "$FORMAT_RESULT" = success
           test "$ANALYZE_RESULT" = success
           test "$TARGETED_RESULT" = success
