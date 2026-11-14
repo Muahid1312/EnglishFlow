@@ -66,6 +66,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     setState(() => _busy = true);
     File? archive;
     try {
+      await ref.read(listeningDownloadsProvider).suspend();
       final temp = await getTemporaryDirectory();
       archive = File(p.join(temp.path, 'lexiflow-${newId()}.lexiflowbackup'));
       await _service!.create(archive, progress: _progress);
@@ -98,7 +99,10 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
       try {
         if (archive != null && await archive.exists()) await archive.delete();
       } catch (_) {/* Temporary cache cleanup must not hide the save result. */}
-      if (mounted) setState(() => _busy = false);
+      if (mounted) {
+        ref.read(listeningDownloadsProvider).resumeQueue();
+        setState(() => _busy = false);
+      }
     }
   }
 
@@ -136,6 +140,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                 ],
               ));
       if (confirmed != true || !mounted) return;
+      await ref.read(listeningDownloadsProvider).suspend();
       final sessions = ref.read(studySessionServiceProvider);
       await sessions.finish(interrupted: true);
       if (!mounted) return;

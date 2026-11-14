@@ -110,7 +110,7 @@ class BackupService {
       final version =
           candidate.select('PRAGMA user_version').single['user_version'] as int;
       if (version != AppDatabase.schemaVersion &&
-          !(allowLegacy && [7, 8, 9, 10].contains(version))) {
+          !(allowLegacy && [7, 8, 9, 10, 11].contains(version))) {
         throw const BackupFailure(
             'This backup needs a compatible LexiFlow version.');
       }
@@ -192,6 +192,9 @@ class BackupService {
           try {
             // Pending deletions and generated certificate paths are installation-local.
             copy.execute('DELETE FROM pending_file_deletions');
+            // Partial audio is not part of the media inventory. Restored jobs
+            // restart explicitly; only verified lesson audio is exported.
+            copy.execute("UPDATE listening_downloads SET status='available',bytes_received=0,total_bytes=NULL,supports_resume=0,etag=NULL,error=NULL WHERE status!='downloaded'");
             copy.execute('UPDATE certificates SET file_path=NULL');
             for (final ref in _references(copy)) {
               final name =
@@ -252,7 +255,7 @@ class BackupService {
         as Map<String, dynamic>;
     if (manifest['format'] != 'lexiflow' ||
         manifest['version'] != formatVersion ||
-        ![7, 8, 9, 10, AppDatabase.schemaVersion]
+        ![7, 8, 9, 10, 11, AppDatabase.schemaVersion]
             .contains(manifest['databaseVersion'])) {
       throw const BackupFailure(
           'Unsupported backup version. Update LexiFlow or select a compatible backup.');

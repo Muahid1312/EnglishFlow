@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'support/settle_io.dart';
+import 'package:lexiflow/core/services/listening_downloads.dart';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +105,8 @@ void main() {
     db.close();
     dir.deleteSync(recursive: true);
   });
-  Widget app(Widget page) => ProviderScope(overrides: [
+  Widget app(Widget page, {ListeningDownloads? downloads}) => ProviderScope(overrides: [
+        if (downloads != null) listeningDownloadsProvider.overrideWith((ref) => downloads),
         appDatabaseProvider.overrideWithValue(db),
         aiTeacherServiceProvider.overrideWithValue(ai)
       ], child: MaterialApp(home: page));
@@ -316,7 +319,7 @@ void main() {
     final picker = TestPicker();
     FilePicker.platform = picker;
     addTearDown(() => FilePicker.platform = oldPicker ?? TestPicker());
-    final source = File('${dir.path}/source.mp3')..writeAsBytesSync([1, 2, 3]);
+    final source = File('listening_catalog/media/planning-a-short-study-session.mp3').copySync('${dir.path}/source.mp3');
     picker.path = source.path;
     final messenger =
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
@@ -325,9 +328,13 @@ void main() {
         (call) async => '${dir.path}/documents');
     addTearDown(() => messenger.setMockMethodCallHandler(
         const MethodChannel('plugins.flutter.io/path_provider'), null));
+    final downloads = ListeningDownloads(db,
+        documents: () async => Directory('${dir.path}/documents'),
+        availableBytes: () async => 1 << 34, observeLifecycle: false);
+    await tester.runAsync(downloads.initialize);
     db.failImport = true;
-    await tester.pumpWidget(app(const ListeningLibraryScreen()));
-    await tester.pumpAndSettle();
+    await tester.pumpWidget(app(const ListeningLibraryScreen(), downloads: downloads));
+    await waitForContent(tester, find.text('Planning a Short Study Session'));
     await tester.runAsync(() async {
       final dynamic action = tester
           .widget<IconButton>(find.byWidgetPredicate(
@@ -337,7 +344,7 @@ void main() {
     });
     await tester.pumpAndSettle();
     expect(await db.getListeningLessons(), isEmpty);
-    final copies = Directory('${dir.path}/documents/media/listening');
+    final copies = Directory('${dir.path}/documents/media/listening_downloads');
     expect(copies.existsSync(), isTrue);
     expect(copies.listSync(), isEmpty);
     expect(source.existsSync(), isTrue);

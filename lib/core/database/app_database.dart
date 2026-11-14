@@ -15,13 +15,13 @@ import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 
 /// Lightweight offline database for LexiFlow Phase 1.
 class AppDatabase {
-  static const schemaVersion = 11;
+  static const schemaVersion = 12;
   AppDatabase({String? path})
       : _path = path,
         _targetVersion = schemaVersion;
   AppDatabase._template(this._targetVersion) : _path = ':memory:';
   static AppDatabase schemaTemplate(int version) {
-    if (![7, 8, 9, 10, 11].contains(version)) {
+    if (![7, 8, 9, 10, 11, 12].contains(version)) {
       throw ArgumentError('Unsupported schema template');
     }
     return AppDatabase._template(version);
@@ -810,6 +810,18 @@ class AppDatabase {
       database.execute(
           'CREATE TABLE builtin_daily_words(local_date TEXT NOT NULL,level TEXT NOT NULL,word_ids_json TEXT NOT NULL,PRIMARY KEY(local_date,level))');
       database.execute('PRAGMA user_version=11');
+    }
+    if (version < 12 && _targetVersion >= 12) {
+      database.execute('''CREATE TABLE listening_downloads(
+        catalog_id TEXT PRIMARY KEY,
+        lesson_id TEXT UNIQUE REFERENCES listening_lessons(id) ON DELETE SET NULL,
+        status TEXT NOT NULL DEFAULT 'available' CHECK(status IN ('available','queued','downloading','paused','downloaded','failed')),
+        bytes_received INTEGER NOT NULL DEFAULT 0 CHECK(bytes_received>=0),
+        total_bytes INTEGER CHECK(total_bytes IS NULL OR total_bytes>=0),
+        supports_resume INTEGER NOT NULL DEFAULT 0 CHECK(supports_resume IN (0,1)),
+        etag TEXT, verified_sha256 TEXT, error TEXT,
+        updated_at TEXT NOT NULL DEFAULT (datetime('now')))''');
+      database.execute('PRAGMA user_version=12');
     }
   }
 

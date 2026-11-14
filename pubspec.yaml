@@ -1,7 +1,7 @@
 name: lexiflow
 description: LexiFlow — Premium offline-first English learning companion (B1→B2).
 publish_to: 'none'
-version: 2.0.0+12
+version: 2.0.0+13
 
 environment:
   sdk: ^3.5.4
@@ -46,3 +46,4 @@ flutter:
   assets:
     - assets/fonts/
     - assets/content/v1/
+    - assets/listening/

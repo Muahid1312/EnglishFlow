@@ -5,6 +5,7 @@ import '../database/app_database.dart';
 import 'ai_teacher_service.dart';
 import 'study_session_service.dart';
 import 'daily_plan_service.dart';
+import 'listening_downloads.dart';
 
 final appGenerationProvider = StateProvider<int>((ref) => 0);
 
@@ -32,4 +33,8 @@ final studySessionServiceProvider =
 
 final aiTeacherServiceProvider = Provider<AiTeacherService>((ref) {
   return SecureAiTeacherService();
+});
+
+final listeningDownloadsProvider = ChangeNotifierProvider<ListeningDownloads>((ref) {
+  return ListeningDownloads(ref.watch(appDatabaseProvider));
 });

@@ -236,7 +236,7 @@ void main() {
     final upgraded = AppDatabase(path: path);
     try {
       final d = await upgraded.db;
-      expect(d.select('PRAGMA user_version').single['user_version'], 11);
+      expect(d.select('PRAGMA user_version').single['user_version'], AppDatabase.schemaVersion);
       expect(d.select('SELECT * FROM builtin_article_state'), isEmpty);
       expect((await upgraded.getVocabulary()).single['definition'],
           'Keep my meaning');

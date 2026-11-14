@@ -1,0 +1,248 @@
+{
+  "version": 1,
+  "lessons": [
+    {
+      "id": "planning-a-short-study-session",
+      "title": "Planning a Short Study Session",
+      "level": "B1",
+      "voice": "slt",
+      "topic": "Learning habits",
+      "transcript": "Maya has twenty minutes before dinner. She wants to practice English, but she does not want to spend the whole time choosing an activity. She opens her notebook and writes one small goal: understand a short recording and explain its main idea.\n\nFirst, Maya listens without reading the transcript. She catches the topic, but misses one important detail. She does not stop at every unfamiliar word. Instead, she listens again with a specific question in mind: why did the speaker change the original plan?\n\nOn the second listening, the reason becomes clearer. Maya checks the transcript to confirm the words she heard. She chooses two useful expressions and writes her own example for each one. Then she records a brief summary in her own words.\n\nAt the end, she checks her goal. She can explain the main idea and support it with a detail from the recording. She also knows which part was difficult. Tomorrow, she can return to that part rather than start again without a plan.\n\nA short study session does not need to include every possible activity. A clear goal, focused listening, and a small check of understanding can give the time a useful shape.",
+      "questions": [
+        {
+          "prompt": "What is Maya’s main goal?",
+          "choices": [
+            "Understand and summarize a short recording",
+            "Learn every unfamiliar word",
+            "Finish a long textbook"
+          ],
+          "answer": "Understand and summarize a short recording"
+        },
+        {
+          "prompt": "What question guides her second listening?",
+          "choices": [
+            "Why the speaker changed the plan",
+            "How many people use the notebook",
+            "When dinner will finish"
+          ],
+          "answer": "Why the speaker changed the plan"
+        },
+        {
+          "prompt": "When does she check the transcript?",
+          "choices": [
+            "After listening again",
+            "Before hearing the recording",
+            "Only after deleting her notes"
+          ],
+          "answer": "After listening again"
+        },
+        {
+          "prompt": "What helps her plan tomorrow’s session?",
+          "choices": [
+            "Knowing which part was difficult",
+            "Choosing every possible activity",
+            "Avoiding the recording completely"
+          ],
+          "answer": "Knowing which part was difficult"
+        }
+      ],
+      "duration_ms": 65832,
+      "bytes": 526892,
+      "sha256": "fec81c2f4ed7186be648b278e364839ebaac2c7691354f4f9a59191b77aa1d27",
+      "file": "planning-a-short-study-session.mp3",
+      "accent": "American",
+      "speaker": "CMU Flite SLT synthetic voice",
+      "provider": "LexiFlow originals",
+      "audio_url": "https://raw.githubusercontent.com/Muahid1312/EnglishFlow/b888f7ef2dd73f6a83edb08589c1f3928492bab9/listening_catalog/media/planning-a-short-study-session.mp3",
+      "permission_url": "https://github.com/Muahid1312/EnglishFlow/blob/b888f7ef2dd73f6a83edb08589c1f3928492bab9/listening_catalog/PERMISSION.md",
+      "download_allowed": true
+    },
+    {
+      "id": "clarifying-a-work-request",
+      "title": "Clarifying a Work Request",
+      "level": "B1",
+      "voice": "rms",
+      "topic": "Workplace communication",
+      "transcript": "A team leader asks Jordan to prepare a short update for Friday. Jordan understands the general topic, but the request leaves several questions open. Who will read the update? How long should it be? Does Friday mean the beginning or the end of the working day?\n\nInstead of guessing, Jordan asks for clarification. He says, I can prepare the update. Could you confirm the audience and the deadline? His question shows that he is ready to do the work and wants to meet the real need.\n\nThe leader explains that the update is for new volunteers. It should describe the current tasks in plain language and arrive before the morning meeting. A technical report would not help this audience, even if all its information were correct.\n\nJordan repeats the key points in his own words. He will write a brief explanation for new volunteers and send it before the meeting on Friday morning. The leader confirms that this is right.\n\nLater, one task changes. Jordan checks whether that change should appear in the update. He does not assume that the earlier instructions answer every new question.\n\nClear communication is not simply speaking more. Sometimes one useful question prevents several hours of work in the wrong direction. Asking politely and confirming the answer can help both people.",
+      "questions": [
+        {
+          "prompt": "Why does Jordan ask questions?",
+          "choices": [
+            "To understand what the task requires",
+            "To avoid preparing any update",
+            "To change the team leader’s role"
+          ],
+          "answer": "To understand what the task requires"
+        },
+        {
+          "prompt": "Who is the update for?",
+          "choices": [
+            "New volunteers",
+            "Only technical specialists",
+            "The general public everywhere"
+          ],
+          "answer": "New volunteers"
+        },
+        {
+          "prompt": "When is it needed?",
+          "choices": [
+            "Before Friday’s morning meeting",
+            "After Friday’s last meeting",
+            "At any time next month"
+          ],
+          "answer": "Before Friday’s morning meeting"
+        },
+        {
+          "prompt": "What does Jordan do when a task changes?",
+          "choices": [
+            "Checks whether to include the change",
+            "Assumes the old instructions settle it",
+            "Deletes the whole update immediately"
+          ],
+          "answer": "Checks whether to include the change"
+        }
+      ],
+      "duration_ms": 78528,
+      "bytes": 628460,
+      "sha256": "2d08adca21be93c8b71a83e56ec684b6524e2b6842f70e5db039f117521267c9",
+      "file": "clarifying-a-work-request.mp3",
+      "accent": "American",
+      "speaker": "CMU Flite RMS synthetic voice",
+      "provider": "LexiFlow originals",
+      "audio_url": "https://raw.githubusercontent.com/Muahid1312/EnglishFlow/b888f7ef2dd73f6a83edb08589c1f3928492bab9/listening_catalog/media/clarifying-a-work-request.mp3",
+      "permission_url": "https://github.com/Muahid1312/EnglishFlow/blob/b888f7ef2dd73f6a83edb08589c1f3928492bab9/listening_catalog/PERMISSION.md",
+      "download_allowed": true
+    },
+    {
+      "id": "evidence-behind-a-confident-claim",
+      "title": "The Evidence Behind a Confident Claim",
+      "level": "B2",
+      "voice": "slt",
+      "topic": "Critical thinking",
+      "transcript": "A neighborhood group is considering a new booking system. A confident presentation describes it as a success because nearly everyone who completed the online form received an appointment. The statement sounds convincing, but one resident asks what happened to the people who never completed the form.\n\nThat question changes the scope of the discussion. A success rate among completed applications does not necessarily describe everyone who tried to obtain help. Some people may have stopped because the instructions were unclear, a device was unsuitable, or an alternative booking route was difficult to find.\n\nThe group does not dismiss the positive results. Completed appointments are useful evidence. However, it separates that observation from the broader claim that the system works well for all residents. To investigate the broader claim, the group needs information about barriers as well as successful outcomes.\n\nMembers suggest reviewing abandoned applications and asking about experiences through several accessible routes. They also agree to explain how participants were contacted. Otherwise, the investigation might overlook the same people whose difficulties started the discussion.\n\nThe final report therefore includes a more careful conclusion. The system appears useful for a particular group under the conditions observed. Further work is needed to understand who faces obstacles and which changes could reduce them.\n\nA qualification does not automatically make a claim weak. It can make the relationship between the evidence and the conclusion clearer, giving the next investigation a better starting point.",
+      "questions": [
+        {
+          "prompt": "What is the main concern?",
+          "choices": [
+            "Whether the success claim includes people who could not finish",
+            "Whether all completed appointments should be ignored",
+            "Whether confident speaking is always dishonest"
+          ],
+          "answer": "Whether the success claim includes people who could not finish"
+        },
+        {
+          "prompt": "Which group is missing from the original success rate?",
+          "choices": [
+            "People who did not complete the form",
+            "Everyone who received an appointment",
+            "Only the people giving the presentation"
+          ],
+          "answer": "People who did not complete the form"
+        },
+        {
+          "prompt": "Why explain how participants were contacted?",
+          "choices": [
+            "To assess who the investigation may have missed",
+            "To guarantee that no barrier exists",
+            "To replace all information about outcomes"
+          ],
+          "answer": "To assess who the investigation may have missed"
+        },
+        {
+          "prompt": "What does a qualification contribute here?",
+          "choices": [
+            "A clearer boundary around the conclusion",
+            "A promise of universal success",
+            "Proof that every positive result is false"
+          ],
+          "answer": "A clearer boundary around the conclusion"
+        }
+      ],
+      "duration_ms": 89880,
+      "bytes": 719276,
+      "sha256": "e94f70eebaee31ab08361219b6364a254c753d541fa3e77cdb31e59ded9eba23",
+      "file": "evidence-behind-a-confident-claim.mp3",
+      "accent": "American",
+      "speaker": "CMU Flite SLT synthetic voice",
+      "provider": "LexiFlow originals",
+      "audio_url": "https://raw.githubusercontent.com/Muahid1312/EnglishFlow/b888f7ef2dd73f6a83edb08589c1f3928492bab9/listening_catalog/media/evidence-behind-a-confident-claim.mp3",
+      "permission_url": "https://github.com/Muahid1312/EnglishFlow/blob/b888f7ef2dd73f6a83edb08589c1f3928492bab9/listening_catalog/PERMISSION.md",
+      "download_allowed": true
+    },
+    {
+      "id": "testing-a-change-before-expanding-it",
+      "title": "Testing a Change Before Expanding It",
+      "level": "B2",
+      "voice": "rms",
+      "topic": "Practical problem solving",
+      "transcript": "A community workshop wants to replace its printed instructions with a shared digital guide. The proposal promises easier updates and fewer outdated copies. Before changing every activity, the coordinator suggests a limited trial with one workshop group.\n\nThe trial begins with a clear question: can participants find and follow the instructions they need? The team records the existing process so that later observations have a useful point of comparison. It also keeps an accessible alternative available while the trial is running.\n\nEarly feedback reveals an important distinction. Some participants can open the guide but struggle to identify the current version. Others understand the layout but cannot use a required device comfortably. Treating both experiences as the same problem would lead to an incomplete response.\n\nThe team revises the version labels and asks qualified support staff to review the access difficulties. It then tests the revised arrangement rather than assuming that making a change proves the problem has been solved. The coordinator records which decisions were made and why, so another team can evaluate the reasoning later.\n\nThe trial does not establish that the guide will suit every future group. It provides evidence about specific conditions, identifies remaining limitations, and shows what a larger investigation should examine.\n\nA useful pilot project is therefore more than a smaller launch. It is a chance to learn before the cost of changing direction becomes greater. Success includes discovering a problem early enough to respond responsibly.",
+      "questions": [
+        {
+          "prompt": "What makes this a useful trial?",
+          "choices": [
+            "It tests a specific question and records what is learned",
+            "It guarantees every future group will succeed",
+            "It removes every alternative immediately"
+          ],
+          "answer": "It tests a specific question and records what is learned"
+        },
+        {
+          "prompt": "What distinction appears in the feedback?",
+          "choices": [
+            "Finding the current version differs from using a device comfortably",
+            "All access difficulties have one identical cause",
+            "Opening a guide always proves understanding"
+          ],
+          "answer": "Finding the current version differs from using a device comfortably"
+        },
+        {
+          "prompt": "Why test the revised arrangement?",
+          "choices": [
+            "A change still needs evidence that it helps",
+            "Every revision automatically resolves a problem",
+            "Earlier feedback must be discarded"
+          ],
+          "answer": "A change still needs evidence that it helps"
+        },
+        {
+          "prompt": "What does the trial establish?",
+          "choices": [
+            "Evidence and limits under the conditions examined",
+            "An official qualification for every participant",
+            "A result that applies to every future workshop"
+          ],
+          "answer": "Evidence and limits under the conditions examined"
+        }
+      ],
+      "duration_ms": 104304,
+      "bytes": 834668,
+      "sha256": "3dbb8ad4210d563dcc704ad37cd68e5b6514e359cf4c7fc95e2edf8603e9b74d",
+      "file": "testing-a-change-before-expanding-it.mp3",
+      "accent": "American",
+      "speaker": "CMU Flite RMS synthetic voice",
+      "provider": "LexiFlow originals",
+      "audio_url": "https://raw.githubusercontent.com/Muahid1312/EnglishFlow/b888f7ef2dd73f6a83edb08589c1f3928492bab9/listening_catalog/media/testing-a-change-before-expanding-it.mp3",
+      "permission_url": "https://github.com/Muahid1312/EnglishFlow/blob/b888f7ef2dd73f6a83edb08589c1f3928492bab9/listening_catalog/PERMISSION.md",
+      "download_allowed": true
+    }
+  ],
+  "level_note": "B1/B2 are curriculum targets. Voices are synthetic, not human recordings.",
+  "online_providers": [
+    {
+      "name": "VOA Learning English",
+      "url": "https://learningenglish.voanews.com/"
+    },
+    {
+      "name": "BBC Learning English",
+      "url": "https://www.bbc.co.uk/learningenglish/"
+    },
+    {
+      "name": "British Council LearnEnglish",
+      "url": "https://learnenglish.britishcouncil.org/"
+    },
+    {
+      "name": "ELLLO",
+      "url": "https://elllo.org/"
+    }
+  ]
+}

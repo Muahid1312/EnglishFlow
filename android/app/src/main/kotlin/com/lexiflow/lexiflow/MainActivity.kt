@@ -35,6 +35,22 @@ class MainActivity : FlutterActivity() {
         super.configureFlutterEngine(flutterEngine)
         PDFBoxResourceLoader.init(applicationContext)
         val main = Handler(Looper.getMainLooper())
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "lexiflow/listening")
+            .setMethodCallHandler { call, result ->
+                if (call.method != "openOnline") {
+                    result.notImplemented()
+                } else {
+                    try {
+                        val url = java.net.URI(requireNotNull(call.argument<String>("url")))
+                        val allowed = setOf("learningenglish.voanews.com", "www.bbc.co.uk", "www.bbc.com", "learnenglish.britishcouncil.org", "elllo.org")
+                        require(url.scheme == "https" && url.host in allowed && url.rawUserInfo == null && (url.port == -1 || url.port == 443))
+                        startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url.toASCIIString())))
+                        result.success(true)
+                    } catch (_: Exception) {
+                        result.success(false)
+                    }
+                }
+            }
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "lexiflow/pronunciation")
             .setMethodCallHandler { call, result ->
                 when (call.method) {
