@@ -35,6 +35,7 @@ final aiTeacherServiceProvider = Provider<AiTeacherService>((ref) {
   return SecureAiTeacherService();
 });
 
-final listeningDownloadsProvider = ChangeNotifierProvider<ListeningDownloads>((ref) {
+final listeningDownloadsProvider =
+    ChangeNotifierProvider<ListeningDownloads>((ref) {
   return ListeningDownloads(ref.watch(appDatabaseProvider));
 });

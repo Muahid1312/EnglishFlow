@@ -194,7 +194,8 @@ class BackupService {
             copy.execute('DELETE FROM pending_file_deletions');
             // Partial audio is not part of the media inventory. Restored jobs
             // restart explicitly; only verified lesson audio is exported.
-            copy.execute("UPDATE listening_downloads SET status='available',bytes_received=0,total_bytes=NULL,supports_resume=0,etag=NULL,error=NULL WHERE status!='downloaded'");
+            copy.execute(
+                "UPDATE listening_downloads SET status='available',bytes_received=0,total_bytes=NULL,supports_resume=0,etag=NULL,error=NULL WHERE status!='downloaded'");
             copy.execute('UPDATE certificates SET file_path=NULL');
             for (final ref in _references(copy)) {
               final name =

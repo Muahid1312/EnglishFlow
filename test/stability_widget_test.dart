@@ -105,8 +105,10 @@ void main() {
     db.close();
     dir.deleteSync(recursive: true);
   });
-  Widget app(Widget page, {ListeningDownloads? downloads}) => ProviderScope(overrides: [
-        if (downloads != null) listeningDownloadsProvider.overrideWith((ref) => downloads),
+  Widget app(Widget page, {ListeningDownloads? downloads}) =>
+      ProviderScope(overrides: [
+        if (downloads != null)
+          listeningDownloadsProvider.overrideWith((ref) => downloads),
         appDatabaseProvider.overrideWithValue(db),
         aiTeacherServiceProvider.overrideWithValue(ai)
       ], child: MaterialApp(home: page));
@@ -319,7 +321,9 @@ void main() {
     final picker = TestPicker();
     FilePicker.platform = picker;
     addTearDown(() => FilePicker.platform = oldPicker ?? TestPicker());
-    final source = File('listening_catalog/media/planning-a-short-study-session.mp3').copySync('${dir.path}/source.mp3');
+    final source =
+        File('listening_catalog/media/planning-a-short-study-session.mp3')
+            .copySync('${dir.path}/source.mp3');
     picker.path = source.path;
     final messenger =
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
@@ -330,10 +334,12 @@ void main() {
         const MethodChannel('plugins.flutter.io/path_provider'), null));
     final downloads = ListeningDownloads(db,
         documents: () async => Directory('${dir.path}/documents'),
-        availableBytes: () async => 1 << 34, observeLifecycle: false);
+        availableBytes: () async => 1 << 34,
+        observeLifecycle: false);
     await tester.runAsync(downloads.initialize);
     db.failImport = true;
-    await tester.pumpWidget(app(const ListeningLibraryScreen(), downloads: downloads));
+    await tester
+        .pumpWidget(app(const ListeningLibraryScreen(), downloads: downloads));
     await waitForContent(tester, find.text('Planning a Short Study Session'));
     await tester.runAsync(() async {
       final dynamic action = tester

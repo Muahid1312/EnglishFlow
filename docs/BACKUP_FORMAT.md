@@ -25,7 +25,7 @@ new private staging directory.
 {
   "format": "lexiflow",
   "version": 1,
-  "databaseVersion": 11,
+  "databaseVersion": 12,
   "createdAt": "2026-11-14T10:00:00.000Z",
   "files": {
     "database.sqlite": {"size": 123456, "sha256": "<64 lowercase hex digits>"},
@@ -41,8 +41,8 @@ Sizes and hashes describe the exact uncompressed bytes. The manifest is covered
 by ZIP CRC32; every other entry must appear exactly once in the checksum
 inventory. The media inventory must match every nonempty managed-media reference
 in the database. The database and all attachments must pass validation before
-replacement. Format 1 accepts database schemas 7, 8, 9, 10 and 11. Older schemas are validated against
-their exact trusted template before migration to schema 11 in staging. Future schemas
+replacement. Format 1 accepts database schemas 7, 8, 9, 10, 11 and 12. Older schemas are validated against
+their exact trusted template before migration to schema 12 in staging. Future schemas
 need an explicit compatibility policy rather than silent merge.
 
 ## Snapshot contents
@@ -136,3 +136,11 @@ snapshot. The versioned 1,000-word and 100-article catalogue stays bundled in th
 application assets; it is not copied into personal articles or automatically
 inserted into personal vocabulary. Legacy schema 10 archives validate against
 their own trusted template before the additive migration to schema 11.
+
+Schema 12 adds the listening download queue. Its verified final files are included
+through `listening_lessons.audio_path`; download rows retain the linked lesson ID
+rather than a second absolute final path. Unfinished jobs are reset in exported
+snapshots, and unregistered partial files are not included in the media inventory.
+Restore rewrites completed lesson paths as usual. Removing offline audio retains
+lesson history and progress. The Backup UI suspends transfers before export or
+restore; no reliable background-download behavior is promised.

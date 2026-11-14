@@ -94,6 +94,7 @@ jobs:
       - name: Run targeted integrity regressions first
         id: targeted
         continue-on-error: true
+        timeout-minutes: 5
         run: flutter test --machine test/listening_downloads_test.dart test/listening_downloads_widget_test.dart test/phase1_v2_widget_test.dart test/builtin_content_widget_test.dart test/builtin_content_test.dart test/phase5_test.dart test/phase5_widget_test.dart test/backup_v2_test.dart test/database_regression_test.dart test/recovery1_data_test.dart test/daily_plan_v2_test.dart test/study_days_test.dart test/phase4_courses_test.dart test/phase2_ai_test.dart 2>&1 | tee targeted-tests.log
       - name: Publish targeted-tests.log results
         if: always()
@@ -107,6 +108,7 @@ jobs:
       - name: Run full regression suite
         id: tests
         continue-on-error: true
+        timeout-minutes: 5
         run: flutter test --machine 2>&1 | tee full-tests.log
       - name: Publish full-tests.log results
         if: always()

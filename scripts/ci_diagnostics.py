@@ -46,6 +46,7 @@ def main():
         for i in range(start, min(end, len(chunks))):
             annotation(f'Dart format patch {i + 1:03} of {len(chunks):03}', chunks[i])
         return
+    finished = set()
     names, failures, printed, counts = {}, {}, {}, {'success': 0, 'failure': 0, 'skipped': 0}
     for line in Path(args.tests).read_text(errors='replace').splitlines():
         try:
@@ -64,12 +65,14 @@ def main():
             elif item.get('type') == 'print':
                 printed.setdefault(item.get('testID'), []).append(str(item.get('message', '')))
             elif item.get('type') == 'testDone' and not item.get('hidden', False):
+                finished.add(item.get('testID'))
                 key = 'skipped' if item.get('skipped') else item.get('result', '')
                 if key == 'error':
                     key = 'failure'
                 if key in counts:
                     counts[key] += 1
-    annotation(f'Test results {args.tests}', json.dumps(counts) + '\n' + '\n'.join(names.get(i, str(i)) for i in failures))
+    pending = [name for i, name in names.items() if i not in finished and not name.startswith('loading ')]
+    annotation(f'Test results {args.tests}', json.dumps(counts) + ('\nStill running: ' + '; '.join(pending) if pending else '') + '\n' + '\n'.join(names.get(i, str(i)) for i in failures))
     for i, events in list(failures.items())[:9]:
         output = '\n'.join(printed.get(i, []))
         marker = output.find('EXCEPTION CAUGHT')
