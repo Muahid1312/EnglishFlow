@@ -40,7 +40,9 @@ void main() {
     await downloads.initialize();
   });
   tearDown(() {
-    if (!providerOwns) { downloads.dispose(); }
+    if (!providerOwns) {
+      downloads.dispose();
+    }
     database.close();
     directory.deleteSync(recursive: true);
   });

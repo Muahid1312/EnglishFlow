@@ -26,7 +26,9 @@ class ListeningCatalog {
   static ListeningCatalog? _value;
   static Future<ListeningCatalog>? _pending;
   static Future<ListeningCatalog> load() {
-    if (_value != null) { return Future.value(_value!); }
+    if (_value != null) {
+      return Future.value(_value!);
+    }
     return _pending ??=
         rootBundle.loadString('assets/listening/catalog_v1.json').then((text) {
       final result = parse(text);
@@ -40,8 +42,9 @@ class ListeningCatalog {
 
   static ListeningCatalog parse(String text) {
     final data = jsonDecode(text) as Map<String, dynamic>;
-    if (data['version'] != 1)
-      { throw const FormatException('Unsupported listening catalogue.'); }
+    if (data['version'] != 1) {
+      throw const FormatException('Unsupported listening catalogue.');
+    }
     final lessons = (data['lessons'] as List)
         .map((r) => Map<String, dynamic>.unmodifiable(r as Map))
         .toList();
@@ -135,7 +138,9 @@ class HttpsAudioTransport implements AudioTransport {
     }();
     return AudioConnection(Future.any([response, interrupted.future]), () {
       client.close(force: true);
-      if (!interrupted.isCompleted) { interrupted.completeError(_Stopped()); }
+      if (!interrupted.isCompleted) {
+        interrupted.completeError(_Stopped());
+      }
     });
   }
 }
@@ -145,9 +150,10 @@ class HttpsAudioTransport implements AudioTransport {
 /// still performs codec decoding on the device.
 Future<String> audioExtension(File file) async {
   final size = await file.length();
-  if (size < 128 || size > maxAudioBytes)
-    { throw const AudioDownloadFailure(
-        'Audio size is outside the supported 128-byte to 128-MiB range.'); }
+  if (size < 128 || size > maxAudioBytes) {
+    throw const AudioDownloadFailure(
+        'Audio size is outside the supported 128-byte to 128-MiB range.');
+  }
   final handle = await file.open();
   late List<int> bytes;
   try {
@@ -161,16 +167,28 @@ Future<String> audioExtension(File file) async {
       utf8.decode(bytes, allowMalformed: true).trimLeft().toLowerCase();
   if (prefix.startsWith('<') ||
       prefix.startsWith('{') ||
-      prefix.startsWith('['))
-    { throw const AudioDownloadFailure(
-        'The response is a page or error message, not audio.'); }
+      prefix.startsWith('[')) {
+    throw const AudioDownloadFailure(
+        'The response is a page or error message, not audio.');
+  }
   if (ascii(0, 3) == 'ID3' ||
-      (bytes[0] == 255 && (bytes[1] & 0xe0) == 0xe0 && (bytes[1] & 0x06) != 0))
-    { return '.mp3'; }
-  if (ascii(0, 4) == 'RIFF' && ascii(8, 12) == 'WAVE') { return '.wav'; }
-  if (ascii(4, 8) == 'ftyp') { return '.m4a'; }
-  if (ascii(0, 4) == 'OggS') { return '.ogg'; }
-  if (bytes[0] == 255 && (bytes[1] & 0xf6) == 0xf0) { return '.aac'; }
+      (bytes[0] == 255 &&
+          (bytes[1] & 0xe0) == 0xe0 &&
+          (bytes[1] & 0x06) != 0)) {
+    return '.mp3';
+  }
+  if (ascii(0, 4) == 'RIFF' && ascii(8, 12) == 'WAVE') {
+    return '.wav';
+  }
+  if (ascii(4, 8) == 'ftyp') {
+    return '.m4a';
+  }
+  if (ascii(0, 4) == 'OggS') {
+    return '.ogg';
+  }
+  if (bytes[0] == 255 && (bytes[1] & 0xf6) == 0xf0) {
+    return '.aac';
+  }
   throw const AudioDownloadFailure(
       'Unrecognized audio file. Import an MP3, M4A, WAV, AAC, or OGG file.');
 }
@@ -193,7 +211,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
                 .invokeMethod<int>('availableBytes'))!),
         _transport = transport ?? HttpsAudioTransport(),
         _observes = observeLifecycle {
-    if (_observes) { WidgetsBinding.instance.addObserver(this); }
+    if (_observes) {
+      WidgetsBinding.instance.addObserver(this);
+    }
   }
   final AppDatabase database;
   final Future<ListeningCatalog> Function() _catalog;
@@ -216,35 +236,52 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
   Map<String, Map<String, dynamic>> get jobs => Map.unmodifiable(_jobs);
   bool get busy => _active != null;
   void _notify() {
-    if (!_closed) { notifyListeners(); }
+    if (!_closed) {
+      notifyListeners();
+    }
   }
 
   Future<void> initialize() {
-    if (_initialized) { return Future.value(); }
+    if (_initialized) {
+      return Future.value();
+    }
     return _initializing ??=
         _initialize().whenComplete(() => _initializing = null);
   }
 
   Future<void> _initialize() async {
     catalog = await _catalog();
-    if (_closed) { return; }
+    if (_closed) {
+      return;
+    }
     _docs = await _documents();
-    if (_closed) { return; }
+    if (_closed) {
+      return;
+    }
     await _docs.create(recursive: true);
     _folder = Directory(p.join(_docs.path, 'media', 'listening_downloads'));
     await _folder.create(recursive: true);
     final root = await _docs.resolveSymbolicLinks();
-    if (!p.isWithin(root, await _folder.resolveSymbolicLinks()))
-      { throw const AudioDownloadFailure('Unsafe audio storage directory.'); }
-    if (_closed) { return; }
+    if (!p.isWithin(root, await _folder.resolveSymbolicLinks())) {
+      throw const AudioDownloadFailure('Unsafe audio storage directory.');
+    }
+    if (_closed) {
+      return;
+    }
     final d = await database.db;
-    if (_closed) { return; }
+    if (_closed) {
+      return;
+    }
     for (final row in d.select('SELECT * FROM listening_downloads')) {
       _jobs[row['catalog_id'] as String] = Map<String, dynamic>.from(row);
     }
-    if (_closed) { return; }
+    if (_closed) {
+      return;
+    }
     for (final id in _jobs.keys.toList()) {
-      if (!catalog!.lessons.any((l) => l['id'] == id)) { continue; }
+      if (!catalog!.lessons.any((l) => l['id'] == id)) {
+        continue;
+      }
       final row = _jobs[id]!;
       if (row['status'] == 'downloaded') {
         final lesson = row['lesson_id'] == null
@@ -252,9 +289,10 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
             : await database.getListeningLesson(row['lesson_id'] as String);
         final path = lesson?['audio_path'] as String? ?? '';
         try {
-          if (!await _managed(path))
-            { throw const AudioDownloadFailure(
-                'Audio is missing. Download it again.'); }
+          if (!await _managed(path)) {
+            throw const AudioDownloadFailure(
+                'Audio is missing. Download it again.');
+          }
           await _verify(File(path), catalog!.lesson(id));
         } catch (_) {
           await _set(id, {
@@ -293,9 +331,13 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
   File _final(Map<String, dynamic> lesson) => File(p.join(_folder.path,
       '${lesson['id']}-${(lesson['sha256'] as String).substring(0, 12)}.mp3'));
   Future<void> _set(String id, Map<String, Object?> values) async {
-    if (_closed) { return; }
+    if (_closed) {
+      return;
+    }
     final d = await database.db;
-    if (_closed) { return; }
+    if (_closed) {
+      return;
+    }
     d.execute('INSERT OR IGNORE INTO listening_downloads(catalog_id) VALUES(?)',
         [id]);
     const allowed = {
@@ -308,8 +350,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
       'verified_sha256',
       'error'
     };
-    if (!values.keys.every(allowed.contains))
-      { throw StateError('Invalid transfer update.'); }
+    if (!values.keys.every(allowed.contains)) {
+      throw StateError('Invalid transfer update.');
+    }
     d.execute(
         'UPDATE listening_downloads SET ${values.keys.map((k) => '$k=?').join(',')},updated_at=? WHERE catalog_id=?',
         [...values.values, DateTime.now().toUtc().toIso8601String(), id]);
@@ -319,12 +362,16 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   Future<void> enqueue(String id) async {
-    if (!_enqueueing.add(id)) { return; }
+    if (!_enqueueing.add(id)) {
+      return;
+    }
     try {
       await initialize();
       catalog!.lesson(id);
       if (['queued', 'downloading', 'downloaded']
-          .contains(_jobs[id]?['status'])) { return; }
+          .contains(_jobs[id]?['status'])) {
+        return;
+      }
       await _set(id, {'status': 'queued', 'error': null});
       _kick();
     } finally {
@@ -338,7 +385,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
         _suspended ||
         !_foreground ||
         _worker != null ||
-        !_jobs.values.any((j) => j['status'] == 'queued')) { return; }
+        !_jobs.values.any((j) => j['status'] == 'queued')) {
+      return;
+    }
     _worker = _drain().catchError((Object _) {
       _suspended = true;
     }).whenComplete(() {
@@ -350,7 +399,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
   Future<void> _drain() async {
     while (!_closed && !_suspended && _foreground) {
       final queued = _jobs.entries.where((e) => e.value['status'] == 'queued');
-      if (queued.isEmpty) { return; }
+      if (queued.isEmpty) {
+        return;
+      }
       final id = queued.first.key;
       _active = id;
       _intent = null;
@@ -372,8 +423,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   void _check() {
-    if (_closed || _intent != null || !_foreground || _suspended)
-      { throw _Stopped(); }
+    if (_closed || _intent != null || !_foreground || _suspended) {
+      throw _Stopped();
+    }
   }
 
   Future<void> _erasePart(String id) async {
@@ -383,13 +435,16 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
       await Link(part.path).delete();
       return;
     }
-    if (await part.exists()) { await part.delete(); }
+    if (await part.exists()) {
+      await part.delete();
+    }
   }
 
   Future<void> _free(int remaining) async {
-    if (await _space() < remaining + 16 * 1024 * 1024)
-      { throw const AudioDownloadFailure(
-          'Not enough free storage. Free space and retry.'); }
+    if (await _space() < remaining + 16 * 1024 * 1024) {
+      throw const AudioDownloadFailure(
+          'Not enough free storage. Free space and retry.');
+    }
   }
 
   Future<void> _verify(File file, Map<String, dynamic> lesson) async {
@@ -410,8 +465,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
       _check();
       final finalFile = _final(lesson);
       if (await FileSystemEntity.type(finalFile.path, followLinks: false) ==
-          FileSystemEntityType.link)
-        { throw const AudioDownloadFailure('Unsafe audio file.'); }
+          FileSystemEntityType.link) {
+        throw const AudioDownloadFailure('Unsafe audio file.');
+      }
       if (await finalFile.exists()) {
         try {
           await _verify(finalFile, lesson);
@@ -447,8 +503,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
       if (offset > 0) {
         headers['Range'] = 'bytes=$offset-';
         final etag = _jobs[id]?['etag'] as String?;
-        if (etag != null && !etag.startsWith('W/') && etag.length <= 256)
-          { headers['If-Range'] = etag; }
+        if (etag != null && !etag.startsWith('W/') && etag.length <= 256) {
+          headers['If-Range'] = etag;
+        }
       }
       await _set(id, {
         'status': 'downloading',
@@ -461,39 +518,48 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
         _connection = _transport.open(uri, headers);
         response = await _connection!.response;
         _check();
-        if (![301, 302, 303, 307, 308].contains(response.status)) { break; }
+        if (![301, 302, 303, 307, 308].contains(response.status)) {
+          break;
+        }
         final location = response.headers['location'];
         _connection!.close();
-        if (location == null || redirects == 4)
-          { throw const AudioDownloadFailure('Invalid audio redirect.'); }
+        if (location == null || redirects == 4) {
+          throw const AudioDownloadFailure('Invalid audio redirect.');
+        }
         uri = checkedMediaUri(uri.resolve(location).toString());
       }
       final reply = response!;
-      if (reply.status != 200 && reply.status != 206)
-        { throw const AudioDownloadFailure(
-            'The audio server could not complete this download. Retry later.'); }
+      if (reply.status != 200 && reply.status != 206) {
+        throw const AudioDownloadFailure(
+            'The audio server could not complete this download. Retry later.');
+      }
       final type =
           (reply.headers['content-type'] ?? '').split(';').first.toLowerCase();
       if (!['audio/mpeg', 'audio/mp3', 'application/octet-stream']
               .contains(type) ||
-          !['', 'identity'].contains(reply.headers['content-encoding'] ?? ''))
-        { throw const AudioDownloadFailure(
-            'The server returned an unsupported audio response.'); }
-      if (reply.status == 200) { offset = 0; }
+          !['', 'identity'].contains(reply.headers['content-encoding'] ?? '')) {
+        throw const AudioDownloadFailure(
+            'The server returned an unsupported audio response.');
+      }
+      if (reply.status == 200) {
+        offset = 0;
+      }
       if (reply.status == 206) {
         final range = RegExp(r'^bytes (\d+)-(\d+)/(\d+)$')
             .firstMatch(reply.headers['content-range'] ?? '');
         if (range == null ||
             int.parse(range[1]!) != offset ||
             int.parse(range[3]!) != lesson['bytes'] ||
-            int.parse(range[2]!) != (lesson['bytes'] as int) - 1)
-          { throw const AudioDownloadFailure(
-              'The server returned an invalid resume range.'); }
+            int.parse(range[2]!) != (lesson['bytes'] as int) - 1) {
+          throw const AudioDownloadFailure(
+              'The server returned an invalid resume range.');
+        }
       }
       final length = int.tryParse(reply.headers['content-length'] ?? '');
-      if (length != null && length != (lesson['bytes'] as int) - offset)
-        { throw const AudioDownloadFailure(
-            'The audio size changed. Retry from the beginning.'); }
+      if (length != null && length != (lesson['bytes'] as int) - offset) {
+        throw const AudioDownloadFailure(
+            'The audio size changed. Retry from the beginning.');
+      }
       final resume = reply.headers['accept-ranges']?.toLowerCase() == 'bytes' ||
           reply.status == 206;
       final etag = reply.headers['etag'];
@@ -508,9 +574,10 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
       await for (final chunk in reply.body) {
         _check();
         received += chunk.length;
-        if (received > lesson['bytes'] || received > maxAudioBytes)
-          { throw const AudioDownloadFailure(
-              'The audio exceeds its authorized size.'); }
+        if (received > lesson['bytes'] || received > maxAudioBytes) {
+          throw const AudioDownloadFailure(
+              'The audio exceeds its authorized size.');
+        }
         await output.writeFrom(chunk);
         if (received - checkpoint >= 64 * 1024) {
           await _free((lesson['bytes'] as int) - received);
@@ -535,7 +602,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
           await output.close();
         } catch (_) {}
       }
-      if (_closed) { return; }
+      if (_closed) {
+        return;
+      }
       final keep = (error is _Stopped ||
               error is SocketException ||
               error is HttpException ||
@@ -544,7 +613,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
           _jobs[id]?['supports_resume'] == 1 &&
           await part.exists() &&
           await part.length() <= lesson['bytes'];
-      if (!keep) { await _erasePart(id); }
+      if (!keep) {
+        await _erasePart(id);
+      }
       final paused = _intent == 'pause' && keep;
       await _set(id, {
         'status': _intent == 'cancel'
@@ -623,7 +694,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
 
   Future<void> pause(String id) async {
     await initialize();
-    if (_active != id || _jobs[id]?['supports_resume'] != 1) { return; }
+    if (_active != id || _jobs[id]?['supports_resume'] != 1) {
+      return;
+    }
     _intent = 'pause';
     _connection?.close();
     await _activeDone?.future;
@@ -632,7 +705,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
   Future<void> cancel(String id) async {
     await initialize();
     catalog!.lesson(id);
-    if (_jobs[id]?['status'] == 'downloaded') { return; }
+    if (_jobs[id]?['status'] == 'downloaded') {
+      return;
+    }
     if (_active == id) {
       _intent = 'cancel';
       _connection?.close();
@@ -673,12 +748,18 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   Future<bool> _managed(String path) async {
-    if (path.isEmpty || !await File(path).exists()) { return false; }
+    if (path.isEmpty || !await File(path).exists()) {
+      return false;
+    }
     if (await FileSystemEntity.type(path, followLinks: false) !=
-        FileSystemEntityType.file) { return false; }
+        FileSystemEntityType.file) {
+      return false;
+    }
     final root = await _docs.resolveSymbolicLinks();
     final real = await File(path).resolveSymbolicLinks();
-    if (!p.isWithin(root, real)) { return false; }
+    if (!p.isWithin(root, real)) {
+      return false;
+    }
     final first = p.split(p.relative(real, from: root)).first;
     return first == 'media' || first.startsWith('restored-media-');
   }
@@ -688,10 +769,14 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
     final linked =
         _jobs.entries.where((e) => e.value['lesson_id'] == lessonId).toList();
     for (final row in linked) {
-      if (_active == row.key) { await cancel(row.key); }
+      if (_active == row.key) {
+        await cancel(row.key);
+      }
     }
     final lesson = await database.getListeningLesson(lessonId);
-    if (lesson == null) { return; }
+    if (lesson == null) {
+      return;
+    }
     final path = lesson['audio_path'] as String;
     final managed = await _managed(path);
     final d = await database.db;
@@ -712,7 +797,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
       UNION ALL SELECT id FROM imported_books WHERE file_path=?
       UNION ALL SELECT id FROM courses WHERE cover_path=?''',
         [path, path, path, path, path]);
-    if (managed && used.isEmpty) { await File(path).delete(); }
+    if (managed && used.isEmpty) {
+      await File(path).delete();
+    }
     _notify();
   }
 
@@ -725,8 +812,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
     try {
       await source.copy(part.path);
       await audioExtension(part);
-      if (await part.length() != await source.length())
-        { throw const AudioDownloadFailure('Import did not finish.'); }
+      if (await part.length() != await source.length()) {
+        throw const AudioDownloadFailure('Import did not finish.');
+      }
       await part.rename(target.path);
       final id = newId();
       await database.insertListeningLesson({
@@ -738,8 +826,12 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
       });
       return id;
     } catch (_) {
-      if (await part.exists()) { await part.delete(); }
-      if (await target.exists()) { await target.delete(); }
+      if (await part.exists()) {
+        await part.delete();
+      }
+      if (await target.exists()) {
+        await target.delete();
+      }
       rethrow;
     }
   }
@@ -748,13 +840,16 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
     await initialize();
     var total = 0;
     await for (final entry in _folder.list(followLinks: false)) {
-      if (entry is File) { total += await entry.length(); }
+      if (entry is File) {
+        total += await entry.length();
+      }
     }
     // Restored audio lives in its own managed directory, not the new-download folder.
     for (final lesson in await database.getListeningLessons()) {
       final path = lesson['audio_path'] as String;
-      if (!p.isWithin(_folder.path, path) && await _managed(path))
-        { total += await File(path).length(); }
+      if (!p.isWithin(_folder.path, path) && await _managed(path)) {
+        total += await File(path).length();
+      }
     }
     return total;
   }
@@ -763,7 +858,9 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
   void dispose() {
     _closed = true;
     _connection?.close();
-    if (_observes) { WidgetsBinding.instance.removeObserver(this); }
+    if (_observes) {
+      WidgetsBinding.instance.removeObserver(this);
+    }
     super.dispose();
   }
 }

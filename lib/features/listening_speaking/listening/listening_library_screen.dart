@@ -45,7 +45,8 @@ class _ListeningLibraryScreenState
         _loading = false;
         _error = null;
         if (!_initialSectionSet) {
-          if (!_chosen && rows.any((r) => (r['audio_path'] as String).isNotEmpty)) {
+          if (!_chosen &&
+              rows.any((r) => (r['audio_path'] as String).isNotEmpty)) {
             _section = 'Downloaded Lessons';
           }
           _initialSectionSet = true;
@@ -58,25 +59,28 @@ class _ListeningLibraryScreenState
     try {
       await _rows();
     } catch (_) {
-      if (mounted)
-        { setState(() {
+      if (mounted) {
+        setState(() {
           _loading = false;
           _error = 'Could not load listening lessons.';
-        }); }
+        });
+      }
     }
     try {
       await _downloads.initialize();
       _downloads.resumeQueue();
-      if (mounted)
-        { setState(() {
+      if (mounted) {
+        setState(() {
           _ready = true;
           _downloadError = null;
           _usage = _downloads.storageBytes();
-        }); }
+        });
+      }
     } catch (_) {
-      if (mounted)
-        { setState(() => _downloadError =
-            'Downloads could not be prepared. Your saved lessons are retained.'); }
+      if (mounted) {
+        setState(() => _downloadError =
+            'Downloads could not be prepared. Your saved lessons are retained.');
+      }
     }
   }
 
@@ -84,36 +88,50 @@ class _ListeningLibraryScreenState
     final status = _downloads.jobs.entries
         .map((e) => '${e.key}:${e.value['status']}')
         .join('|');
-    if (status == _statuses) { return; }
+    if (status == _statuses) {
+      return;
+    }
     _statuses = status;
     unawaited(_rows().catchError((Object _) {}));
-    if (_ready && mounted) { setState(() { _usage = _downloads.storageBytes(); }); }
+    if (_ready && mounted) {
+      setState(() {
+        _usage = _downloads.storageBytes();
+      });
+    }
   }
 
   Future<void> _action(Future<void> Function() action) async {
     try {
       await action();
-      if (mounted) { await _rows(); }
+      if (mounted) {
+        await _rows();
+      }
     } catch (error) {
-      if (mounted)
-        { ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(error is AudioDownloadFailure
                 ? error.message
-                : 'Could not complete this action. Please retry.'))); }
+                : 'Could not complete this action. Please retry.')));
+      }
     }
   }
 
   Future<void> _import() async {
-    if (_importing) { return; }
+    if (_importing) {
+      return;
+    }
     _importing = true;
     try {
       final picked = await FilePicker.platform.pickFiles(
           type: FileType.custom,
           allowedExtensions: const ['mp3', 'm4a', 'wav', 'aac', 'ogg']);
-      if (picked == null || picked.files.isEmpty) { return; }
+      if (picked == null || picked.files.isEmpty) {
+        return;
+      }
       final path = picked.files.single.path;
-      if (path == null)
-        { throw const AudioDownloadFailure('The selected audio is inaccessible.'); }
+      if (path == null) {
+        throw const AudioDownloadFailure('The selected audio is inaccessible.');
+      }
       await _downloads.importFile(
           File(path), p.basenameWithoutExtension(picked.files.single.name));
       if (mounted) {
@@ -124,11 +142,12 @@ class _ListeningLibraryScreenState
         await _rows();
       }
     } catch (error) {
-      if (mounted)
-        { ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(error is AudioDownloadFailure
                 ? error.message
-                : 'Import failed. Check the audio and free storage.'))); }
+                : 'Import failed. Check the audio and free storage.')));
+      }
     } finally {
       _importing = false;
     }
@@ -139,8 +158,9 @@ class _ListeningLibraryScreenState
         title: 'Delete offline audio?',
         message:
             'Remove this audio file from the device? Transcripts, answers, bookmarks, and study progress will stay.');
-    if (confirmed == true)
-      { await _action(() => _downloads.removeAudio(lesson['id'] as String)); }
+    if (confirmed == true) {
+      await _action(() => _downloads.removeAudio(lesson['id'] as String));
+    }
   }
 
   @override
@@ -217,7 +237,9 @@ class _ListeningLibraryScreenState
     final linked = _downloads.jobs.values
         .where((j) => j['lesson_id'] == lesson['id'])
         .toList();
-    final level = linked.isEmpty ? 'Level not verified' : '${lesson['difficulty']} target';
+    final level = linked.isEmpty
+        ? 'Level not verified'
+        : '${lesson['difficulty']} target';
     final hasAudio =
         (!(lesson['id'] as String).startsWith('download:') || _ready) &&
             path.isNotEmpty &&
@@ -243,7 +265,9 @@ class _ListeningLibraryScreenState
                       onPressed: () async {
                         await context.push(
                             '/learn/listening/player/${Uri.encodeComponent(lesson['id'] as String)}');
-                        if (mounted) { await _rows(); }
+                        if (mounted) {
+                          await _rows();
+                        }
                       },
                       icon: const Icon(Icons.play_arrow),
                       label: const Text('Play offline')),
@@ -312,7 +336,9 @@ class _ListeningLibraryScreenState
                                           : 'Checking audio storage…')),
                                   IconButton(
                                       tooltip: 'Refresh storage usage',
-                                      onPressed: () => setState(() { _usage = _downloads.storageBytes(); }),
+                                      onPressed: () => setState(() {
+                                            _usage = _downloads.storageBytes();
+                                          }),
                                       icon: const Icon(Icons.refresh))
                                 ])),
                       if (_downloadError != null)
@@ -353,9 +379,10 @@ class _ListeningLibraryScreenState
                                                   .invokeMethod<bool>(
                                                       'openOnline',
                                                       {'url': provider['url']});
-                                          if (opened != true)
-                                            { throw const AudioDownloadFailure(
-                                                'No browser is available to open this provider.'); }
+                                          if (opened != true) {
+                                            throw const AudioDownloadFailure(
+                                                'No browser is available to open this provider.');
+                                          }
                                         }),
                                     child: const Text('Listen Online'))),
                         ],

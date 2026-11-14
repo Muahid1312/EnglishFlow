@@ -1,5 +1,10 @@
 # Built-in offline English library — content version 1.0.0
 
+For the latest application APK and 307-test verification, see
+[LISTENING_DOWNLOADS_REPORT.md](LISTENING_DOWNLOADS_REPORT.md). Build 13 retains
+this complete content catalogue and adds in-app listening downloads. The build 12
+artifact results below remain a historical record of the content-library release.
+
 The complete catalogue contains exactly **1,000 unique vocabulary entries**
 (500 B1 targets, 500 B2 targets), **100 original reading articles**
 (50 B1 targets, 50 B2 targets), and **400 keyed comprehension questions**.

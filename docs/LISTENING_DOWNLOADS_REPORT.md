@@ -109,8 +109,54 @@ begins. Existing recovery-media retention rules still apply after restoring back
 
 ## Verification and APK
 
-Local catalogue size/hash/codec checks passed. Flutter/Dart SDK downloads remain
-blocked in this cloud machine, so executable Flutter checks and the debug APK
-build run with the pinned GitHub Actions toolchain. Results and the build 13
-artifact will be recorded here after verification. No physical Android device
-or emulator acceptance test has been performed.
+Flutter/Dart SDK downloads remain blocked in this cloud machine. Executable
+checks ran with pinned Flutter 3.24.5 and Java 21 in GitHub Actions against
+application commit `f893ff3`.
+
+| Check | Actual result |
+| --- | --- |
+| Local source recordings | PASS: sizes/SHA-256, actual durations, FFmpeg decoding |
+| Published HTTPS audio and Range requests | PASS: all four files and HTTP 206 byte ranges |
+| Existing 1,000-word / 100-article catalogue | PASS: complete, zero validation errors |
+| `flutter analyze` | PASS: no issues found |
+| Targeted integrity regressions | PASS: 152 passed, 0 failed, 0 skipped |
+| Full `flutter test --machine` | PASS: 307 passed, 0 failed, 0 skipped |
+| New download/library tests (included above) | PASS: all 21 |
+| `flutter build apk --debug` | PASS |
+| Actual APK package and signature | PASS: `com.lexiflow.lexiflow`, 2.0.0+13, debug signed |
+| Listening discovery assets inside APK | PASS: all four authorized entries; audio downloads remain on demand |
+| Android emulator/physical-device acceptance | Not run |
+
+Coverage includes successful and duplicate downloads, queue ordering, socket
+interruption, partial-range resume, servers ignoring Range, invalid ranges,
+unsafe redirects/schemes, HTML disguised as audio, wrong size/hash, insufficient
+storage, pause/cancel cleanup, app restart without network access, audio removal
+with retained answers/bookmarks/progress, redownload without duplicate questions,
+backup restoration through rewritten audio paths, verified import, schema 11
+migration, metadata discovery, and player-route navigation with a local path.
+Actual MP3 decoding was verified with FFmpeg; Android playback and browser-intent
+execution still require device acceptance rather than being inferred from tests.
+
+Run: https://github.com/Muahid1312/EnglishFlow/actions/runs/43617161644
+
+APK: https://github.com/Muahid1312/EnglishFlow/actions/runs/43617161644/artifacts/14122563326
+
+Sign into GitHub and extract `LexiFlow-2.0.0-build13-debug.apk` from the ZIP. The
+artifact also includes package/signature output, APK SHA-256 and byte size, and
+verified content counts. GitHub displays the archive as 106 MB. Its archive
+SHA-256 is `1e91b00260038099d86796d012de1d93d4cfffee5e33467e896e33653a1c8f11`;
+this is not the APK checksum. Artifact retention is 14 days. The binary remains
+hosted on GitHub; no local copy is claimed.
+
+The overall run is marked failed solely because the formatting check changed
+files before running analysis/tests/build. Its exact whitespace-only patch is
+now committed, with token comparison confirming no Dart logic changed. The
+committed application and test files match those that passed the executable
+checks. The final report/format-only commit skips rebuilding the same application.
+
+Remaining limits: four synthetic American-voice starter lessons; external provider
+resources remain online-only; no reliable background downloads, notifications,
+or physical-device acceptance; no production-signing validation. Legacy imported
+files have no independently verified CEFR level. CI debug signing keys may differ
+between builds, so preserve a full backup before replacing an existing app if
+Android rejects an update. Private app storage is not DRM.

@@ -1,10 +1,11 @@
 # LexiFlow 2.0 final engineering audit
 
-Current build 12 and offline-library verification is recorded in
-[BUILTIN_CONTENT_REPORT.md](BUILTIN_CONTENT_REPORT.md): 1,000 words, 100 articles,
-clean analysis, 286 passing full-suite tests, and a verified debug APK. That report
-supersedes the historical build 11 test/artifact status below. Physical-device
-and production-signing acceptance remain unverified.
+Current build 13 verification is recorded in
+[LISTENING_DOWNLOADS_REPORT.md](LISTENING_DOWNLOADS_REPORT.md): clean analysis,
+307 passing full-suite tests, verified foreground audio downloads, and a signed
+debug APK. The 1,000-word / 100-article library remains included. This supersedes
+the historical build 11 results below. Device and production-signing acceptance
+remain unverified.
 
 ## GitHub build follow-up
 

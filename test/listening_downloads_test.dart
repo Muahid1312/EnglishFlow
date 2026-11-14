@@ -36,7 +36,9 @@ AudioConnection reply(List<int> bytes,
         cancel ?? () {});
 Future<void> until(bool Function() check) async {
   for (var i = 0; i < 200; i++) {
-    if (check()) { return; }
+    if (check()) {
+      return;
+    }
     await Future<void>.delayed(const Duration(milliseconds: 5));
   }
   fail('Transfer did not reach the expected real state.');
@@ -124,15 +126,32 @@ void main() {
     expect(transport.requests, hasLength(1));
     expect(await db.getListeningLessons(), hasLength(1));
   });
-  test('multiple queued lessons download sequentially and create distinct offline lessons',()async{
-    final payloads=<String,List<int>>{};final order=<String>[];
-    for(final row in catalog.lessons.take(2)){payloads[row['audio_url'] as String]=await File('listening_catalog/media/${row['file']}').readAsBytes();}
-    transport=FakeAudioTransport((uri,headers){order.add(uri.toString());return reply(payloads[uri.toString()]!);});
-    downloads.dispose();downloads=manager();await downloads.initialize();await downloads.suspend();
-    for(final row in catalog.lessons.take(2)){await downloads.enqueue(row['id'] as String);}
-    expect(downloads.jobs.values.every((j)=>j['status']=='queued'),isTrue);expect(transport.requests,isEmpty);
-    downloads.resumeQueue();await downloads.waitUntilIdle().timeout(const Duration(seconds: 15));
-    expect(order,catalog.lessons.take(2).map((l)=>l['audio_url']).toList());expect(await db.getListeningLessons(),hasLength(2));
+  test(
+      'multiple queued lessons download sequentially and create distinct offline lessons',
+      () async {
+    final payloads = <String, List<int>>{};
+    final order = <String>[];
+    for (final row in catalog.lessons.take(2)) {
+      payloads[row['audio_url'] as String] =
+          await File('listening_catalog/media/${row['file']}').readAsBytes();
+    }
+    transport = FakeAudioTransport((uri, headers) {
+      order.add(uri.toString());
+      return reply(payloads[uri.toString()]!);
+    });
+    downloads.dispose();
+    downloads = manager();
+    await downloads.initialize();
+    await downloads.suspend();
+    for (final row in catalog.lessons.take(2)) {
+      await downloads.enqueue(row['id'] as String);
+    }
+    expect(downloads.jobs.values.every((j) => j['status'] == 'queued'), isTrue);
+    expect(transport.requests, isEmpty);
+    downloads.resumeQueue();
+    await downloads.waitUntilIdle().timeout(const Duration(seconds: 15));
+    expect(order, catalog.lessons.take(2).map((l) => l['audio_url']).toList());
+    expect(await db.getListeningLessons(), hasLength(2));
   });
   test(
       'network interruption remains failed with actual bytes and resumes through a validated 206 response',
@@ -243,7 +262,9 @@ void main() {
     final body = StreamController<List<int>>();
     transport = FakeAudioTransport((uri, headers) => reply(audio,
             headers: {'accept-ranges': 'bytes'}, body: body.stream, cancel: () {
-          if (!body.isClosed) { unawaited(body.close()); }
+          if (!body.isClosed) {
+            unawaited(body.close());
+          }
         }));
     downloads.dispose();
     downloads = manager();
