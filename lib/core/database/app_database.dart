@@ -15,11 +15,11 @@ import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 
 /// Lightweight offline database for LexiFlow Phase 1.
 class AppDatabase {
-  static const schemaVersion = 10;
+  static const schemaVersion = 11;
   AppDatabase({String? path}) : _path = path, _targetVersion = schemaVersion;
   AppDatabase._template(this._targetVersion) : _path = ':memory:';
   static AppDatabase schemaTemplate(int version) {
-    if (![7,8,9,10].contains(version)) throw ArgumentError('Unsupported schema template');
+    if (![7,8,9,10,11].contains(version)) throw ArgumentError('Unsupported schema template');
     return AppDatabase._template(version);
   }
   final int _targetVersion;
@@ -732,6 +732,24 @@ class AppDatabase {
       database.execute('CREATE INDEX idx_course_lessons ON lessons(course_id,unit_id,order_index)');
       database.execute('CREATE INDEX idx_course_activities ON course_activities(lesson_id,order_index)');
       database.execute('PRAGMA user_version=10');
+    }
+
+    if(version<11 && _targetVersion>=11) {
+      database.execute('''CREATE TABLE builtin_article_state(
+        article_id TEXT PRIMARY KEY, bookmarked INTEGER NOT NULL DEFAULT 0 CHECK(bookmarked IN (0,1)),
+        scroll_offset REAL NOT NULL DEFAULT 0 CHECK(scroll_offset>=0), last_opened_at TEXT,
+        read_confirmed INTEGER NOT NULL DEFAULT 0 CHECK(read_confirmed IN (0,1)), completed_at TEXT)''');
+      database.execute('''CREATE TABLE builtin_reading_attempts(
+        id TEXT PRIMARY KEY, article_id TEXT NOT NULL, content_version TEXT NOT NULL,
+        questions_json TEXT NOT NULL, answers_json TEXT NOT NULL,
+        correct INTEGER NOT NULL CHECK(correct BETWEEN 0 AND 4), total INTEGER NOT NULL CHECK(total=4),
+        started_at TEXT NOT NULL, completed_at TEXT NOT NULL)''');
+      database.execute('CREATE INDEX idx_builtin_attempts_article ON builtin_reading_attempts(article_id,completed_at)');
+      database.execute('''CREATE TABLE builtin_word_saves(
+        word_id TEXT PRIMARY KEY, entry_id TEXT NOT NULL REFERENCES vocabulary_entries(id) ON DELETE CASCADE,
+        saved_at TEXT NOT NULL)''');
+      database.execute('CREATE TABLE builtin_daily_words(local_date TEXT NOT NULL,level TEXT NOT NULL,word_ids_json TEXT NOT NULL,PRIMARY KEY(local_date,level))');
+      database.execute('PRAGMA user_version=11');
     }
 
   }
@@ -1546,6 +1564,9 @@ class AppDatabase {
           'SELECT COALESCE(SUM(duration_ms),0)/1000 n FROM speaking_recordings WHERE mode!=\'shadowing\''),
       'AI practice messages':
           count("SELECT COUNT(*) n FROM ai_messages WHERE role='user' AND purpose='conversation'"),
+      'Built-in articles completed': count('SELECT COUNT(*) n FROM builtin_article_state WHERE completed_at IS NOT NULL'),
+      'Built-in reading correct': count('SELECT COALESCE(SUM(correct),0) n FROM builtin_reading_attempts'),
+      'Built-in reading questions': count('SELECT COALESCE(SUM(total),0) n FROM builtin_reading_attempts'),
       'Writing revisions': count('SELECT COUNT(*) n FROM writing_revisions'),
       'Open mistakes': count(
           "SELECT COUNT(*) n FROM writing_mistakes WHERE deleted=0 AND review_status='open'"),

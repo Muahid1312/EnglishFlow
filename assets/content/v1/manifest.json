@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "content_version": "1.0.0",
+  "level_note": "B1/B2 are curriculum targets, not officially validated word-level CEFR classifications.",
+  "vocabulary_files": [
+    "assets/content/v1/vocabulary_b1_01.json",
+    "assets/content/v1/vocabulary_b1_02.json",
+    "assets/content/v1/vocabulary_b1_03.json",
+    "assets/content/v1/vocabulary_b1_04.json",
+    "assets/content/v1/vocabulary_b1_05.json",
+    "assets/content/v1/vocabulary_b1_06.json",
+    "assets/content/v1/vocabulary_b1_07.json",
+    "assets/content/v1/vocabulary_b1_08.json",
+    "assets/content/v1/vocabulary_b1_09.json",
+    "assets/content/v1/vocabulary_b1_10.json",
+    "assets/content/v1/vocabulary_b2_11.json",
+    "assets/content/v1/vocabulary_b2_12.json",
+    "assets/content/v1/vocabulary_b2_13.json",
+    "assets/content/v1/vocabulary_b2_14.json",
+    "assets/content/v1/vocabulary_b2_15.json",
+    "assets/content/v1/vocabulary_b2_16.json",
+    "assets/content/v1/vocabulary_b2_17.json",
+    "assets/content/v1/vocabulary_b2_18.json",
+    "assets/content/v1/vocabulary_b2_19.json",
+    "assets/content/v1/vocabulary_b2_20.json"
+  ],
+  "article_files": [
+    "assets/content/v1/articles_b1_01.json",
+    "assets/content/v1/articles_b1_02.json"
+  ]
+}

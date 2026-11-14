@@ -72,7 +72,7 @@ void main(){
     final old=AppDatabase.schemaTemplate(9);final d=await old.db;
     d.execute("INSERT INTO imported_books(id,title,file_path) VALUES('old','Original','/original.pdf')");
     d.execute('VACUUM INTO ?',['${folder.path}/legacy.sqlite']);old.close();
-    final upgraded=AppDatabase(path:'${folder.path}/legacy.sqlite');try{final current=await upgraded.db;expect(current.select('PRAGMA user_version').single.values.single,10);expect(current.select('SELECT title FROM imported_books').single['title'],'Original');expect(current.select('PRAGMA foreign_key_check'),isEmpty);}finally{upgraded.close();}
+    final upgraded=AppDatabase(path:'${folder.path}/legacy.sqlite');try{final current=await upgraded.db;expect(current.select('PRAGMA user_version').single.values.single,AppDatabase.schemaVersion);expect(current.select('SELECT title FROM imported_books').single['title'],'Original');expect(current.select('PRAGMA foreign_key_check'),isEmpty);}finally{upgraded.close();}
   });
   test('backup roundtrip retains structured evidence, notes and cover media',()async{
     final ids=await course();await service.addActivity(ids[2],'Read','reading');final d=await database.db;

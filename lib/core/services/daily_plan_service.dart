@@ -7,6 +7,7 @@ import '../utils/id_utils.dart';
 import 'study_session_service.dart';
 import 'mistake_coach.dart';
 import 'ai_teacher_service.dart';
+import 'builtin_content_service.dart';
 
 class DailyPlanService {
   DailyPlanService(this.database, this.sessions, {DateTime Function()? now,this.ai})
@@ -142,9 +143,22 @@ class DailyPlanService {
           '/learn/reading/${Uri.encodeComponent(a['id'] as String)}',
           last('reading').isEmpty ? 'Continue a saved article; no reading time has been tracked yet.' : 'Revisit an older saved article to keep reading active.',boost('reading')+neglect('reading')));
     }
+    if(!result.any((c)=>c.module=='reading')) {
+      final prefs=await database.getPreferences();
+      final article=await BuiltinContentService(database).nextArticle(prefs.englishLevel=='B2'?'B2':'B1');
+      if(article!=null)result.add(_Candidate(0,'reading','Read ${article['title']} + 4 questions',
+        '/learn/reading/${Uri.encodeComponent('builtin:${article['id']}')}',
+        'Unread offline article at your selected curriculum target. Opening does not complete it.',boost('reading')));
+    }
     if (due>0 || count('SELECT COUNT(*) FROM vocabulary_entries WHERE is_saved=1 AND duplicate_of IS NULL')>0) {
       result.add(_Candidate(1,'vocabulary',due>0 ? 'Review $due due words' : 'Practice saved vocabulary',
         '/learn/vocabulary',due>0 ? 'These cards are due now; review them before adding more.' : 'Revisit your own saved words.',due>0 ? 2 : boost('vocabulary')));
+    }
+    if(!result.any((c)=>c.module=='vocabulary')) {
+      final prefs=await database.getPreferences();
+      final words=await BuiltinContentService(database).recommendedWords(level:prefs.englishLevel,count:10);
+      if(words.isNotEmpty)result.add(_Candidate(1,'vocabulary','Learn ${words.length} built-in words','/learn/vocabulary/library?daily=true',
+        'A saved daily selection of real unsaved words. Save only the cards you want to review.',boost('vocabulary')));
     }
     final listening = db.select('SELECT * FROM listening_lessons ORDER BY updated_at,id')
         .where((r) => File(r['audio_path'] as String).existsSync()).toList();

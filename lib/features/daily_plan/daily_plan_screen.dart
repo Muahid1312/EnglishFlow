@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/services/providers.dart';
+import '../../core/services/builtin_content_service.dart';
 import '../../core/utils/date_utils.dart';
 import '../../core/widgets/common_widgets.dart';
 import '../dashboard/dashboard_provider.dart';
@@ -27,6 +28,8 @@ class _DailyPlanScreenState extends ConsumerState<DailyPlanScreen>
   String? _error;
   bool _busy = false;
   Timer? _dayTimer;
+  Map<String,dynamic>? _dailyArticle;
+  int _dailyWordCount=0;
 
   @override
   void initState() {
@@ -61,7 +64,12 @@ class _DailyPlanScreenState extends ConsumerState<DailyPlanScreen>
       final selected = date ?? localDateString();
       final plan = history.singleWhere((p) => p['local_date']==selected);
       final seconds = await ref.read(appDatabaseProvider).getTotalSecondsForDate(selected);
+      final library=BuiltinContentService(ref.read(appDatabaseProvider));
+      final prefs=await ref.read(appDatabaseProvider).getPreferences();
+      final article=selected==localDateString()?await library.nextArticle(prefs.englishLevel=='B2'?'B2':'B1'):null;
+      final words=selected==localDateString()?await library.recommendedWords(level:prefs.englishLevel,count:10):<Map<String,dynamic>>[];
       if (mounted) setState(() {
+        _dailyArticle=article;_dailyWordCount=words.length;
         _activities = activities;
         _date = selected;
         _goal = plan['goal_minutes'] as int;
@@ -99,6 +107,13 @@ class _DailyPlanScreenState extends ConsumerState<DailyPlanScreen>
       RefreshIndicator(onRefresh:() => _load(date:isToday ? null : _date), child:ListView(
         padding:const EdgeInsets.all(20),
         children:[
+          if(isToday)LexiCard(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+            const Text('Daily offline content'),
+            if(_dailyArticle!=null)TextButton(onPressed:()=>context.push('/learn/reading/${Uri.encodeComponent('builtin:${_dailyArticle!['id']}')}'),child:Text('${_dailyArticle!['title']} · reading + 4-question challenge')),
+            if(_dailyWordCount>0)TextButton(onPressed:()=>context.push('/learn/vocabulary/library?daily=true'),child:Text('$_dailyWordCount vocabulary entries selected for today')),
+            TextButton(onPressed:()=>context.push('/learn/vocabulary'),child:const Text('Review due personal cards')),
+            const Text('Optional recommendations do not add study minutes or completion records.'),
+          ])),
           Text(DateFormat('EEEE, MMMM d, y').format(parseLocalDate(_date)),style:Theme.of(context).textTheme.titleLarge),
           const SizedBox(height:12),
           if (isToday) Wrap(spacing:8,children:[for(final minutes in [15,30,60])

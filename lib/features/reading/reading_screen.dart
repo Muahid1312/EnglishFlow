@@ -13,6 +13,8 @@ import '../../core/utils/id_utils.dart';
 import '../../core/utils/date_utils.dart';
 import '../../core/widgets/common_widgets.dart';
 import '../dashboard/dashboard_provider.dart';
+import '../../core/services/builtin_content_service.dart';
+import '../content/builtin_comprehension_panel.dart';
 
 class ReadingScreen extends ConsumerStatefulWidget {
   const ReadingScreen({super.key});
@@ -95,6 +97,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                           title: 'Library',
                           subtitle:
                               'Offline articles · TXT and selectable-text PDF'),
+                      FilledButton.tonal(onPressed:()=>context.push('/learn/reading/library'),child:const Text('Browse built-in reading library')),
                       if (_error != null) ErrorView(message: _error!),
                       if (_articles.isEmpty)
                         const EmptyState(
@@ -137,6 +140,8 @@ class _ArticleReaderScreenState extends ConsumerState<ArticleReaderScreen>
   bool _loading = true;
   bool _savingWord = false;
   double _offset = 0;
+  bool get _builtin=>widget.articleId.startsWith('builtin:');
+  String get _builtinId=>widget.articleId.substring(8);
   @override
   void initState() {
     super.initState();
@@ -148,7 +153,7 @@ class _ArticleReaderScreenState extends ConsumerState<ArticleReaderScreen>
 
   Future<void> _load() async {
     try {
-      final article = await _db.getArticle(widget.articleId);
+      final article = _builtin?await BuiltinContentService(_db).openArticle(_builtinId):await _db.getArticle(widget.articleId);
       if (!mounted) return;
       if (article != null) {
         await _db.logActivity(
@@ -189,7 +194,7 @@ class _ArticleReaderScreenState extends ConsumerState<ArticleReaderScreen>
   Future<void> _savePosition() async {
     if (_article == null) return;
     try {
-      await _db.saveReadingPosition(widget.articleId, _offset);
+      if(_builtin){await BuiltinContentService(_db).savePosition(_builtinId,_offset);}else{await _db.saveReadingPosition(widget.articleId, _offset);}
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -209,11 +214,15 @@ class _ArticleReaderScreenState extends ConsumerState<ArticleReaderScreen>
     }
     _savingWord = true;
     try {
+      final catalog=_builtin?await BuiltinCatalog.load():null;
+      final known=catalog?.words.where((w)=>AppDatabase.normalizeWord(w['word'] as String)==AppDatabase.normalizeWord(word)).toList();
+      if(known!=null&&known.isNotEmpty){await BuiltinContentService(_db).saveWord(known.first['id'] as String,sentence:sourceSentence(body,selection.start,selection.end),source:_article!['title'] as String,articleId:widget.articleId);}else{
       await _db.saveVocabulary(
           word: word,
           sentence: sourceSentence(body, selection.start, selection.end),
           source: _article!['title'] as String,
           articleId: widget.articleId);
+      }
       if (!mounted) return;
       ref.invalidate(dashboardProvider);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -279,6 +288,7 @@ class _ArticleReaderScreenState extends ConsumerState<ArticleReaderScreen>
                                       }),
                                 ]);
                           }),
+                          if(_builtin&&_article!=null)BuiltinComprehensionPanel(article:_article!),
                         ])));
   }
 }

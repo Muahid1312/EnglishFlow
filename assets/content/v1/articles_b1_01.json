@@ -1,0 +1,375 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_two-pots-by-the-window",
+      "title": "Two Pots by the Window",
+      "level": "B1",
+      "category": "Science",
+      "reading_minutes": 2,
+      "body": "When Lina’s class began growing beans, she expected the plant nearest the window to grow fastest. Her partner thought the amount of water would matter more. They could not settle the question by arguing, so their teacher asked them to design an experiment. First, however, they had to decide what they were testing.\n\nTheir research started with the instructions on a packet of seeds. They used two similar pots, the same soil, and beans from the same packet. Both pots received the same amount of water. One stood beside the window, while the other stood farther inside the room. This method kept several conditions similar while changing the place where the plants grew.\n\nEvery afternoon, the partners measured each plant with the same ruler. They tried to make every measurement accurate by measuring from the soil to the highest leaf. They also wrote short notes to describe the leaves. On Friday, Lina wanted to compare the results immediately, but her partner noticed something important: one bean had started growing a day later.\n\nThat difference did not make their work useless. It meant they needed to be careful about their conclusion. They could report what happened to these two plants, but they could not prove that every bean would behave in the same way. A larger test, with more plants in each place, would give them stronger evidence.\n\nAt the end of the week, the class displayed both the measurements and the questions that remained. Lina was proud of the taller plant, but she was even prouder of the notes. They showed how the group had reached its answer, not just which answer sounded best.",
+      "vocabulary": [
+        "v_experiment",
+        "v_research",
+        "v_method",
+        "v_accurate",
+        "v_describe",
+        "v_compare"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What is the main purpose of the class experiment?",
+          "choices": [
+            "To prove Lina is always right",
+            "To investigate a question carefully and explain the limits",
+            "To grow enough beans for lunch",
+            "To find the most expensive soil"
+          ],
+          "answer": 1,
+          "explanation": "The partners control conditions, record results, and discuss what their small test cannot prove."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Which condition was deliberately the same for both pots?",
+          "choices": [
+            "Their distance from the window",
+            "Their date of first growth",
+            "The amount of water",
+            "The height of the plants"
+          ],
+          "answer": 2,
+          "explanation": "The article says both pots received the same amount of water."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why would testing more plants help?",
+          "choices": [
+            "It would remove the need to take notes",
+            "It could show whether the result was more than a difference between two beans",
+            "It would guarantee identical results",
+            "It would make sunlight unnecessary"
+          ],
+          "answer": 1,
+          "explanation": "One bean started later; a larger test could help separate individual differences from a wider pattern."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “method” mean in the second paragraph?",
+          "choices": [
+            "A way of carrying out a test",
+            "The final height of a plant",
+            "A disagreement between partners",
+            "A kind of window"
+          ],
+          "answer": 0,
+          "explanation": "Here, method means the organized way they set up their investigation."
+        }
+      ],
+      "references": [
+        {
+          "title": "University of Arizona Cooperative Extension: gardening background",
+          "url": "https://extension.arizona.edu/"
+        }
+      ]
+    },
+    {
+      "id": "a_a-helpful-answer-that-needed-checking",
+      "title": "A Helpful Answer That Needed Checking",
+      "level": "B1",
+      "category": "Artificial intelligence",
+      "reading_minutes": 2,
+      "body": "The community center wanted to publish a short guide to local services. Omar offered to prepare the first draft with help from an AI writing tool. He typed a request for clear descriptions of the library, the clinic, and the bus station. Within seconds, the screen showed a friendly, well-organized answer.\n\nOmar was pleased because the text sounded confident. It even included opening hours. He almost sent it straight to the printer. Then his colleague Hana asked a simple question: “Where did those hours come from?” The answer did not mention a source that either of them could check.\n\nInstead of guessing, they called the library. The hours in the draft were wrong. The clinic’s address was also out of date. The tool had produced useful sentences, but useful sentences were not the same as accurate local information. Hana suggested treating the answer as a starting point rather than a finished guide.\n\nThey divided the remaining work. Omar contacted each service to confirm its details. Hana shortened long sentences and removed information they could not verify. They kept a list showing who had checked each fact and when. Before printing, another volunteer read the whole guide and tried following its directions from the town square.\n\nThe revised guide took more time than Omar had expected. Still, he did not think the tool had been worthless. It had helped him begin a difficult writing task and organize several topics. The mistake had been assuming that a smooth answer needed no further work.\n\nThe center added one instruction to its writing checklist: check every important detail before sharing it. For this team, AI support became more useful when it was combined with patient questions, local knowledge, and human responsibility.",
+      "vocabulary": [
+        "v_draft",
+        "v_request",
+        "v_confident",
+        "v_source",
+        "v_accurate",
+        "v_confirm"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What lesson does the team learn about AI-written information?",
+          "choices": [
+            "Fast, clear writing can still need careful fact-checking",
+            "AI tools can never help with writing",
+            "Printed guides do not need checking",
+            "Only difficult sentences contain mistakes"
+          ],
+          "answer": 0,
+          "explanation": "The draft helps with organization, but its facts need independent checking."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "How do Omar and Hana discover that the library hours are wrong?",
+          "choices": [
+            "They ask the printer",
+            "They call the library",
+            "They compare the colors of two guides",
+            "They ask an unknown online commenter"
+          ],
+          "answer": 1,
+          "explanation": "They contact the library directly rather than trusting the generated hours."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does another volunteer follow the guide’s directions?",
+          "choices": [
+            "To make the guide longer",
+            "To replace all telephone calls",
+            "To see whether a reader can actually use the information",
+            "To avoid reading the full guide"
+          ],
+          "answer": 2,
+          "explanation": "Following the directions tests the guide from a reader’s point of view."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What is a “draft” in this article?",
+          "choices": [
+            "A final approved document",
+            "An early version of a piece of writing",
+            "A list of volunteers",
+            "A printing machine"
+          ],
+          "answer": 1,
+          "explanation": "The initial draft is revised and checked before the guide is printed."
+        }
+      ],
+      "references": [
+        {
+          "title": "NIST: AI Risk Management Framework",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+        }
+      ]
+    },
+    {
+      "id": "a_a-night-without-a-telescope",
+      "title": "A Night Without a Telescope",
+      "level": "B1",
+      "category": "Space",
+      "reading_minutes": 2,
+      "body": "Mariam wanted to join the school’s evening sky walk, but she did not own a telescope. The invitation said that no special equipment was necessary. She was not completely convinced. How could a group learn about space just by standing outside?\n\nTheir guide asked everyone to prepare by bringing a jacket and leaving bright flashlights in their bags. The group met in a park away from the busiest road. At first, Mariam could see very little. Meanwhile, the guide explained the plan: they would spend a few quiet minutes looking before trying to name anything.\n\nThe task was to describe what they noticed. Some students saw a bright point near the trees. Others noticed a line of lights moving across the sky. Instead of giving a quick answer, the guide asked whether each light stayed still, flashed, or changed position. A moving light was not automatically a mysterious object. They needed more information before deciding what it might be.\n\nMariam found it easier to concentrate when she stopped checking her phone. She drew the tops of two buildings in a notebook and marked the bright points above them. Her drawing was not a beautiful picture. It was a record she could use to recognize the same part of the sky on another evening.\n\nPerhaps a telescope would show more detail, she thought, but it would not replace careful observation. The group also discussed why clouds, nearby lights, and the Moon could change what people were able to see.\n\nBefore leaving, each student wrote one question for the next walk. Mariam’s question was about a bright object she could not identify. She went home without its name, yet with a clearer idea of how to investigate it. Not knowing had become the beginning of learning, rather than the end.",
+      "vocabulary": [
+        "v_prepare",
+        "v_meanwhile",
+        "v_describe",
+        "v_concentrate",
+        "v_recognize",
+        "v_perhaps"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "How does Mariam’s view of sky watching change?",
+          "choices": [
+            "She decides that only experts should look at the sky",
+            "She learns that careful observation matters even without expensive equipment",
+            "She loses interest because every question has an answer",
+            "She learns to identify every light immediately"
+          ],
+          "answer": 1,
+          "explanation": "She starts by wanting equipment and ends by valuing observation and questions."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does Mariam include in her notebook drawing?",
+          "choices": [
+            "The prices of telescopes",
+            "Every student’s name",
+            "Buildings and bright points above them",
+            "A complete map of the solar system"
+          ],
+          "answer": 2,
+          "explanation": "The buildings help her locate the same area of the sky later."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does the guide avoid naming the moving lights immediately?",
+          "choices": [
+            "Their movement and appearance need to be examined first",
+            "The students are not allowed to ask questions",
+            "The guide wants everyone to buy a telescope",
+            "Every moving light is the same object"
+          ],
+          "answer": 0,
+          "explanation": "The group must collect useful clues before choosing an explanation."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “recognize” mean when Mariam uses her drawing later?",
+          "choices": [
+            "Make the sky brighter",
+            "Identify something she has seen before",
+            "Draw something perfectly",
+            "Forget an earlier observation"
+          ],
+          "answer": 1,
+          "explanation": "The sketch will help her identify a familiar area of the sky."
+        }
+      ],
+      "references": [
+        {
+          "title": "NASA Science: skywatching",
+          "url": "https://science.nasa.gov/skywatching/"
+        }
+      ]
+    },
+    {
+      "id": "a_the-notice-that-worked-offline",
+      "title": "The Notice That Worked Offline",
+      "level": "B1",
+      "category": "Technology",
+      "reading_minutes": 2,
+      "body": "On Monday morning, the internet connection at a small apartment building stopped working. Residents usually read building news in a group chat. That week, however, workers were coming to repair the water pipes. Everyone needed to know when the water would be turned off.\n\nThe building manager, Elena, had saved the repair schedule on her laptop the night before. Because the file was already on the device, she could open it without an internet connection. She printed a simple notice and put it beside the main entrance. It explained the date, the expected hours, and where drinking water would be available.\n\nBefore printing more copies, Elena called the repair team to confirm the latest plan. One worker asked her to change the starting time. She was glad she had checked. A saved file could be useful offline and still contain information that needed an update.\n\nSeveral residents helped. One translated the notice for a neighbor. Another placed a copy near the elevator. People could leave a written request at the manager’s door if they needed assistance. Elena promised to reply during the afternoon, either in person or with a note.\n\nEach instruction on the notice had a clear purpose. Residents were asked to fill a container before work began, avoid using the washing machines during the repair, and tell a neighbor who might miss the announcement. The notice did not try to explain every technical detail about pipes.\n\nBy evening, the group chat was working again. Elena shared the same information there, but she left the paper notices in place. The experience reminded the residents that a useful communication system should not depend on one method alone. A digital file, a telephone call, and a sheet of paper had each solved a different part of the problem.",
+      "vocabulary": [
+        "v_schedule",
+        "v_available",
+        "v_confirm",
+        "v_request",
+        "v_reply",
+        "v_instruction"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the building use several ways to share the repair notice?",
+          "choices": [
+            "To make residents stop using all technology",
+            "To reach people even when one communication method fails",
+            "To avoid checking the repair plan",
+            "To give every resident a different starting time"
+          ],
+          "answer": 1,
+          "explanation": "Saved files, calls, paper notices, and the chat each help reach residents reliably."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Why can Elena open the schedule while the internet is unavailable?",
+          "choices": [
+            "She saved it on her laptop earlier",
+            "The printer creates a new schedule",
+            "The repair team sends it through the elevator",
+            "The group chat is still working"
+          ],
+          "answer": 0,
+          "explanation": "The file is stored locally on her device."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does Elena leave the paper notices up after the internet returns?",
+          "choices": [
+            "The water repair has been canceled",
+            "Paper notices can still reach residents who miss the chat",
+            "The printed starting time is deliberately wrong",
+            "No resident can read a digital message"
+          ],
+          "answer": 1,
+          "explanation": "Different residents may use different ways of getting information."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “confirm” mean when Elena calls the repair team?",
+          "choices": [
+            "Complain about the internet",
+            "Check that the arrangement is still correct",
+            "Create a new apartment building",
+            "Translate a sentence"
+          ],
+          "answer": 1,
+          "explanation": "She calls to check the current details before sharing them."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_one-quiet-hour",
+      "title": "One Quiet Hour",
+      "level": "B1",
+      "category": "Psychology",
+      "reading_minutes": 2,
+      "body": "After every evening study session, Farid felt tired but could not say what he had learned. He usually kept his phone beside his notebook. Messages arrived while he read, and he often checked them without thinking. He wanted a different method, but he did not want an impossible new routine.\n\nHis friend suggested trying one quiet hour on three evenings. Farid put his phone in another room and chose two short tasks before sitting down. First, he would review a small set of useful phrases. Then he would write a paragraph about his day. He left a few minutes between the tasks to stand up and stretch.\n\nOn the first evening, he kept reaching toward the empty space beside his notebook. It was difficult to concentrate. He wrote a small mark on a page whenever he wanted to check a message. By the end of the hour, the page had several marks, but the paragraph was finished too.\n\nThe next evening was not perfect either. A family conversation interrupted his practice, and he needed to help prepare dinner. Instead of calling the whole session a failure, he returned later and completed the shorter task. His new plan needed to fit his life, not pretend that his life would disappear.\n\nAfter three evenings, Farid compared his finished work with his earlier notes. He could see progress: more complete paragraphs and fewer unfinished exercises. This did not prove that the same routine would work for everyone. It gave him useful information about his own habits.\n\nFarid felt more confident because he could point to something he had done. He decided to keep the quiet study time on busy days, but shorten it when necessary. For him, a useful routine was a pattern he could return to, not a rule he could never break.",
+      "vocabulary": [
+        "v_method",
+        "v_review",
+        "v_concentrate",
+        "v_practice",
+        "v_progress",
+        "v_confident"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes Farid’s new routine useful to him?",
+          "choices": [
+            "It eliminates every interruption permanently",
+            "It creates a manageable pattern and visible finished work",
+            "It requires him to study all night",
+            "It proves that everyone learns in the same way"
+          ],
+          "answer": 1,
+          "explanation": "The routine is practical, flexible, and connected to work he can actually observe."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Where does Farid put his phone during the quiet hour?",
+          "choices": [
+            "Inside his notebook",
+            "In another room",
+            "Under the study table",
+            "Beside his dictionary"
+          ],
+          "answer": 1,
+          "explanation": "Moving the phone away is part of his experiment with attention."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "What does Farid’s response to the family interruption suggest?",
+          "choices": [
+            "He can adapt a plan rather than abandon it completely",
+            "He no longer wants to study",
+            "He believes meals are unnecessary",
+            "He will refuse all family conversations"
+          ],
+          "answer": 0,
+          "explanation": "He returns later and completes a shorter task instead of giving up."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “progress” refer to in the final part of the article?",
+          "choices": [
+            "A more expensive phone",
+            "Movement toward better learning habits and completed work",
+            "An official language qualification",
+            "A completely perfect evening"
+          ],
+          "answer": 1,
+          "explanation": "He sees more finished paragraphs and fewer incomplete exercises."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

@@ -24,6 +24,7 @@ import '../../features/progress/progress_screen.dart';
 import '../../features/assessments/assessments_screen.dart';
 
 import '../../features/reading/reading_screen.dart';
+import '../../features/content/builtin_library_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import '../../features/vocabulary/vocabulary_screen.dart';
 import '../../features/daily_plan/daily_plan_screen.dart';
@@ -75,6 +76,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                       path: 'reading',
                       builder: (_, __) => const ReadingScreen(),
                       routes: [
+                        GoRoute(path:'library',builder:(_,__)=>const BuiltinLibraryScreen()),
                         GoRoute(
                             path: ':id',
                             builder: (_, s) => ArticleReaderScreen(
@@ -83,7 +85,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                       path: 'vocabulary',
                       builder: (_, __) => const VocabularyScreen(),
-                      routes:[GoRoute(path:'word/:id',builder:(_,s)=>WordDetailScreen(entryId:s.pathParameters['id']!))]),
+                      routes:[GoRoute(path:'library',builder:(_,s)=>BuiltinLibraryScreen(vocabulary:true,daily:s.uri.queryParameters['daily']=='true')),GoRoute(path:'word/:id',builder:(_,s)=>WordDetailScreen(entryId:s.pathParameters['id']!))]),
                   GoRoute(
                     path: 'listening',
                     builder: (_, __) => const ListeningSpeakingScreen(),

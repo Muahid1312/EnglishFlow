@@ -9,6 +9,7 @@ import '../../core/services/vocabulary_intelligence.dart';
 import '../../core/services/practice_timer.dart';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_theme.dart';
@@ -144,6 +145,7 @@ class _VocabularyScreenState extends ConsumerState<VocabularyScreen> {
                       const Text('Due reviews')
                     ])))
                   ]),
+                  FilledButton.tonal(onPressed:()=>context.push('/learn/vocabulary/library'),child:const Text('Browse built-in vocabulary')),
                   const SizedBox(height: 20),
                   if (_error != null) ErrorView(message: _error!),
                   TextField(decoration:const InputDecoration(labelText:'Search saved words',prefixIcon:Icon(Icons.search)),

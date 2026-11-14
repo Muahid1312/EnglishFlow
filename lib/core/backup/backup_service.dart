@@ -98,7 +98,7 @@ class BackupService {
     try {
       candidate.execute('PRAGMA trusted_schema=OFF');
       final version=candidate.select('PRAGMA user_version').single['user_version'] as int;
-      if (version != AppDatabase.schemaVersion && !(allowLegacy && [7,8,9].contains(version))) {
+      if (version != AppDatabase.schemaVersion && !(allowLegacy && [7,8,9,10].contains(version))) {
         throw const BackupFailure('This backup needs a compatible LexiFlow version.');
       }
       template=AppDatabase.schemaTemplate(version);
@@ -207,7 +207,7 @@ class BackupService {
     }
     final manifest = jsonDecode(await files['manifest.json']!.readAsString()) as Map<String, dynamic>;
     if (manifest['format'] != 'lexiflow' || manifest['version'] != formatVersion ||
-        ![7,8,9,AppDatabase.schemaVersion].contains(manifest['databaseVersion'])) {
+        ![7,8,9,10,AppDatabase.schemaVersion].contains(manifest['databaseVersion'])) {
       throw const BackupFailure('Unsupported backup version. Update LexiFlow or select a compatible backup.');
     }
     DateTime.parse(manifest['createdAt'] as String);

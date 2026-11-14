@@ -102,7 +102,7 @@ class AnalyticsService {
     final due=(await _db.getDueVocabulary()).length;
     String accuracy(int correct,int total)=>total<5?'Not enough data. ($total objective answers; minimum 5)':'${(100*correct/total).round()}% correct across $total objective answers';
     final skills=<String,String>{
-      'Reading':'${count('SELECT COUNT(*) FROM reading_articles')==0?'Not enough data. ':''}${count('SELECT COUNT(*) FROM reading_articles')} saved articles; ${count("SELECT COUNT(*) FROM study_sessions WHERE module='reading' AND completed=1 AND duration_seconds>0")} completed reading sessions. Activity counts, not proficiency.',
+      'Reading':'${count('SELECT COUNT(*) FROM reading_articles')==0?'Not enough data. ':''}${count('SELECT COUNT(*) FROM reading_articles')} saved articles; ${count("SELECT COUNT(*) FROM study_sessions WHERE module='reading' AND completed=1 AND duration_seconds>0")} completed reading sessions; ${count('SELECT COUNT(*) FROM builtin_article_state WHERE completed_at IS NOT NULL')} built-in articles read with questions submitted. Activity counts, not proficiency.',
       'Vocabulary':reviews<5?'Not enough data. $reviews reviews; $due due cards.':'${(100*successful/reviews).round()}% good/easy ratings across $reviews reviews; $due due cards. Self-rated recall.',
       'Listening':accuracy(listeningCorrect,listeningN),
       'Speaking':speaking==0?'Not enough data. No saved recordings.':'$speaking saved recordings. Practice frequency, not speaking proficiency.',

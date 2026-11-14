@@ -1,0 +1,365 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_a-photograph-with-no-date",
+      "title": "A Photograph With No Date",
+      "level": "B1",
+      "category": "History",
+      "reading_minutes": 2,
+      "body": "In a box beneath her grandmother’s bed, Neda found a photograph of a crowded street. A wide building stood behind several market stalls. There was no date on the front. Neda wanted to use the picture in a school display about the neighborhood, but she did not know exactly what it showed.\n\nHer first source was her grandmother. She could describe the market clearly and remembered visiting it as a child. However, she was not sure whether the photograph showed a festival or an ordinary shopping day. “I remember the place,” she said, “but that does not mean I remember this particular moment.”\n\nNeda took the picture to the local library. A volunteer helped her compare it with a map and several dated photographs. The large building appeared in all of them, but one picture showed an extra doorway. This gave them a useful clue about changes to the street, not an exact date for Neda’s photograph.\n\nLater, they noticed a few words on the back of the picture. A family name matched a name in an old letter. The letter mentioned a visit to the market, although it did not say that anyone had taken a photograph. Perhaps the two objects were connected. Neda wrote that possibility in her notes without presenting it as a fact.\n\nThe school display eventually included the photograph, the map, and a short explanation of what remained uncertain. Some visitors offered more local knowledge. Neda recorded their names and separated their memories from details visible in the image.\n\nShe had hoped to find one simple answer. Instead, she learned how evidence can support different parts of a story. An honest description of what we do not know can make a history display more useful, not less interesting.",
+      "vocabulary": [
+        "v_source",
+        "v_describe",
+        "v_compare",
+        "v_perhaps",
+        "v_knowledge",
+        "v_evidence"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does Neda learn while investigating the photograph?",
+          "choices": [
+            "Historical information can be investigated without hiding uncertainty",
+            "Every old photograph has an exact date written on it",
+            "Personal memories are always enough on their own",
+            "Interesting displays must avoid all questions"
+          ],
+          "answer": 0,
+          "explanation": "She combines several sources and clearly identifies what remains unknown."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does Neda’s grandmother remember confidently?",
+          "choices": [
+            "The exact day of the photograph",
+            "The place shown in the photograph",
+            "The photographer’s name",
+            "The reason for the extra doorway"
+          ],
+          "answer": 1,
+          "explanation": "She remembers visiting the market, but not the particular photographed moment."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does Neda avoid saying the letter definitely explains the photograph?",
+          "choices": [
+            "The letter is written in another language",
+            "She dislikes the family mentioned",
+            "A shared name and market visit suggest a link but do not prove it",
+            "The photograph shows no buildings"
+          ],
+          "answer": 2,
+          "explanation": "The objects may be connected, but neither establishes that connection directly."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “source” mean when Neda talks to her grandmother?",
+          "choices": [
+            "A person providing information",
+            "A place to buy a new camera",
+            "A kind of picture frame",
+            "The final label on the display"
+          ],
+          "answer": 0,
+          "explanation": "Her grandmother is a source because she supplies memories and information."
+        }
+      ],
+      "references": [
+        {
+          "title": "Library of Congress: getting started with primary sources",
+          "url": "https://www.loc.gov/programs/teachers/getting-started-with-primary-sources/"
+        }
+      ]
+    },
+    {
+      "id": "a_a-corner-for-small-visitors",
+      "title": "A Corner for Small Visitors",
+      "level": "B1",
+      "category": "Nature",
+      "reading_minutes": 2,
+      "body": "The neatest part of the school garden was not always the most interesting place to watch animals. Beside the fence, a small corner had long grass, fallen leaves, and an old branch. During lunch, students began to observe more activity there than beside the carefully swept path.\n\nTheir gardening club decided to keep the corner, but not simply leave every unwanted object in it. They removed broken plastic and other rubbish that could harm wildlife. They left plant material in a safe place away from the walking route. A sign explained why this untidy-looking area had a purpose.\n\nA habitat provides the conditions a living thing needs. These conditions can include food, water, shelter, and a suitable temperature. The club did not expect one garden corner to help every kind of animal. Instead, members tried to notice which small visitors actually used it and what they seemed to need.\n\nOne student drew an insect resting under a leaf. Another watched a bird search near the branch. On a hot afternoon, the group noticed that the soil in the shade felt different from the soil beside the sunny wall. They wrote down these observations without disturbing the animals to get a better view.\n\nAs the season changed, the corner changed too. The students kept a simple record of what they saw, including days when they noticed very little. They resisted the temptation to invent a dramatic story for each visit. A quiet day was still part of the record.\n\nThe club’s aim was not to collect as many animals as possible. It was to make room for living things while learning how to look carefully. The garden remained a place for students to enjoy, and its small wild corner gave them new questions throughout the year.",
+      "vocabulary": [
+        "v_observe",
+        "v_wildlife",
+        "v_habitat",
+        "v_leaf",
+        "v_shade",
+        "v_season"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the club keep a less tidy garden corner?",
+          "choices": [
+            "To avoid all responsibility for the garden",
+            "To provide useful conditions for wildlife and observe it carefully",
+            "To hide broken plastic from visitors",
+            "To attract every animal in the region"
+          ],
+          "answer": 1,
+          "explanation": "The corner becomes a small habitat and a place for patient observation."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does the club remove from the corner?",
+          "choices": [
+            "Every leaf and branch",
+            "All the shaded soil",
+            "Broken plastic and other potentially harmful rubbish",
+            "The sign beside the path"
+          ],
+          "answer": 2,
+          "explanation": "The students distinguish safe plant material from rubbish that might harm animals."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why are days with little activity still recorded?",
+          "choices": [
+            "Only quiet days count as evidence",
+            "A complete record should not include only exciting observations",
+            "The club has stopped watching the garden",
+            "The students need to make up more animals"
+          ],
+          "answer": 1,
+          "explanation": "Ordinary and quiet days help show the real pattern over time."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What is a “habitat” in this article?",
+          "choices": [
+            "A drawing of an animal",
+            "A place with conditions a living thing needs",
+            "A tool for sweeping paths",
+            "A collection of garden signs"
+          ],
+          "answer": 1,
+          "explanation": "The article explains habitat through food, water, shelter, and temperature."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_before-buying-another-bin",
+      "title": "Before Buying Another Bin",
+      "level": "B1",
+      "category": "Environment",
+      "reading_minutes": 2,
+      "body": "A café owner named Jo wanted to reduce the rubbish her business sent away each week. Her first idea was to buy a large recycling bin. Before ordering it, she asked two staff members to help examine what the café was throwing out. They agreed to study the waste safely rather than guess from memory.\n\nFor three mornings, staff counted unused paper bags, empty containers, and food left after customers had gone. They followed the café’s safety rules and kept food separate from other materials. The surprising finding was that many paper bags had never been needed. Customers eating inside often received them automatically.\n\nJo changed that routine first. Staff began asking whether a bag was necessary. They also offered customers a way to reuse suitable containers, following the café’s food-safety requirements. These steps dealt with the reason some rubbish existed before deciding how to collect it afterward.\n\nNext, Jo contacted the local collection service. She learned which materials it could actually recycle and how those materials needed to be prepared. A symbol on a package did not, by itself, tell her what the local service accepted. Instructions differed according to the available collection system.\n\nThe team placed a clear sign above the new bin. It showed examples from the café’s own rubbish and asked people to keep accepted containers clean enough for the service’s rules. Outside, staff also collected litter that had blown along the entrance, keeping that separate from the café’s indoor recycling.\n\nA month later, Jo checked the same categories again. There was less rubbish, although the work was not finished. The new bin helped, but the most useful change had come earlier: looking closely at everyday habits. Buying equipment was easier than asking questions, yet the questions helped the equipment do a better job.",
+      "vocabulary": [
+        "v_reduce",
+        "v_waste",
+        "v_reuse",
+        "v_recycle",
+        "v_clean",
+        "v_litter"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What is the café’s most important discovery?",
+          "choices": [
+            "Buying the largest bin solves every waste problem",
+            "Examining routines can prevent waste before recycling it",
+            "All packaging symbols guarantee local recycling",
+            "Counting rubbish is more important than food safety"
+          ],
+          "answer": 1,
+          "explanation": "Avoiding unnecessary bags reduces waste at its source."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What unnecessary item appears often in the first count?",
+          "choices": [
+            "Unopened bottles of medicine",
+            "Broken chairs",
+            "Paper bags given to customers eating inside",
+            "Unused garden tools"
+          ],
+          "answer": 2,
+          "explanation": "The café had been handing out bags automatically to indoor customers."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does Jo contact the local collection service?",
+          "choices": [
+            "The café needs rules that match the system actually available",
+            "The service can choose the café’s menu",
+            "No material can ever be recycled",
+            "Staff are unable to read labels"
+          ],
+          "answer": 0,
+          "explanation": "What is accepted depends on the real local service, not just a general package symbol."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “reuse” mean in the café’s new routine?",
+          "choices": [
+            "Use an appropriate container again",
+            "Buy a new container every time",
+            "Mix food with paper waste",
+            "Throw a container outside"
+          ],
+          "answer": 0,
+          "explanation": "Reusing keeps a suitable existing container in use."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-question-before-the-answer",
+      "title": "The Question Before the Answer",
+      "level": "B1",
+      "category": "Education",
+      "reading_minutes": 2,
+      "body": "During a lecture about local transport, Amina copied almost every sentence from the screen. Her notebook looked complete, but when her teacher asked her to explain the main problem, she could only repeat a few phrases. She had recorded information without knowing which ideas she understood.\n\nFor the next lesson, the teacher introduced a different routine. Before checking an answer with the whole class, each student wrote one question about the material. The question could concern a word, a fact, or a connection between ideas. Students were not expected to pretend that everything was already clear.\n\nAmina’s partner asked why the proposed bus route stopped near the market rather than the hospital. Amina had noticed the same map but had not thought about that choice. They looked again at the information and found a paragraph about passengers changing buses. Together, they could explain one reason for the route, while still noticing a possible problem for hospital visitors.\n\nThe teacher’s feedback focused on their reasoning. She did not simply say that both students were right. She asked which part of the text supported their answer and whether another explanation was possible. This helped Amina understand why a useful question could be more than a request for a missing fact.\n\nBy the end of the week, Amina’s notes were shorter. They included main ideas, small diagrams, and questions she wanted to revisit. She still needed to remember information, but she was beginning to organize it around a purpose.\n\nAmina became more confident about asking for help. Her questions were not evidence that she had failed to listen. They showed where her learning needed another step. A complete-looking notebook could hide confusion; a thoughtful question could make that confusion visible and easier to address.",
+      "vocabulary": [
+        "v_lecture",
+        "v_explain",
+        "v_partner",
+        "v_feedback",
+        "v_understand",
+        "v_confident"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "How do questions help Amina learn?",
+          "choices": [
+            "They replace the need to listen or remember anything",
+            "They reveal gaps and encourage her to examine reasons",
+            "They guarantee that every answer is correct",
+            "They make long notes the only goal"
+          ],
+          "answer": 1,
+          "explanation": "Questions show what is unclear and guide students back to supporting information."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What issue does Amina’s partner raise?",
+          "choices": [
+            "Why the route stops near the market rather than the hospital",
+            "Why every bus has the same color",
+            "Who printed Amina’s notebook",
+            "Whether lectures should take place outside"
+          ],
+          "answer": 0,
+          "explanation": "The partner asks about a specific choice shown on the route map."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does the teacher ask which text supports the answer?",
+          "choices": [
+            "She wants students to guess more quickly",
+            "She wants them to connect their conclusion to evidence",
+            "She has decided maps are useless",
+            "She does not want any more questions"
+          ],
+          "answer": 1,
+          "explanation": "The teacher is developing their reasoning, not just accepting a repeated phrase."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “feedback” refer to in this lesson?",
+          "choices": [
+            "Comments intended to improve the students’ thinking",
+            "Noise from a broken microphone",
+            "The bus timetable",
+            "A second copy of the map"
+          ],
+          "answer": 0,
+          "explanation": "The teacher’s comments help students strengthen their explanations."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-budget-for-small-decisions",
+      "title": "A Budget for Small Decisions",
+      "level": "B1",
+      "category": "Personal development",
+      "reading_minutes": 2,
+      "body": "For several weeks, Leila wondered why she had little money left before the end of the month. She knew the price of her rent and transport, but small purchases were harder to remember. Rather than blame herself for every treat, she decided to find out where the money was going.\n\nShe made a simple budget with three sections: regular needs, planned savings, and flexible spending. Her income was not exactly the same every month, so she used a cautious estimate. She also left room for an unexpected expense instead of assuming that every week would follow the plan.\n\nFor one month, Leila kept each receipt in an envelope. When a shop did not provide one, she wrote the amount in a notebook. Once a week, she added the purchases to her three sections. The aim was not to create a beautiful page. It was to make small decisions visible enough to review.\n\nThe notes revealed a useful pattern. On evenings when she worked late, she often bought food on the way home. Buying an occasional meal was not the problem. The difficulty was that she had planned for fewer of those evenings than she actually had. Her budget needed to reflect her real schedule.\n\nLeila chose one change. She prepared an extra meal on a less busy day and kept a small amount for evenings when cooking was unrealistic. Before another purchase, she asked whether she could afford it without using money already needed elsewhere.\n\nAt the end of the month, her spending had not become perfectly predictable. However, she could explain her choices more clearly and change the plan when circumstances changed. For Leila, a budget was not a promise never to enjoy anything. It was a tool for deciding what mattered and noticing when an estimate needed correction.",
+      "vocabulary": [
+        "v_budget",
+        "v_income",
+        "v_expense",
+        "v_receipt",
+        "v_purchase",
+        "v_afford"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does Leila gain from keeping a budget?",
+          "choices": [
+            "A rule that prevents every unexpected event",
+            "A clearer view of real spending and choices she can adjust",
+            "A guarantee that her income will increase",
+            "A reason to stop enjoying all meals"
+          ],
+          "answer": 1,
+          "explanation": "Her records make decisions visible and help her revise unrealistic estimates."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does Leila do when a shop gives no receipt?",
+          "choices": [
+            "She ignores that purchase",
+            "She asks her employer to pay",
+            "She writes the amount in a notebook",
+            "She puts the item back automatically"
+          ],
+          "answer": 2,
+          "explanation": "She records the amount herself so the purchase is not forgotten."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does Leila change her food plan instead of banning bought meals?",
+          "choices": [
+            "She recognizes that the plan must fit evenings when she works late",
+            "She decides that records are unnecessary",
+            "She wants every week to be identical",
+            "She no longer cares about spending"
+          ],
+          "answer": 0,
+          "explanation": "The notes show a mismatch between her estimate and her actual schedule."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “afford” mean in Leila’s question before a purchase?",
+          "choices": [
+            "Have enough money after allowing for other needs",
+            "Understand how a product was made",
+            "Ask someone to choose for her",
+            "Receive a receipt immediately"
+          ],
+          "answer": 0,
+          "explanation": "She considers whether she can pay without taking money needed for other purposes."
+        }
+      ],
+      "references": []
+    }
+  ]
+}
