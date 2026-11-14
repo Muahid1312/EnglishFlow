@@ -21,7 +21,7 @@ class _CompletionPanelState extends ConsumerState<CompletionPanel> {
   List<Map<String, dynamic>> _assessments = [];
   List<String> _required = [];
   bool _busy = false;
-  Map<String,bool> _passes = {};
+  Map<String, bool> _passes = {};
   String? _error;
   @override
   void initState() {
@@ -36,11 +36,14 @@ class _CompletionPanelState extends ConsumerState<CompletionPanel> {
       final assessments = await db.getAssessments();
       final required =
           await db.getCompletionRequirements(widget.type, widget.id);
-      final d=await db.db;
-      final passes=<String,bool>{for(final id in required) id:CourseStudyService.passingScore(d,id,0)!=null};
+      final d = await db.db;
+      final passes = <String, bool>{
+        for (final id in required)
+          id: CourseStudyService.passingScore(d, id, 0) != null
+      };
       if (mounted) {
         setState(() {
-          _passes=passes;
+          _passes = passes;
           _assessments = assessments;
           _required = required;
         });
@@ -148,7 +151,8 @@ class _CompletionPanelState extends ConsumerState<CompletionPanel> {
         for (final a in _assessments.where((a) => _required.contains(a['id'])))
           TextButton(
               onPressed: () => context.push('/progress/assessments/${a['id']}'),
-              child: Text('${a['title']} · ${_passes[a['id']]==true?'Keyed pass saved':'Pass required'}')),
+              child: Text(
+                  '${a['title']} · ${_passes[a['id']] == true ? 'Keyed pass saved' : 'Pass required'}')),
         PrimaryButton(
             label: _busy ? 'Generating…' : 'Issue certificate if eligible',
             onPressed: _busy ? null : _issue),

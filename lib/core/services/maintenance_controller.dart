@@ -31,8 +31,9 @@ class MaintenanceController extends ChangeNotifier {
       message = 'Restore complete. Your learning progress will be reloaded.';
     } catch (error) {
       failed = true;
-      message = error is BackupFailure ? error.message :
-          'Restore did not complete. A recovery copy is retained if replacement began. Return to learning to reopen or recover the database.';
+      message = error is BackupFailure
+          ? error.message
+          : 'Restore did not complete. A recovery copy is retained if replacement began. Return to learning to reopen or recover the database.';
     } finally {
       done = true;
       notifyListeners();
@@ -46,4 +47,6 @@ class MaintenanceController extends ChangeNotifier {
   }
 }
 
-final maintenanceControllerProvider = ChangeNotifierProvider<MaintenanceController>((ref) => MaintenanceController());
+final maintenanceControllerProvider =
+    ChangeNotifierProvider<MaintenanceController>(
+        (ref) => MaintenanceController());

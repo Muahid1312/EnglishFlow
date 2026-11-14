@@ -13,17 +13,18 @@ class BackupZip {
   static void checkName(String name) {
     if (!RegExp(r'^(manifest\.json|database\.sqlite|media/[a-zA-Z0-9._-]+)$')
             .hasMatch(name) ||
-        name.contains('..') || name.length > 200) {
+        name.contains('..') ||
+        name.length > 200) {
       throw const FormatException('Unsafe backup entry.');
     }
   }
 
   static final _crcTable = List<int>.generate(256, (value) {
-      var crc = value;
-      for (var bit = 0; bit < 8; bit++) {
-        crc = (crc & 1) != 0 ? (crc >> 1) ^ 0xedb88320 : crc >> 1;
-      }
-      return crc;
+    var crc = value;
+    for (var bit = 0; bit < 8; bit++) {
+      crc = (crc & 1) != 0 ? (crc >> 1) ^ 0xedb88320 : crc >> 1;
+    }
+    return crc;
   });
 
   static int _crc(int crc, List<int> bytes) {
@@ -44,7 +45,8 @@ class BackupZip {
   static ByteData _header(int size) => ByteData(size);
 
   static Future<void> write(File output, Map<String, File> files) async {
-    if (files.length > maxEntries) throw const FormatException('Too many files.');
+    if (files.length > maxEntries)
+      throw const FormatException('Too many files.');
     final out = await output.open(mode: FileMode.writeOnly);
     final central = <List<int>>[];
     var total = 0;
@@ -74,7 +76,8 @@ class BackupZip {
         await for (final chunk in item.value.openRead()) {
           copied += chunk.length;
           copiedCrc = _crc(copiedCrc, chunk);
-          if (copied > length) throw const FormatException('File changed during backup.');
+          if (copied > length)
+            throw const FormatException('File changed during backup.');
           await out.writeFrom(chunk);
         }
         if (copied != length || (copiedCrc ^ 0xffffffff) != crc) {
@@ -112,7 +115,8 @@ class BackupZip {
 
   static Future<Uint8List> _read(RandomAccessFile file, int count) async {
     final result = await file.read(count);
-    if (result.length != count) throw const FormatException('Truncated backup.');
+    if (result.length != count)
+      throw const FormatException('Truncated backup.');
     return result;
   }
 
@@ -132,8 +136,10 @@ class BackupZip {
       if (end.getUint32(0, Endian.little) != 0x06054b50 ||
           end.getUint32(4, Endian.little) != 0 ||
           end.getUint16(8, Endian.little) != count ||
-          end.getUint16(20, Endian.little) != 0 || count < 2 ||
-          count > maxEntries || centralStart + centralSize != size - 22) {
+          end.getUint16(20, Endian.little) != 0 ||
+          count < 2 ||
+          count > maxEntries ||
+          centralStart + centralSize != size - 22) {
         throw const FormatException('Unsupported or damaged ZIP directory.');
       }
       var next = centralStart;
@@ -151,20 +157,24 @@ class BackupZip {
             c.getUint32(30, Endian.little) != 0 ||
             c.getUint16(34, Endian.little) != 0 ||
             c.getUint32(38, Endian.little) != 0 ||
-            nameLength < 1 || nameLength > 200) {
+            nameLength < 1 ||
+            nameLength > 200) {
           throw const FormatException('Unsafe or unsupported ZIP entry.');
         }
         final name = utf8.decode(await _read(file, nameLength));
         checkName(name);
-        if (entries.containsKey(name)) throw const FormatException('Duplicate entry.');
+        if (entries.containsKey(name))
+          throw const FormatException('Duplicate entry.');
         next += 46 + nameLength;
         total += length;
-        if (length > maxFileBytes || total > maxBytes ||
+        if (length > maxFileBytes ||
+            total > maxBytes ||
             (name == 'manifest.json' && length > 1024 * 1024)) {
           throw const FormatException('Backup extraction limit exceeded.');
         }
         final offset = c.getUint32(42, Endian.little);
-        if (offset != localEnd) throw const FormatException('Overlapping ZIP entries.');
+        if (offset != localEnd)
+          throw const FormatException('Overlapping ZIP entries.');
         await file.setPosition(offset);
         final h = ByteData.sublistView(await _read(file, 30));
         if (h.getUint32(0, Endian.little) != 0x04034b50 ||
@@ -179,7 +189,8 @@ class BackupZip {
           throw const FormatException('ZIP headers disagree.');
         }
         localEnd = offset + 30 + nameLength + length;
-        if (localEnd > centralStart) throw const FormatException('Overlapping ZIP data.');
+        if (localEnd > centralStart)
+          throw const FormatException('Overlapping ZIP data.');
         final dest = File('${stage.path}/$name');
         await dest.parent.create(recursive: true);
         final out = await dest.open(mode: FileMode.writeOnly);

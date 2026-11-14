@@ -15,23 +15,26 @@ void main() {
   late Directory dir;
   late AppDatabase db;
   late StudySessionService sessions;
+  var providerOwnsSessions = false;
   setUp(() async {
+    providerOwnsSessions = false;
     dir=Directory.systemTemp.createTempSync('lexiflow-phase1-widget-');
     db=AppDatabase(path:'${dir.path}/test.sqlite');
     sessions=StudySessionService(db);
     await db.saveArticle('مقاله آموزشی','A real saved article to read.');
     await db.updatePreferences({'onboarding_completed':1,'daily_target_minutes':15});
   });
-  tearDown(() { sessions.dispose(); db.close(); dir.deleteSync(recursive:true); });
+  tearDown(() { if(!providerOwnsSessions)sessions.dispose(); db.close(); dir.deleteSync(recursive:true); });
 
   testWidgets('daily plan opens the real saved article and pauses on return',(tester) async {
+    providerOwnsSessions = true;
     final router=GoRouter(initialLocation:'/plan',routes:[
       GoRoute(path:'/plan',builder:(_,__)=>const DailyPlanScreen()),
       GoRoute(path:'/learn/reading/:id',builder:(_,s)=>ArticleReaderScreen(articleId:s.pathParameters['id']!)),
     ]);
     await tester.pumpWidget(ProviderScope(overrides:[
       appDatabaseProvider.overrideWithValue(db),
-      studySessionServiceProvider.overrideWithValue(sessions),
+      studySessionServiceProvider.overrideWith((ref)=>sessions),
     ],child:MaterialApp.router(routerConfig:router)));
     await tester.pumpAndSettle();
     expect(find.text('15 min'),findsOneWidget);
@@ -48,13 +51,14 @@ void main() {
   });
 
   testWidgets('narrow RTL plan supports goal selection and explicit skip state',(tester) async {
+    providerOwnsSessions = true;
     tester.view.physicalSize=const Size(360,800);
     tester.view.devicePixelRatio=1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
     await tester.pumpWidget(ProviderScope(overrides:[
       appDatabaseProvider.overrideWithValue(db),
-      studySessionServiceProvider.overrideWithValue(sessions),
+      studySessionServiceProvider.overrideWith((ref)=>sessions),
     ],child:MaterialApp(theme:ThemeData.dark(),home:const Directionality(
       textDirection:TextDirection.rtl,child:DailyPlanScreen()))));
     await tester.pumpAndSettle();

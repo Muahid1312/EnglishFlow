@@ -58,7 +58,13 @@ class CertificateService {
     };
 
     final scoreText = '${(assessmentScore * 100).round()}% assessment score';
-    final bytes = await render(learnerName:name,title:targetTitle,reference:ref,issuedAt:now,scoreText:scoreText,verificationType:verificationType);
+    final bytes = await render(
+        learnerName: name,
+        title: targetTitle,
+        reference: ref,
+        issuedAt: now,
+        scoreText: scoreText,
+        verificationType: verificationType);
 
     final dir = await getApplicationDocumentsDirectory();
     final certDir = Directory(p.join(dir.path, 'certificates'));
@@ -86,9 +92,14 @@ class CertificateService {
 
     return filePath;
   }
+
   /// Recreates a historical PDF solely from its immutable issued record.
-  static Future<Uint8List> render({required String learnerName, required String title,
-      required String reference, required String issuedAt, required String scoreText,
+  static Future<Uint8List> render(
+      {required String learnerName,
+      required String title,
+      required String reference,
+      required String issuedAt,
+      required String scoreText,
       required String verificationType}) async {
     final regular = await rootBundle.load('assets/fonts/NotoSans-Regular.ttf');
     final bold = await rootBundle.load('assets/fonts/NotoSans-Bold.ttf');
@@ -102,7 +113,8 @@ class CertificateService {
       italic: pw.Font.ttf(italic),
       fontFallback: [pw.Font.ttf(arabic)],
     ));
-    final dateStr = DateFormat.yMMMMd().format(DateTime.parse(issuedAt).toLocal());
+    final dateStr =
+        DateFormat.yMMMMd().format(DateTime.parse(issuedAt).toLocal());
 
     doc.addPage(
       pw.Page(
@@ -177,8 +189,11 @@ class CertificateService {
                         style: const pw.TextStyle(fontSize: 10)),
                     pw.Text('Ref: $reference',
                         style: const pw.TextStyle(fontSize: 10)),
-                    pw.Expanded(child:pw.Text('Verification: ${verificationType=='lessons_and_assessments'?'Self-reported lessons + assessment results':verificationType}',
-                        textAlign:pw.TextAlign.right,style: const pw.TextStyle(fontSize: 8))),
+                    pw.Expanded(
+                        child: pw.Text(
+                            'Verification: ${verificationType == 'lessons_and_assessments' ? 'Self-reported lessons + assessment results' : verificationType}',
+                            textAlign: pw.TextAlign.right,
+                            style: const pw.TextStyle(fontSize: 8))),
                   ],
                 ),
               ],
@@ -191,8 +206,11 @@ class CertificateService {
     return doc.save();
   }
 
-  static Future<Uint8List> historicalPdf(Map<String,dynamic> record) => render(
-    learnerName:record['learner_name'] as String,title:record['title'] as String,
-    reference:record['ref_number'] as String,issuedAt:record['issued_at'] as String,
-    scoreText:record['score_text'] as String? ?? '',verificationType:record['verification_type'] as String);
+  static Future<Uint8List> historicalPdf(Map<String, dynamic> record) => render(
+      learnerName: record['learner_name'] as String,
+      title: record['title'] as String,
+      reference: record['ref_number'] as String,
+      issuedAt: record['issued_at'] as String,
+      scoreText: record['score_text'] as String? ?? '',
+      verificationType: record['verification_type'] as String);
 }

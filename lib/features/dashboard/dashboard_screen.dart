@@ -154,7 +154,8 @@ class DashboardScreen extends ConsumerWidget {
                           icon: Icons.play_circle_outline,
                           iconColor: AppColors.violet,
                           title: 'Today’s learning plan',
-                          subtitle: 'A balanced plan using your saved learning material',
+                          subtitle:
+                              'A balanced plan using your saved learning material',
                           onTap: () => context.push('/plan'),
                         ),
                         const SizedBox(height: 12),

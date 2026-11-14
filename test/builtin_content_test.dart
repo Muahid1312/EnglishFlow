@@ -86,9 +86,11 @@ void main(){
     }finally{upgraded.close();}
   });
   test('full backup restores built-in bookmarks and evidence without copying content into personal articles',()async{
-    final id=catalog.articles.first['id'] as String;await service.bookmark(id,true);await service.saveWord(catalog.words.first['id'] as String);
+    final article=catalog.articles.first;final id=article['id'] as String;await service.openArticle(id);await service.bookmark(id,true);await service.savePosition(id,180);await service.saveWord(catalog.words.first['id'] as String);
+    final questions=article['questions'] as List;await service.submit(id:id,token:'backed-up-attempt',startedAt:'2026-01-01',answers:{for(final q in questions)q['id'] as String:(q['choices'] as List)[q['answer'] as int] as String},readConfirmed:true);
     final archive=File('${directory.path}/content.lexiflowbackup');final backup=BackupService(database,directory,availableBytes:()async=>1<<34);await backup.create(archive);await backup.restore(archive);
     database.close();database=AppDatabase(path:'${directory.path}/live.sqlite');service=BuiltinContentService(database,catalog:()async=>catalog);
     expect((await service.states()).single['bookmarked'],1);expect(await database.getArticles(),isEmpty);expect(await database.getVocabulary(),hasLength(1));
+    expect((await service.states()).single['scroll_offset'],180);expect((await service.states()).single['completed_at'],isNotNull);expect((await service.history(id)).single['correct'],4);expect((await database.db).select('SELECT * FROM builtin_word_saves'),hasLength(1));
   });
 }

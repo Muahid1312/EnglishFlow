@@ -27,16 +27,34 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
 
   Future<void> _load() async {
     try {
-      final snap=await AnalyticsService(ref.read(appDatabaseProvider)).build();
-      if(mounted)setState((){_snap=snap;_loading=false;_error=null;});
+      final snap =
+          await AnalyticsService(ref.read(appDatabaseProvider)).build();
+      if (mounted)
+        setState(() {
+          _snap = snap;
+          _loading = false;
+          _error = null;
+        });
     } catch (_) {
-      if(mounted)setState((){_error='Could not load progress. Your learning records have not been changed.';_loading=false;});
+      if (mounted)
+        setState(() {
+          _error =
+              'Could not load progress. Your learning records have not been changed.';
+          _loading = false;
+        });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if(_error!=null)return Scaffold(appBar:AppBar(title:const Text('Progress')),body:Center(child:Column(mainAxisSize:MainAxisSize.min,children:[Text(_error!),TextButton(onPressed:_load,child:const Text('Retry'))])));
+    if (_error != null)
+      return Scaffold(
+          appBar: AppBar(title: const Text('Progress')),
+          body: Center(
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Text(_error!),
+            TextButton(onPressed: _load, child: const Text('Retry'))
+          ])));
     if (_loading || _snap == null) {
       return const Scaffold(body: LoadingView(message: 'Loading progress…'));
     }
@@ -119,9 +137,13 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                     ),
             ),
             const SizedBox(height: 16),
-            const SectionHeader(title:'Skills · observed learning activity'),
-            const Text('These metrics describe saved activity, not a validated CEFR level. Objective percentages need at least 5 answers.'),
-            for(final entry in s.skills.entries) LexiCard(child:ListTile(title:Text(entry.key),subtitle:Text(entry.value))),
+            const SectionHeader(title: 'Skills · observed learning activity'),
+            const Text(
+                'These metrics describe saved activity, not a validated CEFR level. Objective percentages need at least 5 answers.'),
+            for (final entry in s.skills.entries)
+              LexiCard(
+                  child: ListTile(
+                      title: Text(entry.key), subtitle: Text(entry.value))),
             const SizedBox(height: 20),
             const SectionHeader(title: 'Recommendations'),
             if (s.insights.isEmpty)
@@ -138,10 +160,11 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                               color: AppColors.warning),
                           const SizedBox(width: 12),
                           Expanded(child: Text(i.message)),
-                          Flexible(child:Text(i.actionLabel,
-                              style: const TextStyle(
-                                  color: AppColors.violet,
-                                  fontWeight: FontWeight.w600))),
+                          Flexible(
+                              child: Text(i.actionLabel,
+                                  style: const TextStyle(
+                                      color: AppColors.violet,
+                                      fontWeight: FontWeight.w600))),
                         ],
                       ),
                     ),

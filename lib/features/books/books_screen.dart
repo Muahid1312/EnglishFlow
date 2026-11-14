@@ -441,8 +441,8 @@ class _BookReaderScreenState extends ConsumerState<BookReaderScreen> {
         await doc.close();
         return;
       }
-      final start =
-          (widget.initialPage ?? (book['current_page'] as int?) ?? 1).clamp(1, doc.pagesCount);
+      final start = (widget.initialPage ?? (book['current_page'] as int?) ?? 1)
+          .clamp(1, doc.pagesCount);
       final ctrl = PdfControllerPinch(
         document: Future.value(doc),
         initialPage: start,
@@ -459,14 +459,17 @@ class _BookReaderScreenState extends ConsumerState<BookReaderScreen> {
   }
 
   Future<void> _persist(int page) async {
-    if(!mounted)return;
+    if (!mounted) return;
     _page = page;
     try {
       await ref.read(appDatabaseProvider).updateBookProgress(
-        widget.bookId,page,pageCount:_pageCount>0?_pageCount:null);
+          widget.bookId, page,
+          pageCount: _pageCount > 0 ? _pageCount : null);
     } catch (_) {
-      if(mounted)ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content:Text('Could not save your PDF position. Check storage and retry.')));
+      if (mounted)
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                'Could not save your PDF position. Check storage and retry.')));
     }
   }
 
@@ -509,12 +512,12 @@ class _BookReaderScreenState extends ConsumerState<BookReaderScreen> {
           if (mounted) setState(() => _error = 'Could not open PDF.');
         },
         onDocumentLoaded: (doc) {
-          if(!mounted)return;
+          if (!mounted) return;
           setState(() => _pageCount = doc.pagesCount);
           _persist(_page);
         },
         onPageChanged: (page) {
-          if(!mounted)return;
+          if (!mounted) return;
           setState(() => _page = page);
           _persist(page);
         },

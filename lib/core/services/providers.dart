@@ -20,8 +20,9 @@ final appDatabaseProvider = Provider<AppDatabase>((ref) {
 });
 
 final dailyPlanServiceProvider = Provider<DailyPlanService>((ref) =>
-    DailyPlanService(ref.watch(appDatabaseProvider),
-        ref.watch(studySessionServiceProvider),ai:ref.watch(aiTeacherServiceProvider)));
+    DailyPlanService(
+        ref.watch(appDatabaseProvider), ref.watch(studySessionServiceProvider),
+        ai: ref.watch(aiTeacherServiceProvider)));
 
 final studySessionServiceProvider =
     ChangeNotifierProvider<StudySessionService>((ref) {

@@ -225,10 +225,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ),
           const SizedBox(height: 20),
           const SectionHeader(title: 'Backup & Restore'),
-          LexiCard(child: ListTile(
+          LexiCard(
+              child: ListTile(
             leading: const Icon(Icons.backup_outlined),
             title: const Text('Local Backup & Restore'),
-            subtitle: const Text('Protect learning records, books and recordings offline'),
+            subtitle: const Text(
+                'Protect learning records, books and recordings offline'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push('/backup'),
           )),

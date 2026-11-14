@@ -12,8 +12,10 @@ class ShadowingScreen extends ConsumerStatefulWidget {
       {super.key,
       required this.lessonId,
       required this.title,
-      this.controller,this.initialStartMs,this.initialEndMs});
-  final int? initialStartMs,initialEndMs;
+      this.controller,
+      this.initialStartMs,
+      this.initialEndMs});
+  final int? initialStartMs, initialEndMs;
   final String lessonId, title;
   final ShadowingController? controller;
   @override
@@ -31,9 +33,12 @@ class _ShadowingScreenState extends ConsumerState<ShadowingScreen>
         ShadowingController(ref.read(appDatabaseProvider), widget.lessonId,
             study: ref.read(studySessionServiceProvider));
     _controller.addListener(_changed);
-    _controller.initialize().then((_){
-      if(mounted && _controller.pending==null && widget.initialStartMs!=null && widget.initialEndMs!=null) {
-        _controller.setSegment(widget.initialStartMs!,widget.initialEndMs!);
+    _controller.initialize().then((_) {
+      if (mounted &&
+          _controller.pending == null &&
+          widget.initialStartMs != null &&
+          widget.initialEndMs != null) {
+        _controller.setSegment(widget.initialStartMs!, widget.initialEndMs!);
       }
     });
   }
@@ -133,7 +138,10 @@ class _ShadowingScreenState extends ConsumerState<ShadowingScreen>
                           FilledButton(
                               onPressed: c.busy ? null : c.saveTake,
                               child: const Text('Save attempt')),
-                          TextButton(onPressed:c.busy?null:()=>_delete(c.pending!.id),child:const Text('Discard take')),
+                          TextButton(
+                              onPressed:
+                                  c.busy ? null : () => _delete(c.pending!.id),
+                              child: const Text('Discard take')),
                         ]),
                       ])),
                 const SizedBox(height: 20),

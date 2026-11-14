@@ -76,7 +76,9 @@ final routerProvider = Provider<GoRouter>((ref) {
                       path: 'reading',
                       builder: (_, __) => const ReadingScreen(),
                       routes: [
-                        GoRoute(path:'library',builder:(_,__)=>const BuiltinLibraryScreen()),
+                        GoRoute(
+                            path: 'library',
+                            builder: (_, __) => const BuiltinLibraryScreen()),
                         GoRoute(
                             path: ':id',
                             builder: (_, s) => ArticleReaderScreen(
@@ -85,7 +87,18 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                       path: 'vocabulary',
                       builder: (_, __) => const VocabularyScreen(),
-                      routes:[GoRoute(path:'library',builder:(_,s)=>BuiltinLibraryScreen(vocabulary:true,daily:s.uri.queryParameters['daily']=='true')),GoRoute(path:'word/:id',builder:(_,s)=>WordDetailScreen(entryId:s.pathParameters['id']!))]),
+                      routes: [
+                        GoRoute(
+                            path: 'library',
+                            builder: (_, s) => BuiltinLibraryScreen(
+                                vocabulary: true,
+                                daily:
+                                    s.uri.queryParameters['daily'] == 'true')),
+                        GoRoute(
+                            path: 'word/:id',
+                            builder: (_, s) => WordDetailScreen(
+                                entryId: s.pathParameters['id']!))
+                      ]),
                   GoRoute(
                     path: 'listening',
                     builder: (_, __) => const ListeningSpeakingScreen(),
@@ -97,7 +110,9 @@ final routerProvider = Provider<GoRouter>((ref) {
                       GoRoute(
                         path: 'player/:id',
                         builder: (_, state) => AudioPlayerScreen(
-                            lessonId: state.pathParameters['id']!,initialPositionMs:int.tryParse(state.uri.queryParameters['startMs']??'')),
+                            lessonId: state.pathParameters['id']!,
+                            initialPositionMs: int.tryParse(
+                                state.uri.queryParameters['startMs'] ?? '')),
                       ),
                       GoRoute(
                         path: 'speaking',
@@ -132,10 +147,24 @@ final routerProvider = Provider<GoRouter>((ref) {
                       GoRoute(
                           path: 'mistakes',
                           builder: (_, __) => const MistakeJournalScreen(),
-                          routes:[GoRoute(path:'practice',builder:(_,s)=>MistakePracticeScreen(category:s.uri.queryParameters['category']))]),
+                          routes: [
+                            GoRoute(
+                                path: 'practice',
+                                builder: (_, s) => MistakePracticeScreen(
+                                    category:
+                                        s.uri.queryParameters['category']))
+                          ]),
                     ],
                   ),
-                  GoRoute(path:'courses', builder:(_,__)=>const CoursesScreen(),routes:[GoRoute(path:'lesson/:id',builder:(_,s)=>CourseLessonScreen(lessonId:s.pathParameters['id']!))]),
+                  GoRoute(
+                      path: 'courses',
+                      builder: (_, __) => const CoursesScreen(),
+                      routes: [
+                        GoRoute(
+                            path: 'lesson/:id',
+                            builder: (_, s) => CourseLessonScreen(
+                                lessonId: s.pathParameters['id']!))
+                      ]),
                   GoRoute(
                     path: 'books',
                     builder: (_, __) => const BooksScreen(),
@@ -148,7 +177,9 @@ final routerProvider = Provider<GoRouter>((ref) {
                           GoRoute(
                             path: 'read',
                             builder: (_, s) => BookReaderScreen(
-                                bookId: s.pathParameters['id']!, initialPage:int.tryParse(s.uri.queryParameters['page']??'')),
+                                bookId: s.pathParameters['id']!,
+                                initialPage: int.tryParse(
+                                    s.uri.queryParameters['page'] ?? '')),
                           ),
                         ],
                       ),
