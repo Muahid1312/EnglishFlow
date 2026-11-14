@@ -1,0 +1,366 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_the-doorway-test",
+      "title": "The Doorway Test",
+      "level": "B1",
+      "category": "Real-world problem solving",
+      "reading_minutes": 2,
+      "body": "A new sign above the community hall said, “Everyone welcome.” Inside, the committee had arranged a public discussion about the building. Yet one visitor could not enter through the main door without help. The sign expressed a good intention, but the entrance did not support it.\n\nBefore buying equipment, the committee invited people to try several everyday tasks. Could a parent enter with a stroller? Could a person using a wheelchair reach the meeting room? Could someone carrying shopping bags open the door? The aim was to notice practical difficulties rather than guess what other people needed.\n\nThe group used a tape to measure the entrance and the space beside it. They also checked the surface of the path. A loose mat created a small obstacle that had received little attention before. The distance from the gate was short, but the heavy door made the final part of the journey difficult.\n\nSome changes were simple. The committee removed the loose mat safely and moved a table away from the entrance. Other changes required professional advice and a proper budget. Members wrote down which problems had been solved and which still needed work. They did not describe the whole building as accessible after fixing only one corner.\n\nA clear notice showed an alternative entrance while further repairs were being planned. It included a contact number, but the committee understood that asking every visitor to telephone for help was not a complete long-term solution.\n\nAt the next meeting, the group discussed access as an ordinary part of how the hall worked. Welcoming people was not just about friendly words. It involved checking whether real people could arrive, enter, participate, and leave with as much independence as possible.",
+      "vocabulary": [
+        "v_visitor",
+        "v_measure",
+        "v_surface",
+        "v_distance",
+        "v_notice",
+        "v_access"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does the doorway test show?",
+          "choices": [
+            "A welcoming message is enough on its own",
+            "Access should be checked through practical experiences",
+            "Only the inside of a building matters",
+            "Every improvement needs expensive equipment"
+          ],
+          "answer": 1,
+          "explanation": "The committee learns from people attempting real tasks at the entrance."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Which small obstacle does the group find?",
+          "choices": [
+            "A loose mat on the path",
+            "A broken roof above the stage",
+            "A missing bus engine",
+            "A locked storage cupboard upstairs"
+          ],
+          "answer": 0,
+          "explanation": "The loose mat is one of the problems noticed during the practical checks."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does the committee avoid declaring the whole building accessible?",
+          "choices": [
+            "It wants to stop holding public meetings",
+            "Solving one problem does not prove that every access need is met",
+            "Visitors no longer need to enter",
+            "The sign has been removed"
+          ],
+          "answer": 1,
+          "explanation": "Several problems remain, so a broad claim would go beyond the work completed."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “access” mean in the final discussion?",
+          "choices": [
+            "The color of the sign",
+            "The ability to reach and use the building and its activities",
+            "The committee’s private address",
+            "The cost of buying a table"
+          ],
+          "answer": 1,
+          "explanation": "Access concerns whether people can actually enter and participate."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_why-the-bus-average-was-not-enough",
+      "title": "Why the Bus Average Was Not Enough",
+      "level": "B1",
+      "category": "Science",
+      "reading_minutes": 2,
+      "body": "Five friends compared how long they had waited for the same bus. Four had waited five minutes each. The fifth, Rosa, had waited thirty minutes. When they added the waiting times and divided by five, the average was ten minutes. The calculation was correct, but Rosa felt that it did not tell the whole story.\n\nAn average turns several values into one useful number. It can make a comparison easier, especially when there are many records. However, it also removes some detail. In this example, nobody had actually waited ten minutes. Most had waited much less, and one person had waited much longer.\n\nThe friends decided to compare more than one kind of information. They kept the average, wrote down the shortest and longest waits, and listed how many journeys involved a long delay. The range of waiting times helped them see that the service was not equally predictable every day.\n\nThere was another reason to look beyond a single figure. A long wait did not have the same effect on every journey. Missing a casual visit was inconvenient. Missing a connection to a hospital appointment could have a more serious consequence. The passengers’ needs mattered alongside the measurements.\n\nThe group had only five records, so it could not describe the entire bus service fairly. It needed observations from different days and times. Rosa suggested collecting another week of information before writing to the transport office.\n\nTheir final note did not reject averages. It used them carefully. A useful summary can begin a discussion, but it should not prevent people from asking what the summary hides. Sometimes the most important part of a set of numbers is the difference between the experiences inside it.",
+      "vocabulary": [
+        "v_average",
+        "v_number",
+        "v_compare",
+        "v_range",
+        "v_reason",
+        "v_journey"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why do the friends keep more than the average waiting time?",
+          "choices": [
+            "The calculation is mathematically wrong",
+            "One number can hide important differences between journeys",
+            "Averages never provide useful information",
+            "Only Rosa’s waiting time should be recorded"
+          ],
+          "answer": 1,
+          "explanation": "The correct average does not show how differently the five passengers experienced the service."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What is the average of the five waiting times?",
+          "choices": [
+            "Five minutes",
+            "Ten minutes",
+            "Thirty minutes",
+            "Fifty minutes"
+          ],
+          "answer": 1,
+          "explanation": "The total is fifty minutes, divided by five records."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why collect records from another week?",
+          "choices": [
+            "Five journeys may not represent the whole service",
+            "The first five records must be destroyed",
+            "Long waits stop mattering after a week",
+            "More records guarantee no future delays"
+          ],
+          "answer": 0,
+          "explanation": "Different days and times may reveal patterns missing from the small first set."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “range” help show in this article?",
+          "choices": [
+            "The variety between the shortest and longest waits",
+            "The number of seats on a bus",
+            "The passengers’ ticket prices",
+            "The distance to the hospital"
+          ],
+          "answer": 0,
+          "explanation": "Looking at the low and high values reveals variation hidden by the average."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_an-interview-with-a-repair-volunteer",
+      "title": "An Interview With a Repair Volunteer",
+      "level": "B1",
+      "category": "Technology",
+      "reading_minutes": 2,
+      "body": "This fictional interview follows Ben, a volunteer at a neighborhood repair event. Visitors bring small household items and learn what can safely be checked. The event does not promise to fix everything, and volunteers explain when a job needs a qualified professional.\n\nWhy did you join? “I wanted to share a practical skill. At first, I thought the work would mainly involve tools. Actually, listening is just as important. A customer might say a device is broken when the problem is a loose cable or an unfamiliar setting. We ask what happened before deciding what to do.”\n\nWhat happens when someone arrives? “We write a short description together. Then we explain what we are able to inspect. The owner stays involved, so the event is not simply a free repair shop. People can learn how to notice a damaged part, find a model number, or describe a problem more clearly.”\n\nDo you sometimes refuse a repair? “Yes. Safety matters more than looking successful. We do not open equipment we are not trained to handle. We also stop if a repair would create a risk that we cannot properly assess. Saying no honestly can be more helpful than making a confident promise.”\n\nWhat do visitors learn from an item that cannot be fixed? “Sometimes they learn where to ask for professional advice or how to replace one suitable part instead of the whole product. Sometimes the answer is that the item has reached the end of its useful life. We discuss safe disposal rather than hiding that possibility.”\n\nBen says the event has changed how he shops. He now asks whether instructions and spare parts are available. For him, reuse begins before an object breaks: it starts with choosing something people can maintain and understand.",
+      "vocabulary": [
+        "v_volunteer",
+        "v_skill",
+        "v_customer",
+        "v_device",
+        "v_repair",
+        "v_reuse"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What is the repair event’s wider purpose?",
+          "choices": [
+            "To promise a repair for every item",
+            "To combine practical help, learning, and honest safety limits",
+            "To replace all professional technicians",
+            "To encourage visitors to buy more devices"
+          ],
+          "answer": 1,
+          "explanation": "The event involves owners in learning and recognizes when work is outside the volunteers’ abilities."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does the owner do during an inspection?",
+          "choices": [
+            "Always leaves immediately",
+            "Stays involved in the process",
+            "Signs away ownership",
+            "Buys a new device before any questions"
+          ],
+          "answer": 1,
+          "explanation": "Ben explains that the owner remains involved rather than simply dropping off an item."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does Ben value the availability of spare parts when shopping?",
+          "choices": [
+            "It may make a product easier to maintain and keep using",
+            "It guarantees that the product will never break",
+            "Spare parts are always free",
+            "Instructions are no longer necessary"
+          ],
+          "answer": 0,
+          "explanation": "His experience shows that future repair possibilities matter when choosing a product."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “reuse” mean near the end of the interview?",
+          "choices": [
+            "Continuing to use an existing item instead of discarding it",
+            "Making every item look new",
+            "Buying the same item twice",
+            "Ignoring all safety warnings"
+          ],
+          "answer": 0,
+          "explanation": "Ben connects reuse with keeping products useful through care and repair."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-menu-with-clear-ingredients",
+      "title": "The Menu With Clear Ingredients",
+      "level": "B1",
+      "category": "Health and lifestyle",
+      "reading_minutes": 2,
+      "body": "A customer asked the café staff whether a soup contained nuts. One worker thought it did not. Another remembered a sauce that might have been added earlier. Neither wanted to give the wrong answer, especially after the customer explained that she had a food allergy.\n\nThe manager did not ask the team to guess. She checked the recipe and the labels of the products used that morning. She also spoke with the cook about how the soup had been prepared. Knowing the usual recipe was useful, but it was not enough to confirm every detail about that particular batch.\n\nThe café then reviewed how it shared ingredient information. The menu used short descriptions such as “house sauce,” which sounded attractive but told customers very little. Staff created a separate list identifying the main ingredients and explaining whom to ask for further information. They checked the list whenever a supplier or recipe changed.\n\nThey also discussed the limits of the information. Removing one ingredient from a plate did not automatically make the whole preparation process suitable for every allergy. Shared equipment could matter too. The café avoided claiming that a meal was safe when the team could not establish the relevant facts.\n\nFor a customer, making a request should not require an argument. The manager encouraged workers to respond respectfully, ask clear questions, and seek reliable information. If the café could not answer adequately, it needed to say so rather than make a promise just to complete a sale.\n\nThe new list did not replace a conversation with the customer. It made that conversation more useful. Clear information, honest limits, and a willingness to check helped build trust. In this café, good service meant understanding when a simple-looking question deserved careful attention.",
+      "vocabulary": [
+        "v_customer",
+        "v_staff",
+        "v_allergy",
+        "v_confirm",
+        "v_ingredient",
+        "v_request",
+        "v_trust"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does the café improve after the question about soup?",
+          "choices": [
+            "Its willingness to guess quickly",
+            "How it checks and communicates ingredient information and limits",
+            "The number of dishes it can call safe without checking",
+            "Its ability to avoid speaking with customers"
+          ],
+          "answer": 1,
+          "explanation": "The café develops clearer records and more careful conversations."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "When do staff check their ingredient list again?",
+          "choices": [
+            "Only after a year",
+            "Whenever a supplier or recipe changes",
+            "Only when the menu color changes",
+            "Only if a dish becomes more expensive"
+          ],
+          "answer": 1,
+          "explanation": "Changes to supplies or recipes may change the relevant information."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why can “house sauce” be an unhelpful description?",
+          "choices": [
+            "It may sound appealing without identifying what the sauce contains",
+            "It is always an incorrect name",
+            "It proves the sauce contains nuts",
+            "It prevents anyone from making a request"
+          ],
+          "answer": 0,
+          "explanation": "An attractive label alone does not provide enough ingredient detail."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “confirm” mean when staff examine the soup details?",
+          "choices": [
+            "Make a confident guess",
+            "Check that the information is correct",
+            "Change the customer’s request",
+            "Remove all descriptions from the menu"
+          ],
+          "answer": 1,
+          "explanation": "They consult the actual recipe, labels, and preparation information."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_where-did-the-puddle-go",
+      "title": "Where Did the Puddle Go",
+      "level": "B1",
+      "category": "Nature",
+      "reading_minutes": 2,
+      "body": "After a rainy night, a puddle formed beside the school gate. By the afternoon, it was much smaller. One student said the Sun had “used up” the water. Another thought it had all gone into the ground. Their teacher suggested a better question: what different routes could the water have taken?\n\nWater can leave a puddle in several ways. Some may flow toward a drain. Some may enter spaces in soil, if the surface allows it. Some liquid water may change into water vapor and mix with the air. That change is called evaporation. The water has not simply stopped existing because people can no longer see it.\n\nThe class began to observe the place more carefully after later rain. Part of the puddle lay on paving, while another part touched a patch of soil. Sunlight reached one side earlier than the other. Wind also changed from one day to the next. The students could not fairly explain every change using just one of those conditions.\n\nThey drew a simple cycle showing water moving between places and forms. The picture did not mean that each drop followed exactly the same journey at the same speed. It helped them connect familiar experiences: a wet shirt drying, a cold window becoming damp, and rain returning water to the ground.\n\nThe class used the word heat carefully too. A warmer surface can affect how quickly water evaporates, but looking at a disappearing puddle does not tell us exactly where all its water went. Different processes may happen together.\n\nBy the end of the discussion, the puddle had become an example of how ordinary observations can lead to scientific questions. The answer was more interesting than “the water disappeared.” It involved movement, changing conditions, and a willingness to look beyond what was immediately visible.",
+      "vocabulary": [
+        "v_surface",
+        "v_liquid",
+        "v_observe",
+        "v_wind",
+        "v_cycle",
+        "v_heat"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does the puddle discussion help students understand?",
+          "choices": [
+            "Water can only leave a puddle by entering soil",
+            "An ordinary change can involve several connected processes",
+            "Sunlight makes water stop existing",
+            "Every puddle dries at exactly the same speed"
+          ],
+          "answer": 1,
+          "explanation": "The article considers flow, soaking into soil, and evaporation together."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What is evaporation in the article?",
+          "choices": [
+            "Liquid water becoming vapor and entering the air",
+            "Water freezing beneath a gate",
+            "A drain filling with soil",
+            "Rain forming a new puddle"
+          ],
+          "answer": 0,
+          "explanation": "The second paragraph explains evaporation as a change from liquid water to vapor."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why can the class not explain every change with sunlight alone?",
+          "choices": [
+            "Several conditions, including soil and wind, also differ",
+            "Sunlight never affects puddles",
+            "The students do not have notebooks",
+            "Water cannot move across paving"
+          ],
+          "answer": 0,
+          "explanation": "Several conditions can influence what happens at the same time."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “cycle” describe in the students’ drawing?",
+          "choices": [
+            "A single measurement of puddle depth",
+            "A series of connected events that can repeat",
+            "The school’s morning timetable",
+            "A type of garden tool"
+          ],
+          "answer": 1,
+          "explanation": "Their drawing connects repeated movement and changes in water’s form."
+        }
+      ],
+      "references": [
+        {
+          "title": "USGS Water Science School: the water cycle",
+          "url": "https://www.usgs.gov/special-topics/water-science-school/science/water-cycle"
+        }
+      ]
+    }
+  ]
+}

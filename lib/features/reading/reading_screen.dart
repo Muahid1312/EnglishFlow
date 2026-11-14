@@ -1,3 +1,4 @@
+import '../../core/services/review_schedule.dart' show normalizeWord;
 import 'dart:async';
 import 'dart:io';
 
@@ -215,7 +216,7 @@ class _ArticleReaderScreenState extends ConsumerState<ArticleReaderScreen>
     _savingWord = true;
     try {
       final catalog=_builtin?await BuiltinCatalog.load():null;
-      final known=catalog?.words.where((w)=>AppDatabase.normalizeWord(w['word'] as String)==AppDatabase.normalizeWord(word)).toList();
+      final known=catalog?.words.where((w)=>normalizeWord(w['word'] as String)==normalizeWord(word)).toList();
       if(known!=null&&known.isNotEmpty){await BuiltinContentService(_db).saveWord(known.first['id'] as String,sentence:sourceSentence(body,selection.start,selection.end),source:_article!['title'] as String,articleId:widget.articleId);}else{
       await _db.saveVocabulary(
           word: word,

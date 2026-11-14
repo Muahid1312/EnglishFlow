@@ -1,3 +1,4 @@
+import 'review_schedule.dart' show normalizeWord;
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import '../database/app_database.dart';
@@ -81,12 +82,12 @@ class BuiltinContentService {
   }
   Future<List<Map<String,dynamic>>> recommendedWords({int count=10,String? level}) async {
     final catalog=await _catalog();final d=await database.db;
-    final saved=d.select('SELECT normalized_word FROM vocabulary_entries WHERE is_saved=1').map((r)=>r['normalized_word']).toSet();
+    final saved=d.select('SELECT word FROM vocabulary_entries WHERE is_saved=1').map((r)=>normalizeWord(r['word'] as String)).toSet();
     final target=['B1','B2'].contains(level)?level!:'B1';
     final today=localDateString();
     final previous=d.select('SELECT word_ids_json FROM builtin_daily_words WHERE local_date=? AND level=?',[today,target]);
     if(previous.isNotEmpty){final ids=(jsonDecode(previous.single['word_ids_json'] as String) as List).cast<String>();return catalog.words.where((w)=>ids.contains(w['id'])).toList();}
-    final selected=catalog.words.where((w)=>w['level']==target&&!saved.contains(AppDatabase.normalizeWord(w['word'] as String))).take(count).toList();
+    final selected=catalog.words.where((w)=>w['level']==target&&!saved.contains(normalizeWord(w['word'] as String))).take(count).toList();
     d.execute('INSERT OR IGNORE INTO builtin_daily_words(local_date,level,word_ids_json) VALUES(?,?,?)',[today,target,jsonEncode(selected.map((w)=>w['id']).toList())]);
     return selected;
   }

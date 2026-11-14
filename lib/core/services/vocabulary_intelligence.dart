@@ -13,7 +13,7 @@ class VocabularyIntelligence {
     if (![0,5,10,15].contains(limit)) throw ArgumentError('Choose 5, 10, 15 or all due.');
     final db=await database.db;
     // The due query exposes canonical saved words and the earliest legacy schedule.
-    final due=await database.getDueVocabulary(now:_now());
+    final due=(await database.getDueVocabulary(now:_now())).toList();
     final stats={for(final r in db.select("SELECT entry_id,COUNT(*) failures,MAX(reviewed_at) recent FROM vocabulary_review_history WHERE rating='again' GROUP BY entry_id")) r['entry_id']:r};
     due.sort((a,b) {
       final da=DateTime.parse(a['next_review_at'] as String).toUtc();

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/services/builtin_content_service.dart';
 import '../../core/services/providers.dart';
+import '../../core/services/review_schedule.dart' show normalizeWord;
 import '../../core/widgets/common_widgets.dart';
 
 class BuiltinLibraryScreen extends ConsumerStatefulWidget {
@@ -20,7 +21,7 @@ class _LibraryState extends ConsumerState<BuiltinLibraryScreen> {
     try {
       final database=ref.read(appDatabaseProvider);final service=BuiltinContentService(database);
       final catalog=await BuiltinCatalog.load();final states=await service.states();
-      final personal=(await database.db).select('SELECT normalized_word FROM vocabulary_entries WHERE is_saved=1').map((r)=>r['normalized_word'] as String).toSet();
+      final personal=(await database.db).select('SELECT word FROM vocabulary_entries WHERE is_saved=1').map((r)=>normalizeWord(r['word'] as String)).toSet();
       final prefs=await database.getPreferences();
       final daily=widget.daily?await service.recommendedWords(level:prefs.englishLevel,count:10):<Map<String,dynamic>>[];
       if(mounted)setState((){_catalog=catalog;_states={for(final s in states)s['article_id'] as String:s};_savedWords=personal;_daily=daily;_error=null;});
@@ -47,7 +48,7 @@ class _LibraryState extends ConsumerState<BuiltinLibraryScreen> {
           Text('${filtered.length} ${widget.vocabulary?'words':'articles'}'),
         ])),
         Expanded(child:filtered.isEmpty?Center(child:Text(widget.daily?'All words at your selected level are already saved. Review your due cards.':'No matching content.')):ListView.builder(itemCount:filtered.length,itemBuilder:(context,i){
-          final item=filtered[i];final saved=_savedWords.contains((item['word'] as String? ?? '').toLowerCase().trim());
+          final item=filtered[i];final saved=_savedWords.contains(normalizeWord(item['word'] as String? ?? ''));
           if(widget.vocabulary)return Card(margin:const EdgeInsets.symmetric(horizontal:16,vertical:6),child:Padding(padding:const EdgeInsets.all(16),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
             Text('${item['word']} · ${item['part_of_speech']} · ${item['level']}',style:Theme.of(context).textTheme.titleMedium),Text(item['definition'] as String),
             Text(item['translation'] as String,textDirection:TextDirection.rtl),Text(item['example'] as String),Text('Collocation: ${item['collocation']}'),
