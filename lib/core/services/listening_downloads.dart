@@ -235,7 +235,7 @@ class ListeningDownloads extends ChangeNotifier with WidgetsBindingObserver {
       }
     }
   }
-  Future<void> waitUntilIdle() async { await _worker; }
+  Future<void> waitUntilIdle() async { while (_worker != null) { await _worker; } }
   void _check() { if (_closed || _intent != null || !_foreground || _suspended) throw _Stopped(); }
   Future<void> _erasePart(String id) async {
     final part = _part(id);

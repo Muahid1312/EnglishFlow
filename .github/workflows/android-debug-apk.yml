@@ -50,6 +50,12 @@ jobs:
         id: content
         continue-on-error: true
         run: python3 scripts/validate_content.py 2>&1 | tee content-validation.log
+      - name: Install audio validation tools
+        run: |
+          if ! command -v ffmpeg >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
       - name: Verify authorized listening audio
         id: listening
         continue-on-error: true
