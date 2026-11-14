@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +10,7 @@ import '../../../core/services/providers.dart';
 import '../../../core/utils/id_utils.dart';
 import '../../../core/widgets/ai_help_button.dart';
 import '../../../core/widgets/common_widgets.dart';
+import '../../../core/services/practice_timer.dart';
 
 class ComprehensionScreen extends ConsumerStatefulWidget {
   const ComprehensionScreen({super.key, required this.lessonId});
@@ -22,18 +24,22 @@ class _ComprehensionScreenState extends ConsumerState<ComprehensionScreen> {
   List<Map<String, dynamic>> _questions = [], _attempts = [];
   Map<String, dynamic>? _lesson;
   final _answers = <String, String>{};
-  bool _loading = true, _busy = false, _reveal = false;
+  bool _loading = true, _busy = false, _reveal = false,_submitted=false;
+  late final PracticeTimer _timer;
   String? _error;
   String _submission = newId();
   late final AppDatabase _db = ref.read(appDatabaseProvider);
   @override
   void initState() {
     super.initState();
+    final active=ref.read(studySessionServiceProvider).active;
+    _timer=PracticeTimer(ref.read(studySessionServiceProvider),active?.module=='listening_speaking'?'listening_speaking':'listening');
     _load();
   }
 
   Future<void> _load() async {
     try {
+      final token=await _db.comprehensionSubmission(widget.lessonId);
       final lesson = await _db.getListeningLesson(widget.lessonId);
       final questions = await _db.getQuestions(widget.lessonId);
       final attempts = await _db.getComprehensionAttempts(widget.lessonId);
@@ -41,6 +47,8 @@ class _ComprehensionScreenState extends ConsumerState<ComprehensionScreen> {
       final draft = lesson?['comprehension_draft'] as String? ?? '{}';
       final saved = jsonDecode(draft) as Map<String, dynamic>;
       setState(() {
+        _submission=token;
+        _submitted=attempts.any((a)=>a['submission_id']==token);
         _lesson = lesson;
         _questions = questions;
         _attempts = attempts;
@@ -62,6 +70,9 @@ class _ComprehensionScreenState extends ConsumerState<ComprehensionScreen> {
   }
 
   Future<void> _change(String id, String answer) async {
+    if(_submitted)return;
+    await _timer.start();
+    if(!mounted){await _timer.pause();return;}
     setState(() => _answers[id] = answer);
     try {
       await _db.saveComprehensionDraft(widget.lessonId, Map.of(_answers));
@@ -74,12 +85,12 @@ class _ComprehensionScreenState extends ConsumerState<ComprehensionScreen> {
   }
 
   Future<void> _submit() async {
-    if (_busy) return;
+    if (_busy || _submitted) return;
     setState(() => _busy = true);
     try {
       await _db.submitComprehension(
           widget.lessonId, _submission, Map.of(_answers));
-      _submission = newId();
+      await _timer.finish();
       await _load();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -125,6 +136,12 @@ class _ComprehensionScreenState extends ConsumerState<ComprehensionScreen> {
   }
 
   @override
+  void dispose(){
+    unawaited(_timer.pause().catchError((Object _){}));
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (_loading) return const Scaffold(body: LoadingView());
     if (_lesson == null) {
@@ -150,6 +167,7 @@ class _ComprehensionScreenState extends ConsumerState<ComprehensionScreen> {
               icon: const Icon(Icons.add))
         ]),
         body: ListView(padding: const EdgeInsets.all(20), children: [
+          if(_submitted) TextButton(onPressed:_busy?null:() async {await _db.comprehensionSubmission(widget.lessonId,retry:true);await _load();},child:const Text('Start a new attempt')),
           const Text(
               'Listen to the audio first. Saved questions and answers work offline.'),
           if (_error != null) ErrorView(message: _error!),
@@ -181,7 +199,8 @@ class _ComprehensionScreenState extends ConsumerState<ComprehensionScreen> {
                       ]),
                       if (q['question_type'] == 'short' || _choices(q).isEmpty)
                         TextFormField(
-                            key: ValueKey('answer-${q['id']}'),
+                            key: ValueKey('answer-$_submission-${q['id']}'),
+                            readOnly:_submitted || _busy,
                             initialValue: _answers[q['id']] ?? '',
                             decoration: const InputDecoration(
                                 labelText: 'Your short answer'),
@@ -194,7 +213,7 @@ class _ComprehensionScreenState extends ConsumerState<ComprehensionScreen> {
                               title: Text(option),
                               value: option,
                               groupValue: _answers[q['id']],
-                              onChanged: _busy
+                              onChanged: _busy || _submitted
                                   ? null
                                   : (value) =>
                                       _change(q['id'] as String, value ?? '')),
@@ -204,7 +223,7 @@ class _ComprehensionScreenState extends ConsumerState<ComprehensionScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: PrimaryButton(
                     label: 'Submit answers',
-                    onPressed: _busy ? null : _submit)),
+                    onPressed: _busy || _submitted ? null : _submit)),
           if (latest.isNotEmpty) ...[
             const SectionHeader(title: 'Latest results'),
             Text(objective.isEmpty
@@ -346,6 +365,7 @@ class _QuestionEditorState extends State<_QuestionEditor> {
                 decoration: const InputDecoration(labelText: 'Question type'),
                 items: const [
                   DropdownMenuItem(value: 'mc', child: Text('Multiple choice')),
+                  DropdownMenuItem(value:'true_false',child:Text('True / false')),
                   DropdownMenuItem(
                       value: 'main_idea', child: Text('Main idea')),
                   DropdownMenuItem(
@@ -356,7 +376,7 @@ class _QuestionEditorState extends State<_QuestionEditor> {
                       value: 'short',
                       child: Text('Short answer (self-assessed)'))
                 ],
-                onChanged: (v) => setState(() => _type = v ?? 'mc')),
+                onChanged: (v) => setState(() {_type=v??'mc';if(_type=='true_false'){_choices.text='True\nFalse';_correct.text='True';}})),
             TextField(
                 controller: _question,
                 decoration: const InputDecoration(labelText: 'Question'),

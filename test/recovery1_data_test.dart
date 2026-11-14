@@ -292,6 +292,7 @@ void main() {
       'id': 'pass',
       'assessment_id': 'a',
       'score': 1,
+      'answers_json': '{"q":"A"}',
       'max_score': 1,
       'passed': 1,
       'started_at': '2026-01-01',
@@ -351,7 +352,8 @@ void main() {
       Future<void> pass(String id, {int self = 0}) => db.saveAssessmentAttempt({
             'id': 'pass$id$self',
             'assessment_id': id,
-            'score': 0.8,
+            'score': 1,
+            'answers_json': '{"q$id":"A"}',
             'max_score': 1,
             'passed': 1,
             'self_assessed': self,

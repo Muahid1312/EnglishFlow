@@ -1,6 +1,7 @@
 import '../../core/database/app_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/services/ai_teacher_service.dart';
 import '../../core/services/providers.dart';
@@ -205,25 +206,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               children: [
                 Text('Daily target: ${p.dailyTargetMinutes} min',
                     style: Theme.of(context).textTheme.titleSmall),
-                Slider(
-                  value: p.dailyTargetMinutes.toDouble(),
-                  min: 20,
-                  max: 120,
-                  divisions: 20,
-                  label: '${p.dailyTargetMinutes}',
-                  onChanged: (v) {
-                    setState(() {
-                      _prefs = p.copyWith(dailyTargetMinutes: v.round());
-                    });
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Daily learning plan'),
+                  subtitle: const Text('Choose 15, 30 or 60 minutes'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () async {
+                    await context.push('/plan');
+                    if (mounted) await _load();
                   },
-                  onChangeEnd: (v) => _savePrefs({
-                    'daily_target_minutes': v.round(),
-                    'reading_minutes': (v * 0.3).round().clamp(10, 40),
-                    'vocabulary_minutes': (v * 0.25).round().clamp(8, 30),
-                    'listening_speaking_minutes':
-                        (v * 0.25).round().clamp(8, 30),
-                    'grammar_writing_minutes': (v * 0.2).round().clamp(6, 25),
-                  }),
                 ),
                 Text('Translation: ${p.translationLanguage}',
                     style: Theme.of(context).textTheme.bodySmall),
@@ -232,6 +223,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ],
             ),
           ),
+          const SizedBox(height: 20),
+          const SectionHeader(title: 'Backup & Restore'),
+          LexiCard(child: ListTile(
+            leading: const Icon(Icons.backup_outlined),
+            title: const Text('Local Backup & Restore'),
+            subtitle: const Text('Protect learning records, books and recordings offline'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push('/backup'),
+          )),
           const SizedBox(height: 20),
           const SectionHeader(title: 'AI Teacher (optional)'),
           LexiCard(

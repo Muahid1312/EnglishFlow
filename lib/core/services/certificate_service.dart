@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
@@ -56,6 +57,39 @@ class CertificateService {
       'certificate_ref': ref,
     };
 
+    final scoreText = '${(assessmentScore * 100).round()}% assessment score';
+    final bytes = await render(learnerName:name,title:targetTitle,reference:ref,issuedAt:now,scoreText:scoreText,verificationType:verificationType);
+
+    final dir = await getApplicationDocumentsDirectory();
+    final certDir = Directory(p.join(dir.path, 'certificates'));
+    if (!await certDir.exists()) await certDir.create(recursive: true);
+    final filePath = p.join(certDir.path, '$ref.pdf');
+    final file = File(filePath);
+    await file.writeAsBytes(bytes);
+
+    try {
+      await _db.saveCertificateWithCompletion(completion, {
+        'id': certId,
+        'completion_id': completionId,
+        'learner_name': name,
+        'title': targetTitle,
+        'ref_number': ref,
+        'score_text': scoreText,
+        'verification_type': verificationType,
+        'issued_at': now,
+        'file_path': filePath,
+      });
+    } catch (_) {
+      await file.delete();
+      rethrow;
+    }
+
+    return filePath;
+  }
+  /// Recreates a historical PDF solely from its immutable issued record.
+  static Future<Uint8List> render({required String learnerName, required String title,
+      required String reference, required String issuedAt, required String scoreText,
+      required String verificationType}) async {
     final regular = await rootBundle.load('assets/fonts/NotoSans-Regular.ttf');
     final bold = await rootBundle.load('assets/fonts/NotoSans-Bold.ttf');
     final italic = await rootBundle.load('assets/fonts/NotoSans-Italic.ttf');
@@ -68,8 +102,7 @@ class CertificateService {
       italic: pw.Font.ttf(italic),
       fontFallback: [pw.Font.ttf(arabic)],
     ));
-    final dateStr = DateFormat.yMMMMd().format(DateTime.now());
-    final scoreText = '${(assessmentScore * 100).round()}% assessment score';
+    final dateStr = DateFormat.yMMMMd().format(DateTime.parse(issuedAt).toLocal());
 
     doc.addPage(
       pw.Page(
@@ -104,7 +137,7 @@ class CertificateService {
                     height: 38,
                     child: pw.FittedBox(
                         fit: pw.BoxFit.scaleDown,
-                        child: pw.Text(name,
+                        child: pw.Text(learnerName,
                             style: pw.TextStyle(
                                 fontSize: 22,
                                 fontWeight: pw.FontWeight.bold)))),
@@ -116,7 +149,7 @@ class CertificateService {
                     height: 40,
                     child: pw.FittedBox(
                         fit: pw.BoxFit.scaleDown,
-                        child: pw.Text(targetTitle,
+                        child: pw.Text(title,
                             textAlign: pw.TextAlign.center,
                             style: pw.TextStyle(
                                 fontSize: 16,
@@ -142,10 +175,10 @@ class CertificateService {
                   children: [
                     pw.Text('Date: $dateStr',
                         style: const pw.TextStyle(fontSize: 10)),
-                    pw.Text('Ref: $ref',
+                    pw.Text('Ref: $reference',
                         style: const pw.TextStyle(fontSize: 10)),
-                    pw.Text('Verification: $verificationType',
-                        style: const pw.TextStyle(fontSize: 10)),
+                    pw.Expanded(child:pw.Text('Verification: ${verificationType=='lessons_and_assessments'?'Self-reported lessons + assessment results':verificationType}',
+                        textAlign:pw.TextAlign.right,style: const pw.TextStyle(fontSize: 8))),
                   ],
                 ),
               ],
@@ -155,30 +188,11 @@ class CertificateService {
       ),
     );
 
-    final dir = await getApplicationDocumentsDirectory();
-    final certDir = Directory(p.join(dir.path, 'certificates'));
-    if (!await certDir.exists()) await certDir.create(recursive: true);
-    final filePath = p.join(certDir.path, '$ref.pdf');
-    final file = File(filePath);
-    await file.writeAsBytes(await doc.save());
-
-    try {
-      await _db.saveCertificateWithCompletion(completion, {
-        'id': certId,
-        'completion_id': completionId,
-        'learner_name': name,
-        'title': targetTitle,
-        'ref_number': ref,
-        'score_text': scoreText,
-        'verification_type': verificationType,
-        'issued_at': now,
-        'file_path': filePath,
-      });
-    } catch (_) {
-      await file.delete();
-      rethrow;
-    }
-
-    return filePath;
+    return doc.save();
   }
+
+  static Future<Uint8List> historicalPdf(Map<String,dynamic> record) => render(
+    learnerName:record['learner_name'] as String,title:record['title'] as String,
+    reference:record['ref_number'] as String,issuedAt:record['issued_at'] as String,
+    scoreText:record['score_text'] as String? ?? '',verificationType:record['verification_type'] as String);
 }

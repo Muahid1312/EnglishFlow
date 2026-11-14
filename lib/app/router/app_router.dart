@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/services/providers.dart';
 import '../../features/books/books_screen.dart';
+import '../../features/courses/course_screens.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/dashboard/learn_hub_screen.dart';
 import '../../features/grammar_writing/grammar_writing_screen.dart';
@@ -25,11 +26,16 @@ import '../../features/assessments/assessments_screen.dart';
 import '../../features/reading/reading_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import '../../features/vocabulary/vocabulary_screen.dart';
+import '../../features/daily_plan/daily_plan_screen.dart';
+import '../../features/backup/backup_screen.dart';
+import '../../features/vocabulary/word_detail_screen.dart';
+import '../../features/mistake_coach/mistake_practice_screen.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<GoRouter>((ref) {
-  return GoRouter(
+  ref.watch(appGenerationProvider);
+  final router = GoRouter(
     navigatorKey: _rootKey,
     initialLocation: '/home',
     redirect: (context, state) async {
@@ -76,7 +82,8 @@ final routerProvider = Provider<GoRouter>((ref) {
                       ]),
                   GoRoute(
                       path: 'vocabulary',
-                      builder: (_, __) => const VocabularyScreen()),
+                      builder: (_, __) => const VocabularyScreen(),
+                      routes:[GoRoute(path:'word/:id',builder:(_,s)=>WordDetailScreen(entryId:s.pathParameters['id']!))]),
                   GoRoute(
                     path: 'listening',
                     builder: (_, __) => const ListeningSpeakingScreen(),
@@ -88,7 +95,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                       GoRoute(
                         path: 'player/:id',
                         builder: (_, state) => AudioPlayerScreen(
-                            lessonId: state.pathParameters['id']!),
+                            lessonId: state.pathParameters['id']!,initialPositionMs:int.tryParse(state.uri.queryParameters['startMs']??'')),
                       ),
                       GoRoute(
                         path: 'speaking',
@@ -122,9 +129,11 @@ final routerProvider = Provider<GoRouter>((ref) {
                       ),
                       GoRoute(
                           path: 'mistakes',
-                          builder: (_, __) => const MistakeJournalScreen()),
+                          builder: (_, __) => const MistakeJournalScreen(),
+                          routes:[GoRoute(path:'practice',builder:(_,s)=>MistakePracticeScreen(category:s.uri.queryParameters['category']))]),
                     ],
                   ),
+                  GoRoute(path:'courses', builder:(_,__)=>const CoursesScreen(),routes:[GoRoute(path:'lesson/:id',builder:(_,s)=>CourseLessonScreen(lessonId:s.pathParameters['id']!))]),
                   GoRoute(
                     path: 'books',
                     builder: (_, __) => const BooksScreen(),
@@ -137,7 +146,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                           GoRoute(
                             path: 'read',
                             builder: (_, s) => BookReaderScreen(
-                                bookId: s.pathParameters['id']!),
+                                bookId: s.pathParameters['id']!, initialPage:int.tryParse(s.uri.queryParameters['page']??'')),
                           ),
                         ],
                       ),
@@ -183,12 +192,24 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
+        path: '/plan',
+        parentNavigatorKey: _rootKey,
+        builder: (context, state) => const DailyPlanScreen(),
+      ),
+      GoRoute(
+        path: '/backup',
+        parentNavigatorKey: _rootKey,
+        builder: (context, state) => const BackupScreen(),
+      ),
+      GoRoute(
         path: '/settings',
         parentNavigatorKey: _rootKey,
         builder: (context, state) => const SettingsScreen(),
       ),
     ],
   );
+  ref.onDispose(router.dispose);
+  return router;
 });
 
 class ScaffoldWithNav extends StatelessWidget {

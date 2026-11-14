@@ -82,7 +82,19 @@ class StudySessionService extends ChangeNotifier {
   bool get hasActive =>
       _active != null && _active!.state != SessionState.finished;
 
+  /// Reopening a practice screen after another module interrupted its timer
+  /// retains the original active plan association, only on the same local day.
+  Future<bool> continuePlanActivity(String previousId,String nextId) async {
+    final database=await _db.db;
+    database.execute('''INSERT OR IGNORE INTO plan_sessions(session_id,activity_id)
+      SELECT ?,a.id FROM plan_sessions p JOIN planned_activities a ON a.id=p.activity_id
+      JOIN study_sessions s ON s.id=? WHERE p.session_id=? AND a.local_date=?
+        AND a.state='active' AND s.module=a.module''',[nextId,nextId,previousId,localDateString(_now())]);
+    return database.select('SELECT activity_id FROM plan_sessions WHERE session_id=?',[nextId]).isNotEmpty;
+  }
+
   Future<ActiveSession> start(String module) {
+    if(_disposed)return Future.error(StateError('Study controller is closed.'));
     final result = _starting.then((_) => _start(module));
     _starting =
         result.then<void>((_) {}, onError: (Object _, StackTrace __) {});
@@ -90,6 +102,7 @@ class StudySessionService extends ChangeNotifier {
   }
 
   Future<ActiveSession> _start(String module) async {
+    if(_disposed)throw StateError('Study controller is closed.');
     if (_recovering != null) await _recovering;
     if (_active != null && _active!.state != SessionState.finished) {
       await finish(interrupted: true);
@@ -101,6 +114,10 @@ class StudySessionService extends ChangeNotifier {
 
     await _db.insertSession(
         id: id, module: module, startedAt: now, localDate: local);
+    if(_disposed) {
+      await _db.checkpointSession(id,const {},completed:true,interrupted:true,endedAt:_now());
+      throw StateError('Study controller closed while starting.');
+    }
 
     _days.clear();
     _checkpointAt = _now();
@@ -113,7 +130,7 @@ class StudySessionService extends ChangeNotifier {
       state: SessionState.running,
     );
     _startTicker();
-    notifyListeners();
+    if(!_disposed)notifyListeners();
     return _active!;
   }
 
@@ -128,11 +145,12 @@ class StudySessionService extends ChangeNotifier {
       state: SessionState.paused,
     );
     _stopTicker();
-    notifyListeners();
+    if(!_disposed)notifyListeners();
     await _db.checkpointSession(_active!.id, Map.of(_days));
   }
 
   void resume() {
+    if(_disposed)return;
     if (isAwaitingAi) return;
     _transition++;
     if (_active == null || _active!.state != SessionState.paused) return;
@@ -213,9 +231,10 @@ class StudySessionService extends ChangeNotifier {
   }
 
   Future<ActiveSession?> _recover() async {
+    if(_disposed)return null;
     if (hasActive) return _active;
     final row = await _db.getActiveInterruptedSession();
-    if (row == null || hasActive) return _active;
+    if (row == null || hasActive || _disposed) return _active;
     _days
       ..clear()
       ..addAll(await _db.getSessionDays(row['id'] as String));
@@ -227,11 +246,12 @@ class StudySessionService extends ChangeNotifier {
       accumulatedSeconds: row['duration_seconds'] as int,
       state: SessionState.paused,
     );
-    notifyListeners();
+    if(!_disposed)notifyListeners();
     return _active;
   }
 
   void _startTicker() {
+    if(_disposed)return;
     _ticker?.cancel();
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
       if (_active?.state == SessionState.running) {

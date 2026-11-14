@@ -29,7 +29,7 @@ void main() {
     expect(connections.every((d) => identical(d, connections.first)), isTrue);
     expect(
         connections.first.select('PRAGMA user_version').first['user_version'],
-        6);
+        AppDatabase.schemaVersion);
     expect(
         connections.first
             .select('SELECT COUNT(*) c FROM user_preferences')
@@ -186,6 +186,7 @@ void main() {
           'max_score': 1,
           'passed': 1,
           'self_assessed': self,
+          'answers_json': '{"q":"A"}',
           'started_at': '2026-01-01',
           'completed_at': completed
         });
@@ -193,7 +194,7 @@ void main() {
     await attempt('self', 1, self: 1);
     await attempt('unfinished', 1, completed: null);
     expect(await db.certificateEvidence('assessment', 'a'), isNull);
-    await attempt('pass', 0.8);
+    await attempt('pass', 1);
     expect((await db.certificateEvidence('assessment', 'a'))!['title'],
         'Real title');
     expect(await db.certificateEvidence('book', 'a'), isNull);
@@ -224,7 +225,8 @@ void main() {
     await db.saveAssessmentAttempt({
       'id': 'pass',
       'assessment_id': 'a',
-      'score': 0.8,
+      'score': 1,
+      'answers_json': '{"q":"A"}',
       'max_score': 1,
       'passed': 1,
       'started_at': '2026-01-01',

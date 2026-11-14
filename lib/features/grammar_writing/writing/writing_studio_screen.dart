@@ -12,6 +12,8 @@ import '../../../core/widgets/common_widgets.dart';
 import '../../../core/widgets/ai_help_button.dart';
 import '../../../core/services/ai_teacher_service.dart';
 import 'writing_history_screens.dart';
+import '../../../core/services/mistake_coach.dart';
+import '../../mistake_coach/mistake_practice_screen.dart';
 
 const _categories = [
   'journal',
@@ -362,6 +364,15 @@ class _WritingEditorScreenState extends ConsumerState<WritingEditorScreen>
             },
           ),
           const SizedBox(height: 16),
+          OutlinedButton.icon(icon:const Icon(Icons.bookmark_add_outlined),label:const Text('Save a confirmed correction'),
+            onPressed:() async {
+              await _save();
+              if(!context.mounted || _dirty || _deleted)return;
+              final selection=_bodyCtrl.selection;
+              final original=selection.isValid && !selection.isCollapsed?selection.textInside(_bodyCtrl.text):_bodyCtrl.text;
+              await showDialog<bool>(context:context,builder:(_)=>MistakeEditorDialog(db:_db,sourceEntryId:widget.entryId,
+                initialOriginal:original,sourceLabel:'Writing: ${_titleCtrl.text}'));
+            }),
           AiHelpButton(
               label: 'Request AI feedback',
               task: AiTask.writing,
@@ -413,6 +424,9 @@ class MistakeJournalScreen extends ConsumerStatefulWidget {
 
 class _MistakeJournalScreenState extends ConsumerState<MistakeJournalScreen> {
   List<Map<String, dynamic>> _items = [];
+  Map<String,dynamic>? _insights;
+  List<Map<String,dynamic>> _weaknesses=[];
+  String? _loadError;
 
   @override
   void initState() {
@@ -421,8 +435,14 @@ class _MistakeJournalScreenState extends ConsumerState<MistakeJournalScreen> {
   }
 
   Future<void> _load() async {
-    final rows = await ref.read(appDatabaseProvider).getWritingMistakes();
-    if (mounted) setState(() => _items = rows);
+    try {
+      final database=ref.read(appDatabaseProvider);
+      final rows=await database.getWritingMistakes();
+      final coach=MistakeCoach(database);
+      final insights=await coach.insights();
+      final weaknesses=await coach.weaknesses();
+      if(mounted)setState((){_items=rows;_insights=insights;_weaknesses=weaknesses;_loadError=null;});
+    } catch(_){if(mounted)setState(()=>_loadError='Could not load your mistake journal.');}
   }
 
   Future<void> _editMistake([Map<String, dynamic>? mistake]) async {
@@ -437,7 +457,7 @@ class _MistakeJournalScreenState extends ConsumerState<MistakeJournalScreen> {
     final db = ref.read(appDatabaseProvider);
     final accepted = await showConfirmDialog(context,
         title: 'Delete mistake?',
-        message: 'This permanently removes the selected mistake record.');
+        message: 'Remove this mistake from the journal? Its practice history is retained in the database and backups.');
     if (accepted == true) {
       await db.deleteWritingMistake(mistake['id'] as String);
       if (mounted) await _load();
@@ -453,21 +473,36 @@ class _MistakeJournalScreenState extends ConsumerState<MistakeJournalScreen> {
         onPressed: () => _editMistake(),
         child: const Icon(Icons.add),
       ),
-      body: _items.isEmpty
-          ? const EmptyState(
-              icon: Icons.checklist,
-              title: 'No mistakes logged',
-              message:
-                  'Create a mistake with its correction and explanation, or review saved mistakes.',
-            )
-          : ListView.separated(
-              padding: const EdgeInsets.all(20),
-              itemCount: _items.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 8),
-              itemBuilder: (context, i) {
-                final m = _items[i];
+      body:ListView.builder(itemCount:_items.length+1,itemBuilder:(context,index){
+        if(index==0)return Column(children:[
+
+        if(_loadError!=null) ErrorView(message:_loadError!,onRetry:_load),
+        Padding(padding:const EdgeInsets.all(20),child:LexiCard(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+          Text('${_items.length} recorded mistakes · ${_items.where((m)=>m['review_status']=='understood').length} marked reviewed'),
+          const Text('Reviewed does not mean mastered. Repetitions count saved practice attempts.'),
+          if(_insights!=null) ...[
+            for(final c in _insights!['categories'] as List) Padding(padding:const EdgeInsets.symmetric(vertical:6),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+              Text('${c['category']}: ${c['total']} recorded · ${c['repeated']} repeated'),
+              LinearProgressIndicator(value:_items.isEmpty?0:(c['total'] as int)/_items.length),
+            ])),
+            Text(_insights!['trend']==null?'Improvement trend needs 10 exact-wording attempts.':'Recent exact-wording trend: ${((_insights!['trend'] as double)*100).toStringAsFixed(0)} percentage points, last 5 vs previous 5. Self-assessment excluded.'),
+          ],
+          if(_weaknesses.isEmpty) const Text('More records or repeated practice are needed to recommend a recurring category.'),
+          for(final w in _weaknesses) TextButton(onPressed:() async {
+            await Navigator.of(context).push(MaterialPageRoute<void>(builder:(_)=>MistakePracticeScreen(category:w['category'] as String?)));
+            if(mounted)await _load();
+          },child:Text('Practice ${w['category']} · ${w['records']} records, ${w['errors'] ?? 0} wording mismatches')),
+          FilledButton(onPressed:_items.isEmpty?null:() async {
+            await Navigator.of(context).push(MaterialPageRoute<void>(builder:(_)=>const MistakePracticeScreen()));
+            if(mounted)await _load();
+          },child:const Text('Practice up to 5 mistakes')),
+        ]))),
+          if(_items.isEmpty) const EmptyState(icon:Icons.checklist,title:'No mistakes logged',
+            message:'Create a confirmed correction, or save one from Writing Studio.'),
+        ]);
+                final m = _items[index-1];
                 final done = m['review_status'] == 'understood';
-                return LexiCard(
+                return Padding(padding:const EdgeInsets.fromLTRB(20,0,20,8),child:LexiCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -481,6 +516,8 @@ class _MistakeJournalScreenState extends ConsumerState<MistakeJournalScreen> {
                             onPressed: () => _removeMistake(m),
                             icon: const Icon(Icons.delete_outline))
                       ]),
+                      Text('${m['grammar_topic'] ?? 'Other'} · ${m['repetitions']} repetitions · ${m['created_at']}'),
+                      if(m['source_label']!=null) Text(m['source_label'] as String),
                       Text('${m['original_sentence']}',
                           style: Theme.of(context).textTheme.titleSmall),
                       if ((m['correction'] as String?)?.isNotEmpty == true)
@@ -505,9 +542,8 @@ class _MistakeJournalScreenState extends ConsumerState<MistakeJournalScreen> {
                       ),
                     ],
                   ),
-                );
-              },
-            ),
+                ));
+      }),
     );
   }
 }

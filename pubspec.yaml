@@ -1,12 +1,13 @@
 name: lexiflow
 description: LexiFlow — Premium offline-first English learning companion (B1→B2).
 publish_to: 'none'
-version: 1.0.1+6
+version: 2.0.0+11
 
 environment:
   sdk: ^3.5.4
 
 dependencies:
+  crypto: 3.0.8
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8

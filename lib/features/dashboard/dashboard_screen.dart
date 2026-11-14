@@ -153,9 +153,9 @@ class DashboardScreen extends ConsumerWidget {
                         ModuleTile(
                           icon: Icons.play_circle_outline,
                           iconColor: AppColors.violet,
-                          title: 'Start a study session',
-                          subtitle: 'Track time toward your daily goal',
-                          onTap: () => context.push('/learn'),
+                          title: 'Today’s learning plan',
+                          subtitle: 'A balanced plan using your saved learning material',
+                          onTap: () => context.push('/plan'),
                         ),
                         const SizedBox(height: 12),
                         if (data.dueReviews > 0)

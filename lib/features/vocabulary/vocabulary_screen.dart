@@ -1,6 +1,12 @@
 import '../../core/widgets/ai_help_button.dart';
 import '../../core/services/ai_teacher_service.dart';
 import 'dart:convert';
+import 'dart:async';
+import 'word_editor.dart';
+import 'word_detail_screen.dart';
+import 'vocabulary_challenge_screen.dart';
+import '../../core/services/vocabulary_intelligence.dart';
+import '../../core/services/practice_timer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +15,6 @@ import '../../app/theme/app_theme.dart';
 import '../../core/database/app_database.dart';
 import '../../core/services/providers.dart';
 import '../../core/services/review_schedule.dart';
-import '../../core/utils/id_utils.dart';
 import '../../core/widgets/common_widgets.dart';
 import '../dashboard/dashboard_provider.dart';
 
@@ -22,6 +27,10 @@ class VocabularyScreen extends ConsumerStatefulWidget {
 class _VocabularyScreenState extends ConsumerState<VocabularyScreen> {
   List<Map<String, dynamic>> _words = [];
   int _due = 0;
+  bool _unfinished=false;
+  int _limit=5;
+  String _query='';
+  int _total=0,_visibleLimit=100,_loadVersion=0;
   bool _loading = true;
   String? _error;
   @override
@@ -31,12 +40,17 @@ class _VocabularyScreenState extends ConsumerState<VocabularyScreen> {
   }
 
   Future<void> _load() async {
+    final version=++_loadVersion;
     try {
       final db = ref.read(appDatabaseProvider);
-      final words = await db.getVocabulary();
+      final words = await db.getVocabulary(search:_query,limit:_visibleLimit);
+      final total=await db.getSavedWordCount();
       final due = await db.getDueReviewCount();
-      if (mounted) {
+      final unfinished=(await db.db).select("SELECT id FROM vocabulary_practice_sessions WHERE state IN ('active','paused') LIMIT 1").isNotEmpty;
+      if (mounted && version==_loadVersion) {
         setState(() {
+          _total=total;
+          _unfinished=unfinished;
           _words = words;
           _due = due;
           _loading = false;
@@ -44,7 +58,7 @@ class _VocabularyScreenState extends ConsumerState<VocabularyScreen> {
         });
       }
     } catch (_) {
-      if (mounted) {
+      if (mounted && version==_loadVersion) {
         setState(() {
           _error = 'Could not load vocabulary.';
           _loading = false;
@@ -56,16 +70,16 @@ class _VocabularyScreenState extends ConsumerState<VocabularyScreen> {
   Future<void> _edit([Map<String, dynamic>? entry]) async {
     final db = ref.read(appDatabaseProvider);
     await showDialog<bool>(
-        context: context, builder: (_) => _WordEditor(db: db, entry: entry));
+        context: context, builder: (_) => WordEditorDialog(db: db, entry: entry));
     if (!mounted) return;
     ref.invalidate(dashboardProvider);
     await _load();
   }
 
-  Future<void> _review() async {
+  Future<void> _review({bool fresh=false}) async {
     final db = ref.read(appDatabaseProvider);
     await Navigator.of(context).push(
-        MaterialPageRoute<void>(builder: (_) => FlashcardReviewScreen(db: db)));
+        MaterialPageRoute<void>(builder: (_) => FlashcardReviewScreen(db: db,limit:_limit,fresh:fresh)));
     if (!mounted) return;
     ref.invalidate(dashboardProvider);
     await _load();
@@ -74,7 +88,7 @@ class _VocabularyScreenState extends ConsumerState<VocabularyScreen> {
   Future<void> _history(Map<String, dynamic> word) async {
     final rows = await ref
         .read(appDatabaseProvider)
-        .getReviewHistory(word['id'] as String);
+        .getReviewHistory(word['id'] as String,limit:50);
     if (!mounted) return;
     await showModalBottomSheet<void>(
         context: context,
@@ -86,6 +100,7 @@ class _VocabularyScreenState extends ConsumerState<VocabularyScreen> {
                   Text('Review history: ${word['word']}',
                       style: Theme.of(context).textTheme.titleLarge),
                   if (rows.isEmpty) const Text('No reviews yet.'),
+                  if(rows.length>=50)const Text('Showing the latest 50 reviews. Complete history is retained.'),
                   for (final r in rows)
                     ListTile(
                         title: Text('${r['rating']} · ${r['reviewed_at']}'),
@@ -110,7 +125,7 @@ class _VocabularyScreenState extends ConsumerState<VocabularyScreen> {
                     Expanded(
                         child: LexiCard(
                             child: Column(children: [
-                      Text('${_words.length}',
+                      Text('$_total',
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium
@@ -131,17 +146,25 @@ class _VocabularyScreenState extends ConsumerState<VocabularyScreen> {
                   ]),
                   const SizedBox(height: 20),
                   if (_error != null) ErrorView(message: _error!),
+                  TextField(decoration:const InputDecoration(labelText:'Search saved words',prefixIcon:Icon(Icons.search)),
+                    onChanged:(value){_query=value.trim();_visibleLimit=100;_load();}),
+                  const SizedBox(height:12),
+                  Wrap(spacing:8,children:[for(final size in [5,10,15,0]) ChoiceChip(
+                    label:Text(size==0?'All due':'$size words'),selected:_limit==size,onSelected:(_)=>setState(()=>_limit=size))]),
+                  TextButton(onPressed:()=>Navigator.of(context).push(MaterialPageRoute<void>(builder:(_)=>const VocabularyChallengeScreen())),child:const Text('Vocabulary challenges & insights')),
                   if (_due > 0)
                     PrimaryButton(
                         label: 'Start review',
                         icon: Icons.replay,
-                        onPressed: _review),
+                        onPressed: ()=>_review(fresh:true)),
+                  if(_unfinished) TextButton(onPressed:()=>_review(),child:const Text('Continue unfinished review')),
                   if (_words.isEmpty)
                     const EmptyState(
                         icon: Icons.style_outlined,
                         title: 'No saved words',
                         message:
                             'Add a word or save a selection while reading. Meanings and translations are entered by you; they are not invented offline.'),
+                  if(_words.length>=_visibleLimit) TextButton(onPressed:(){_visibleLimit+=100;_load();},child:const Text('Load more saved words')),
                   for (final word in _words)
                     Padding(
                         padding: const EdgeInsets.only(top: 12),
@@ -151,10 +174,13 @@ class _VocabularyScreenState extends ConsumerState<VocabularyScreen> {
                                 children: [
                               Row(children: [
                                 Expanded(
-                                    child: Text(word['word'] as String,
+                                    child: InkWell(onTap:() async {
+                                      await Navigator.of(context).push(MaterialPageRoute<void>(builder:(_)=>WordDetailScreen(entryId:word['id'] as String)));
+                                      if(mounted) await _load();
+                                    },child: Text(word['word'] as String,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleMedium)),
+                                            .titleMedium))),
                                 IconButton(
                                     tooltip: 'Review history',
                                     onPressed: () => _history(word),
@@ -191,221 +217,129 @@ class _VocabularyScreenState extends ConsumerState<VocabularyScreen> {
       );
 }
 
-class _WordEditor extends StatefulWidget {
-  const _WordEditor({required this.db, this.entry});
+class FlashcardReviewScreen extends ConsumerStatefulWidget {
+  const FlashcardReviewScreen({super.key,required this.db,this.limit=5,this.entryId,this.fresh=false});
   final AppDatabase db;
-  final Map<String, dynamic>? entry;
+  final int limit;
+  final String? entryId;
+  final bool fresh;
   @override
-  State<_WordEditor> createState() => _WordEditorState();
+  ConsumerState<FlashcardReviewScreen> createState()=>_FlashcardReviewScreenState();
 }
-
-class _WordEditorState extends State<_WordEditor> {
-  final _word = TextEditingController();
-  final _definition = TextEditingController();
-  final _translation = TextEditingController();
-  final _sentence = TextEditingController();
+class _FlashcardReviewScreenState extends ConsumerState<FlashcardReviewScreen> with WidgetsBindingObserver {
+  late final VocabularyIntelligence _service;
+  String? _session;
+  List<Map<String,dynamic>>? _items;
   String? _error;
-  bool _saving = false;
+  bool _paused=false,_saving=false;
+  late final PracticeTimer _timing;
   @override
   void initState() {
     super.initState();
-    _word.text = widget.entry?['word'] as String? ?? '';
-    _definition.text = widget.entry?['definition'] as String? ?? '';
-    _translation.text = widget.entry?['translation'] as String? ?? '';
-  }
-
-  Future<void> _save() async {
-    if (_saving) return;
-    setState(() => _saving = true);
-    try {
-      await widget.db.saveVocabulary(
-          id: widget.entry?['id'] as String?,
-          word: _word.text,
-          definition: _definition.text.trim(),
-          translation: _translation.text.trim(),
-          sentence: _sentence.text,
-          source: 'Manual');
-      if (mounted) Navigator.pop(context, true);
-    } catch (error) {
-      if (mounted) {
-        setState(() => _error = error is StateError
-            ? error.message.toString()
-            : error is ArgumentError
-                ? error.message.toString()
-                : 'Could not save this word.');
-      }
-    } finally {
-      if (mounted) setState(() => _saving = false);
-    }
-  }
-
-  @override
-  void dispose() {
-    _word.dispose();
-    _definition.dispose();
-    _translation.dispose();
-    _sentence.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => AlertDialog(
-          title: Text(widget.entry == null ? 'Add word' : 'Edit word'),
-          content: SingleChildScrollView(
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-            TextField(
-                controller: _word,
-                decoration: const InputDecoration(labelText: 'Word'),
-                maxLength: 100),
-            TextField(
-                controller: _definition,
-                decoration:
-                    const InputDecoration(labelText: 'Definition (optional)')),
-            TextField(
-                controller: _translation,
-                decoration:
-                    const InputDecoration(labelText: 'Translation (optional)')),
-            TextField(
-                controller: _sentence,
-                decoration: const InputDecoration(
-                    labelText: 'Add context sentence (optional)'),
-                maxLines: 3),
-            if (widget.entry != null)
-              const Text('Original source sentences are preserved.'),
-            if (_error != null)
-              Text(_error!,
-                  style: TextStyle(color: Theme.of(context).colorScheme.error)),
-          ])),
-          actions: [
-            TextButton(
-                onPressed: _saving ? null : () => Navigator.pop(context),
-                child: const Text('Cancel')),
-            FilledButton(
-                onPressed: _saving ? null : _save,
-                child: Text(_saving ? 'Saving…' : 'Save'))
-          ]);
-}
-
-class FlashcardReviewScreen extends StatefulWidget {
-  const FlashcardReviewScreen({super.key, required this.db});
-  final AppDatabase db;
-  @override
-  State<FlashcardReviewScreen> createState() => _FlashcardReviewScreenState();
-}
-
-class _FlashcardReviewScreenState extends State<FlashcardReviewScreen> {
-  List<Map<String, dynamic>>? _queue;
-  int _index = 0;
-  bool _revealed = false;
-  bool _saving = false;
-  String? _error;
-  String _reviewId = newId();
-  @override
-  void initState() {
-    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _service=VocabularyIntelligence(widget.db);
+    _timing=PracticeTimer(ref.read(studySessionServiceProvider),'vocabulary');
     _load();
   }
-
   Future<void> _load() async {
     try {
-      final rows = await widget.db.getDueVocabulary();
-      if (mounted) setState(() => _queue = rows);
-    } catch (_) {
-      if (mounted) setState(() => _error = 'Could not load review cards.');
+      _session ??= await _service.open(limit:widget.limit,entryId:widget.entryId,fresh:widget.fresh);
+      final rows=await _service.items(_session!);
+      final paused=await _service.state(_session!)=='paused';
+      if(!mounted) return;
+      setState(() { _items=rows; _paused=paused; _error=null; });
+      if(!paused && rows.any((r)=>r['item_state']=='pending')) await _timer();
+    } catch(e) { if(mounted) setState(()=>_error=e is StateError?e.message.toString():'Could not load review cards.'); }
+  }
+  Future<void> _timer() async {
+    await _timing.start();
+    if(!mounted)await _timing.pause();
+  }
+  Future<void> _pause({bool resume=false}) async {
+    if(_session==null) return;
+    if(!resume) {
+      // Block grading immediately, including while the checkpoint awaits IO.
+      if(mounted) setState(()=>_paused=true);
+      await _service.pause(_session!);
+      await _timing.pause();
+    } else {
+      await _timer();
+      await _service.pause(_session!,resume:true);
+      if(mounted) setState(()=>_paused=false);
     }
   }
-
-  Future<void> _rate(ReviewRating rating) async {
-    if (_saving || !_revealed || _queue == null || _index >= _queue!.length) {
-      return;
-    }
-    setState(() => _saving = true);
-    final card = _queue![_index];
+  Future<void> _rate(Map<String,dynamic> card,ReviewRating rating) async {
+    if(_saving || _paused) return;
+    setState(()=>_saving=true);
     try {
-      await widget.db.reviewVocabulary(
-          entryId: card['id'] as String,
-          reviewId: _reviewId,
-          rating: rating,
-          expectedReviewCount: card['review_count'] as int);
-      if (mounted) {
-        setState(() {
-          _index++;
-          _revealed = false;
-          _reviewId = newId();
-          _error = null;
-        });
+      await _service.rate(_session!,card,rating);
+      final rows=await _service.items(_session!);
+      if(mounted) setState(() { _items=rows; _error=null; });
+      if(rows.every((r)=>r['item_state']!='pending')) {
+        await _timing.finish();
+        ref.invalidate(dashboardProvider);
       }
-    } catch (error) {
-      if (mounted) {
-        setState(() => _error = error is StateError
-            ? error.message.toString()
-            : 'Could not save review. Try again.');
-      }
-    } finally {
-      if (mounted) setState(() => _saving = false);
+    } catch(e) { if(mounted) setState(()=>_error=e is StateError?e.message.toString():'Could not save review. Retry safely.'); }
+    finally { if(mounted) setState(()=>_saving=false); }
+  }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state==AppLifecycleState.paused || state==AppLifecycleState.inactive) {
+      unawaited(_pause().catchError((Object _) {}));
     }
   }
-
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    final id=_session;
+    if(id!=null) unawaited(_service.pause(id).catchError((Object _) {}));
+    unawaited(_timing.pause().catchError((Object _) {}));
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
-    final card =
-        _queue != null && _index < _queue!.length ? _queue![_index] : null;
-    return Scaffold(
-        appBar: AppBar(title: const Text('Flashcards')),
-        body: Padding(
-            padding: const EdgeInsets.all(20),
-            child: _queue == null
-                ? (_error == null
-                    ? const LoadingView()
-                    : ErrorView(message: _error!))
-                : card == null
-                    ? const EmptyState(
-                        icon: Icons.check_circle_outline,
-                        title: 'Reviews saved',
-                        message:
-                            'Your review history and next review dates are stored offline.')
-                    : ListView(children: [
-                        Text('Card ${_index + 1} of ${_queue!.length}'),
-                        const SizedBox(height: 24),
-                        LexiCard(
-                            child: Column(children: [
-                          Text(card['word'] as String,
-                              style:
-                                  Theme.of(context).textTheme.headlineMedium),
-                          if (_revealed) ...[
-                            const SizedBox(height: 20),
-                            Text((card['definition'] as String?)?.isNotEmpty ==
-                                    true
-                                ? card['definition'] as String
-                                : 'No definition added.'),
-                            if ((card['translation'] as String?)?.isNotEmpty ==
-                                true)
-                              Text(card['translation'] as String),
-                            for (final c
-                                in jsonDecode(card['contexts_json'] as String)
-                                    as List)
-                              Text('“${c['sentence']}”')
-                          ]
-                        ])),
-                        const SizedBox(height: 20),
-                        if (!_revealed)
-                          PrimaryButton(
-                              label: 'Show answer',
-                              onPressed: () => setState(() => _revealed = true))
-                        else
-                          Wrap(spacing: 8, runSpacing: 8, children: [
-                            for (final rating in ReviewRating.values)
-                              OutlinedButton(
-                                  onPressed:
-                                      _saving ? null : () => _rate(rating),
-                                  child: Text(switch (rating) {
-                                    ReviewRating.again => 'Again',
-                                    ReviewRating.hard => 'Hard',
-                                    ReviewRating.good => 'Good',
-                                    ReviewRating.easy => 'Easy'
-                                  }))
-                          ]),
-                        if (_error != null) Text(_error!),
-                      ])));
+    ref.watch(studySessionServiceProvider.select((s)=>(s.active?.id,s.isRunning)));
+    final paused=_paused || (_timing.id!=null && (_timing.sessions.active?.id!=_timing.id || !_timing.sessions.isRunning));
+    final pending=_items?.where((r)=>r['item_state']=='pending').toList();
+    final remaining=pending?.length ?? 0;
+    final card=pending==null || pending.isEmpty?null:pending.first;
+    return Scaffold(appBar:AppBar(title:const Text('Flashcards')),
+      body:Padding(padding:const EdgeInsets.all(20),child:_items==null?
+        (_error==null?const LoadingView():ErrorView(message:_error!,onRetry:_load)):
+        card==null?ListView(children:[
+          const Icon(Icons.check_circle_outline,size:48),
+          const Text('Reviews saved',style:TextStyle(fontSize:24)),
+          Text('${_items!.where((r)=>r['item_state']=='reviewed').length} rated · ${_items!.where((r)=>r['item_state']=='skipped').length} unavailable or already reviewed'),
+          for(final rating in ReviewRating.values) Text('${rating.name}: ${_items!.where((r)=>r['rating']==rating.name).length}'),
+          const Text('Your review history and next review dates are stored offline.'),
+          if(_error!=null) Text(_error!),
+          if(_timing.sessions.hasActive) const Text('The shared study timer is paused. Finish your active study activity to include its minutes in completed-day progress.'),
+        ]):ListView(children:[
+          Text('${_items!.length-remaining} of ${_items!.length} finished'),
+          LinearProgressIndicator(value:(_items!.length-remaining)/_items!.length),
+          const SizedBox(height:20),
+          LexiCard(child:Column(children:[
+            Text(card['word'] as String,style:Theme.of(context).textTheme.headlineMedium),
+            if(card['revealed']==1) ...[
+              const SizedBox(height:16),
+              Text((card['definition'] as String?)?.isNotEmpty==true?card['definition'] as String:'No definition added.'),
+              if((card['translation'] as String?)?.isNotEmpty==true) Text(card['translation'] as String),
+              for(final context in jsonDecode(card['contexts_json'] as String) as List) Text('“${context['sentence']}”'),
+            ],
+          ])),
+          const SizedBox(height:16),
+          if(paused) FilledButton(onPressed:_saving?null:()=>_pause(resume:true),child:const Text('Resume review'))
+          else ...[
+            TextButton(onPressed:_saving?null:()=>_pause(),child:const Text('Pause review')),
+            if(card['revealed']!=1) PrimaryButton(label:'Show answer',onPressed:() async {
+              await _service.reveal(_session!,card['position'] as int);
+              final rows=await _service.items(_session!);
+              if(mounted) setState(()=>_items=rows);
+            }) else Wrap(spacing:8,runSpacing:8,children:[for(final rating in ReviewRating.values)
+              OutlinedButton(onPressed:_saving?null:()=>_rate(card,rating),child:Text(switch(rating) {
+                ReviewRating.again=>'Again',ReviewRating.hard=>'Hard',ReviewRating.good=>'Good',ReviewRating.easy=>'Easy'}))]),
+          ],
+          if(_error!=null) Text(_error!),
+        ])));
   }
 }

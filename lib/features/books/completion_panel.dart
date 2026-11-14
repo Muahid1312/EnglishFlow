@@ -1,9 +1,11 @@
+export '../courses/course_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/content/assessment_bank.dart';
 import '../../core/services/certificate_service.dart';
+import '../../core/services/course_study_service.dart';
 import '../../core/services/providers.dart';
 import '../../core/widgets/common_widgets.dart';
 
@@ -19,6 +21,7 @@ class _CompletionPanelState extends ConsumerState<CompletionPanel> {
   List<Map<String, dynamic>> _assessments = [];
   List<String> _required = [];
   bool _busy = false;
+  Map<String,bool> _passes = {};
   String? _error;
   @override
   void initState() {
@@ -33,8 +36,11 @@ class _CompletionPanelState extends ConsumerState<CompletionPanel> {
       final assessments = await db.getAssessments();
       final required =
           await db.getCompletionRequirements(widget.type, widget.id);
+      final d=await db.db;
+      final passes=<String,bool>{for(final id in required) id:CourseStudyService.passingScore(d,id,0)!=null};
       if (mounted) {
         setState(() {
+          _passes=passes;
           _assessments = assessments;
           _required = required;
         });
@@ -142,7 +148,7 @@ class _CompletionPanelState extends ConsumerState<CompletionPanel> {
         for (final a in _assessments.where((a) => _required.contains(a['id'])))
           TextButton(
               onPressed: () => context.push('/progress/assessments/${a['id']}'),
-              child: Text(a['title'] as String)),
+              child: Text('${a['title']} · ${_passes[a['id']]==true?'Keyed pass saved':'Pass required'}')),
         PrimaryButton(
             label: _busy ? 'Generating…' : 'Issue certificate if eligible',
             onPressed: _busy ? null : _issue),
@@ -150,100 +156,4 @@ class _CompletionPanelState extends ConsumerState<CompletionPanel> {
           Text(_error!,
               style: TextStyle(color: Theme.of(context).colorScheme.error)),
       ]));
-}
-
-class CoursesScreen extends ConsumerStatefulWidget {
-  const CoursesScreen({super.key});
-  @override
-  ConsumerState<CoursesScreen> createState() => _CoursesScreenState();
-}
-
-class _CoursesScreenState extends ConsumerState<CoursesScreen> {
-  List<Map<String, dynamic>>? _courses;
-  @override
-  void initState() {
-    super.initState();
-    _load();
-  }
-
-  Future<void> _load() async {
-    final rows = (await ref.read(appDatabaseProvider).db)
-        .select('SELECT * FROM courses ORDER BY title');
-    if (mounted) setState(() => _courses = rows);
-  }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(title: const Text('Courses')),
-      body: _courses == null
-          ? const LoadingView()
-          : ListView(padding: const EdgeInsets.all(20), children: [
-              if (_courses!.isEmpty)
-                const EmptyState(
-                    icon: Icons.school_outlined,
-                    title: 'No courses saved',
-                    message:
-                        'Imported structured courses appear here. Course completion uses persisted lessons and required assessment results.'),
-              for (final course in _courses!)
-                ListTile(
-                    title: Text(course['title'] as String),
-                    onTap: () async {
-                      await Navigator.of(context).push(MaterialPageRoute<void>(
-                          builder: (_) => CourseDetailScreen(course: course)));
-                      if (mounted) await _load();
-                    }),
-            ]));
-}
-
-class CourseDetailScreen extends ConsumerStatefulWidget {
-  const CourseDetailScreen({super.key, required this.course});
-  final Map<String, dynamic> course;
-  @override
-  ConsumerState<CourseDetailScreen> createState() => _CourseDetailScreenState();
-}
-
-class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
-  List<Map<String, dynamic>>? _lessons;
-  @override
-  void initState() {
-    super.initState();
-    _load();
-  }
-
-  Future<void> _load() async {
-    final rows = (await ref.read(appDatabaseProvider).db).select(
-        'SELECT * FROM lessons WHERE course_id=? ORDER BY order_index',
-        [widget.course['id']]);
-    if (mounted) setState(() => _lessons = rows);
-  }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(title: Text(widget.course['title'] as String)),
-      body: _lessons == null
-          ? const LoadingView()
-          : ListView(padding: const EdgeInsets.all(20), children: [
-              const SectionHeader(title: 'Required lessons'),
-              if (_lessons!.isEmpty)
-                const Text(
-                    'No lessons saved. This course cannot be certified.'),
-              for (final lesson in _lessons!)
-                CheckboxListTile(
-                    title: Text(lesson['title'] as String),
-                    value: lesson['completed'] == 1,
-                    onChanged: (value) async {
-                      (await ref.read(appDatabaseProvider).db).execute(
-                          'UPDATE lessons SET completed=?,completed_at=? WHERE id=?',
-                          [
-                            value == true ? 1 : 0,
-                            value == true
-                                ? DateTime.now().toUtc().toIso8601String()
-                                : null,
-                            lesson['id']
-                          ]);
-                      await _load();
-                    }),
-              CompletionPanel(
-                  type: 'course', id: widget.course['id'] as String),
-            ]));
 }

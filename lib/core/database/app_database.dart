@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:crypto/crypto.dart';
 
 import '../utils/id_utils.dart';
+import '../services/course_study_service.dart';
 import '../services/review_schedule.dart';
 import '../utils/answer_utils.dart';
 import '../utils/date_utils.dart';
@@ -13,15 +15,28 @@ import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 
 /// Lightweight offline database for LexiFlow Phase 1.
 class AppDatabase {
-  AppDatabase({String? path}) : _path = path;
+  static const schemaVersion = 10;
+  AppDatabase({String? path}) : _path = path, _targetVersion = schemaVersion;
+  AppDatabase._template(this._targetVersion) : _path = ':memory:';
+  static AppDatabase schemaTemplate(int version) {
+    if (![7,8,9,10].contains(version)) throw ArgumentError('Unsupported schema template');
+    return AppDatabase._template(version);
+  }
+  final int _targetVersion;
 
   final String? _path;
   Database? _db;
   Future<Database>? _opening;
+  bool _retired = false;
 
   Future<Database> get db async {
+    if (_retired) throw StateError('The learning database has been reloaded.');
     if (_db != null) return _db!;
     return _opening ??= _open().then((database) {
+      if (_retired) {
+        database.dispose();
+        throw StateError('The learning database has been reloaded.');
+      }
       _db = database;
       return database;
     }).whenComplete(() => _opening = null);
@@ -34,6 +49,7 @@ class AppDatabase {
     final path = _path ??
         p.join(
             (await getApplicationDocumentsDirectory()).path, 'lexiflow.sqlite');
+    recoverReplacement(path);
     final database = sqlite3.open(path);
     database.execute('PRAGMA foreign_keys = ON;');
     database.execute('BEGIN IMMEDIATE');
@@ -51,6 +67,9 @@ class AppDatabase {
   Future<void> _migrate(Database database) async {
     final version =
         database.select('PRAGMA user_version;').first['user_version'] as int;
+    if (version > _targetVersion) {
+      throw StateError('This database requires a newer LexiFlow version.');
+    }
     if (version < 1) {
       database.execute('''
         CREATE TABLE IF NOT EXISTS user_preferences (
@@ -621,6 +640,155 @@ class AppDatabase {
           'ALTER TABLE writing_feedback ADD COLUMN body_snapshot TEXT');
       database.execute('PRAGMA user_version=6');
     }
+    if (version < 7) {
+      database.execute('''CREATE TABLE daily_plans (
+        local_date TEXT PRIMARY KEY, goal_minutes INTEGER NOT NULL CHECK(goal_minutes IN (15,30,60)),
+        created_at TEXT NOT NULL, utc_offset_minutes INTEGER NOT NULL)''');
+      database.execute('''CREATE TABLE planned_activities (
+        id TEXT PRIMARY KEY, local_date TEXT NOT NULL REFERENCES daily_plans(local_date),
+        position INTEGER NOT NULL, module TEXT NOT NULL, title TEXT NOT NULL,
+        route TEXT NOT NULL, reason TEXT NOT NULL, minutes INTEGER NOT NULL CHECK(minutes>0),
+        state TEXT NOT NULL DEFAULT 'pending' CHECK(state IN ('pending','active','completed','skipped')),
+        created_at TEXT NOT NULL)''');
+      database.execute('''CREATE TABLE plan_sessions (
+        session_id TEXT PRIMARY KEY REFERENCES study_sessions(id),
+        activity_id TEXT NOT NULL REFERENCES planned_activities(id))''');
+      database.execute('CREATE INDEX idx_plan_date ON planned_activities(local_date,position)');
+      database.execute('''CREATE TABLE backup_metadata (
+        id INTEGER PRIMARY KEY CHECK(id=1), last_success_at TEXT NOT NULL)''');
+      database.execute('PRAGMA user_version=7');
+    }
+    if (version < 8 && _targetVersion >= 8) {
+      for (final column in ['usage_example','collocations','pronunciation','personal_notes']) {
+        database.execute('ALTER TABLE vocabulary_entries ADD COLUMN $column TEXT');
+      }
+      database.execute('''CREATE TABLE vocabulary_practice_sessions (
+        id TEXT PRIMARY KEY, requested_limit INTEGER NOT NULL,
+        state TEXT NOT NULL CHECK(state IN ('active','paused','completed','ended')),
+        created_at TEXT NOT NULL)''');
+      database.execute('''CREATE TABLE vocabulary_practice_items (
+        session_id TEXT NOT NULL REFERENCES vocabulary_practice_sessions(id),
+        position INTEGER NOT NULL, entry_id TEXT NOT NULL REFERENCES vocabulary_entries(id),
+        review_id TEXT NOT NULL UNIQUE, expected_count INTEGER NOT NULL,
+        state TEXT NOT NULL DEFAULT 'pending' CHECK(state IN ('pending','reviewed','skipped')),
+        revealed INTEGER NOT NULL DEFAULT 0, rating TEXT,
+        PRIMARY KEY(session_id,position), UNIQUE(session_id,entry_id))''');
+      database.execute('CREATE INDEX idx_vocab_due ON vocabulary_reviews(julianday(next_review_at),entry_id)');
+      database.execute('CREATE INDEX idx_vocab_history_rating ON vocabulary_review_history(entry_id,rating,reviewed_at)');
+      database.execute('CREATE INDEX idx_vocab_search ON vocabulary_entries(word COLLATE NOCASE) WHERE is_saved=1 AND duplicate_of IS NULL');
+      database.execute('ALTER TABLE writing_mistakes ADD COLUMN source_label TEXT');
+      database.execute('ALTER TABLE writing_mistakes ADD COLUMN deleted INTEGER NOT NULL DEFAULT 0');
+      database.execute('ALTER TABLE writing_mistakes ADD COLUMN revision INTEGER NOT NULL DEFAULT 0');
+      database.execute('ALTER TABLE writing_mistakes ADD COLUMN dedup_key TEXT');
+      for (final row in database.select('SELECT * FROM writing_mistakes')) {
+        database.execute('UPDATE writing_mistakes SET dedup_key=? WHERE id=?',
+            [mistakeKey(row['original_sentence'] as String, row['correction'] as String? ?? ''), row['id']]);
+      }
+      database.execute('CREATE INDEX idx_mistake_dedup ON writing_mistakes(dedup_key,deleted)');
+      database.execute('CREATE INDEX idx_mistake_category ON writing_mistakes(deleted,grammar_topic,review_status)');
+      database.execute('''CREATE TABLE mistake_practice_attempts (
+        id TEXT PRIMARY KEY, mistake_id TEXT NOT NULL REFERENCES writing_mistakes(id),
+        mode TEXT NOT NULL CHECK(mode IN ('exact','self')), response TEXT NOT NULL,
+        is_correct INTEGER NOT NULL CHECK(is_correct IN (0,1)),
+        original_snapshot TEXT NOT NULL, correction_snapshot TEXT NOT NULL,
+        category_snapshot TEXT NOT NULL, created_at TEXT NOT NULL)''');
+      database.execute('CREATE INDEX idx_mistake_attempt ON mistake_practice_attempts(mistake_id,created_at)');
+      database.execute('PRAGMA user_version=8');
+    }
+    if(version<9 && _targetVersion>=9) {
+      database.execute("ALTER TABLE listening_lessons ADD COLUMN playback_speed REAL NOT NULL DEFAULT 1 CHECK(playback_speed IN (0.75,1,1.25,1.5))");
+      database.execute('ALTER TABLE listening_lessons ADD COLUMN loop_start_ms INTEGER CHECK(loop_start_ms IS NULL OR loop_start_ms>=0)');
+      database.execute('ALTER TABLE listening_lessons ADD COLUMN loop_end_ms INTEGER CHECK(loop_end_ms IS NULL OR (loop_start_ms IS NOT NULL AND loop_end_ms>loop_start_ms))');
+      database.execute('ALTER TABLE listening_lessons ADD COLUMN transcript_auto_scroll INTEGER NOT NULL DEFAULT 1 CHECK(transcript_auto_scroll IN (0,1))');
+      database.execute("ALTER TABLE listening_lessons ADD COLUMN transcript_format TEXT NOT NULL DEFAULT 'auto' CHECK(transcript_format IN ('auto','plain','srt','vtt'))");
+      database.execute('ALTER TABLE listening_lessons ADD COLUMN comprehension_submission_id TEXT');
+      database.execute("ALTER TABLE ai_conversations ADD COLUMN scenario_id TEXT NOT NULL DEFAULT 'everyday'");
+      // Earlier screens encoded these scenario IDs in an app-generated title.
+      // Only exact markers are recovered; arbitrary user titles are not guessed.
+      for(final scenario in ['everyday','university','technology','job_interview','free']) {
+        database.execute('UPDATE ai_conversations SET scenario_id=? WHERE title=?',[scenario,'Conversation · $scenario']);
+      }
+      database.execute("ALTER TABLE ai_messages ADD COLUMN purpose TEXT NOT NULL DEFAULT 'conversation' CHECK(purpose IN ('conversation','feedback'))");
+      database.execute('CREATE INDEX idx_ai_conversation_recent ON ai_conversations(is_active,started_at)');
+      database.execute('PRAGMA user_version=9');
+    }
+    if (version < 10 && _targetVersion >= 10) {
+      database.execute('ALTER TABLE courses ADD COLUMN book_id TEXT REFERENCES imported_books(id)');
+      database.execute('ALTER TABLE courses ADD COLUMN cover_path TEXT');
+      database.execute('ALTER TABLE courses ADD COLUMN structured_mode INTEGER NOT NULL DEFAULT 0');
+      database.execute('ALTER TABLE courses ADD COLUMN deleted INTEGER NOT NULL DEFAULT 0');
+      database.execute('ALTER TABLE courses ADD COLUMN minimum_score REAL NOT NULL DEFAULT 0.7 CHECK(minimum_score BETWEEN 0 AND 1)');
+      database.execute('CREATE TABLE course_units(id TEXT PRIMARY KEY,course_id TEXT NOT NULL REFERENCES courses(id),title TEXT NOT NULL,order_index INTEGER NOT NULL DEFAULT 0)');
+      database.execute('ALTER TABLE lessons ADD COLUMN unit_id TEXT REFERENCES course_units(id)');
+      database.execute("ALTER TABLE lessons ADD COLUMN notes TEXT NOT NULL DEFAULT ''");
+      database.execute("ALTER TABLE lessons ADD COLUMN objective TEXT NOT NULL DEFAULT ''");
+      database.execute('ALTER TABLE lessons ADD COLUMN page_start INTEGER CHECK(page_start>0)');
+      database.execute('ALTER TABLE lessons ADD COLUMN page_end INTEGER CHECK(page_end>=page_start)');
+      database.execute('ALTER TABLE lessons ADD COLUMN last_studied_at TEXT');
+      database.execute("CREATE TABLE course_activities(id TEXT PRIMARY KEY,lesson_id TEXT NOT NULL REFERENCES lessons(id),title TEXT NOT NULL,kind TEXT NOT NULL,route TEXT,order_index INTEGER NOT NULL DEFAULT 0)");
+      database.execute('CREATE TABLE course_activity_evidence(activity_id TEXT PRIMARY KEY REFERENCES course_activities(id) ON DELETE CASCADE,completed_at TEXT NOT NULL)');
+      database.execute('ALTER TABLE assessment_definitions ADD COLUMN course_id TEXT REFERENCES courses(id)');
+      database.execute('ALTER TABLE assessment_definitions ADD COLUMN unit_id TEXT REFERENCES course_units(id)');
+      database.execute('CREATE INDEX idx_course_lessons ON lessons(course_id,unit_id,order_index)');
+      database.execute('CREATE INDEX idx_course_activities ON course_activities(lesson_id,order_index)');
+      database.execute('PRAGMA user_version=10');
+    }
+
+  }
+
+  static String normalizeCorrection(String text) => text.trim().replaceAll(RegExp(r'\s+'),' ');
+  static String mistakeKey(String original, String correction) => sha256.convert(
+      utf8.encode(jsonEncode([normalizeCorrection(original),normalizeCorrection(correction)]))).toString();
+
+  /// A pending replacement is rolled back on process restart. Media from the
+  /// previous installation is never deleted by replacement.
+  static void recoverReplacement(String path) {
+    final journal = File('$path.restore-pending');
+    if (!journal.existsSync()) return;
+    final previous = File('$path.previous');
+    if (!previous.existsSync()) {
+      throw StateError('Restore recovery requires the previous database snapshot.');
+    }
+    // Never destroy a surviving installation to copy a corrupt/empty recovery
+    // file. This probe is read-only and does not run migrations or callbacks.
+    final probe = sqlite3.open(previous.path, mode: OpenMode.readOnly);
+    try {
+      probe.execute('PRAGMA trusted_schema=OFF');
+      final version = probe.select('PRAGMA user_version').single.values.single as int;
+      if (version < 1 || version > schemaVersion ||
+          probe.select('PRAGMA integrity_check').single.values.single != 'ok' ||
+          probe.select('PRAGMA foreign_key_check').isNotEmpty ||
+          probe.select('SELECT id FROM user_preferences').length != 1) {
+        throw StateError('The recovery snapshot failed validation. Existing learning data was retained.');
+      }
+    } finally {
+      probe.dispose();
+    }
+    // A full disk or failed copy must leave the current DB/WAL untouched.
+    final staged = File('$path.recovering-${newId()}');
+    try {
+      previous.copySync(staged.path);
+      final durable = staged.openSync(mode: FileMode.append);
+      try { durable.flushSync(); } finally { durable.closeSync(); }
+      for (final suffix in ['-wal', '-shm']) {
+        final file = File('$path$suffix');
+        if (file.existsSync()) file.deleteSync();
+      }
+      // Android/Linux rename replaces the closed DB file without a gap.
+      staged.renameSync(path);
+      journal.deleteSync();
+    } finally {
+      if (staged.existsSync()) staged.deleteSync();
+    }
+  }
+
+  Future<String> get databasePath async => _path ??
+      p.join((await getApplicationDocumentsDirectory()).path, 'lexiflow.sqlite');
+
+  Future<void> snapshot(String destination) async {
+    final connection = await db;
+    // SQLite creates a consistent standalone database, including WAL content.
+    connection.execute('VACUUM INTO ?', [destination]);
   }
 
   Future<List<Map<String, dynamic>>> getArticles() async => (await db)
@@ -652,8 +820,12 @@ class AppDatabase {
         [offset, DateTime.now().toUtc().toIso8601String(), id]);
   }
 
-  Future<List<Map<String, dynamic>>> getVocabulary() async => (await db).select(
-      'SELECT * FROM vocabulary_entries WHERE is_saved = 1 AND duplicate_of IS NULL ORDER BY word COLLATE NOCASE');
+  Future<List<Map<String, dynamic>>> getVocabulary({String search='',int limit=-1}) async {
+    final pattern=search.replaceAll('\\','\\\\').replaceAll('%','\\%').replaceAll('_','\\_');
+    return (await db).select(
+      "SELECT * FROM vocabulary_entries WHERE is_saved=1 AND duplicate_of IS NULL AND word LIKE ? ESCAPE '\\' ORDER BY word COLLATE NOCASE,id LIMIT ?",
+      ['$pattern%',limit]);
+  }
 
   /// Duplicate reading saves append provenance; they never overwrite the first context.
   Future<String> saveVocabulary(
@@ -663,7 +835,13 @@ class AppDatabase {
       String? translation,
       String? sentence,
       String? source,
-      String? articleId}) async {
+      String? articleId,
+      String? bookId,
+      String? usageExample,
+      String? collocations,
+      String? pronunciation,
+      String? personalNotes,
+      String? partOfSpeech}) async {
     final normalized = normalizeWord(word);
     if (normalized.isEmpty || normalized.length > 100) {
       throw ArgumentError(
@@ -693,11 +871,12 @@ class AppDatabase {
       if (context != null &&
           context.isNotEmpty &&
           !contexts.any((c) =>
-              c['sentence'] == context && c['article_id'] == articleId)) {
+              c['sentence'] == context && c['article_id'] == articleId && c['book_id'] == bookId)) {
         contexts.add({
           'sentence': context,
           'source': source ?? 'Manual',
-          'article_id': articleId
+          'article_id': articleId,
+          if (bookId != null) 'book_id': bookId
         });
       }
       if (existing.isEmpty) {
@@ -714,7 +893,7 @@ class AppDatabase {
             ]);
       } else if (id != null) {
         d.execute(
-            'UPDATE vocabulary_entries SET word=?, normalized_word=?, definition=?, translation=?, contexts_json=?, is_saved=1 WHERE id=?',
+            'UPDATE vocabulary_entries SET word=?, normalized_word=?, definition=COALESCE(?,definition), translation=COALESCE(?,translation), contexts_json=?, is_saved=1 WHERE id=?',
             [
               word.trim(),
               normalized,
@@ -736,6 +915,16 @@ class AppDatabase {
       }
       if (existing.isEmpty) {
         _activity(d, 'word:$entryId', 'word_saved', 'vocabulary');
+      }
+      final details = <String,String?>{
+        'usage_example':usageExample,'collocations':collocations,
+        'pronunciation':pronunciation,'personal_notes':personalNotes,
+        'part_of_speech':partOfSpeech,
+      };
+      if(existing.isEmpty || id!=null) {
+        for (final item in details.entries.where((e)=>e.value!=null)) {
+          d.execute('UPDATE vocabulary_entries SET ${item.key}=? WHERE id=?', [item.value!.trim(),entryId]);
+        }
       }
       d.execute('COMMIT');
       return entryId;
@@ -759,6 +948,8 @@ class AppDatabase {
       required String reviewId,
       required ReviewRating rating,
       required int expectedReviewCount,
+      String? practiceSessionId,
+      int? practicePosition,
       DateTime? now}) async {
     final d = await db;
     d.execute('BEGIN IMMEDIATE');
@@ -767,6 +958,15 @@ class AppDatabase {
           [reviewId]).isNotEmpty) {
         d.execute('COMMIT');
         return;
+      }
+      if (practiceSessionId != null) {
+        final item=d.select('''SELECT i.* FROM vocabulary_practice_items i
+          JOIN vocabulary_practice_sessions s ON s.id=i.session_id
+          WHERE i.session_id=? AND i.position=? AND s.state='active' AND i.state='pending' ''',
+            [practiceSessionId,practicePosition]);
+        if (item.isEmpty || item.single['entry_id']!=entryId ||
+            item.single['review_id']!=reviewId || item.single['expected_count']!=expectedReviewCount ||
+            item.single['revealed']!=1) throw StateError('Refresh or resume this review session.');
       }
       final rows = d.select(
           'SELECT r.* FROM vocabulary_reviews r JOIN vocabulary_entries e ON e.id=r.entry_id WHERE r.entry_id=? AND e.is_saved=1 AND e.duplicate_of IS NULL ORDER BY julianday(r.next_review_at),r.id LIMIT 1',
@@ -813,6 +1013,13 @@ class AppDatabase {
             entryId
           ]);
       _activity(d, 'review:$reviewId', 'vocabulary_reviewed', 'vocabulary');
+      if (practiceSessionId != null) {
+        d.execute("UPDATE vocabulary_practice_items SET state='reviewed',rating=? WHERE session_id=? AND position=?",
+            [rating.name,practiceSessionId,practicePosition]);
+        d.execute("""UPDATE vocabulary_practice_sessions SET state='completed' WHERE id=?
+          AND NOT EXISTS(SELECT 1 FROM vocabulary_practice_items WHERE session_id=? AND state='pending')""",
+            [practiceSessionId,practiceSessionId]);
+      }
       d.execute('COMMIT');
     } catch (_) {
       d.execute('ROLLBACK');
@@ -820,10 +1027,10 @@ class AppDatabase {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getReviewHistory(String entryId) async =>
+  Future<List<Map<String, dynamic>>> getReviewHistory(String entryId,{int limit=-1}) async =>
       (await db).select(
-          'SELECT * FROM vocabulary_review_history WHERE entry_id=? ORDER BY reviewed_at DESC, review_number DESC',
-          [entryId]);
+          'SELECT * FROM vocabulary_review_history WHERE entry_id=? ORDER BY reviewed_at DESC, review_number DESC LIMIT ?',
+          [entryId,limit]);
 
   Future<void> setCompletionRequirements(
       String type, String id, List<String> assessmentIds) async {
@@ -959,10 +1166,10 @@ class AppDatabase {
       List<String> choices = const [],
       String? correct}) async {
     if (question.trim().isEmpty ||
-        !['mc', 'main_idea', 'details', 'intention', 'short'].contains(type)) {
+        !['mc', 'true_false', 'main_idea', 'details', 'intention', 'short'].contains(type)) {
       throw ArgumentError('Enter a question and valid question type.');
     }
-    final options =
+    final options = type=='true_false'?['True','False']:
         choices.map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
     if (type != 'short' &&
         (options.length < 2 ||
@@ -1002,6 +1209,27 @@ class AppDatabase {
       (await db).execute(
           'UPDATE listening_lessons SET comprehension_draft=? WHERE id=?',
           [jsonEncode(answers), lessonId]);
+  Future<String> comprehensionSubmission(String lessonId,{bool retry=false}) async {
+    final d=await db;
+    return _atomic(d,(){
+      final lesson=d.select('SELECT * FROM listening_lessons WHERE id=?',[lessonId]).single;
+      final existing=lesson['comprehension_submission_id'] as String?;
+      if(!retry && existing!=null)return existing;
+      String? legacy;
+      if(!retry) {
+        final last=d.select('SELECT submission_id FROM comprehension_attempts WHERE lesson_id=? AND submission_id IS NOT NULL ORDER BY created_at DESC,rowid DESC LIMIT 1',[lessonId]);
+        if(last.isNotEmpty) {
+          final draft=jsonDecode(lesson['comprehension_draft'] as String) as Map;
+          final answers=d.select('SELECT question_id,learner_response FROM comprehension_attempts WHERE submission_id=?',[last.single['submission_id']]);
+          if(answers.isNotEmpty && answers.every((a)=>draft[a['question_id']]==a['learner_response']))legacy=last.single['submission_id'] as String;
+        }
+      }
+      final token=legacy??newId();
+      d.execute('UPDATE listening_lessons SET comprehension_submission_id=? WHERE id=?',[token,lessonId]);
+      if(retry)d.execute("UPDATE listening_lessons SET comprehension_draft='{}' WHERE id=?",[lessonId]);
+      return token;
+    });
+  }
   Future<void> revealTranscript(String lessonId) async => (await db).execute(
       'UPDATE listening_lessons SET transcript_revealed=1 WHERE id=?',
       [lessonId]);
@@ -1073,16 +1301,27 @@ class AppDatabase {
   }
 
   Future<String> beginAiRequest(String conversationId, String text,
-      {String? id}) async {
+      {String? id,String purpose='conversation'}) async {
+    if(!['conversation','feedback'].contains(purpose))throw ArgumentError('Invalid request purpose.');
     if (text.trim().isEmpty || text.length > 20000) {
       throw ArgumentError('Enter up to 20,000 characters.');
     }
     final d = await db;
     final request = id ?? newId();
     _atomic(d, () {
+      final existing=d.select('SELECT * FROM ai_messages WHERE id=?',[request]);
+      if(existing.isNotEmpty) {
+        if(existing.single['conversation_id']!=conversationId || existing.single['content']!=text.trim() || existing.single['purpose']!=purpose) {
+          throw StateError('This request ID belongs to a different message.');
+        }
+        return;
+      }
+      if(d.select("SELECT id FROM ai_messages WHERE conversation_id=? AND role='user' AND request_state='pending'",[conversationId]).isNotEmpty) {
+        throw StateError('Wait for or cancel the pending request in this conversation.');
+      }
       d.execute(
-          "INSERT INTO ai_messages(id,conversation_id,role,content,is_local,request_state) VALUES(?,?,'user',?,0,'pending')",
-          [request, conversationId, text.trim()]);
+          "INSERT INTO ai_messages(id,conversation_id,role,content,is_local,request_state,purpose) VALUES(?,?,'user',?,0,'pending',?)",
+          [request, conversationId, text.trim(),purpose]);
       d.execute(
           "UPDATE ai_conversations SET message_count=message_count+1,last_message_at=? WHERE id=?",
           [DateTime.now().toUtc().toIso8601String(), conversationId]);
@@ -1101,17 +1340,18 @@ class AppDatabase {
     final d = await db;
     _atomic(d, () {
       final rows = d.select(
-          "SELECT conversation_id FROM ai_messages WHERE id=? AND role='user'",
+          "SELECT conversation_id,purpose,request_state FROM ai_messages WHERE id=? AND role='user'",
           [requestId]);
       if (rows.isEmpty) {
         return; // A user may delete a conversation during a request.
       }
+      if(rows.single['request_state']=='cancelled')return;
       final conversation = rows.single['conversation_id'];
       if (d.select('SELECT id FROM ai_messages WHERE id=?',
           ['reply:$requestId']).isEmpty) {
         d.execute(
-            "INSERT INTO ai_messages(id,conversation_id,role,content,is_local) VALUES(?,?,'assistant',?,0)",
-            ['reply:$requestId', conversation, reply.trim()]);
+            "INSERT INTO ai_messages(id,conversation_id,role,content,is_local,purpose) VALUES(?,?,'assistant',?,0,?)",
+            ['reply:$requestId', conversation, reply.trim(),rows.single['purpose']]);
         d.execute(
             'UPDATE ai_conversations SET message_count=message_count+1,last_message_at=? WHERE id=?',
             [DateTime.now().toUtc().toIso8601String(), conversation]);
@@ -1123,7 +1363,7 @@ class AppDatabase {
   }
 
   Future<void> deleteWritingMistake(String id) async =>
-      (await db).execute('DELETE FROM writing_mistakes WHERE id=?', [id]);
+      (await db).execute('UPDATE writing_mistakes SET deleted=1,revision=revision+1 WHERE id=?', [id]);
   Future<void> saveAiWritingFeedback(
       String entryId, String submitted, String response) async {
     if (response.trim().isEmpty) {
@@ -1305,12 +1545,12 @@ class AppDatabase {
       'Speaking seconds': count(
           'SELECT COALESCE(SUM(duration_ms),0)/1000 n FROM speaking_recordings WHERE mode!=\'shadowing\''),
       'AI practice messages':
-          count("SELECT COUNT(*) n FROM ai_messages WHERE role='user'"),
+          count("SELECT COUNT(*) n FROM ai_messages WHERE role='user' AND purpose='conversation'"),
       'Writing revisions': count('SELECT COUNT(*) n FROM writing_revisions'),
       'Open mistakes': count(
-          "SELECT COUNT(*) n FROM writing_mistakes WHERE review_status='open'"),
+          "SELECT COUNT(*) n FROM writing_mistakes WHERE deleted=0 AND review_status='open'"),
       'Reviewed mistakes': count(
-          "SELECT COUNT(*) n FROM writing_mistakes WHERE review_status='understood'"),
+          "SELECT COUNT(*) n FROM writing_mistakes WHERE deleted=0 AND review_status='understood'"),
       'Vocabulary reviews':
           count('SELECT COUNT(*) n FROM vocabulary_review_history'),
       'Reading opens': count(
@@ -1321,6 +1561,11 @@ class AppDatabase {
   void close() {
     _db?.dispose();
     _db = null;
+  }
+
+  void retire() {
+    _retired = true;
+    close();
   }
 
   // ─── Preferences ───────────────────────────────────────────────
@@ -1551,6 +1796,24 @@ class AppDatabase {
     );
   }
 
+  Future<void> saveListeningPreferences(String id,{double? speed,int? startMs,int? endMs,
+      bool clearLoop=false,bool? autoScroll,String? transcript,String? transcriptFormat}) async {
+    if(speed!=null && ![0.75,1.0,1.25,1.5].contains(speed))throw ArgumentError('Unsupported speed.');
+    if(transcriptFormat!=null && !['auto','plain','srt','vtt'].contains(transcriptFormat))throw ArgumentError('Unsupported transcript format.');
+    final d=await db;
+    final row=d.select('SELECT duration_ms FROM listening_lessons WHERE id=?',[id]).single;
+    if(!clearLoop && (startMs!=null || endMs!=null) &&
+        (startMs==null || endMs==null || startMs<0 || endMs<=startMs || endMs>(row['duration_ms'] as int))) {
+      throw ArgumentError('Choose A before B within the saved audio duration.');
+    }
+    _atomic(d,(){
+      if(speed!=null)d.execute('UPDATE listening_lessons SET playback_speed=? WHERE id=?',[speed,id]);
+      if(clearLoop || startMs!=null)d.execute('UPDATE listening_lessons SET loop_start_ms=?,loop_end_ms=? WHERE id=?',[clearLoop?null:startMs,clearLoop?null:endMs,id]);
+      if(autoScroll!=null)d.execute('UPDATE listening_lessons SET transcript_auto_scroll=? WHERE id=?',[autoScroll?1:0,id]);
+      if(transcript!=null)d.execute('UPDATE listening_lessons SET transcript=?,transcript_format=? WHERE id=?',[transcript,transcriptFormat??'auto',id]);
+    });
+  }
+
   Future<void> deleteListeningLesson(String id) async {
     final d = await db;
     d.execute('BEGIN IMMEDIATE');
@@ -1570,6 +1833,7 @@ class AppDatabase {
 
   Future<void> addBookmark(String id, String lessonId, int positionMs,
       {String? label}) async {
+    if(positionMs<0)throw ArgumentError('Bookmark position must be nonnegative.');
     final d = await db;
     d.execute(
       'INSERT INTO playback_bookmarks (id, lesson_id, position_ms, label) VALUES (?, ?, ?, ?)',
@@ -1831,11 +2095,11 @@ class AppDatabase {
   }
 
   Future<void> insertAiConversation(String id,
-      {String? provider, String? title}) async {
+      {String? provider, String? title,String scenarioId='everyday'}) async {
     final d = await db;
     d.execute(
-      'INSERT INTO ai_conversations (id, provider, title, started_at) VALUES (?, ?, ?, ?)',
-      [id, provider, title, DateTime.now().toUtc().toIso8601String()],
+      'INSERT INTO ai_conversations (id, provider, title, started_at,scenario_id) VALUES (?, ?, ?, ?,?)',
+      [id, provider, title, DateTime.now().toUtc().toIso8601String(),scenarioId],
     );
   }
 
@@ -1872,10 +2136,17 @@ class AppDatabase {
         .toList();
   }
 
-  Future<List<Map<String, dynamic>>> getAiConversations() async {
+  Future<List<Map<String, dynamic>>> getAiConversations({String search='',int limit=100}) async {
     final d = await db;
     return d.select(
-        'SELECT * FROM ai_conversations WHERE is_active = 1 ORDER BY started_at DESC, rowid DESC');
+        '''SELECT c.* FROM ai_conversations c WHERE is_active=1 AND
+          (INSTR(LOWER(COALESCE(title,'')),LOWER(?))>0 OR EXISTS(
+            SELECT 1 FROM ai_messages m WHERE m.conversation_id=c.id AND INSTR(LOWER(m.content),LOWER(?))>0))
+          ORDER BY started_at DESC,c.rowid DESC LIMIT ?''',[search,search,limit]);
+  }
+  Future<Map<String,dynamic>?> getAiConversation(String id) async {
+    final rows=(await db).select('SELECT * FROM ai_conversations WHERE id=? AND is_active=1',[id]);
+    return rows.isEmpty?null:rows.single;
   }
 
   // ─── Phase 4: Grammar ──────────────────────────────────────────
@@ -2063,15 +2334,26 @@ class AppDatabase {
   }
 
   Future<void> saveWritingMistake(Map<String, Object?> m) async {
+    if(m['id'] is! String || (m['id'] as String).trim().isEmpty) {
+      throw ArgumentError('A mistake ID is required.');
+    }
     final original = (m['original_sentence'] as String? ?? '').trim();
     final correction = (m['correction'] as String? ?? '').trim();
     if (original.isEmpty || correction.isEmpty) {
       throw ArgumentError('Original and corrected sentences are required.');
     }
+    if(normalizeCorrection(original)==normalizeCorrection(correction)) {
+      throw ArgumentError('The corrected sentence must differ from the original.');
+    }
     final d = await db;
     _atomic(d, () {
-      final existed = d.select(
-          'SELECT id FROM writing_mistakes WHERE id=?', [m['id']]).isNotEmpty;
+      final previous = d.select('SELECT * FROM writing_mistakes WHERE id=?',[m['id']]);
+      final existed = previous.isNotEmpty;
+      final key=mistakeKey(original,correction);
+      if (existed && previous.single['deleted']==1) throw StateError('This mistake was deleted.');
+      if ((!existed || previous.single['dedup_key']!=key) && d.select(
+          'SELECT id FROM writing_mistakes WHERE dedup_key=? AND deleted=0 AND id!=?',
+          [key,m['id']]).isNotEmpty) throw StateError('This correction already exists in your journal.');
       d.execute(
           '''INSERT INTO writing_mistakes(id,entry_id,grammar_topic,original_sentence,correction,explanation,review_status,updated_at)
         VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET grammar_topic=excluded.grammar_topic,
@@ -2084,19 +2366,22 @@ class AppDatabase {
             original,
             correction,
             m['explanation'],
-            m['review_status'] ?? 'open',
+            existed && previous.single['dedup_key']!=key ? 'open' :
+              m['review_status'] ?? (existed ? previous.single['review_status'] : 'open'),
             DateTime.now().toUtc().toIso8601String()
           ]);
       if (!existed) {
         _activity(d, 'mistake:${m['id']}', 'writing_mistake_created',
             'grammar_writing');
       }
+      d.execute('UPDATE writing_mistakes SET dedup_key=?,source_label=COALESCE(?,source_label),revision=revision+1 WHERE id=?',
+          [key,m['source_label'],m['id']]);
     });
   }
 
   Future<List<Map<String, dynamic>>> getWritingMistakes() async {
     final d = await db;
-    return d.select('SELECT * FROM writing_mistakes ORDER BY created_at DESC');
+    return d.select('SELECT m.*,(SELECT COUNT(*) FROM mistake_practice_attempts a WHERE a.mistake_id=m.id) repetitions FROM writing_mistakes m WHERE deleted=0 ORDER BY created_at DESC,id');
   }
 
   Future<void> markMistakeReviewed(String id) async {
@@ -2331,16 +2616,15 @@ class AppDatabase {
 
   Map<String, dynamic>? _certificateEvidence(
       Database d, String type, String id) {
+    if (type == 'course') {
+      final rows = d.select('SELECT structured_mode FROM courses WHERE id=?', [id]);
+      if (rows.isNotEmpty && rows.first['structured_mode'] == 1) return CourseStudyService.certificateEvidence(d, id);
+    }
     Map<String, dynamic>? passing(String assessmentId) {
-      final rows =
-          d.select('''SELECT a.score, def.title FROM assessment_attempts a
-        JOIN assessment_definitions def ON def.id=a.assessment_id
-        WHERE a.assessment_id=? AND a.completed_at IS NOT NULL
-          AND a.self_assessed=0 AND a.passed=1 AND a.score>=def.pass_threshold
-          AND a.score<=1 AND a.max_score=1 AND a.score>=0
-          AND EXISTS (SELECT 1 FROM assessment_questions q WHERE q.assessment_id=def.id)
-        ORDER BY a.completed_at DESC LIMIT 1''', [assessmentId]);
-      return rows.isEmpty ? null : rows.first;
+      final score = CourseStudyService.passingScore(d, assessmentId, 0);
+      if (score == null) return null;
+      final definition = d.select('SELECT title FROM assessment_definitions WHERE id=?', [assessmentId]);
+      return {'score': score, 'title': definition.single['title']};
     }
 
     if (type == 'assessment') {

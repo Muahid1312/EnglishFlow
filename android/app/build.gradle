@@ -5,6 +5,16 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+// Reuse the app's existing distribution key. Never silently ship a debug key.
+def releaseKeyFile = rootProject.file("key.properties")
+def releaseKeys = new Properties()
+if (releaseKeyFile.exists()) {
+    releaseKeyFile.withInputStream { releaseKeys.load(it) }
+}
+def releaseKeyNames = ["storeFile", "storePassword", "keyAlias", "keyPassword"]
+def hasReleaseKeys = releaseKeyNames.every { releaseKeys.getProperty(it)?.trim() }
+def releaseStore = hasReleaseKeys ? rootProject.file(releaseKeys.getProperty("storeFile")) : null
+
 android {
     namespace = "com.lexiflow.lexiflow"
     compileSdk = 35
@@ -20,7 +30,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // Keep the installed app identity for update compatibility.
         applicationId = "com.lexiflow.lexiflow"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
@@ -30,13 +40,37 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (hasReleaseKeys && releaseStore.isFile()) {
+            release {
+                storeFile = releaseStore
+                storePassword = releaseKeys.getProperty("storePassword")
+                keyAlias = releaseKeys.getProperty("keyAlias")
+                keyPassword = releaseKeys.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            if (hasReleaseKeys && releaseStore.isFile()) {
+                signingConfig = signingConfigs.release
+            }
         }
+    }
+}
+
+// Check selected tasks too: abbreviated Gradle task names must not evade this
+// guard. Debug builds and Flutter tests remain available without release keys.
+gradle.taskGraph.whenReady { graph ->
+    def packagesRelease = graph.allTasks.any {
+        it.project == project && it.name.toLowerCase().contains("release") &&
+            (it.name.startsWith("package") || it.name.startsWith("sign") ||
+             it.name.startsWith("bundle") || it.name.startsWith("assemble"))
+    }
+    if (packagesRelease && !(hasReleaseKeys && releaseStore.isFile())) {
+        throw new GradleException("Release signing is not configured. Supply the original app keystore using android/key.properties; see docs/PHASE5_RELEASE_AUDIT.md. Debug signing is never used for release.")
     }
 }
 

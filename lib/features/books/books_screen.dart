@@ -403,7 +403,8 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
 class BookReaderScreen extends ConsumerStatefulWidget {
   final String bookId;
-  const BookReaderScreen({super.key, required this.bookId});
+  final int? initialPage;
+  const BookReaderScreen({super.key, required this.bookId, this.initialPage});
 
   @override
   ConsumerState<BookReaderScreen> createState() => _BookReaderScreenState();
@@ -422,26 +423,26 @@ class _BookReaderScreenState extends ConsumerState<BookReaderScreen> {
   }
 
   Future<void> _open() async {
-    final book =
-        await ref.read(appDatabaseProvider).getImportedBook(widget.bookId);
-    if (!mounted) return;
-    if (book == null) {
-      setState(() => _error = 'Book not found');
-      return;
-    }
-    final path = book['file_path'] as String;
-    if (!File(path).existsSync()) {
-      setState(() => _error = 'PDF file missing');
-      return;
-    }
     try {
+      final book =
+          await ref.read(appDatabaseProvider).getImportedBook(widget.bookId);
+      if (!mounted) return;
+      if (book == null) {
+        setState(() => _error = 'Book not found');
+        return;
+      }
+      final path = book['file_path'] as String;
+      if (!File(path).existsSync()) {
+        setState(() => _error = 'PDF file missing');
+        return;
+      }
       final doc = await PdfDocument.openFile(path);
       if (!mounted) {
         await doc.close();
         return;
       }
       final start =
-          ((book['current_page'] as int?) ?? 1).clamp(1, doc.pagesCount);
+          (widget.initialPage ?? (book['current_page'] as int?) ?? 1).clamp(1, doc.pagesCount);
       final ctrl = PdfControllerPinch(
         document: Future.value(doc),
         initialPage: start,
@@ -453,17 +454,20 @@ class _BookReaderScreenState extends ConsumerState<BookReaderScreen> {
     } catch (e) {
       if (!mounted) return;
       setState(() => _error =
-          'Could not open PDF (corrupted, password-protected, or unsupported).');
+          'Could not open PDF. Check storage and the imported file (it may be corrupted, password-protected, or unsupported).');
     }
   }
 
   Future<void> _persist(int page) async {
+    if(!mounted)return;
     _page = page;
-    await ref.read(appDatabaseProvider).updateBookProgress(
-          widget.bookId,
-          page,
-          pageCount: _pageCount > 0 ? _pageCount : null,
-        );
+    try {
+      await ref.read(appDatabaseProvider).updateBookProgress(
+        widget.bookId,page,pageCount:_pageCount>0?_pageCount:null);
+    } catch (_) {
+      if(mounted)ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content:Text('Could not save your PDF position. Check storage and retry.')));
+    }
   }
 
   @override
@@ -505,11 +509,12 @@ class _BookReaderScreenState extends ConsumerState<BookReaderScreen> {
           if (mounted) setState(() => _error = 'Could not open PDF.');
         },
         onDocumentLoaded: (doc) {
+          if(!mounted)return;
           setState(() => _pageCount = doc.pagesCount);
-          ref.read(appDatabaseProvider).updateBookProgress(widget.bookId, _page,
-              pageCount: doc.pagesCount);
+          _persist(_page);
         },
         onPageChanged: (page) {
+          if(!mounted)return;
           setState(() => _page = page);
           _persist(page);
         },

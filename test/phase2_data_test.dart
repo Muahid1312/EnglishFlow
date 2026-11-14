@@ -362,7 +362,7 @@ void main() {
     expect(await db.getTotalStudySeconds(), 30);
     expect((await db.getCertificates()).single['ref_number'], 'LF-OLD');
     expect(
-        (await db.db).select('PRAGMA user_version').single['user_version'], 6);
+        (await db.db).select('PRAGMA user_version').single['user_version'], AppDatabase.schemaVersion);
     expect((await db.db).select('PRAGMA foreign_key_check'), isEmpty);
   });
 }

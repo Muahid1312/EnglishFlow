@@ -3,13 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:printing/printing.dart';
+import 'package:file_picker/file_picker.dart';
 
 import '../../core/content/assessment_bank.dart';
 import '../../core/services/certificate_service.dart';
 import '../../core/services/providers.dart';
 import '../../core/utils/id_utils.dart';
-import '../../core/utils/answer_utils.dart';
+import '../../core/services/assessment_grading.dart';
 import '../../core/widgets/common_widgets.dart';
 
 class AssessmentsScreen extends ConsumerStatefulWidget {
@@ -20,6 +21,8 @@ class AssessmentsScreen extends ConsumerStatefulWidget {
 }
 
 class _AssessmentsScreenState extends ConsumerState<AssessmentsScreen> {
+  String? _loadError;
+
   List<Map<String, dynamic>> _items = [];
   bool _loading = true;
 
@@ -30,19 +33,25 @@ class _AssessmentsScreenState extends ConsumerState<AssessmentsScreen> {
   }
 
   Future<void> _load() async {
-    final db = ref.read(appDatabaseProvider);
-    await AssessmentBank.seedIfEmpty(db);
-    final rows = await db.getAssessments();
-    if (mounted) {
-      setState(() {
-        _items = rows;
-        _loading = false;
-      });
+    try {
+      _loadError=null;
+      final db = ref.read(appDatabaseProvider);
+      await AssessmentBank.seedIfEmpty(db);
+      final rows = await db.getAssessments();
+      if (mounted) {
+        setState(() {
+          _items = rows;
+          _loading = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() { _loadError='Could not load learning records. Check storage and retry.'; });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if(_loadError!=null)return Scaffold(appBar:AppBar(title:const Text('Learning records')),body:ErrorView(message:_loadError!,onRetry:_load));
     return Scaffold(
       appBar: AppBar(title: const Text('Assessments')),
       body: _loading
@@ -82,6 +91,8 @@ class AssessmentTakeScreen extends ConsumerStatefulWidget {
 }
 
 class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
+  String? _loadError;
+
   Map<String, dynamic>? _def;
   List<Map<String, dynamic>> _questions = [];
   final Map<String, String> _answers = {};
@@ -90,6 +101,9 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
   bool _submitting = false;
   final _startedAt = DateTime.now().toUtc().toIso8601String();
   double? _score;
+  bool _selfReviewed = false;
+  final _attemptId = newId();
+  List<Map<String,dynamic>> _history = [];
 
   @override
   void initState() {
@@ -98,15 +112,22 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
   }
 
   Future<void> _load() async {
-    final db = ref.read(appDatabaseProvider);
-    final def = await db.getAssessment(widget.assessmentId);
-    final qs = await db.getAssessmentQuestions(widget.assessmentId);
-    if (mounted) {
-      setState(() {
-        _def = def;
-        _questions = qs;
-        _loading = false;
-      });
+    try {
+      _loadError=null;
+      final db = ref.read(appDatabaseProvider);
+      final def = await db.getAssessment(widget.assessmentId);
+      final qs = await db.getAssessmentQuestions(widget.assessmentId);
+      final history = (await db.db).select('SELECT * FROM assessment_attempts WHERE assessment_id=? ORDER BY completed_at DESC LIMIT 20', [widget.assessmentId]);
+      if (mounted) {
+        setState(() {
+          _history = history;
+          _def = def;
+          _questions = qs;
+          _loading = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() { _loadError='Could not load learning records. Check storage and retry.'; });
     }
   }
 
@@ -124,24 +145,20 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
     if (_questions.isEmpty || _done || _submitting) return;
     setState(() => _submitting = true);
     try {
-      var correct = 0;
-      for (final q in _questions) {
-        final a = (_answers[q['id'] as String] ?? '').trim().toLowerCase();
-        final c = ((q['correct_answer'] as String?) ?? '').trim().toLowerCase();
-        if (matchesAnswer(a, c)) correct++;
-      }
-      final score = correct / _questions.length;
-      final threshold = (_def?['pass_threshold'] as num?)?.toDouble() ?? 0.7;
-      final passed = score >= threshold;
+      final grade=gradeAssessment(_questions,_answers,writingReviewed:_selfReviewed);
+      final hasOpen=grade.hasWriting;
+      final score=grade.score;
+      final threshold=(_def?['pass_threshold'] as num?)?.toDouble()??0.7;
+      final passed=grade.passes(threshold);
       final started = DateTime.now().toUtc().toIso8601String();
       await ref.read(appDatabaseProvider).saveAssessmentAttempt({
-        'id': newId(),
+        'id': _attemptId,
         'assessment_id': widget.assessmentId,
         'score': score,
         'max_score': 1.0,
         'passed': passed ? 1 : 0,
-        'self_assessed': 0,
-        'answers_json': jsonEncode(_answers),
+        'self_assessed': grade.objectiveCount==0 ? 1 : 0,
+        'answers_json': jsonEncode({..._answers, if(hasOpen) '_writing_self_assessed': true}),
         'started_at': _startedAt,
         'completed_at': started,
       });
@@ -151,11 +168,11 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
         _submitting = false;
         _score = score;
       });
-    } catch (_) {
+    } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
-                'Could not save assessment. Your answers are retained; please retry.')));
+                'Could not save assessment. ${error is StateError?error.message:'Check storage and retry.'} Your answers are retained.')));
       }
     } finally {
       if (mounted) setState(() => _submitting = false);
@@ -207,6 +224,7 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if(_loadError!=null)return Scaffold(appBar:AppBar(title:const Text('Learning records')),body:ErrorView(message:_loadError!,onRetry:_load));
     if (_loading) return const Scaffold(body: LoadingView());
     if (_def == null) {
       return Scaffold(
@@ -222,7 +240,7 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Score: ${((_score ?? 0) * 100).round()}%',
+              Text(_score==null?'Writing self-assessment saved; no objective score.':'Objective score: ${(_score! * 100).round()}%',
                   style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 8),
               Text('Practice result only — not an accredited CEFR exam.',
@@ -230,7 +248,7 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
               const SizedBox(height: 20),
               PrimaryButton(
                   label: 'Issue certificate if eligible',
-                  onPressed: _maybeCertificate),
+                  onPressed: _score==null?null:_maybeCertificate),
               const SizedBox(height: 12),
               SecondaryButton(label: 'Back', onPressed: () => context.pop()),
             ],
@@ -252,6 +270,8 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
                   Text('${q['prompt']}',
                       style: Theme.of(context).textTheme.titleSmall),
                   const SizedBox(height: 8),
+                  if (_choices(q).isEmpty) TextFormField(initialValue:_answers[q['id']], maxLines:q['question_type']=='short'?4:1, decoration:const InputDecoration(labelText:'Your answer'), onChanged:(v)=>_answers[q['id'] as String]=v),
+                  if(q['question_type']=='short') Text('Self-assessment rubric: ${q['explanation']??'Review clarity, grammar and task coverage.'}'),
                   ..._choices(q).map((c) => RadioListTile<String>(
                         title: Text(c),
                         value: c,
@@ -264,6 +284,9 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
             ),
             const SizedBox(height: 10),
           ],
+          if(_questions.any((q)=>q['question_type']=='short'||q['question_type']=='writing')) CheckboxListTile(title:const Text('I reviewed my writing against the rubric (self-assessment only)'),value:_selfReviewed,onChanged:(v)=>setState(()=>_selfReviewed=v==true)),
+          const Text('Objective score uses only questions with stored answer keys. Open writing is self-assessed.'),
+          for(final attempt in _history) Text('Previous attempt: ${attempt['completed_at']} · objective score ${attempt['score']} · ${attempt['passed']==1?'Passed':'Not passed / self-assessed'}'),
           PrimaryButton(
               label: 'Submit', onPressed: _submitting ? null : _submit),
         ],
@@ -280,6 +303,8 @@ class CertificatesScreen extends ConsumerStatefulWidget {
 }
 
 class _CertificatesScreenState extends ConsumerState<CertificatesScreen> {
+  String? _loadError;
+
   List<Map<String, dynamic>> _certs = [];
 
   @override
@@ -289,12 +314,30 @@ class _CertificatesScreenState extends ConsumerState<CertificatesScreen> {
   }
 
   Future<void> _load() async {
-    final rows = await ref.read(appDatabaseProvider).getCertificates();
-    if (mounted) setState(() => _certs = rows);
+    try {
+      _loadError=null;
+      final rows = await ref.read(appDatabaseProvider).getCertificates();
+      if (mounted) setState(() => _certs = rows);
+    } catch (_) {
+      if (mounted) setState(() { _loadError='Could not load learning records. Check storage and retry.'; });
+    }
+  }
+
+  Future<void> _export(Map<String,dynamic> record,String action) async {
+    try {
+      final bytes=await CertificateService.historicalPdf(record);
+      final filename='${record['ref_number']}.pdf';
+      if(action=='preview') { await Printing.layoutPdf(onLayout:(_)async=>bytes,name:filename); }
+      else if(action=='save') { await FilePicker.platform.saveFile(dialogTitle:'Save certificate PDF',fileName:filename,bytes:bytes,type:FileType.custom,allowedExtensions:['pdf']); }
+      else { await Printing.sharePdf(bytes:bytes,filename:filename); }
+    } catch (_) {
+      if(mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content:Text('Could not export certificate. Please check storage and try again.')));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if(_loadError!=null)return Scaffold(appBar:AppBar(title:const Text('Learning records')),body:ErrorView(message:_loadError!,onRetry:_load));
     return Scaffold(
       appBar: AppBar(title: const Text('Certificates')),
       body: _certs.isEmpty
@@ -320,20 +363,11 @@ class _CertificatesScreenState extends ConsumerState<CertificatesScreen> {
                           style: Theme.of(context).textTheme.bodySmall),
                       Text('Verification: ${c['verification_type']}',
                           style: Theme.of(context).textTheme.bodySmall),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {
-                            final path = c['file_path'] as String?;
-                            if (path != null) {
-                              Share.shareXFiles([XFile(path)],
-                                  text:
-                                      'LexiFlow certificate ${c['ref_number']}');
-                            }
-                          },
-                          child: const Text('Share PDF'),
-                        ),
-                      ),
+                      Wrap(children:[
+                        TextButton(onPressed:()=>_export(c,'preview'),child:const Text('Preview / print')),
+                        TextButton(onPressed:()=>_export(c,'save'),child:const Text('Save PDF')),
+                        TextButton(onPressed:()=>_export(c,'share'),child:const Text('Share PDF')),
+                      ]),
                     ],
                   ),
                 );

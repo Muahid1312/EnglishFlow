@@ -121,7 +121,7 @@ class ShadowingController extends ChangeNotifier {
         await action();
       } catch (_) {
         error =
-            'Could not complete shadowing. Check files, microphone access, and available storage. Your saved attempts are unchanged.';
+            'Could not complete shadowing. Check files, microphone access, storage and attempt history before retrying. Unsaved takes remain available when possible.';
       } finally {
         busy = false;
         _notify();
@@ -199,13 +199,18 @@ class ShadowingController extends ChangeNotifier {
           await _stop();
           return;
         }
-        if (study != null && !study!.hasActive) {
-          _ownedSession = (await study!.start('shadowing')).id;
+        if (study != null) {
+          await study!.recoverInterrupted();
+          if(!study!.hasActive || !['shadowing','listening_speaking'].contains(study!.active!.module)) {
+            _ownedSession = (await study!.start('shadowing')).id;
+          } else {study!.resume();}
         }
       });
   Future<void> _finishTimer() async {
     if (_ownedSession != null && study?.active?.id == _ownedSession) {
       await study!.finish();
+    } else if(study?.active!=null && ['shadowing','listening_speaking'].contains(study!.active!.module)) {
+      await study!.pause();
     }
     _ownedSession = null;
   }
@@ -261,7 +266,10 @@ class ShadowingController extends ChangeNotifier {
         if (recording) return;
         await playback.stop();
         await db.deleteShadowingAttempt(id);
-        if (pending?.id == id) pending = null;
+        if (pending?.id == id) {
+          (await db.db).execute('INSERT OR IGNORE INTO pending_file_deletions(path) VALUES(?)',[pending!.path]);
+          pending = null;
+        }
         await drainDeletedFiles();
         await _history();
       });

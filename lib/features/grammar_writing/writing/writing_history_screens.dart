@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../../core/database/app_database.dart';
 import '../../../core/utils/id_utils.dart';
+import '../../../core/services/mistake_coach.dart';
 import '../../../core/widgets/common_widgets.dart';
 
 class MistakeEditorDialog extends StatefulWidget {
-  const MistakeEditorDialog({super.key, required this.db, this.mistake});
+  const MistakeEditorDialog({super.key, required this.db, this.mistake,this.sourceEntryId,this.initialOriginal,this.initialCorrection,this.sourceLabel});
   final AppDatabase db;
   final Map<String, dynamic>? mistake;
+  final String? sourceEntryId,initialOriginal,initialCorrection,sourceLabel;
   @override
   State<MistakeEditorDialog> createState() => _MistakeEditorDialogState();
 }
@@ -23,10 +25,10 @@ class _MistakeEditorDialogState extends State<MistakeEditorDialog> {
   void initState() {
     super.initState();
     final m = widget.mistake;
-    _original.text = m?['original_sentence'] as String? ?? '';
-    _correction.text = m?['correction'] as String? ?? '';
+    _original.text = m?['original_sentence'] as String? ?? widget.initialOriginal ?? '';
+    _correction.text = m?['correction'] as String? ?? widget.initialCorrection ?? '';
     _explanation.text = m?['explanation'] as String? ?? '';
-    _category.text = m?['grammar_topic'] as String? ?? 'general';
+    _category.text = m?['grammar_topic'] as String? ?? 'Other';
   }
 
   Future<void> _save() async {
@@ -35,12 +37,13 @@ class _MistakeEditorDialogState extends State<MistakeEditorDialog> {
     try {
       await widget.db.saveWritingMistake({
         'id': widget.mistake?['id'] ?? newId(),
-        'entry_id': widget.mistake?['entry_id'],
+        'entry_id': widget.mistake?['entry_id'] ?? widget.sourceEntryId,
+        'source_label':widget.mistake?['source_label'] ?? widget.sourceLabel ?? 'Manual',
         'original_sentence': _original.text,
         'correction': _correction.text,
         'explanation': _explanation.text.trim(),
         'grammar_topic':
-            _category.text.trim().isEmpty ? 'general' : _category.text.trim(),
+            _category.text.trim().isEmpty ? 'Other' : _category.text.trim(),
         'review_status': widget.mistake?['review_status'] ?? 'open'
       });
       if (mounted) Navigator.pop(context, true);
@@ -48,6 +51,7 @@ class _MistakeEditorDialogState extends State<MistakeEditorDialog> {
       if (mounted) {
         setState(() => _error = error is ArgumentError
             ? error.message.toString()
+            : error is StateError ? error.message.toString()
             : 'Could not save mistake.');
       }
     } finally {
@@ -84,10 +88,13 @@ class _MistakeEditorDialogState extends State<MistakeEditorDialog> {
                 decoration:
                     const InputDecoration(labelText: 'Explanation (optional)'),
                 maxLines: 3),
-            TextField(
-                controller: _category,
-                decoration:
-                    const InputDecoration(labelText: 'Grammar category')),
+            TextField(controller:_category,onChanged:(_)=>setState((){}),
+              decoration:const InputDecoration(labelText:'Grammar category')),
+            DropdownButtonFormField<String>(value:_category.text,
+              items:{...mistakeCategories,_category.text}.map((c)=>DropdownMenuItem(value:c,child:Text(c))).toList(),
+              onChanged:(v)=>setState(()=>_category.text=v!),decoration:const InputDecoration(labelText:'Choose a category manually')),
+            Text('Source: ${widget.mistake?['source_label'] ?? widget.sourceLabel ?? 'Manual'}'),
+            const Text('Review and edit the correction before saving. Your original writing is not changed.'),
             if (_error != null)
               Text(_error!,
                   style: TextStyle(color: Theme.of(context).colorScheme.error)),

@@ -17,6 +17,7 @@ class ProgressScreen extends ConsumerStatefulWidget {
 class _ProgressScreenState extends ConsumerState<ProgressScreen> {
   ProgressSnapshot? _snap;
   bool _loading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -25,17 +26,17 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
   }
 
   Future<void> _load() async {
-    final snap = await AnalyticsService(ref.read(appDatabaseProvider)).build();
-    if (mounted) {
-      setState(() {
-        _snap = snap;
-        _loading = false;
-      });
+    try {
+      final snap=await AnalyticsService(ref.read(appDatabaseProvider)).build();
+      if(mounted)setState((){_snap=snap;_loading=false;_error=null;});
+    } catch (_) {
+      if(mounted)setState((){_error='Could not load progress. Your learning records have not been changed.';_loading=false;});
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if(_error!=null)return Scaffold(appBar:AppBar(title:const Text('Progress')),body:Center(child:Column(mainAxisSize:MainAxisSize.min,children:[Text(_error!),TextButton(onPressed:_load,child:const Text('Retry'))])));
     if (_loading || _snap == null) {
       return const Scaffold(body: LoadingView(message: 'Loading progress…'));
     }
@@ -118,32 +119,9 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                     ),
             ),
             const SizedBox(height: 16),
-            const SectionHeader(title: 'Skills (persisted counts)'),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: [
-                _chip('Grammar lessons', '${s.grammarCompleted}'),
-                _chip(
-                    'Grammar accuracy',
-                    s.grammarAccuracy == 0
-                        ? '—'
-                        : '${(s.grammarAccuracy * 100).round()}%'),
-                _chip('Writing entries', '${s.writingEntries}'),
-                _chip('Listening lessons', '${s.listeningLessons}'),
-                _chip('Speaking recordings', '${s.speakingRecordings}'),
-                _chip('Saved words', '${s.savedWords}'),
-                _chip('Books', '${s.books}'),
-                for (final item in s.activityCounts.entries
-                    .where((e) => !e.key.startsWith('Objective')))
-                  _chip(item.key, '${item.value}'),
-                _chip(
-                    'Comprehension accuracy',
-                    (s.activityCounts['Objective graded'] ?? 0) == 0
-                        ? '—'
-                        : '${(100 * (s.activityCounts['Objective correct'] ?? 0) / s.activityCounts['Objective graded']!).round()}%'),
-              ],
-            ),
+            const SectionHeader(title:'Skills · observed learning activity'),
+            const Text('These metrics describe saved activity, not a validated CEFR level. Objective percentages need at least 5 answers.'),
+            for(final entry in s.skills.entries) LexiCard(child:ListTile(title:Text(entry.key),subtitle:Text(entry.value))),
             const SizedBox(height: 20),
             const SectionHeader(title: 'Recommendations'),
             if (s.insights.isEmpty)
@@ -160,10 +138,10 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                               color: AppColors.warning),
                           const SizedBox(width: 12),
                           Expanded(child: Text(i.message)),
-                          Text(i.actionLabel,
+                          Flexible(child:Text(i.actionLabel,
                               style: const TextStyle(
                                   color: AppColors.violet,
-                                  fontWeight: FontWeight.w600)),
+                                  fontWeight: FontWeight.w600))),
                         ],
                       ),
                     ),

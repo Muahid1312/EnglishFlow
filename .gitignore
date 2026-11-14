@@ -41,3 +41,10 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Signing material must stay outside source control, regardless of location.
+**/key.properties
+*.jks
+*.keystore
+*.p12
+*.pfx
