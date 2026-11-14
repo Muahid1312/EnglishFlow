@@ -96,9 +96,9 @@ void main() {
     await tester.ensureVisible(find.text('Skip').first);
     await tester.tap(find.text('Skip').first);
     await tester.pumpAndSettle();
-    expect((await db.db).select(
-        "SELECT state FROM planned_activities WHERE state='skipped'"),
-        hasLength(1));
+    final skipped = (await db.db).select(
+        "SELECT state FROM planned_activities WHERE state='skipped'");
+    expect(skipped, hasLength(1));
     // Removing the action buttons shrinks this card above the viewport.
     await tester.scrollUntilVisible(find.text('مقاله آموزشی'), -250,
         scrollable: find.byType(Scrollable).first);
