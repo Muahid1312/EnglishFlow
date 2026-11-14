@@ -1762,7 +1762,7 @@ class AppDatabase {
         data['id'],
         data['title'],
         data['topic'],
-        data['difficulty'],
+        data['difficulty'] ?? 'B1',
         data['audio_path'],
         data['duration_ms'] ?? 0,
         data['last_position_ms'] ?? 0,
