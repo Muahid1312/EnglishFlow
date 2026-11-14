@@ -7,6 +7,7 @@ from pathlib import Path
 
 
 def annotation(title, message):
+    title = title.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A').replace(',', '%2C').replace(':', '%3A')
     safe = message.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
     print(f'::warning title={title}::{safe}')
 
@@ -33,7 +34,7 @@ def main():
         for i in range(start, min(end, len(chunks))):
             annotation(f'Dart format patch {i + 1:03} of {len(chunks):03}', chunks[i])
         return
-    names, failures, counts = {}, {}, {'success': 0, 'failure': 0, 'skipped': 0}
+    names, failures, printed, counts = {}, {}, {}, {'success': 0, 'failure': 0, 'skipped': 0}
     for line in Path(args.tests).read_text(errors='replace').splitlines():
         try:
             event = json.loads(line)
@@ -48,13 +49,21 @@ def main():
                 names[test.get('id')] = test.get('name', 'Unnamed test')
             elif item.get('type') == 'error':
                 failures.setdefault(item.get('testID'), []).append(item)
+            elif item.get('type') == 'print':
+                printed.setdefault(item.get('testID'), []).append(str(item.get('message', '')))
             elif item.get('type') == 'testDone' and not item.get('hidden', False):
                 key = 'skipped' if item.get('skipped') else item.get('result', '')
+                if key == 'error':
+                    key = 'failure'
                 if key in counts:
                     counts[key] += 1
     annotation(f'Test results {args.tests}', json.dumps(counts) + '\n' + '\n'.join(names.get(i, str(i)) for i in failures))
     for i, events in list(failures.items())[:9]:
-        detail = '\n'.join(str(e.get('error', ''))[:2000] + '\n' + str(e.get('stackTrace', ''))[:900] for e in events)
+        output = '\n'.join(printed.get(i, []))
+        marker = output.find('EXCEPTION CAUGHT')
+        if marker >= 0:
+            output = output[marker:]
+        detail = output[:2300] + '\n' + '\n'.join(str(e.get('error', ''))[:400] + '\n' + str(e.get('stackTrace', ''))[:300] for e in events)
         annotation(f'Test failure {names.get(i, i)}', detail[:3000])
 
 

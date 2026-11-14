@@ -259,9 +259,10 @@ class _AiConversationScreenState extends ConsumerState<AiConversationScreen> {
       }
       ref.invalidate(dashboardProvider);
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() => _error =
             'Could not finish the study activity. Your conversation remains saved.');
+      }
     }
   }
 
@@ -269,10 +270,11 @@ class _AiConversationScreenState extends ConsumerState<AiConversationScreen> {
     final id = _activeRequest;
     if (id == null) return;
     final cancelled = _ai.cancelRequest(id);
-    if (mounted)
+    if (mounted) {
       setState(() => _error = cancelled
           ? 'Cancellation requested. The provider may already have processed the request.'
           : 'This provider adapter cannot cancel the in-flight operation; it may still complete.');
+    }
   }
 
   Future<void> _feedback() async {
@@ -290,9 +292,10 @@ class _AiConversationScreenState extends ConsumerState<AiConversationScreen> {
       await _refresh();
       await _request(request);
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() => _error =
             'Could not request feedback. Your conversation is preserved.');
+      }
     } finally {
       if (mounted) setState(() => _sending = false);
     }
@@ -316,17 +319,20 @@ class _AiConversationScreenState extends ConsumerState<AiConversationScreen> {
     setState(() => _speakingSelection = true);
     try {
       final result = await _speech.speak(text);
-      if (mounted && generation == _speechGeneration)
+      if (mounted && generation == _speechGeneration) {
         setState(() => _speechNotice = result['stopped'] == true
             ? 'Playback stopped.'
             : 'Played using ${result['locale']}. Offline playback depends on installed voice data.');
+      }
     } catch (_) {
-      if (mounted && generation == _speechGeneration)
+      if (mounted && generation == _speechGeneration) {
         setState(() => _speechNotice =
             'Pronunciation unavailable. Check the installed Android English TTS engine/voice.');
+      }
     } finally {
-      if (mounted && generation == _speechGeneration)
+      if (mounted && generation == _speechGeneration) {
         setState(() => _speakingSelection = false);
+      }
     }
   }
 
@@ -424,12 +430,14 @@ class _AiConversationScreenState extends ConsumerState<AiConversationScreen> {
                                           ? null
                                           : (mode) async {
                                               final id = _conversationId;
-                                              if (id != null)
+                                              if (id != null) {
                                                 (await _db.db).execute(
                                                     'UPDATE ai_conversations SET scenario_id=? WHERE id=?',
                                                     [mode, id]);
-                                              if (mounted)
+                                              }
+                                              if (mounted) {
                                                 setState(() => _mode = mode!);
+                                              }
                                             },
                                       decoration: const InputDecoration(
                                           labelText: 'Conversation scenario')),
@@ -444,12 +452,13 @@ class _AiConversationScreenState extends ConsumerState<AiConversationScreen> {
                                         onPressed: () async {
                                           ++_speechGeneration;
                                           await _speech.stop();
-                                          if (mounted)
+                                          if (mounted) {
                                             setState(() {
                                               _speakingSelection = false;
                                               _speechNotice =
                                                   'Playback stopped.';
                                             });
+                                          }
                                         },
                                         child: const Text('Stop speech')),
                                   Wrap(spacing: 8, children: [

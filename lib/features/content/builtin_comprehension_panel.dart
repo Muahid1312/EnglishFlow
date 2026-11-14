@@ -55,10 +55,11 @@ class _PanelState extends ConsumerState<BuiltinComprehensionPanel> {
         await _load();
       }
     } catch (error) {
-      if (mounted)
+      if (mounted) {
         setState(() => _error = error is StateError
-            ? '${error.message}'
+            ? error.message
             : 'Could not save answers. Your selections are retained.');
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -120,14 +121,16 @@ class _PanelState extends ConsumerState<BuiltinComprehensionPanel> {
                         onPressed: () async {
                           try {
                             await service.saveWord(id);
-                            if (mounted)
+                            if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text(
                                           'Saved to personal vocabulary.')));
+                            }
                           } catch (_) {
-                            if (mounted)
+                            if (mounted) {
                               setState(() => _error = 'Could not save word.');
+                            }
                           }
                         }))
             ]);

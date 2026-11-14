@@ -98,8 +98,9 @@ class StudySessionService extends ChangeNotifier {
   }
 
   Future<ActiveSession> start(String module) {
-    if (_disposed)
+    if (_disposed) {
       return Future.error(StateError('Study controller is closed.'));
+    }
     final result = _starting.then((_) => _start(module));
     _starting =
         result.then<void>((_) {}, onError: (Object _, StackTrace __) {});

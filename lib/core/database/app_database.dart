@@ -21,8 +21,9 @@ class AppDatabase {
         _targetVersion = schemaVersion;
   AppDatabase._template(this._targetVersion) : _path = ':memory:';
   static AppDatabase schemaTemplate(int version) {
-    if (![7, 8, 9, 10, 11].contains(version))
+    if (![7, 8, 9, 10, 11].contains(version)) {
       throw ArgumentError('Unsupported schema template');
+    }
     return AppDatabase._template(version);
   }
 
@@ -1066,8 +1067,9 @@ class AppDatabase {
             item.single['entry_id'] != entryId ||
             item.single['review_id'] != reviewId ||
             item.single['expected_count'] != expectedReviewCount ||
-            item.single['revealed'] != 1)
+            item.single['revealed'] != 1) {
           throw StateError('Refresh or resume this review session.');
+        }
       }
       final rows = d.select(
           'SELECT r.* FROM vocabulary_reviews r JOIN vocabulary_entries e ON e.id=r.entry_id WHERE r.entry_id=? AND e.is_saved=1 AND e.duplicate_of IS NULL ORDER BY julianday(r.next_review_at),r.id LIMIT 1',
@@ -1336,18 +1338,20 @@ class AppDatabase {
               [last.single['submission_id']]);
           if (answers.isNotEmpty &&
               answers.every(
-                  (a) => draft[a['question_id']] == a['learner_response']))
+                  (a) => draft[a['question_id']] == a['learner_response'])) {
             legacy = last.single['submission_id'] as String;
+          }
         }
       }
       final token = legacy ?? newId();
       d.execute(
           'UPDATE listening_lessons SET comprehension_submission_id=? WHERE id=?',
           [token, lessonId]);
-      if (retry)
+      if (retry) {
         d.execute(
             "UPDATE listening_lessons SET comprehension_draft='{}' WHERE id=?",
             [lessonId]);
+      }
       return token;
     });
   }
@@ -1424,8 +1428,9 @@ class AppDatabase {
 
   Future<String> beginAiRequest(String conversationId, String text,
       {String? id, String purpose = 'conversation'}) async {
-    if (!['conversation', 'feedback'].contains(purpose))
+    if (!['conversation', 'feedback'].contains(purpose)) {
       throw ArgumentError('Invalid request purpose.');
+    }
     if (text.trim().isEmpty || text.length > 20000) {
       throw ArgumentError('Enter up to 20,000 characters.');
     }
@@ -1945,11 +1950,13 @@ class AppDatabase {
       bool? autoScroll,
       String? transcript,
       String? transcriptFormat}) async {
-    if (speed != null && ![0.75, 1.0, 1.25, 1.5].contains(speed))
+    if (speed != null && ![0.75, 1.0, 1.25, 1.5].contains(speed)) {
       throw ArgumentError('Unsupported speed.');
+    }
     if (transcriptFormat != null &&
-        !['auto', 'plain', 'srt', 'vtt'].contains(transcriptFormat))
+        !['auto', 'plain', 'srt', 'vtt'].contains(transcriptFormat)) {
       throw ArgumentError('Unsupported transcript format.');
+    }
     final d = await db;
     final row = d.select(
         'SELECT duration_ms FROM listening_lessons WHERE id=?', [id]).single;
@@ -1963,21 +1970,25 @@ class AppDatabase {
       throw ArgumentError('Choose A before B within the saved audio duration.');
     }
     _atomic(d, () {
-      if (speed != null)
+      if (speed != null) {
         d.execute('UPDATE listening_lessons SET playback_speed=? WHERE id=?',
             [speed, id]);
-      if (clearLoop || startMs != null)
+      }
+      if (clearLoop || startMs != null) {
         d.execute(
             'UPDATE listening_lessons SET loop_start_ms=?,loop_end_ms=? WHERE id=?',
             [clearLoop ? null : startMs, clearLoop ? null : endMs, id]);
-      if (autoScroll != null)
+      }
+      if (autoScroll != null) {
         d.execute(
             'UPDATE listening_lessons SET transcript_auto_scroll=? WHERE id=?',
             [autoScroll ? 1 : 0, id]);
-      if (transcript != null)
+      }
+      if (transcript != null) {
         d.execute(
             'UPDATE listening_lessons SET transcript=?,transcript_format=? WHERE id=?',
             [transcript, transcriptFormat ?? 'auto', id]);
+      }
     });
   }
 
@@ -2000,8 +2011,9 @@ class AppDatabase {
 
   Future<void> addBookmark(String id, String lessonId, int positionMs,
       {String? label}) async {
-    if (positionMs < 0)
+    if (positionMs < 0) {
       throw ArgumentError('Bookmark position must be nonnegative.');
+    }
     final d = await db;
     d.execute(
       'INSERT INTO playback_bookmarks (id, lesson_id, position_ms, label) VALUES (?, ?, ?, ?)',
@@ -2529,16 +2541,15 @@ class AppDatabase {
           d.select('SELECT * FROM writing_mistakes WHERE id=?', [m['id']]);
       final existed = previous.isNotEmpty;
       final key = mistakeKey(original, correction);
-      if (existed && previous.single['deleted'] == 1)
+      if (existed && previous.single['deleted'] == 1) {
         throw StateError('This mistake was deleted.');
+      }
       if ((!existed || previous.single['dedup_key'] != key) &&
           d.select(
               'SELECT id FROM writing_mistakes WHERE dedup_key=? AND deleted=0 AND id!=?',
-              [
-                key,
-                m['id']
-              ]).isNotEmpty)
+              [key, m['id']]).isNotEmpty) {
         throw StateError('This correction already exists in your journal.');
+      }
       d.execute(
           '''INSERT INTO writing_mistakes(id,entry_id,grammar_topic,original_sentence,correction,explanation,review_status,updated_at)
         VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET grammar_topic=excluded.grammar_topic,
@@ -2808,8 +2819,9 @@ class AppDatabase {
     if (type == 'course') {
       final rows =
           d.select('SELECT structured_mode FROM courses WHERE id=?', [id]);
-      if (rows.isNotEmpty && rows.first['structured_mode'] == 1)
+      if (rows.isNotEmpty && rows.first['structured_mode'] == 1) {
         return CourseStudyService.certificateEvidence(d, id);
+      }
     }
     Map<String, dynamic>? passing(String assessmentId) {
       final score = CourseStudyService.passingScore(d, assessmentId, 0);

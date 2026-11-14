@@ -53,8 +53,9 @@ class BackupService {
   }
 
   Future<T> _exclusive<T>(Future<T> Function() action) async {
-    if (_busy)
+    if (_busy) {
       throw const BackupFailure('Another backup operation is running.');
+    }
     _busy = true;
     try {
       return await action();
@@ -160,8 +161,9 @@ class BackupService {
 
   Future<File> create(File destination, {void Function(String)? progress}) =>
       _exclusive(() async {
-        if (await destination.exists())
+        if (await destination.exists()) {
           throw const BackupFailure('Choose a new backup filename.');
+        }
         final live = await database.db;
         var estimated =
             (live.select('PRAGMA page_count').single.values.single as int) *
@@ -413,8 +415,9 @@ class BackupService {
 
   Future<void> recoverPrevious() => _exclusive(() async {
         final previous = File('${await database.databasePath}.previous');
-        if (!await previous.exists())
+        if (!await previous.exists()) {
           throw const BackupFailure('No recovery snapshot is available.');
+        }
         await _space(await previous.length() * 3);
         final stage =
             File(p.join(documents.path, '.recover-${newId()}.sqlite'));
@@ -425,8 +428,9 @@ class BackupService {
           final probe = sqlite3.open(stage.path, mode: OpenMode.readOnly);
           try {
             for (final ref in _references(probe)) {
-              if (!File(ref['path']!).existsSync())
+              if (!File(ref['path']!).existsSync()) {
                 throw const BackupFailure('Recovery media is missing.');
+              }
             }
           } finally {
             probe.dispose();

@@ -340,8 +340,9 @@ class SecureAiTeacherService extends AiTeacherService {
   Future<String> _start(
       List<AiMessage> messages, AiTask task, String? requestId,
       {String? coaching}) {
-    if (requestId != null && _active.containsKey(requestId))
+    if (requestId != null && _active.containsKey(requestId)) {
       return _active[requestId]!;
+    }
     final token = AiCancellation();
     if (requestId != null) _cancellations[requestId] = token;
     final result = Future.any<String>([
@@ -421,8 +422,9 @@ class SecureAiTeacherService extends AiTeacherService {
           ...selected
         ]
       };
-      if (cancellation?.isCancelled == true)
+      if (cancellation?.isCancelled == true) {
         throw const AiFailure(AiError.cancelled, 'Request cancelled.');
+      }
       final transport = _transport;
       final response = await (transport is CancellableAiTransport &&
                   cancellation != null
@@ -430,8 +432,9 @@ class SecureAiTeacherService extends AiTeacherService {
                   Uri.parse(c.endpoint), headers, body, timeout, cancellation)
               : transport.post(Uri.parse(c.endpoint), headers, body, timeout))
           .timeout(timeout);
-      if (cancellation?.isCancelled == true)
+      if (cancellation?.isCancelled == true) {
         throw const AiFailure(AiError.cancelled, 'Request cancelled.');
+      }
       if (response.status == 401 || response.status == 403) {
         throw const AiFailure(AiError.authentication,
             'Authentication failed. Check the API key in Settings.');

@@ -46,19 +46,24 @@ Future<void> main() async {
     );
   } catch (error, stack) {
     FlutterError.reportError(FlutterErrorDetails(
-      exception: FlutterError('Startup failed (${error.runtimeType}). Learning data was not reset.'),
+      exception: FlutterError(
+          'Startup failed (${error.runtimeType}). Learning data was not reset.'),
       stack: stack,
       library: 'LexiFlow startup',
     ));
     runApp(MaterialApp(
       title: 'LexiFlow',
-      home: Scaffold(body: SafeArea(child: ErrorView(
-        message: 'Could not open LexiFlow. Your learning data has not been reset. Check available storage and retry. If this continues, keep the app installed and preserve your backup.',
-        onRetry: () { unawaited(main()); },
+      home: Scaffold(
+          body: SafeArea(
+              child: ErrorView(
+        message:
+            'Could not open LexiFlow. Your learning data has not been reset. Check available storage and retry. If this continues, keep the app installed and preserve your backup.',
+        onRetry: () {
+          unawaited(main());
+        },
       ))),
     ));
   }
-
 }
 
 /// Pauses running study sessions when the app is backgrounded.
@@ -85,7 +90,8 @@ class _AppLifecycleWrapperState extends ConsumerState<_AppLifecycleWrapper>
       await ref.read(studySessionServiceProvider).recoverInterrupted();
     } catch (error, stack) {
       FlutterError.reportError(FlutterErrorDetails(
-        exception: FlutterError('Study timer recovery failed (${error.runtimeType}).'),
+        exception:
+            FlutterError('Study timer recovery failed (${error.runtimeType}).'),
         stack: stack,
         library: 'LexiFlow study timer',
       ));
@@ -107,7 +113,8 @@ class _AppLifecycleWrapperState extends ConsumerState<_AppLifecycleWrapper>
         await ref.read(studySessionServiceProvider).onAppPaused();
       } catch (error, stack) {
         FlutterError.reportError(FlutterErrorDetails(
-          exception: FlutterError('Study timer pause failed (${error.runtimeType}).'),
+          exception:
+              FlutterError('Study timer pause failed (${error.runtimeType}).'),
           stack: stack,
           library: 'LexiFlow study timer',
         ));

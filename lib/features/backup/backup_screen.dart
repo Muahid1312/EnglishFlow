@@ -41,17 +41,19 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
       final rows = (await db.db)
           .select('SELECT last_success_at FROM backup_metadata WHERE id=1');
       final recovery = await service.hasRecovery();
-      if (mounted)
+      if (mounted) {
         setState(() {
           _service = service;
           _recovery = recovery;
           _last =
               rows.isEmpty ? null : rows.single['last_success_at'] as String;
         });
+      }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() =>
             _message = 'Could not access local backup storage. Please retry.');
+      }
     }
   }
 
@@ -110,8 +112,9 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
             type: FileType.any, allowMultiple: false, withData: false);
         if (result == null) return;
         final path = result.files.single.path;
-        if (path == null)
+        if (path == null) {
           throw const BackupFailure('The selected document is not readable.');
+        }
         archive = File(path);
       }
       if (!mounted) return;

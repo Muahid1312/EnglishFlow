@@ -36,8 +36,9 @@ class DailyPlanService {
     final date = localDateString(at);
     final prefs = await database.getPreferences();
     final minutes = goal ?? compatibleGoal(prefs.dailyTargetMinutes);
-    if (![15, 30, 60].contains(minutes))
+    if (![15, 30, 60].contains(minutes)) {
       throw ArgumentError('Choose 15, 30 or 60 minutes.');
+    }
     final existing =
         db.select('SELECT * FROM daily_plans WHERE local_date=?', [date]);
     if (existing.isEmpty ||
@@ -223,7 +224,7 @@ class DailyPlanService {
       final prefs = await database.getPreferences();
       final article = await BuiltinContentService(database, now: _now)
           .nextArticle(prefs.englishLevel == 'B2' ? 'B2' : 'B1');
-      if (article != null)
+      if (article != null) {
         result.add(_Candidate(
             0,
             'reading',
@@ -231,6 +232,7 @@ class DailyPlanService {
             '/learn/reading/${Uri.encodeComponent('builtin:${article['id']}')}',
             'Unread offline article at your selected curriculum target. Opening does not complete it.',
             boost('reading')));
+      }
     }
     if (due > 0 ||
         count('SELECT COUNT(*) FROM vocabulary_entries WHERE is_saved=1 AND duplicate_of IS NULL') >
@@ -249,7 +251,7 @@ class DailyPlanService {
       final prefs = await database.getPreferences();
       final words = await BuiltinContentService(database, now: _now)
           .recommendedWords(level: prefs.englishLevel, count: 10);
-      if (words.isNotEmpty)
+      if (words.isNotEmpty) {
         result.add(_Candidate(
             1,
             'vocabulary',
@@ -257,6 +259,7 @@ class DailyPlanService {
             '/learn/vocabulary/library?daily=true',
             'A saved daily selection of real unsaved words. Save only the cards you want to review.',
             boost('vocabulary')));
+      }
     }
     final listening = db
         .select('SELECT * FROM listening_lessons ORDER BY updated_at,id')
@@ -362,9 +365,10 @@ class DailyPlanService {
     }
     // Due cards lead the plan but weights retain the baseline balance. Other
     // groups remain stable, deterministic and easy to explain.
-    if (due > 0)
+    if (due > 0) {
       result.sort((a, b) =>
           (a.group == 1 ? -1 : a.group).compareTo(b.group == 1 ? -1 : b.group));
+    }
     return result;
   }
 
@@ -382,10 +386,12 @@ class DailyPlanService {
         final db = await database.db;
         final row = db
             .select('SELECT * FROM planned_activities WHERE id=?', [id]).single;
-        if (row['local_date'] != localDateString(_now()))
+        if (row['local_date'] != localDateString(_now())) {
           throw StateError('Open today’s plan to start an activity.');
-        if (['completed', 'skipped'].contains(row['state']))
+        }
+        if (['completed', 'skipped'].contains(row['state'])) {
           throw StateError('This activity is already finished.');
+        }
         await sessions.recoverInterrupted();
         final active = sessions.active;
         final linked = active == null
@@ -423,8 +429,9 @@ class DailyPlanService {
             '''SELECT COALESCE(SUM(s.duration_seconds),0) n FROM plan_sessions p
       JOIN study_sessions s ON p.session_id=s.id WHERE p.activity_id=?''',
             [id]).single['n'] as int;
-        if (!skip && seconds == 0)
+        if (!skip && seconds == 0) {
           throw StateError('Study this activity before marking it finished.');
+        }
         db.execute('UPDATE planned_activities SET state=? WHERE id=?',
             [skip ? 'skipped' : 'completed', id]);
       });

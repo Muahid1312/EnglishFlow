@@ -32,8 +32,9 @@ class MistakeCoach {
       required int expectedRevision,
       required String response,
       bool? selfAssessment}) async {
-    if (response.trim().isEmpty)
+    if (response.trim().isEmpty) {
       throw ArgumentError('Enter a response before reviewing.');
+    }
     final db = await database.db;
     db.execute('BEGIN IMMEDIATE');
     try {
@@ -43,21 +44,24 @@ class MistakeCoach {
         final row = previous.single;
         if (row['mistake_id'] != mistakeId ||
             row['response'] != response ||
-            row['mode'] != (selfAssessment == null ? 'exact' : 'self'))
+            row['mode'] != (selfAssessment == null ? 'exact' : 'self')) {
           throw StateError('This attempt ID has already been used.');
+        }
         db.execute('COMMIT');
         return;
       }
       final rows = db.select(
           'SELECT * FROM writing_mistakes WHERE id=? AND deleted=0',
           [mistakeId]);
-      if (rows.isEmpty || rows.single['revision'] != expectedRevision)
+      if (rows.isEmpty || rows.single['revision'] != expectedRevision) {
         throw StateError(
             'This correction changed. Reload practice before answering.');
+      }
       final row = rows.single;
       final correction = (row['correction'] as String? ?? '').trim();
-      if (correction.isEmpty)
+      if (correction.isEmpty) {
         throw StateError('Add a confirmed correction before practice.');
+      }
       final correct = selfAssessment ??
           (AppDatabase.normalizeCorrection(response) ==
               AppDatabase.normalizeCorrection(correction));

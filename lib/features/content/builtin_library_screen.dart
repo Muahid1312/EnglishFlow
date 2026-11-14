@@ -43,7 +43,7 @@ class _LibraryState extends ConsumerState<BuiltinLibraryScreen> {
       final daily = widget.daily
           ? await service.recommendedWords(level: prefs.englishLevel, count: 10)
           : <Map<String, dynamic>>[];
-      if (mounted)
+      if (mounted) {
         setState(() {
           _catalog = catalog;
           _states = {for (final s in states) s['article_id'] as String: s};
@@ -51,10 +51,12 @@ class _LibraryState extends ConsumerState<BuiltinLibraryScreen> {
           _daily = daily;
           _error = null;
         });
+      }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(
             () => _error = 'Could not load the offline library. Please retry.');
+      }
     }
   }
 
@@ -70,10 +72,11 @@ class _LibraryState extends ConsumerState<BuiltinLibraryScreen> {
         await _load();
       }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text(
                 'Could not save this word. Your existing cards were retained.')));
+      }
     } finally {
       if (mounted) setState(() => _saving.remove(id));
     }
@@ -162,7 +165,7 @@ class _LibraryState extends ConsumerState<BuiltinLibraryScreen> {
                         final item = filtered[i];
                         final saved = _savedWords.contains(
                             normalizeWord(item['word'] as String? ?? ''));
-                        if (widget.vocabulary)
+                        if (widget.vocabulary) {
                           return Card(
                               margin: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 6),
@@ -196,6 +199,7 @@ class _LibraryState extends ConsumerState<BuiltinLibraryScreen> {
                                                 ? 'In personal vocabulary'
                                                 : 'Save to personal vocabulary')),
                                       ])));
+                        }
                         final state = _states[item['id']];
                         return ListTile(
                             contentPadding: const EdgeInsets.symmetric(
@@ -218,9 +222,10 @@ class _LibraryState extends ConsumerState<BuiltinLibraryScreen> {
                                             state?['bookmarked'] != 1);
                                     await _load();
                                   } catch (_) {
-                                    if (mounted)
+                                    if (mounted) {
                                       setState(() => _error =
                                           'Could not save bookmark. Please retry.');
+                                    }
                                   }
                                 }),
                             onTap: () async {

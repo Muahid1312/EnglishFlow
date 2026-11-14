@@ -46,20 +46,22 @@ class _AssessmentsScreenState extends ConsumerState<AssessmentsScreen> {
         });
       }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _loadError =
               'Could not load learning records. Check storage and retry.';
         });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_loadError != null)
+    if (_loadError != null) {
       return Scaffold(
           appBar: AppBar(title: const Text('Learning records')),
           body: ErrorView(message: _loadError!, onRetry: _load));
+    }
     return Scaffold(
       appBar: AppBar(title: const Text('Assessments')),
       body: _loading
@@ -137,11 +139,12 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
         });
       }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _loadError =
               'Could not load learning records. Check storage and retry.';
         });
+      }
     }
   }
 
@@ -240,10 +243,11 @@ class _AssessmentTakeScreenState extends ConsumerState<AssessmentTakeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_loadError != null)
+    if (_loadError != null) {
       return Scaffold(
           appBar: AppBar(title: const Text('Learning records')),
           body: ErrorView(message: _loadError!, onRetry: _load));
+    }
     if (_loading) return const Scaffold(body: LoadingView());
     if (_def == null) {
       return Scaffold(
@@ -358,11 +362,12 @@ class _CertificatesScreenState extends ConsumerState<CertificatesScreen> {
       final rows = await ref.read(appDatabaseProvider).getCertificates();
       if (mounted) setState(() => _certs = rows);
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _loadError =
               'Could not load learning records. Check storage and retry.';
         });
+      }
     }
   }
 
@@ -383,19 +388,21 @@ class _CertificatesScreenState extends ConsumerState<CertificatesScreen> {
         await Printing.sharePdf(bytes: bytes, filename: filename);
       }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text(
                 'Could not export certificate. Please check storage and try again.')));
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_loadError != null)
+    if (_loadError != null) {
       return Scaffold(
           appBar: AppBar(title: const Text('Learning records')),
           body: ErrorView(message: _loadError!, onRetry: _load));
+    }
     return Scaffold(
       appBar: AppBar(title: const Text('Certificates')),
       body: _certs.isEmpty

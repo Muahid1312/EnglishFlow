@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import '../../core/database/app_database.dart';
 
 class WordEditorDialog extends StatefulWidget {
-  const WordEditorDialog({super.key,required this.db, this.entry,this.initialWord,this.initialContext,this.initialSource});
+  const WordEditorDialog(
+      {super.key,
+      required this.db,
+      this.entry,
+      this.initialWord,
+      this.initialContext,
+      this.initialSource});
   final AppDatabase db;
   final Map<String, dynamic>? entry;
-  final String? initialWord,initialContext,initialSource;
+  final String? initialWord, initialContext, initialSource;
   @override
   State<WordEditorDialog> createState() => _WordEditorState();
 }
@@ -15,8 +21,17 @@ class _WordEditorState extends State<WordEditorDialog> {
   final _definition = TextEditingController();
   final _translation = TextEditingController();
   final _sentence = TextEditingController();
-  final _extra=<String,TextEditingController>{for(final key in ['usage_example','collocations','pronunciation','personal_notes','part_of_speech']) key:TextEditingController()};
-  final _source=TextEditingController(text:'Manual');
+  final _extra = <String, TextEditingController>{
+    for (final key in [
+      'usage_example',
+      'collocations',
+      'pronunciation',
+      'personal_notes',
+      'part_of_speech'
+    ])
+      key: TextEditingController()
+  };
+  final _source = TextEditingController(text: 'Manual');
   String? _error;
   bool _saving = false;
   @override
@@ -25,9 +40,11 @@ class _WordEditorState extends State<WordEditorDialog> {
     _word.text = widget.entry?['word'] as String? ?? widget.initialWord ?? '';
     _definition.text = widget.entry?['definition'] as String? ?? '';
     _translation.text = widget.entry?['translation'] as String? ?? '';
-    _sentence.text=widget.initialContext??'';
-    _source.text=widget.initialSource??'Manual';
-    for(final entry in _extra.entries) { entry.value.text=widget.entry?[entry.key] as String? ?? ''; }
+    _sentence.text = widget.initialContext ?? '';
+    _source.text = widget.initialSource ?? 'Manual';
+    for (final entry in _extra.entries) {
+      entry.value.text = widget.entry?[entry.key] as String? ?? '';
+    }
   }
 
   Future<void> _save() async {
@@ -40,10 +57,12 @@ class _WordEditorState extends State<WordEditorDialog> {
           definition: _definition.text.trim(),
           translation: _translation.text.trim(),
           sentence: _sentence.text,
-          source: _source.text.trim().isEmpty?'Manual':_source.text.trim(),
-          usageExample:_extra['usage_example']!.text,collocations:_extra['collocations']!.text,
-          pronunciation:_extra['pronunciation']!.text,personalNotes:_extra['personal_notes']!.text,
-          partOfSpeech:_extra['part_of_speech']!.text);
+          source: _source.text.trim().isEmpty ? 'Manual' : _source.text.trim(),
+          usageExample: _extra['usage_example']!.text,
+          collocations: _extra['collocations']!.text,
+          pronunciation: _extra['pronunciation']!.text,
+          personalNotes: _extra['personal_notes']!.text,
+          partOfSpeech: _extra['part_of_speech']!.text);
       if (mounted) Navigator.pop(context, true);
     } catch (error) {
       if (mounted) {
@@ -65,7 +84,9 @@ class _WordEditorState extends State<WordEditorDialog> {
     _translation.dispose();
     _sentence.dispose();
     _source.dispose();
-    for(final controller in _extra.values) { controller.dispose(); }
+    for (final controller in _extra.values) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
@@ -84,7 +105,7 @@ class _WordEditorState extends State<WordEditorDialog> {
                     const InputDecoration(labelText: 'Definition (optional)')),
             TextField(
                 controller: _translation,
-                textDirection:TextDirection.rtl,
+                textDirection: TextDirection.rtl,
                 decoration:
                     const InputDecoration(labelText: 'Translation (optional)')),
             TextField(
@@ -92,10 +113,21 @@ class _WordEditorState extends State<WordEditorDialog> {
                 decoration: const InputDecoration(
                     labelText: 'Add context sentence (optional)'),
                 maxLines: 3),
-            TextField(controller:_source,decoration:const InputDecoration(labelText:'Source article or book label (optional)')),
-            for(final item in _extra.entries) TextField(controller:item.value,
-              decoration:InputDecoration(labelText:const {'usage_example':'Example sentence','collocations':'Collocations',
-                'pronunciation':'Pronunciation / IPA','personal_notes':'Personal notes','part_of_speech':'Part of speech'}[item.key])),
+            TextField(
+                controller: _source,
+                decoration: const InputDecoration(
+                    labelText: 'Source article or book label (optional)')),
+            for (final item in _extra.entries)
+              TextField(
+                  controller: item.value,
+                  decoration: InputDecoration(
+                      labelText: const {
+                    'usage_example': 'Example sentence',
+                    'collocations': 'Collocations',
+                    'pronunciation': 'Pronunciation / IPA',
+                    'personal_notes': 'Personal notes',
+                    'part_of_speech': 'Part of speech'
+                  }[item.key])),
             if (widget.entry != null)
               const Text('Original source sentences are preserved.'),
             if (_error != null)
@@ -111,4 +143,3 @@ class _WordEditorState extends State<WordEditorDialog> {
                 child: Text(_saving ? 'Saving…' : 'Save'))
           ]);
 }
-

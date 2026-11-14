@@ -69,12 +69,13 @@ class _EditorState extends ConsumerState<CourseAssessmentEditor> {
                 (choices.isNotEmpty && !choices.contains(answer)))) ||
         (kind == 'mc' &&
             (choices.length < 2 || choices.toSet().length != choices.length))) {
-      if (mounted)
+      if (mounted) {
         setState(() => _error =
             'Enter a prompt, valid choices and a matching answer key.');
+      }
       return;
     }
-    if (mounted)
+    if (mounted) {
       setState(() => _questions.add({
             'id': newId(),
             'question_type': kind,
@@ -83,6 +84,7 @@ class _EditorState extends ConsumerState<CourseAssessmentEditor> {
             'correct_answer': answer,
             'explanation': v.last
           }));
+    }
   }
 
   Future<void> _save() async {
@@ -95,9 +97,10 @@ class _EditorState extends ConsumerState<CourseAssessmentEditor> {
           threshold == null ||
           !threshold.isFinite ||
           threshold < 0 ||
-          threshold > 1)
+          threshold > 1) {
         throw ArgumentError(
             'Enter title, questions and a threshold between 0 and 1.');
+      }
       final d = await ref.read(appDatabaseProvider).db;
       final id = newId();
       d.execute('BEGIN IMMEDIATE');

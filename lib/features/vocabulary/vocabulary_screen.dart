@@ -309,13 +309,15 @@ class _FlashcardReviewScreenState extends ConsumerState<FlashcardReviewScreen>
         _paused = paused;
         _error = null;
       });
-      if (!paused && rows.any((r) => r['item_state'] == 'pending'))
+      if (!paused && rows.any((r) => r['item_state'] == 'pending')) {
         await _timer();
+      }
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         setState(() => _error = e is StateError
             ? e.message.toString()
             : 'Could not load review cards.');
+      }
     }
   }
 
@@ -344,20 +346,22 @@ class _FlashcardReviewScreenState extends ConsumerState<FlashcardReviewScreen>
     try {
       await _service.rate(_session!, card, rating);
       final rows = await _service.items(_session!);
-      if (mounted)
+      if (mounted) {
         setState(() {
           _items = rows;
           _error = null;
         });
+      }
       if (rows.every((r) => r['item_state'] != 'pending')) {
         await _timing.finish();
         ref.invalidate(dashboardProvider);
       }
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         setState(() => _error = e is StateError
             ? e.message.toString()
             : 'Could not save review. Retry safely.');
+      }
     } finally {
       if (mounted) setState(() => _saving = false);
     }

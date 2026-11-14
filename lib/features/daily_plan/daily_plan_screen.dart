@@ -75,7 +75,7 @@ class _DailyPlanScreenState extends ConsumerState<DailyPlanScreen>
       final words = selected == localDateString()
           ? await library.recommendedWords(level: prefs.englishLevel, count: 10)
           : <Map<String, dynamic>>[];
-      if (mounted)
+      if (mounted) {
         setState(() {
           _dailyArticle = article;
           _dailyWordCount = words.length;
@@ -86,11 +86,13 @@ class _DailyPlanScreenState extends ConsumerState<DailyPlanScreen>
           _daySeconds = seconds;
           _error = null;
         });
+      }
       ref.invalidate(dashboardProvider);
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() => _error =
             'Could not load the plan. Your existing records have been kept.');
+      }
     }
   }
 
@@ -101,9 +103,10 @@ class _DailyPlanScreenState extends ConsumerState<DailyPlanScreen>
       await action();
       if (mounted) await _load(date: _date);
     } catch (error) {
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('$error')));
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }

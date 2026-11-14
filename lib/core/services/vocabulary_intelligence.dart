@@ -12,8 +12,9 @@ class VocabularyIntelligence {
 
   Future<String> open(
       {int limit = 5, bool fresh = false, String? entryId}) async {
-    if (![0, 5, 10, 15].contains(limit))
+    if (![0, 5, 10, 15].contains(limit)) {
       throw ArgumentError('Choose 5, 10, 15 or all due.');
+    }
     final db = await database.db;
     // The due query exposes canonical saved words and the earliest legacy schedule.
     final due = (await database.getDueVocabulary(now: _now())).toList();
@@ -183,8 +184,9 @@ List<VocabularyChallenge> vocabularyChallenges(
   final meanings = <String, int>{};
   for (final w in sorted) {
     final meaning = normalizeWord(w['definition'] as String? ?? '');
-    if (meaning.isNotEmpty)
+    if (meaning.isNotEmpty) {
       meanings.update(meaning, (n) => n + 1, ifAbsent: () => 1);
+    }
   }
   final result = <VocabularyChallenge>[];
   for (final w in sorted) {
@@ -206,8 +208,9 @@ List<VocabularyChallenge> vocabularyChallenges(
       if (matches.length != 1 ||
           sorted.any((other) =>
               other['id'] != w['id'] &&
-              normalizeWord(other['word'] as String) == normalizeWord(word)))
+              normalizeWord(other['word'] as String) == normalizeWord(word))) {
         continue;
+      }
       final m = matches.single;
       result.add(VocabularyChallenge(type, w['id'] as String,
           sentence.replaceRange(m.start, m.end, '_____'), word, const []));

@@ -131,11 +131,12 @@ class _StudySessionDockState extends ConsumerState<StudySessionDock> {
                                 try {
                                   await _finish();
                                 } catch (_) {
-                                  if (context.mounted)
+                                  if (context.mounted) {
                                     ScaffoldMessenger.maybeOf(context)
                                         ?.showSnackBar(const SnackBar(
                                             content: Text(
                                                 'Could not finish the activity. Please retry after studying.')));
+                                  }
                                 }
                               }),
                   ]),

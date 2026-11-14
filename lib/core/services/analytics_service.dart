@@ -151,39 +151,45 @@ class AnalyticsService {
       AND (NOT EXISTS(SELECT 1 FROM course_activities a WHERE a.lesson_id=l.id)
       OR EXISTS(SELECT 1 FROM course_activities a LEFT JOIN course_activity_evidence e ON e.activity_id=a.id WHERE a.lesson_id=l.id AND e.activity_id IS NULL))
       ORDER BY l.last_studied_at DESC,c.created_at,l.order_index,l.id LIMIT 1''');
-    if (next.isNotEmpty)
+    if (next.isNotEmpty) {
       insights.add(Insight(
           'Saved lesson “${next.single['title']}” has unfinished activity evidence.',
           'Continue lesson',
           '/learn/courses/lesson/${next.single['id']}'));
-    if (due > 0)
+    }
+    if (due > 0) {
       insights.add(Insight('$due saved vocabulary cards are due now.',
           'Review words', '/learn/vocabulary'));
-    if (listeningN >= 5 && listeningCorrect / listeningN < 0.6)
+    }
+    if (listeningN >= 5 && listeningCorrect / listeningN < 0.6) {
       insights.add(Insight(
           'Listening: $listeningCorrect of $listeningN objective answers correct (minimum 5).',
           'Practice listening',
           '/learn/listening/library'));
-    if (reviews >= 5 && successful / reviews < 0.6)
+    }
+    if (reviews >= 5 && successful / reviews < 0.6) {
       insights.add(Insight(
           'Fewer than 60% good/easy ratings across $reviews vocabulary reviews.',
           'Review words',
           '/learn/vocabulary'));
+    }
     final pending = d.select(
         '''SELECT a.id,a.title FROM assessment_definitions a JOIN courses c ON c.id=a.course_id
       WHERE c.deleted=0 AND c.is_active=1 AND NOT EXISTS(SELECT 1 FROM assessment_attempts t WHERE t.assessment_id=a.id AND t.passed=1 AND t.self_assessed=0 AND t.completed_at IS NOT NULL) ORDER BY a.created_at LIMIT 1''');
-    if (pending.isNotEmpty)
+    if (pending.isNotEmpty) {
       insights.add(Insight(
           'Course assessment “${pending.single['title']}” has no saved passing attempt.',
           'Take assessment',
           '/progress/assessments/${pending.single['id']}'));
+    }
     final revision = d.select(
         'SELECT id,title FROM writing_entries ORDER BY updated_at LIMIT 1');
-    if (revision.isNotEmpty)
+    if (revision.isNotEmpty) {
       insights.add(Insight(
           'Revisit your saved writing “${revision.single['title']}”.',
           'Revise writing',
           '/learn/grammar/writing/${revision.single['id']}'));
+    }
 
     if (todaySec < prefs.dailyTargetMinutes * 60 * 0.5) {
       insights.add(Insight(

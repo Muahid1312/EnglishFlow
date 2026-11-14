@@ -42,7 +42,7 @@ class _VocabularyChallengeScreenState
       final db = ref.read(appDatabaseProvider);
       final stats = await VocabularyIntelligence(db).insights();
       final questions = vocabularyChallenges(await db.getVocabulary(), _type);
-      if (mounted)
+      if (mounted) {
         setState(() {
           _stats = stats;
           _questions = questions;
@@ -54,9 +54,11 @@ class _VocabularyChallengeScreenState
           _answer.clear();
           _error = null;
         });
+      }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() => _error = 'Could not load vocabulary practice.');
+      }
     }
   }
 
@@ -83,9 +85,10 @@ class _VocabularyChallengeScreenState
     try {
       await action();
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(
             () => _error = 'Could not save the study timer. Please retry.');
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -215,12 +218,13 @@ class _VocabularyChallengeScreenState
                                 await _timer.finish();
                                 ref.invalidate(dashboardProvider);
                               }
-                              if (mounted)
+                              if (mounted) {
                                 setState(() {
                                   _index++;
                                   _revealed = false;
                                   _answer.clear();
                                 });
+                              }
                             }),
                     child: const Text('Continue')),
               ],

@@ -450,16 +450,18 @@ class _MistakeJournalScreenState extends ConsumerState<MistakeJournalScreen> {
       final coach = MistakeCoach(database);
       final insights = await coach.insights();
       final weaknesses = await coach.weaknesses();
-      if (mounted)
+      if (mounted) {
         setState(() {
           _items = rows;
           _insights = insights;
           _weaknesses = weaknesses;
           _loadError = null;
         });
+      }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() => _loadError = 'Could not load your mistake journal.');
+      }
     }
   }
 
@@ -495,7 +497,7 @@ class _MistakeJournalScreenState extends ConsumerState<MistakeJournalScreen> {
       body: ListView.builder(
           itemCount: _items.length + 1,
           itemBuilder: (context, index) {
-            if (index == 0)
+            if (index == 0) {
               return Column(children: [
                 if (_loadError != null)
                   ErrorView(message: _loadError!, onRetry: _load),
@@ -564,6 +566,7 @@ class _MistakeJournalScreenState extends ConsumerState<MistakeJournalScreen> {
                       message:
                           'Create a confirmed correction, or save one from Writing Studio.'),
               ]);
+            }
             final m = _items[index - 1];
             final done = m['review_status'] == 'understood';
             return Padding(

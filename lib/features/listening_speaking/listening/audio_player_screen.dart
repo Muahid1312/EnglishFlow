@@ -68,11 +68,12 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
             : 'listening');
     _ctrl.addListener(_changed);
     _init().catchError((Object _) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _loading = false;
           _notice = 'Could not load this listening lesson.';
         });
+      }
     });
   }
 
@@ -133,8 +134,9 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
                   ? _timer.finish()
                   : _timer.pause())
           .catchError((Object _) {
-        if (mounted)
+        if (mounted) {
           setState(() => _notice = 'Could not update the study timer.');
+        }
       }));
       if (!active) unawaited(_checkpoint());
     });
@@ -213,8 +215,9 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
           widget.lessonId, _ctrl.position.inMilliseconds,
           durationMs: _ctrl.duration?.inMilliseconds);
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() => _notice = 'Could not save playback position.');
+      }
     }
   }
 
@@ -225,12 +228,13 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
       await action();
       if (mounted) setState(() => _notice = null);
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         setState(() => _notice = e is FormatException
             ? e.message
             : e is ArgumentError
                 ? e.message.toString()
                 : 'Could not complete this audio action. Check file access and storage.');
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -243,8 +247,9 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
         withData: false);
     if (picked == null) return;
     final file = File(picked.files.single.path ?? '');
-    if (await file.length() > 1000000)
+    if (await file.length() > 1000000) {
       throw const FormatException('Transcript file is too large.');
+    }
     final text = await file.readAsString();
     final extension = p.extension(file.path).toLowerCase();
     final format = extension == '.srt'
@@ -255,12 +260,13 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
     final parsed = parseTranscript(text, format: format);
     await _db.saveListeningPreferences(widget.lessonId,
         transcript: text, transcriptFormat: format);
-    if (mounted)
+    if (mounted) {
       setState(() {
         _transcriptCtrl.text = text;
         _format = format;
         _parsed = parsed;
       });
+    }
   }
 
   @override
@@ -441,11 +447,12 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
                           _ctrl.setABLoop(null, null);
                           await _db.saveListeningPreferences(widget.lessonId,
                               clearLoop: true);
-                          if (mounted)
+                          if (mounted) {
                             setState(() {
                               _loopA = _ctrl.position.inMilliseconds;
                               _loopB = null;
                             });
+                          }
                         }),
                 child: const Text('Mark A')),
             OutlinedButton(
@@ -455,9 +462,10 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
                           _ctrl.setABLoop(null, null);
                           await _db.saveListeningPreferences(widget.lessonId,
                               clearLoop: true);
-                          if (mounted)
+                          if (mounted) {
                             setState(
                                 () => _loopB = _ctrl.position.inMilliseconds);
+                          }
                         }),
                 child: const Text('Mark B')),
             FilledButton(
@@ -477,11 +485,12 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen>
                           _ctrl.setABLoop(null, null);
                           await _db.saveListeningPreferences(widget.lessonId,
                               clearLoop: true);
-                          if (mounted)
+                          if (mounted) {
                             setState(() {
                               _loopA = null;
                               _loopB = null;
                             });
+                          }
                         }),
                 child: const Text('Clear loop')),
           ]),

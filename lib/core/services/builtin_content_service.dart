@@ -22,17 +22,20 @@ class BuiltinCatalog {
       Future<String> Function(String) loader) async {
     final manifest = jsonDecode(await loader('assets/content/v1/manifest.json'))
         as Map<String, dynamic>;
-    if (manifest['schema_version'] != 1)
+    if (manifest['schema_version'] != 1) {
       throw const FormatException('Unsupported content library.');
+    }
     Future<List<Map<String, dynamic>>> batches(String key, String field) async {
       final result = <Map<String, dynamic>>[];
       for (final path in manifest[key] as List) {
         if (!RegExp(r'^assets/content/v1/[a-z0-9_]+\.json$')
-            .hasMatch(path as String))
+            .hasMatch(path as String)) {
           throw const FormatException('Invalid content path.');
+        }
         final batch = jsonDecode(await loader(path)) as Map<String, dynamic>;
-        if (batch['version'] != 1)
+        if (batch['version'] != 1) {
           throw const FormatException('Unsupported content batch.');
+        }
         result.addAll((batch[field] as List)
             .map((e) => Map<String, dynamic>.unmodifiable(e as Map)));
       }
@@ -129,12 +132,14 @@ class BuiltinContentService {
     final existing =
         d.select('SELECT * FROM builtin_reading_attempts WHERE id=?', [token]);
     if (existing.isNotEmpty) {
-      if (existing.single['article_id'] != id)
+      if (existing.single['article_id'] != id) {
         throw StateError('Submission belongs to another article.');
+      }
       return existing.single;
     }
-    if (!readConfirmed)
+    if (!readConfirmed) {
       throw StateError('Confirm that you finished reading before submitting.');
+    }
     final questions = (article['questions'] as List).map((q) {
       final m = q as Map;
       final choices = m['choices'] as List;

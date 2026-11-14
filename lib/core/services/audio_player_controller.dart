@@ -7,8 +7,9 @@ import 'package:audio_session/audio_session.dart';
 
 class AudioLoopRange {
   AudioLoopRange(this.startMs, this.endMs, int durationMs) {
-    if (startMs < 0 || endMs <= startMs || endMs > durationMs)
+    if (startMs < 0 || endMs <= startMs || endMs > durationMs) {
       throw ArgumentError('Choose A before B within the audio duration.');
+    }
   }
   final int startMs, endMs;
   bool shouldRepeat(int positionMs) => positionMs >= endMs;
@@ -118,8 +119,9 @@ class AudioPlayerController extends ChangeNotifier with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state != AppLifecycleState.resumed)
+    if (state != AppLifecycleState.resumed) {
       unawaited(_player.pause().catchError((Object _) {}));
+    }
   }
 
   Future<void> pause() => _player.pause();
@@ -147,8 +149,9 @@ class AudioPlayerController extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   Future<void> setSpeed(double s) {
-    if (![0.75, 1.0, 1.25, 1.5].contains(s))
+    if (![0.75, 1.0, 1.25, 1.5].contains(s)) {
       throw ArgumentError('Unsupported playback speed.');
+    }
     return _player.setSpeed(s);
   }
 

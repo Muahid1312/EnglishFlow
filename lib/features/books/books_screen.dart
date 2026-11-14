@@ -466,10 +466,11 @@ class _BookReaderScreenState extends ConsumerState<BookReaderScreen> {
           widget.bookId, page,
           pageCount: _pageCount > 0 ? _pageCount : null);
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text(
                 'Could not save your PDF position. Check storage and retry.')));
+      }
     }
   }
 

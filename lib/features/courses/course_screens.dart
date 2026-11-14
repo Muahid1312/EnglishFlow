@@ -164,16 +164,18 @@ class _CourseState extends ConsumerState<CourseDetailScreen> {
           [id]);
       final progress = CourseStudyService.progress(d, id);
       if (c['structured_mode'] == 1 &&
-          CourseStudyService.certificateEvidence(d, id) != null)
+          CourseStudyService.certificateEvidence(d, id) != null) {
         progress['state'] =
             'Completed · activities self-reported, assessments passed';
-      if (mounted)
+      }
+      if (mounted) {
         setState(() {
           _course = c;
           _units = units;
           _lessons = lessons;
           _progress = progress;
         });
+      }
     } catch (e) {
       if (mounted) setState(() => _error = e.toString());
     }
@@ -189,8 +191,9 @@ class _CourseState extends ConsumerState<CourseDetailScreen> {
     if (v == null) return;
     await _run(() async {
       final minimum = double.tryParse(v[3]);
-      if (minimum == null || !minimum.isFinite || minimum < 0 || minimum > 1)
+      if (minimum == null || !minimum.isFinite || minimum < 0 || minimum > 1) {
         throw ArgumentError('Score must be between 0 and 1.');
+      }
       await service.saveCourse(
           id: id,
           title: v[0],
@@ -206,8 +209,9 @@ class _CourseState extends ConsumerState<CourseDetailScreen> {
       final pick = await FilePicker.platform.pickFiles(type: FileType.image);
       if (pick == null) return;
       final source = File(pick.files.single.path!);
-      if (await source.length() > 10 * 1024 * 1024)
+      if (await source.length() > 10 * 1024 * 1024) {
         throw StateError('Choose a cover smaller than 10 MB.');
+      }
       final folder = Directory(
           '${(await getApplicationDocumentsDirectory()).path}/media/course_covers');
       await folder.create(recursive: true);
@@ -243,8 +247,9 @@ class _CourseState extends ConsumerState<CourseDetailScreen> {
     if (selected == null) return;
     await _run(() async {
       if (selected != (_course['book_id'] ?? '') &&
-          _lessons.any((l) => l['page_start'] != null))
+          _lessons.any((l) => l['page_start'] != null)) {
         throw StateError('Remove lesson page ranges before changing the PDF.');
+      }
       d.execute('UPDATE courses SET book_id=? WHERE id=?',
           [selected.isEmpty ? null : selected, id]);
     });
@@ -255,10 +260,11 @@ class _CourseState extends ConsumerState<CourseDetailScreen> {
         context,
         unit == null ? 'New unit' : 'Edit unit',
         {'Title': '${unit?['title'] ?? ''}'});
-    if (v != null)
+    if (v != null) {
       await _run(() async {
         await service.saveUnit(id, v[0], id: unit?['id'] as String?);
       });
+    }
   }
 
   Future<void> _lesson(Map<String, dynamic> unit,
@@ -271,11 +277,12 @@ class _CourseState extends ConsumerState<CourseDetailScreen> {
       'PDF start page': '${lesson?['page_start'] ?? ''}',
       'PDF end page': '${lesson?['page_end'] ?? ''}'
     });
-    if (v != null)
+    if (v != null) {
       await _run(() async {
         if ((v[3].isNotEmpty && int.tryParse(v[3]) == null) ||
-            (v[4].isNotEmpty && int.tryParse(v[4]) == null))
+            (v[4].isNotEmpty && int.tryParse(v[4]) == null)) {
           throw ArgumentError('Enter whole page numbers.');
+        }
         await service.saveLesson(id, unit['id'] as String, v[0],
             id: lesson?['id'] as String?,
             objective: v[1],
@@ -283,6 +290,7 @@ class _CourseState extends ConsumerState<CourseDetailScreen> {
             start: int.tryParse(v[3]),
             end: int.tryParse(v[4]));
       });
+    }
   }
 
   Future<void> _remove() async {
@@ -300,12 +308,13 @@ class _CourseState extends ConsumerState<CourseDetailScreen> {
                       onPressed: () => Navigator.pop(context, true),
                       child: const Text('Delete course'))
                 ]));
-    if (ok == true)
+    if (ok == true) {
       await _run(() async {
         (await ref.read(appDatabaseProvider).db).execute(
             'UPDATE courses SET deleted=1,is_active=0 WHERE id=?', [id]);
         if (mounted) Navigator.pop(context);
       });
+    }
   }
 
   Future<void> _resume() async {
@@ -483,12 +492,13 @@ class _LessonState extends ConsumerState<CourseLessonScreen> {
       final a = d.select(
           'SELECT a.*,e.completed_at FROM course_activities a LEFT JOIN course_activity_evidence e ON e.activity_id=a.id WHERE a.lesson_id=? ORDER BY a.order_index,a.id',
           [widget.lessonId]);
-      if (mounted)
+      if (mounted) {
         setState(() {
           _lesson = l;
           _book = l['book_id'] as String?;
           _activities = a;
         });
+      }
     } catch (e) {
       if (mounted) setState(() => _error = e.toString());
     }
@@ -564,9 +574,10 @@ class _LessonState extends ConsumerState<CourseLessonScreen> {
       };
     }
     final v = await courseFields(context, 'Add activity', {'Title': ''});
-    if (v != null)
+    if (v != null) {
       await _run(() => CourseStudyService(ref.read(appDatabaseProvider))
           .addActivity(widget.lessonId, v[0], kind, route: route));
+    }
   }
 
   @override
@@ -597,12 +608,13 @@ class _LessonState extends ConsumerState<CourseLessonScreen> {
               onPressed: () async {
                 final v = await courseFields(context, 'Lesson notes',
                     {'Lesson notes': '${_lesson!['notes'] ?? ''}'});
-                if (v != null)
+                if (v != null) {
                   await _run(() async {
                     (await ref.read(appDatabaseProvider).db).execute(
                         'UPDATE lessons SET notes=? WHERE id=?',
                         [v[0], widget.lessonId]);
                   });
+                }
               },
               child: const Text('Save notes')),
           const Text(

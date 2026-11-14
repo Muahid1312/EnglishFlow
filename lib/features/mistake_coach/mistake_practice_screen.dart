@@ -47,7 +47,7 @@ class _MistakePracticeScreenState extends ConsumerState<MistakePracticeScreen>
     try {
       await _timer.pause();
       final rows = await _coach.practice(category: widget.category);
-      if (mounted)
+      if (mounted) {
         setState(() {
           _queue = rows;
           _index = 0;
@@ -59,6 +59,7 @@ class _MistakePracticeScreenState extends ConsumerState<MistakePracticeScreen>
           _answer.clear();
           _error = null;
         });
+      }
     } catch (_) {
       if (mounted) setState(() => _error = 'Could not load saved corrections.');
     }
@@ -74,17 +75,19 @@ class _MistakePracticeScreenState extends ConsumerState<MistakePracticeScreen>
           expectedRevision: item['revision'] as int,
           response: _answer.text,
           selfAssessment: selfAssessment);
-      if (mounted)
+      if (mounted) {
         setState(() {
           _saved = true;
           _revealed = true;
           _error = null;
         });
+      }
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         setState(() => _error = e is StateError
             ? e.message.toString()
             : 'Could not save this practice attempt.');
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -113,9 +116,10 @@ class _MistakePracticeScreenState extends ConsumerState<MistakePracticeScreen>
     try {
       await action();
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(
             () => _error = 'Could not save the study timer. Please retry.');
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -221,7 +225,7 @@ class _MistakePracticeScreenState extends ConsumerState<MistakePracticeScreen>
                                   await _timer.finish();
                                   ref.invalidate(dashboardProvider);
                                 }
-                                if (mounted)
+                                if (mounted) {
                                   setState(() {
                                     _index++;
                                     _attempt = newId();
@@ -229,6 +233,7 @@ class _MistakePracticeScreenState extends ConsumerState<MistakePracticeScreen>
                                     _revealed = false;
                                     _saved = false;
                                   });
+                                }
                               }),
                       child: const Text('Next')),
                 ],

@@ -45,8 +45,9 @@ class BackupZip {
   static ByteData _header(int size) => ByteData(size);
 
   static Future<void> write(File output, Map<String, File> files) async {
-    if (files.length > maxEntries)
+    if (files.length > maxEntries) {
       throw const FormatException('Too many files.');
+    }
     final out = await output.open(mode: FileMode.writeOnly);
     final central = <List<int>>[];
     var total = 0;
@@ -76,8 +77,9 @@ class BackupZip {
         await for (final chunk in item.value.openRead()) {
           copied += chunk.length;
           copiedCrc = _crc(copiedCrc, chunk);
-          if (copied > length)
+          if (copied > length) {
             throw const FormatException('File changed during backup.');
+          }
           await out.writeFrom(chunk);
         }
         if (copied != length || (copiedCrc ^ 0xffffffff) != crc) {
@@ -115,8 +117,9 @@ class BackupZip {
 
   static Future<Uint8List> _read(RandomAccessFile file, int count) async {
     final result = await file.read(count);
-    if (result.length != count)
+    if (result.length != count) {
       throw const FormatException('Truncated backup.');
+    }
     return result;
   }
 
@@ -163,8 +166,9 @@ class BackupZip {
         }
         final name = utf8.decode(await _read(file, nameLength));
         checkName(name);
-        if (entries.containsKey(name))
+        if (entries.containsKey(name)) {
           throw const FormatException('Duplicate entry.');
+        }
         next += 46 + nameLength;
         total += length;
         if (length > maxFileBytes ||
@@ -173,8 +177,9 @@ class BackupZip {
           throw const FormatException('Backup extraction limit exceeded.');
         }
         final offset = c.getUint32(42, Endian.little);
-        if (offset != localEnd)
+        if (offset != localEnd) {
           throw const FormatException('Overlapping ZIP entries.');
+        }
         await file.setPosition(offset);
         final h = ByteData.sublistView(await _read(file, 30));
         if (h.getUint32(0, Endian.little) != 0x04034b50 ||
@@ -189,8 +194,9 @@ class BackupZip {
           throw const FormatException('ZIP headers disagree.');
         }
         localEnd = offset + 30 + nameLength + length;
-        if (localEnd > centralStart)
+        if (localEnd > centralStart) {
           throw const FormatException('Overlapping ZIP data.');
+        }
         final dest = File('${stage.path}/$name');
         await dest.parent.create(recursive: true);
         final out = await dest.open(mode: FileMode.writeOnly);

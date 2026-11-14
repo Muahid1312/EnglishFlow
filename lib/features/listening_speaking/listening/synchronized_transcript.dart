@@ -37,13 +37,14 @@ class _SynchronizedTranscriptState extends State<SynchronizedTranscript> {
   void _scrollTo(int index) {
     if (!widget.autoScroll || index < 0) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && _scroll.hasClients)
+      if (mounted && _scroll.hasClients) {
         _scroll.animateTo(
             (index * 104.0)
                 .clamp(0, _scroll.position.maxScrollExtent)
                 .toDouble(),
             duration: const Duration(milliseconds: 180),
             curve: Curves.easeOut);
+      }
     });
   }
 
@@ -119,9 +120,10 @@ class PlainTranscript extends StatelessWidget {
   final String text;
   @override
   Widget build(BuildContext context) {
-    if (text.trim().isEmpty)
+    if (text.trim().isEmpty) {
       return const Text(
           'No transcript yet. Expand Edit or import transcript to add TXT, SRT or WebVTT.');
+    }
     final chunks = <String>[];
     var start = 0;
     while (start < text.length) {

@@ -29,25 +29,27 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
     try {
       final snap =
           await AnalyticsService(ref.read(appDatabaseProvider)).build();
-      if (mounted)
+      if (mounted) {
         setState(() {
           _snap = snap;
           _loading = false;
           _error = null;
         });
+      }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _error =
               'Could not load progress. Your learning records have not been changed.';
           _loading = false;
         });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_error != null)
+    if (_error != null) {
       return Scaffold(
           appBar: AppBar(title: const Text('Progress')),
           body: Center(
@@ -55,6 +57,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
             Text(_error!),
             TextButton(onPressed: _load, child: const Text('Retry'))
           ])));
+    }
     if (_loading || _snap == null) {
       return const Scaffold(body: LoadingView(message: 'Loading progress…'));
     }
@@ -190,18 +193,5 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
         ],
       );
 
-  Widget _chip(String label, String value) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Theme.of(context).dividerColor),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(value, style: Theme.of(context).textTheme.titleMedium),
-            Text(label, style: Theme.of(context).textTheme.bodySmall),
-          ],
-        ),
-      );
+
 }

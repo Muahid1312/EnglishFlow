@@ -18,19 +18,22 @@ AssessmentGrade gradeAssessment(
   var hasWriting = false;
   for (final question in questions) {
     final answer = answers[question['id']]?.toString() ?? '';
-    if (answer.trim().isEmpty)
+    if (answer.trim().isEmpty) {
       throw StateError('Answer every question before submitting.');
+    }
     if (['short', 'writing'].contains(question['question_type'])) {
       hasWriting = true;
       continue;
     }
     final key = question['correct_answer'] as String?;
-    if (key == null || key.trim().isEmpty)
+    if (key == null || key.trim().isEmpty) {
       throw StateError('An objective answer key is missing.');
+    }
     objectiveCount++;
     if (matchesAnswer(answer, key)) correct++;
   }
-  if (hasWriting && !writingReviewed)
+  if (hasWriting && !writingReviewed) {
     throw StateError('Review writing against the rubric before submitting.');
+  }
   return AssessmentGrade(correct, objectiveCount, hasWriting);
 }

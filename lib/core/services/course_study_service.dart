@@ -19,8 +19,9 @@ class CourseStudyService {
       double? minimumScore}) async {
     if (title.trim().isEmpty) throw ArgumentError('A title is required.');
     if (minimumScore != null &&
-        (!minimumScore.isFinite || minimumScore < 0 || minimumScore > 1))
+        (!minimumScore.isFinite || minimumScore < 0 || minimumScore > 1)) {
       throw ArgumentError('Minimum score must be between 0 and 1.');
+    }
     final d = await database.db;
     if (bookId != null) {
       final books = d
@@ -28,8 +29,9 @@ class CourseStudyService {
       if (books.isEmpty) throw ArgumentError('The linked PDF does not exist.');
       if (id != null &&
           d.select('SELECT id FROM lessons WHERE course_id=? AND page_end>?',
-              [id, books.first['page_count']]).isNotEmpty)
+              [id, books.first['page_count']]).isNotEmpty) {
         throw ArgumentError('Existing lesson page ranges exceed this PDF.');
+      }
     } else if (id != null &&
         d.select(
             'SELECT id FROM lessons WHERE course_id=? AND page_start IS NOT NULL',
@@ -87,8 +89,9 @@ class CourseStudyService {
             end >= start &&
             books.isNotEmpty &&
             end <= (books.first['page_count'] as int));
-    if (!validRange)
+    if (!validRange) {
       throw ArgumentError('Page range must be inside the linked PDF.');
+    }
     final key = id ?? newId();
     if (id == null) {
       d.execute(
@@ -173,10 +176,12 @@ class CourseStudyService {
           'grammar',
           'writing',
           'assessment'
-        ].contains(kind))
+        ].contains(kind)) {
       throw ArgumentError('Choose an activity title and kind.');
-    if (route != null && !route.startsWith('/'))
+    }
+    if (route != null && !route.startsWith('/')) {
       throw ArgumentError('Invalid activity route.');
+    }
     (await database.db).execute(
         'INSERT INTO course_activities(id,lesson_id,title,kind,route,order_index) VALUES(?,?,?,?,?,(SELECT COUNT(*) FROM course_activities WHERE lesson_id=?))',
         [newId(), lessonId, title.trim(), kind, route, lessonId]);
@@ -184,8 +189,9 @@ class CourseStudyService {
 
   Future<void> completeActivity(String id, bool complete) async {
     final d = await database.db;
-    if (d.select('SELECT id FROM course_activities WHERE id=?', [id]).isEmpty)
+    if (d.select('SELECT id FROM course_activities WHERE id=?', [id]).isEmpty) {
       throw StateError('Activity no longer exists.');
+    }
     if (complete) {
       final activity = d.select(
           'SELECT kind,route FROM course_activities WHERE id=?', [id]).single;
@@ -194,9 +200,10 @@ class CourseStudyService {
         if (!route.startsWith('/progress/assessments/') ||
             passingScore(
                     d, route.substring('/progress/assessments/'.length), 0) ==
-                null)
+                null) {
           throw StateError(
               'Pass this linked objective assessment first, then verify the activity.');
+        }
       }
       d.execute('INSERT OR IGNORE INTO course_activity_evidence VALUES(?,?)',
           [id, DateTime.now().toUtc().toIso8601String()]);
@@ -262,9 +269,10 @@ class CourseStudyService {
             q['question_type'] != 'short' && q['question_type'] != 'writing')
         .toList();
     if (objective.isEmpty ||
-        objective
-            .any((q) => (q['correct_answer'] as String? ?? '').trim().isEmpty))
+        objective.any(
+            (q) => (q['correct_answer'] as String? ?? '').trim().isEmpty)) {
       return null;
+    }
     final threshold = (defs.first['pass_threshold'] as num).toDouble();
     if (!threshold.isFinite ||
         threshold < 0 ||
