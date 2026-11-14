@@ -12,12 +12,20 @@ class BuiltinCatalog {
   final String version;
   final List<Map<String, dynamic>> words, articles;
   static Future<BuiltinCatalog>? _cached;
-  static Future<BuiltinCatalog> load() =>
-      _cached ??= read(rootBundle.loadString)
-          .catchError((Object error, StackTrace stack) {
-        _cached = null;
-        Error.throwWithStackTrace(error, stack);
-      });
+  static BuiltinCatalog? _loaded;
+  static Future<BuiltinCatalog> load() {
+    final loaded = _loaded;
+    // Return a fresh future for completed data, so callers in a later async
+    // scope do not depend on the scheduling zone of the original asset load.
+    if (loaded != null) return Future.value(loaded);
+    return _cached ??= read(rootBundle.loadString).then((catalog) {
+      _loaded = catalog;
+      return catalog;
+    }).catchError((Object error, StackTrace stack) {
+      _cached = null;
+      Error.throwWithStackTrace(error, stack);
+    });
+  }
   static Future<BuiltinCatalog> read(
       Future<String> Function(String) loader) async {
     final manifest = jsonDecode(await loader('assets/content/v1/manifest.json'))
