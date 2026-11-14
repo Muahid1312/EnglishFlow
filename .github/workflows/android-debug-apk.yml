@@ -89,8 +89,10 @@ jobs:
         run: |
           if [ -f targeted-tests.log ]; then
             python3 scripts/ci_diagnostics.py --tests targeted-tests.log
-            python3 scripts/ci_diagnostics.py --log targeted-tests.log
           fi
+      - name: Publish raw targeted-tests.log diagnostics
+        if: always()
+        run: if [ -f targeted-tests.log ]; then python3 scripts/ci_diagnostics.py --log targeted-tests.log; fi
       - name: Run full regression suite
         id: tests
         continue-on-error: true
@@ -100,14 +102,16 @@ jobs:
         run: |
           if [ -f full-tests.log ]; then
             python3 scripts/ci_diagnostics.py --tests full-tests.log
-            python3 scripts/ci_diagnostics.py --log full-tests.log
           fi
+      - name: Publish raw full-tests.log diagnostics
+        if: always()
+        run: if [ -f full-tests.log ]; then python3 scripts/ci_diagnostics.py --log full-tests.log; fi
       - name: Build debug APK
         if: steps.content.outcome == 'success' && steps.targeted.outcome == 'success'
         id: build
         run: flutter build apk --debug 2>&1 | tee build.log
       - name: Verify actual APK and record metadata
-        if: success()
+        if: steps.build.outcome == 'success'
         shell: bash
         run: |
           set -euo pipefail
@@ -121,7 +125,7 @@ jobs:
           stat --format='%n %s bytes' dist/LexiFlow-2.0.0-build12-debug.apk > dist/size.txt
           printf '%s\n' 'Debug signed; not a production release.' 'See the workflow check outcomes and docs/BUILTIN_CONTENT_REPORT.md before installing.' > dist/README.txt
       - name: Upload debug APK and verification metadata
-        if: success()
+        if: steps.build.outcome == 'success'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: LexiFlow-2.0.0-build12-debug

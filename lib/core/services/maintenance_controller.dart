@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../backup/backup_service.dart';
@@ -24,7 +25,10 @@ class MaintenanceController extends ChangeNotifier {
     message = 'Preparing a safe restore…';
     notifyListeners();
     // Ensure all old learning pages have actually been disposed first.
-    await WidgetsBinding.instance.endOfFrame;
+    final frame = Completer<void>();
+    WidgetsBinding.instance.addPostFrameCallback((_) => frame.complete());
+    WidgetsBinding.instance.scheduleFrame();
+    await frame.future;
     try {
       await action();
       message = 'Restore complete. Your learning progress will be reloaded.';

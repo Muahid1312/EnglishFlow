@@ -19,7 +19,19 @@ def main():
     parser.add_argument('--log')
     args = parser.parse_args()
     if args.log:
-        encoded = base64.b64encode(lzma.compress(Path(args.log).read_bytes())).decode('ascii')
+        data = Path(args.log).read_bytes()
+        if args.log.endswith('tests.log'):
+            events = []
+            for line in data.decode(errors='replace').splitlines():
+                try:
+                    decoded = json.loads(line)
+                except ValueError:
+                    continue
+                events.extend(e for e in (decoded if isinstance(decoded, list) else [decoded]) if isinstance(e, dict))
+            failed = {e.get('testID') for e in events if e.get('type') == 'error'}
+            events = [e for e in events if e.get('testID') in failed or (e.get('type') == 'testStart' and e.get('test', {}).get('id') in failed)]
+            data = '\n'.join(json.dumps(e, ensure_ascii=False) for e in events).encode('utf-8')
+        encoded = base64.b64encode(lzma.compress(data)).decode('ascii')
         chunks = [encoded[i:i + 3000] for i in range(0, len(encoded), 3000)]
         for i, chunk in enumerate(chunks[:10]):
             annotation(f'CI log {args.log} {i + 1:03} of {len(chunks):03}', chunk)

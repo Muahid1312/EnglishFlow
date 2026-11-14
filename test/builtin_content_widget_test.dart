@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'support/settle_io.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,7 +45,7 @@ void main() {
     await tester.pumpWidget(ProviderScope(
         overrides: [appDatabaseProvider.overrideWithValue(database)],
         child: MaterialApp.router(routerConfig: router)));
-    await tester.pumpAndSettle();
+    await waitForContent(tester, find.text('100 articles'));
     expect(find.text('100 articles'), findsOneWidget);
     await tester.tap(find.widgetWithText(ChoiceChip, 'B2'));
     await tester.pumpAndSettle();
@@ -54,12 +55,12 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('1 articles'), findsOneWidget);
     await tester.tap(find.byTooltip('Bookmark article'));
-    await tester.pumpAndSettle();
+    await waitForContent(tester, find.byTooltip('Remove bookmark'));
     await tester.tap(find.widgetWithText(FilterChip, 'Bookmarked'));
     await tester.pumpAndSettle();
     expect(find.text(article['title'] as String), findsOneWidget);
     await tester.tap(find.text(article['title'] as String));
-    await tester.pumpAndSettle();
+    await waitForContent(tester, find.byType(SelectableText));
     expect(find.widgetWithText(SelectableText, article['body'] as String),
         findsOneWidget);
     expect(
@@ -77,14 +78,14 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
     await tester.pumpWidget(app(const BuiltinLibraryScreen(vocabulary: true)));
-    await tester.pumpAndSettle();
+    await waitForContent(tester, find.text('1000 words'));
     expect(await database.getVocabulary(), isEmpty);
     await tester.enterText(find.byType(TextField), 'infrastructure');
     await tester.pumpAndSettle();
-    final save = find.widgetWithText(TextButton, 'Save to personal vocabulary');
+    final save = find.text('Save to personal vocabulary');
     await tester.ensureVisible(save);
     await tester.tap(save);
-    await tester.pumpAndSettle();
+    await waitForContent(tester, find.text('In personal vocabulary'));
     final personal = (await database.getVocabulary()).single;
     expect(personal['word'], 'infrastructure');
     expect(
@@ -101,7 +102,7 @@ void main() {
     final article = catalog.articles.first;
     await tester.pumpWidget(
         app(ArticleReaderScreen(articleId: 'builtin:${article['id']}')));
-    await tester.pumpAndSettle();
+    await waitForContent(tester, find.byType(SelectableText));
     expect(find.widgetWithText(SelectableText, article['body'] as String),
         findsOneWidget);
     expect((await database.db).select('SELECT * FROM builtin_reading_attempts'),
@@ -121,7 +122,7 @@ void main() {
     final submit = find.widgetWithText(FilledButton, 'Submit answers');
     await tester.ensureVisible(submit);
     await tester.tap(submit);
-    await tester.pumpAndSettle();
+    await waitForContent(tester, find.textContaining('4/4 correct.'));
     expect(
         (await database.db)
             .select('SELECT correct,total FROM builtin_reading_attempts')

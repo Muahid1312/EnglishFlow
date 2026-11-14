@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'support/settle_io.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,15 +46,17 @@ void main() {
       appDatabaseProvider.overrideWithValue(db),
       studySessionServiceProvider.overrideWith((ref) => sessions),
     ], child: MaterialApp.router(routerConfig: router)));
-    await tester.pumpAndSettle();
+    await waitForContent(tester, find.text('15 min'));
     expect(find.text('15 min'), findsOneWidget);
-    await tester.tap(find.widgetWithText(FilledButton, 'Start').first);
-    await tester.pumpAndSettle();
+    final start = find.text('Start').first;
+    await tester.ensureVisible(start);
+    await tester.tap(start);
+    await waitForContent(tester, find.byType(SelectableText));
     expect(
         find.textContaining('A real saved article to read.'), findsOneWidget);
     expect(sessions.isRunning, isTrue);
     router.pop();
-    await tester.pumpAndSettle();
+    await waitForContent(tester, find.text('Continue'));
     expect(sessions.isRunning, isFalse);
     expect(find.text('Continue'), findsOneWidget);
     await tester.pumpWidget(const SizedBox());
@@ -76,13 +79,14 @@ void main() {
             theme: ThemeData.dark(),
             home: const Directionality(
                 textDirection: TextDirection.rtl, child: DailyPlanScreen()))));
-    await tester.pumpAndSettle();
+    await waitForContent(tester, find.text('30 min'));
+    await tester.ensureVisible(find.text('30 min'));
     await tester.tap(find.text('30 min'));
-    await tester.pumpAndSettle();
+    await waitForContent(tester, find.byWidgetPredicate((w) => w is TextButton && w.onPressed != null && w.child is Text && (w.child as Text).data == 'Skip'));
     expect((await db.getPreferences()).dailyTargetMinutes, 30);
     await tester.ensureVisible(find.text('Skip').first);
     await tester.tap(find.text('Skip').first);
-    await tester.pumpAndSettle();
+    await waitForContent(tester, find.textContaining('skipped'));
     expect(find.textContaining('skipped'), findsOneWidget);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox());

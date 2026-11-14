@@ -192,6 +192,4 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
           Text(k, style: const TextStyle(fontSize: 12)),
         ],
       );
-
-
 }

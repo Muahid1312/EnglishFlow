@@ -152,8 +152,13 @@ class StudySessionService extends ChangeNotifier {
       state: SessionState.paused,
     );
     _stopTicker();
-    if (!_disposed) notifyListeners();
-    await _db.checkpointSession(_active!.id, Map.of(_days));
+    try {
+      await _db.checkpointSession(_active!.id, Map.of(_days));
+    } finally {
+      // A screen can pause during unmount. Notify after the asynchronous
+      // checkpoint so consumers have finished detaching from the old screen.
+      if (!_disposed) notifyListeners();
+    }
   }
 
   void resume() {
