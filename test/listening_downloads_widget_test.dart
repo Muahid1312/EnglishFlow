@@ -106,8 +106,10 @@ void main() {
   testWidgets(
       'downloaded audio deletion preserves the lesson and its study position',
       (tester) async {
-    await downloads.enqueue(catalog.lessons.first['id'] as String);
-    await downloads.waitUntilIdle().timeout(const Duration(seconds: 15));
+    await tester.runAsync(() async {
+      await downloads.enqueue(catalog.lessons.first['id'] as String);
+      await downloads.waitUntilIdle().timeout(const Duration(seconds: 15));
+    });
     final saved = (await database.getListeningLessons()).single;
     await database.updateLessonPosition(saved['id'] as String, 12000);
     await tester.pumpWidget(app(const ListeningLibraryScreen()));

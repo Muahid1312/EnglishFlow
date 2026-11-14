@@ -217,6 +217,7 @@ class _ListeningLibraryScreenState
     final linked = _downloads.jobs.values
         .where((j) => j['lesson_id'] == lesson['id'])
         .toList();
+    final level = linked.isEmpty ? 'Level not verified' : '${lesson['difficulty']} target';
     final hasAudio =
         (!(lesson['id'] as String).startsWith('download:') || _ready) &&
             path.isNotEmpty &&
@@ -232,7 +233,7 @@ class _ListeningLibraryScreenState
               Text(lesson['title'] as String,
                   style: Theme.of(context).textTheme.titleMedium),
               Text(
-                  '${lesson['difficulty']} · ${lesson['topic'] ?? 'Imported'} · ${hasAudio ? 'Local audio' : 'Audio unavailable; study records retained'}'),
+                  '$level · ${lesson['topic'] ?? 'Imported'} · ${hasAudio ? 'Local audio' : 'Audio unavailable; study records retained'}'),
               if (duration > 0)
                 LinearProgressIndicator(
                     value: (position / duration).clamp(0.0, 1.0)),
