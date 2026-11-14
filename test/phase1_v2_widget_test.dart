@@ -48,6 +48,8 @@ void main() {
     ], child: MaterialApp.router(routerConfig: router)));
     await waitForContent(tester, find.text('15 min'));
     expect(find.text('15 min'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('مقاله آموزشی'), 250,
+        scrollable: find.byType(Scrollable).first);
     final start = find.text('Start').first;
     await tester.ensureVisible(start);
     await tester.tap(start);
@@ -79,10 +81,17 @@ void main() {
             theme: ThemeData.dark(),
             home: const Directionality(
                 textDirection: TextDirection.rtl, child: DailyPlanScreen()))));
-    await waitForContent(tester, find.text('30 min'));
-    await tester.ensureVisible(find.text('30 min'));
+    await waitForContent(tester, find.byType(ListView));
+    await tester.scrollUntilVisible(find.text('30 min'), 250,
+        scrollable: find.byType(Scrollable).first);
     await tester.tap(find.text('30 min'));
-    await waitForContent(tester, find.byWidgetPredicate((w) => w is TextButton && w.onPressed != null && w.child is Text && (w.child as Text).data == 'Skip'));
+    await waitForContent(
+        tester,
+        find.byWidgetPredicate((w) =>
+            w is TextButton &&
+            w.onPressed != null &&
+            w.child is Text &&
+            (w.child as Text).data == 'Skip'));
     expect((await db.getPreferences()).dailyTargetMinutes, 30);
     await tester.ensureVisible(find.text('Skip').first);
     await tester.tap(find.text('Skip').first);
@@ -102,11 +111,13 @@ void main() {
             builder: (_, __) => controller.active
                 ? const Text('Restoring')
                 : _Editor(onDispose: () => disposed = true))));
+    var disposedBeforeAction = false;
     final action = controller.run(() async {
-      expect(disposed, isTrue);
+      disposedBeforeAction = disposed;
     });
     await tester.pump();
     await action;
+    expect(disposedBeforeAction, isTrue);
     expect(controller.done, isTrue);
     expect(controller.failed, isFalse);
     expect(find.text('Restoring'), findsOneWidget);

@@ -58,8 +58,9 @@ void main() {
     await waitForContent(tester, find.byTooltip('Remove bookmark'));
     await tester.tap(find.widgetWithText(FilterChip, 'Bookmarked'));
     await tester.pumpAndSettle();
-    expect(find.text(article['title'] as String), findsOneWidget);
-    await tester.tap(find.text(article['title'] as String));
+    final articleTile = find.widgetWithText(ListTile, article['title'] as String);
+    expect(articleTile, findsOneWidget);
+    await tester.tap(articleTile);
     await waitForContent(tester, find.byType(SelectableText));
     expect(find.widgetWithText(SelectableText, article['body'] as String),
         findsOneWidget);

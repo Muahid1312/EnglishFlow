@@ -261,7 +261,7 @@ void main() {
     await tester.tap(find.text('Submit'));
     await tester.pumpAndSettle();
     expect((await db.getAssessmentAttempts()).single['passed'], 1);
-    expect(find.text('Score: 100%'), findsOneWidget);
+    expect(find.text('Objective score: 100%'), findsOneWidget);
     await tester.pumpWidget(const SizedBox());
   });
   testWidgets('failed grammar write cannot show successful answer or advance',

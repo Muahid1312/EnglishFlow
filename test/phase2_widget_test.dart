@@ -78,9 +78,8 @@ void main() {
         (await db.getComprehensionAttempts('lesson')).single['is_correct'], 0);
     expect(find.textContaining('Incorrect · Answer: Learn English'),
         findsOneWidget);
-    await Scrollable.ensureVisible(
-        tester.element(find.text('Reveal transcript')),
-        alignment: 0.5);
+    await tester.scrollUntilVisible(find.text('Reveal transcript'), 250,
+        scrollable: find.byType(Scrollable).first);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Reveal transcript'));
     await tester.pumpAndSettle();
@@ -156,7 +155,8 @@ void main() {
     });
     await tester.pumpWidget(app(const WritingEditorScreen(entryId: 'w')));
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Request AI feedback'));
+    await tester.scrollUntilVisible(find.text('Request AI feedback'), 250,
+        scrollable: find.byType(Scrollable).first);
     await tester.tap(find.text('Request AI feedback'));
     await tester.pumpAndSettle();
     expect(transport.calls, 0);
@@ -283,6 +283,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Request: interrupted'), findsOneWidget);
     expect(transport.calls, 0);
+    await tester.ensureVisible(find.text('Retry last request'));
     await tester.tap(find.text('Retry last request'));
     await tester.pumpAndSettle();
     expect(transport.calls, 1);

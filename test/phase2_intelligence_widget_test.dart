@@ -102,7 +102,8 @@ void main() {
     await tester.pumpWidget(app(const WritingEditorScreen(entryId: 'draft')));
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(
-        find.text('Save a confirmed correction'), 300);
+        find.text('Save a confirmed correction'), 300,
+        scrollable: find.byType(Scrollable).first);
     await tester.tap(find.text('Save a confirmed correction'));
     await tester.pumpAndSettle();
     expect(await db.getWritingMistakes(), isEmpty);
