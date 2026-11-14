@@ -1,0 +1,365 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_the-work-behind-a-short-bibliography",
+      "title": "The Work Behind a Short Bibliography",
+      "level": "B2",
+      "category": "Academic English",
+      "reading_minutes": 3,
+      "body": "A bibliography can look like the easiest part of a report: a tidy list placed after the argument is finished. In a careful piece of work, however, that short list represents decisions made throughout the research process. It tells readers where important information came from and gives them a way to examine it.\n\nA student preparing a local transport report first collected links without notes. Later, she could not remember which reference supported which statement. Some pages repeated claims from elsewhere, and one had changed since she first read it. A long list of addresses was not the same as a traceable relationship between evidence and argument.\n\nShe began keeping a record beside each note. If she copied a quotation, she marked it clearly and preserved the exact wording. If she summarized an idea, she wrote it in her own language while retaining its source. This distinction helped prevent plagiarism as well as accidental confusion between another person’s explanation and her own conclusion.\n\nA citation in the report then connected a specific claim with the relevant source. It was not a decoration added to make the paragraph look academic. Readers needed enough information to locate the material and understand why it was being used. A source about a neighboring city could not automatically substantiate a claim about the student’s own route.\n\nAttribution also involved fairness. The report acknowledged an interviewee’s contribution without pretending that a personal account represented every passenger. Permission and privacy still mattered; identifying a source did not mean publishing every detail the student had learned from that person.\n\nThe final bibliography was shorter than the original collection of links. Some material had been removed because it did not support the argument or could not be checked adequately. The reduction improved the report because the remaining references had clearer roles.\n\nThe task taught the student that source work begins before final formatting. A good bibliography is the visible end of a larger discipline: recording accurately, distinguishing quotation from interpretation, using sources for claims they can actually support, and leaving a path for someone else to question the work. Its value lies less in its length than in the quality of those connections.",
+      "vocabulary": [
+        "v_bibliography",
+        "v_reference",
+        "v_quotation",
+        "v_plagiarism",
+        "v_citation",
+        "v_attribution"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes the final bibliography useful?",
+          "choices": [
+            "Its sources are connected clearly to the claims they support",
+            "Every source has the same purpose",
+            "It contains the largest possible number of links",
+            "It is added only to make the report look formal"
+          ],
+          "answer": 0,
+          "explanation": "The list represents traceable and appropriate source use throughout the report."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does the student do when copying a quotation?",
+          "choices": [
+            "Removes every source note",
+            "Marks it clearly and preserves the wording",
+            "Treats it as her own discovery",
+            "Rewrites it silently while keeping quotation marks"
+          ],
+          "answer": 1,
+          "explanation": "Clear quotation handling distinguishes copied wording from summary and original reasoning."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why can a shorter bibliography improve the report?",
+          "choices": [
+            "Every removed link was necessarily false",
+            "Short reports never need evidence",
+            "The number of references proves the conclusion",
+            "Removing unsupported or unsuitable material can make the remaining evidence more meaningful"
+          ],
+          "answer": 3,
+          "explanation": "Usefulness depends on appropriate connections, not the size of the list."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “attribution” involve here?",
+          "choices": [
+            "Publishing all private interview details",
+            "Acknowledging who supplied an idea or information",
+            "Guaranteeing that every source speaks for everyone",
+            "Giving the report a decorative title"
+          ],
+          "answer": 1,
+          "explanation": "Attribution recognizes contributions while preserving the limits of each source."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-calendar-is-also-an-agreement",
+      "title": "A Calendar Is Also an Agreement",
+      "level": "B2",
+      "category": "History",
+      "reading_minutes": 3,
+      "body": "A date can feel like a simple fact until a historical record uses a different convention from the one its reader expects. Calendars organize time through shared rules, and communities have developed different ways of connecting those rules with seasons, public life, and cultural heritage. Reading an old date therefore involves understanding a system, not merely recognizing a number.\n\nA calendar performs practical work. It helps people arrange meetings, record events, collect payments, and coordinate activities that occur across different places. An institution needs some consistent reference if its records are to be understood by people who were not present when each note was written.\n\nConsistency, however, does not mean that every community must use one calendar for every purpose. People may use a common public calendar alongside another system for cultural or religious events. The existence of several systems is not itself evidence of confusion. Difficulties arise when a document moves between contexts without explaining the convention involved.\n\nImagine a researcher comparing letters from several collections. Two documents may appear to describe different days when they use different dating practices, or one may omit information that its original audience already understood. A responsible interpretation needs to establish the relevant convention before turning an apparent mismatch into a claim about error or dishonesty.\n\nThe researcher should also preserve the original record. Converting a date for modern comparison can be useful, but the conversion needs a clear explanation. A later reader should be able to distinguish what the document states from what the researcher has calculated or inferred.\n\nModern systems face a related challenge when they exchange information. An agreed protocol can specify the order of day, month, and year, or identify the time setting used. Without that context, a neat sequence of digits may remain ambiguous. Technical precision does not help if different readers attach different meanings to the same format.\n\nCalendars reveal how collective agreements become part of ordinary experience. Their rules can feel invisible when everyone nearby shares them. History makes those assumptions visible again. Understanding time records carefully means respecting both the practical need for a common reference and the different traditions through which people have organized their lives.",
+      "vocabulary": [
+        "v_heritage",
+        "v_institution",
+        "v_reference",
+        "v_interpretation",
+        "v_protocol",
+        "v_collective"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why must historical dates be read in context?",
+          "choices": [
+            "Different calendars prove one community is dishonest",
+            "Their meaning depends partly on the shared convention used to record them",
+            "Every number can be converted without explanation",
+            "Dates never describe real events"
+          ],
+          "answer": 1,
+          "explanation": "The article treats calendars as rule-based agreements embedded in social and historical settings."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What should a researcher preserve when converting a date?",
+          "choices": [
+            "Only the modern result with no trace of the source",
+            "The assumption that every audience uses the same convention",
+            "An unrelated date that looks easier to read",
+            "The original record and a clear explanation of the conversion"
+          ],
+          "answer": 3,
+          "explanation": "Readers need to distinguish the document’s statement from later processing."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why can people use more than one calendar without confusion?",
+          "choices": [
+            "Different systems may serve different understood purposes",
+            "A cultural event cannot be dated",
+            "Public coordination never needs shared references",
+            "All calendars have identical rules"
+          ],
+          "answer": 0,
+          "explanation": "Multiple conventions can coexist when their roles and context are clear."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “protocol” mean when systems exchange dates?",
+          "choices": [
+            "Agreed rules that make the format interpretable",
+            "The age of the oldest letter",
+            "The number of holidays in every tradition",
+            "A private opinion about seasons"
+          ],
+          "answer": 0,
+          "explanation": "A protocol specifies how the information is structured and understood."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-quiet-work-of-maintenance",
+      "title": "The Quiet Work of Maintenance",
+      "level": "B2",
+      "category": "Work and careers",
+      "reading_minutes": 2,
+      "body": "A community learning center celebrated a new computer room with a public opening. The photographs showed bright screens and enthusiastic visitors. A year later, the room’s usefulness depended on work that rarely appeared in a photograph: checking equipment, replacing worn parts, updating instructions, and helping people understand changes.\n\nThis is the quiet work needed to maintain a service. Infrastructure is not simply something installed once and then permanently available. Its practical value depends on continuing care, suitable knowledge, and resources that remain available after the first purchase has been celebrated.\n\nThe center’s original budget emphasized procurement. It compared prices and features carefully, but made little allowance for later support. Staff found themselves solving problems during time already assigned to teaching. Some equipment remained technically functional while becoming harder to use because instructions or required software no longer matched it.\n\nThe next expenditure plan treated maintenance as part of the service rather than an embarrassing extra cost. It identified who would check recurring problems, how faults would be reported, and which work required qualified support. The plan also protected time for documenting solutions so that one person’s absence did not remove the center’s entire memory of the system.\n\nAccountability mattered here too. A list of checks was useful only if people knew which had actually been completed. Staff separated planned work, work in progress, and confirmed results. They avoided recording a repair as finished merely because a request had been sent to someone else.\n\nThe change did not eliminate breakdowns. It improved the center’s resilience by making it more able to recognize, respond to, and learn from difficulties. Some problems could be prevented; others required an organized recovery. Both depended on understanding the service beyond its most visible equipment.\n\nThe experience challenged a narrow idea of innovation. New tools can be valuable, but novelty is not the only kind of progress. A service that continues working, preserves its users’ records, and remains understandable as people and circumstances change offers a different achievement. Maintenance is the work that allows the promise of an opening day to remain useful after the audience has gone home.",
+      "vocabulary": [
+        "v_maintain",
+        "v_infrastructure",
+        "v_procurement",
+        "v_expenditure",
+        "v_accountability",
+        "v_resilience"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why should maintenance be included in planning a service?",
+          "choices": [
+            "Only public opening events create value",
+            "New equipment never needs support",
+            "Long-term usefulness depends on continuing care and resources beyond installation",
+            "Documentation can replace every trained worker"
+          ],
+          "answer": 2,
+          "explanation": "The article connects initial investment with sustained operation and knowledge."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What was underrepresented in the original budget?",
+          "choices": [
+            "The initial comparison of prices",
+            "The list of equipment features",
+            "The public opening photographs",
+            "Later support and maintenance"
+          ],
+          "answer": 3,
+          "explanation": "Procurement received attention while ongoing needs were insufficiently planned."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why document solutions instead of relying on one staff member?",
+          "choices": [
+            "Every repair can be performed without expertise",
+            "Documentation guarantees no equipment will fail",
+            "Only one person should ever understand a system",
+            "The service should not lose essential knowledge when that person is absent"
+          ],
+          "answer": 3,
+          "explanation": "Shared knowledge improves continuity and the ability to recover."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “resilience” describe in this context?",
+          "choices": [
+            "The ability to respond and adapt when difficulties occur",
+            "The complete absence of any breakdown",
+            "The size of the opening audience",
+            "The number of new screens bought"
+          ],
+          "answer": 0,
+          "explanation": "The center becomes better able to recognize and manage disruption."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_seeing-a-pattern-without-inventing-a-cause",
+      "title": "Seeing a Pattern Without Inventing a Cause",
+      "level": "B2",
+      "category": "Science",
+      "reading_minutes": 3,
+      "body": "A class noticed that plants near one window were taller than plants farther inside the room. The first explanation was straightforward: more light had caused more growth. The idea was plausible, but the teacher asked what else differed between the two groups before accepting it as a demonstrated cause.\n\nThe window area was also warmer during part of the day. Some pots had received water from a different student, and the seedlings had not all begun at the same size. The observed correlation connected location with height, but several factors changed together. The pattern did not isolate which factor had produced the difference.\n\nCausation requires a stronger account of the relationship. A proposed mechanism may explain how one factor could influence another, but plausibility alone is not the same as showing what happened in a particular investigation. The class needed a method capable of examining alternatives rather than simply collecting more examples of the same mixed conditions.\n\nStudents wrote a hypothesis they could test more clearly. They planned to keep the plant type, starting conditions, watering process, and other relevant factors as similar as practical while changing a defined light condition. They also planned repeated observations instead of relying on one final photograph.\n\nThis design still had an important limitation. A small classroom test would not establish every condition under which the relationship might hold. Measurements could vary, and the groups might not be perfectly identical. Recognizing those limits helped students state a conclusion at the right strength rather than abandon the investigation entirely.\n\nThe teacher also warned against using the phrase “correlation is not causation” as a way to dismiss every pattern. Correlations can be useful clues and can contribute to a wider case when combined with appropriate evidence. The problem is treating them as a complete explanation without asking what else might account for the result.\n\nBy the end, the plants had become a lesson in the difference between noticing and establishing. The class had not become less curious. It had gained a more demanding question: what observation or test would help distinguish this explanation from a reasonable alternative? That question moved the discussion from a convenient story toward an investigation another group could understand and challenge.",
+      "vocabulary": [
+        "v_correlation",
+        "v_isolate",
+        "v_causation",
+        "v_mechanism",
+        "v_hypothesis",
+        "v_limitation"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does the plant pattern establish initially?",
+          "choices": [
+            "An association that needs further work before its cause can be isolated",
+            "Evidence that no investigation is possible",
+            "A guarantee that every pot began identically",
+            "A complete proof that light is the only factor"
+          ],
+          "answer": 0,
+          "explanation": "Several conditions vary together, so the original observation does not identify a single cause."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Which other difference does the class identify?",
+          "choices": [
+            "The window area is warmer for part of the day",
+            "No group receives water",
+            "All plants are artificial",
+            "The room has no windows"
+          ],
+          "answer": 0,
+          "explanation": "Temperature is one possible alternative influence connected with location."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why is the phrase about correlation not enough to end the discussion?",
+          "choices": [
+            "Patterns can still guide inquiry and contribute to a wider evidence-based explanation",
+            "A scientific explanation needs no testable hypothesis",
+            "Correlation always proves causation after repetition",
+            "Every alternative is automatically correct"
+          ],
+          "answer": 0,
+          "explanation": "The article treats association as informative but incomplete."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “isolate” mean in designing the improved investigation?",
+          "choices": [
+            "Remove the need to measure anything",
+            "Separate one factor’s effect so it can be examined more clearly",
+            "Move every plant into a different country",
+            "Hide all observations from classmates"
+          ],
+          "answer": 1,
+          "explanation": "The planned comparison changes a defined condition while managing other influences."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-moon-in-a-daytime-sky",
+      "title": "The Moon in a Daytime Sky",
+      "level": "B2",
+      "category": "Space",
+      "reading_minutes": 3,
+      "body": "A student notices the Moon above the school roof during an afternoon break and wonders whether something unusual has happened. She has often associated the Moon with nighttime, so its daylight appearance seems to contradict an ordinary rule. The observation is real; the rule she had remembered was simply too narrow.\n\nThe Moon does not wait for darkness to exist above the horizon. Its visibility depends on its position, the lighting of its surface, the brightness of the surrounding sky, and local viewing conditions. As it moves through its orbit, the circumstances under which people can see it change.\n\nA useful explanation separates the Moon’s presence from how easily it can be noticed. Sunlight reflected from the Moon can be visible against a daytime sky under suitable conditions. That does not mean the Moon produces visible light in the same way as a star, or that it will be equally easy to see at every time and phase.\n\nThe class examines a simple diagram before returning to the observation. The diagram is a model of relationships, not a photograph of the whole system. It helps students ask which part of the Moon is illuminated from the viewpoint of an observer and whether the object is in a position to be seen.\n\nThey also discuss safe observation. An interesting sky phenomenon is not a reason to look directly at the Sun or point an instrument toward it without appropriate expert safety procedures. The classroom activity uses suitable diagrams and ordinary observation of the Moon, not improvised solar viewing.\n\nThe student’s interpretation changes from “the Moon is in the wrong place” to a more accurate question about geometry and visibility. This is an evidence-based correction to a familiar assumption. It does not require pretending that one afternoon establishes every detail of the Moon’s motion.\n\nThe experience shows how ordinary language can become a hidden model. Calling the Moon a nighttime object is a useful association in some contexts, but not a complete astronomical explanation. A new observation can reveal the limit of that shortcut and invite a better account. Sometimes a surprising sight is not a strange event in the universe, but a familiar event meeting an incomplete expectation.",
+      "vocabulary": [
+        "v_orbit",
+        "v_explanation",
+        "v_observation",
+        "v_phenomenon",
+        "v_interpretation",
+        "v_evidence-based"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the daytime Moon surprise the student?",
+          "choices": [
+            "Her familiar nighttime association is not a complete rule about visibility",
+            "The Moon begins to produce starlight during school breaks",
+            "Daylight makes all observations impossible",
+            "The Moon has left its normal orbit"
+          ],
+          "answer": 0,
+          "explanation": "The observation challenges an incomplete everyday assumption, not necessarily the Moon’s behavior."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What is the visible light from the Moon described as?",
+          "choices": [
+            "Proof that the Moon is a star",
+            "A message sent by the diagram",
+            "Reflected sunlight",
+            "Light from a hidden school lamp"
+          ],
+          "answer": 2,
+          "explanation": "The article distinguishes reflected light from a star’s production of visible light."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why is the diagram useful even though it is not a photograph?",
+          "choices": [
+            "It guarantees identical visibility at every phase",
+            "It represents relationships that help explain the viewing geometry",
+            "It contains every possible local condition",
+            "It makes further observation unnecessary"
+          ],
+          "answer": 1,
+          "explanation": "A simplified model can support a particular explanation when its purpose is understood."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “phenomenon” refer to in the safety discussion?",
+          "choices": [
+            "A private message from the school",
+            "An observable event or appearance in the sky",
+            "A mathematical error in every calendar",
+            "A guarantee of professional equipment training"
+          ],
+          "answer": 1,
+          "explanation": "The daytime Moon is a natural occurrence that can be observed and investigated."
+        }
+      ],
+      "references": [
+        {
+          "title": "NASA Science: the Moon",
+          "url": "https://science.nasa.gov/moon/"
+        }
+      ]
+    }
+  ]
+}

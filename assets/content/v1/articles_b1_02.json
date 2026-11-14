@@ -35,12 +35,12 @@
           "type": "detail",
           "prompt": "What does Neda’s grandmother remember confidently?",
           "choices": [
-            "The exact day of the photograph",
             "The place shown in the photograph",
+            "The exact day of the photograph",
             "The photographer’s name",
             "The reason for the extra doorway"
           ],
-          "answer": 1,
+          "answer": 0,
           "explanation": "She remembers visiting the market, but not the particular photographed moment."
         },
         {
@@ -48,10 +48,10 @@
           "type": "inference",
           "prompt": "Why does Neda avoid saying the letter definitely explains the photograph?",
           "choices": [
-            "The letter is written in another language",
             "She dislikes the family mentioned",
+            "The photograph shows no buildings",
             "A shared name and market visit suggest a link but do not prove it",
-            "The photograph shows no buildings"
+            "The letter is written in another language"
           ],
           "answer": 2,
           "explanation": "The objects may be connected, but neither establishes that connection directly."
@@ -61,12 +61,12 @@
           "type": "vocabulary",
           "prompt": "What does “source” mean when Neda talks to her grandmother?",
           "choices": [
-            "A person providing information",
+            "The final label on the display",
             "A place to buy a new camera",
-            "A kind of picture frame",
-            "The final label on the display"
+            "A person providing information",
+            "A kind of picture frame"
           ],
-          "answer": 0,
+          "answer": 2,
           "explanation": "Her grandmother is a source because she supplies memories and information."
         }
       ],
@@ -98,12 +98,12 @@
           "type": "main_idea",
           "prompt": "Why does the club keep a less tidy garden corner?",
           "choices": [
-            "To avoid all responsibility for the garden",
             "To provide useful conditions for wildlife and observe it carefully",
+            "To avoid all responsibility for the garden",
             "To hide broken plastic from visitors",
             "To attract every animal in the region"
           ],
-          "answer": 1,
+          "answer": 0,
           "explanation": "The corner becomes a small habitat and a place for patient observation."
         },
         {
@@ -111,12 +111,12 @@
           "type": "detail",
           "prompt": "What does the club remove from the corner?",
           "choices": [
-            "Every leaf and branch",
-            "All the shaded soil",
             "Broken plastic and other potentially harmful rubbish",
-            "The sign beside the path"
+            "The sign beside the path",
+            "Every leaf and branch",
+            "All the shaded soil"
           ],
-          "answer": 2,
+          "answer": 0,
           "explanation": "The students distinguish safe plant material from rubbish that might harm animals."
         },
         {
@@ -125,11 +125,11 @@
           "prompt": "Why are days with little activity still recorded?",
           "choices": [
             "Only quiet days count as evidence",
-            "A complete record should not include only exciting observations",
+            "The students need to make up more animals",
             "The club has stopped watching the garden",
-            "The students need to make up more animals"
+            "A complete record should not include only exciting observations"
           ],
-          "answer": 1,
+          "answer": 3,
           "explanation": "Ordinary and quiet days help show the real pattern over time."
         },
         {
@@ -138,11 +138,11 @@
           "prompt": "What is a “habitat” in this article?",
           "choices": [
             "A drawing of an animal",
-            "A place with conditions a living thing needs",
             "A tool for sweeping paths",
+            "A place with conditions a living thing needs",
             "A collection of garden signs"
           ],
-          "answer": 1,
+          "answer": 2,
           "explanation": "The article explains habitat through food, water, shelter, and temperature."
         }
       ],
@@ -171,8 +171,8 @@
           "choices": [
             "Buying the largest bin solves every waste problem",
             "Examining routines can prevent waste before recycling it",
-            "All packaging symbols guarantee local recycling",
-            "Counting rubbish is more important than food safety"
+            "Counting rubbish is more important than food safety",
+            "All packaging symbols guarantee local recycling"
           ],
           "answer": 1,
           "explanation": "Avoiding unnecessary bags reduces waste at its source."
@@ -183,11 +183,11 @@
           "prompt": "What unnecessary item appears often in the first count?",
           "choices": [
             "Unopened bottles of medicine",
-            "Broken chairs",
             "Paper bags given to customers eating inside",
-            "Unused garden tools"
+            "Unused garden tools",
+            "Broken chairs"
           ],
-          "answer": 2,
+          "answer": 1,
           "explanation": "The café had been handing out bags automatically to indoor customers."
         },
         {
@@ -196,9 +196,9 @@
           "prompt": "Why does Jo contact the local collection service?",
           "choices": [
             "The café needs rules that match the system actually available",
+            "Staff are unable to read labels",
             "The service can choose the café’s menu",
-            "No material can ever be recycled",
-            "Staff are unable to read labels"
+            "No material can ever be recycled"
           ],
           "answer": 0,
           "explanation": "What is accepted depends on the real local service, not just a general package symbol."
@@ -210,8 +210,8 @@
           "choices": [
             "Use an appropriate container again",
             "Buy a new container every time",
-            "Mix food with paper waste",
-            "Throw a container outside"
+            "Throw a container outside",
+            "Mix food with paper waste"
           ],
           "answer": 0,
           "explanation": "Reusing keeps a suitable existing container in use."
@@ -240,12 +240,12 @@
           "type": "main_idea",
           "prompt": "How do questions help Amina learn?",
           "choices": [
-            "They replace the need to listen or remember anything",
-            "They reveal gaps and encourage her to examine reasons",
             "They guarantee that every answer is correct",
-            "They make long notes the only goal"
+            "They replace the need to listen or remember anything",
+            "They make long notes the only goal",
+            "They reveal gaps and encourage her to examine reasons"
           ],
-          "answer": 1,
+          "answer": 3,
           "explanation": "Questions show what is unclear and guide students back to supporting information."
         },
         {
@@ -253,12 +253,12 @@
           "type": "detail",
           "prompt": "What issue does Amina’s partner raise?",
           "choices": [
+            "Whether lectures should take place outside",
             "Why the route stops near the market rather than the hospital",
-            "Why every bus has the same color",
             "Who printed Amina’s notebook",
-            "Whether lectures should take place outside"
+            "Why every bus has the same color"
           ],
-          "answer": 0,
+          "answer": 1,
           "explanation": "The partner asks about a specific choice shown on the route map."
         },
         {
@@ -281,8 +281,8 @@
           "choices": [
             "Comments intended to improve the students’ thinking",
             "Noise from a broken microphone",
-            "The bus timetable",
-            "A second copy of the map"
+            "A second copy of the map",
+            "The bus timetable"
           ],
           "answer": 0,
           "explanation": "The teacher’s comments help students strengthen their explanations."
@@ -311,12 +311,12 @@
           "type": "main_idea",
           "prompt": "What does Leila gain from keeping a budget?",
           "choices": [
-            "A rule that prevents every unexpected event",
-            "A clearer view of real spending and choices she can adjust",
             "A guarantee that her income will increase",
-            "A reason to stop enjoying all meals"
+            "A reason to stop enjoying all meals",
+            "A rule that prevents every unexpected event",
+            "A clearer view of real spending and choices she can adjust"
           ],
-          "answer": 1,
+          "answer": 3,
           "explanation": "Her records make decisions visible and help her revise unrealistic estimates."
         },
         {
@@ -325,9 +325,9 @@
           "prompt": "What does Leila do when a shop gives no receipt?",
           "choices": [
             "She ignores that purchase",
-            "She asks her employer to pay",
+            "She puts the item back automatically",
             "She writes the amount in a notebook",
-            "She puts the item back automatically"
+            "She asks her employer to pay"
           ],
           "answer": 2,
           "explanation": "She records the amount herself so the purchase is not forgotten."
@@ -337,12 +337,12 @@
           "type": "inference",
           "prompt": "Why does Leila change her food plan instead of banning bought meals?",
           "choices": [
-            "She recognizes that the plan must fit evenings when she works late",
-            "She decides that records are unnecessary",
+            "She no longer cares about spending",
             "She wants every week to be identical",
-            "She no longer cares about spending"
+            "She recognizes that the plan must fit evenings when she works late",
+            "She decides that records are unnecessary"
           ],
-          "answer": 0,
+          "answer": 2,
           "explanation": "The notes show a mismatch between her estimate and her actual schedule."
         },
         {
@@ -350,12 +350,12 @@
           "type": "vocabulary",
           "prompt": "What does “afford” mean in Leila’s question before a purchase?",
           "choices": [
-            "Have enough money after allowing for other needs",
+            "Receive a receipt immediately",
             "Understand how a product was made",
-            "Ask someone to choose for her",
-            "Receive a receipt immediately"
+            "Have enough money after allowing for other needs",
+            "Ask someone to choose for her"
           ],
-          "answer": 0,
+          "answer": 2,
           "explanation": "She considers whether she can pay without taking money needed for other purposes."
         }
       ],

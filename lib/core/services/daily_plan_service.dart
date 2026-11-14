@@ -145,7 +145,7 @@ class DailyPlanService {
     }
     if(!result.any((c)=>c.module=='reading')) {
       final prefs=await database.getPreferences();
-      final article=await BuiltinContentService(database).nextArticle(prefs.englishLevel=='B2'?'B2':'B1');
+      final article=await BuiltinContentService(database,now:_now).nextArticle(prefs.englishLevel=='B2'?'B2':'B1');
       if(article!=null)result.add(_Candidate(0,'reading','Read ${article['title']} + 4 questions',
         '/learn/reading/${Uri.encodeComponent('builtin:${article['id']}')}',
         'Unread offline article at your selected curriculum target. Opening does not complete it.',boost('reading')));
@@ -156,7 +156,7 @@ class DailyPlanService {
     }
     if(!result.any((c)=>c.module=='vocabulary')) {
       final prefs=await database.getPreferences();
-      final words=await BuiltinContentService(database).recommendedWords(level:prefs.englishLevel,count:10);
+      final words=await BuiltinContentService(database,now:_now).recommendedWords(level:prefs.englishLevel,count:10);
       if(words.isNotEmpty)result.add(_Candidate(1,'vocabulary','Learn ${words.length} built-in words','/learn/vocabulary/library?daily=true',
         'A saved daily selection of real unsaved words. Save only the cards you want to review.',boost('vocabulary')));
     }

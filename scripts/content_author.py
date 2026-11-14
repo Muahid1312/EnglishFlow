@@ -1,5 +1,5 @@
 """Authoring helpers: serialize individually written content; never invent text."""
-import json,re,math
+import json,re,math,hashlib
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]/'assets/content/v1'
 def slug(text):return re.sub(r'[^a-z0-9]+','-',text.lower()).strip('-')
@@ -16,7 +16,14 @@ def vocabulary(level,topic,batch,text):
  return rows
 def article(level,category,title,body,words,questions,references=None):
  return dict(id='a_'+slug(title),title=title,level=level,category=category,reading_minutes=math.ceil(len(re.findall(r"\b[\w]+(?:['’-][\w]+)*\b",body))/180),body=body.strip(),vocabulary=['v_'+slug(w) for w in words],questions=[dict(id=f'q{i+1}',type=q[0],prompt=q[1],choices=q[2].split('|'),answer=q[3],explanation=q[4]) for i,q in enumerate(questions)],references=references or [])
+def mix_choices(row):
+ for q in row['questions']:
+  correct=q['choices'][q['answer']]
+  q['choices'].sort(key=lambda choice:hashlib.sha256((row['id']+'|'+q['id']+'|'+choice).encode()).hexdigest())
+  q['answer']=q['choices'].index(correct)
+ return row
 def articles(level,batch,rows):
+ rows=[mix_choices(row) for row in rows]
  path=ROOT/f'articles_{level.lower()}_{batch:02}.json'
  path.write_text(json.dumps(dict(version=1,articles=rows),ensure_ascii=False,indent=2)+'\n',encoding='utf-8');refresh()
 def refresh():

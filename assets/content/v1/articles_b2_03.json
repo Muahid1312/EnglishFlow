@@ -1,0 +1,375 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_heat-without-a-visible-flame",
+      "title": "Heat Without a Visible Flame",
+      "level": "B2",
+      "category": "Science",
+      "reading_minutes": 3,
+      "body": "A warm room does not need a visible flame to exchange energy with its surroundings. Heat can move through materials, through moving fluids such as air or water, and through radiation. These processes often happen together, which is why a simple observation can have more than one relevant explanation.\n\nConsider a metal spoon resting in a hot drink. Energy passes along the spoon through conduction. Materials that conduct heat effectively allow this transfer more readily than materials used mainly as insulation. Yet no material choice answers every design question. A handle must also be strong, suitable for its use, and safe under the conditions expected.\n\nNow consider air moving near a warm surface. As temperature and density differences influence movement, the air can carry energy to another place. This process is called convection. It helps explain why the arrangement of openings and obstacles can matter in a room, not just the stated power of a heater.\n\nRadiation provides another route. Objects emit electromagnetic energy, and other surfaces may absorb some of it. This transfer does not require the same kind of direct material contact as the spoon example. The behavior depends on relevant properties of the surfaces and the radiation involved, so appearance alone may not provide a complete account.\n\nA class investigating a warm container therefore needs a clear question. Is it comparing how quickly different handles warm up, how moving air affects cooling, or how a covering changes energy transfer? Changing all of these at once may produce a result, but it makes the explanation harder to isolate.\n\nThe word “insulate” can also be misleading if treated as a promise that heat transfer stops completely. An insulating layer reduces particular forms of transfer; its effectiveness depends on the material, arrangement, and conditions. A useful comparison should state which physical property is being examined and how the observation was made.\n\nUnderstanding these distinctions helps people read everyday claims about buildings, clothing, and containers. “Keeps warm” is not a mechanism. It is a result that may depend on several mechanisms working together. Asking how energy moves turns a familiar phrase into a question that can be investigated, measured, and explained with appropriate limits.",
+      "vocabulary": [
+        "v_conduct",
+        "v_radiation",
+        "v_emit",
+        "v_absorb",
+        "v_insulate",
+        "v_property"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why should heat-transfer explanations identify the processes involved?",
+          "choices": [
+            "Every warm object requires a visible flame",
+            "The color of an object always supplies a complete explanation",
+            "Several mechanisms can contribute to the same observed result",
+            "Insulation eliminates all possible energy transfer"
+          ],
+          "answer": 2,
+          "explanation": "The article distinguishes conduction, convection, and radiation while recognizing that they can occur together."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Which example illustrates conduction?",
+          "choices": [
+            "A lamp being described by its brand",
+            "A metal spoon warming along its length in a hot drink",
+            "A visitor reading a room label",
+            "A chart showing ticket prices"
+          ],
+          "answer": 1,
+          "explanation": "Energy transfer through the spoon provides the conduction example."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why avoid changing all conditions in the class investigation at once?",
+          "choices": [
+            "It becomes harder to isolate which change explains the result",
+            "Every condition has exactly the same effect",
+            "No result could ever occur",
+            "It guarantees the strongest possible conclusion"
+          ],
+          "answer": 0,
+          "explanation": "A result may be observable without a clear explanation of its cause."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “insulate” mean as used here?",
+          "choices": [
+            "Guarantee that no heat can ever move",
+            "Make every surface metallic",
+            "Reduce relevant forms of energy transfer",
+            "Increase all mechanisms equally"
+          ],
+          "answer": 2,
+          "explanation": "The article explicitly treats insulation as reduction under particular conditions, not an absolute stop."
+        }
+      ],
+      "references": [
+        {
+          "title": "U.S. Department of Energy: principles of heating and cooling",
+          "url": "https://www.energy.gov/energysaver/principles-heating-and-cooling"
+        }
+      ]
+    },
+    {
+      "id": "a_the-delay-between-earth-and-a-rover",
+      "title": "The Delay Between Earth and a Rover",
+      "level": "B2",
+      "category": "Space",
+      "reading_minutes": 3,
+      "body": "Driving a small robot across a classroom floor gives an operator an almost immediate sense of control. Press a button, watch the wheels turn, and correct the movement. A rover operating at planetary distances presents a different problem. Signals take time to travel, so a remote operator cannot assume the same rapid exchange between command and observation.\n\nThis latency changes the practical meaning of control. By the time a person sees an image and responds, the situation represented in that image is already in the past. The system therefore needs carefully designed limits and some ability to handle expected situations without waiting for a new instruction at every moment.\n\nAutonomy does not mean that the machine has unlimited freedom or human understanding. It can mean following a defined procedure when a sensor indicates an obstacle, stopping under specified conditions, or choosing among carefully bounded actions. The useful question is what decisions the system is designed and tested to make reliably.\n\nEngineers can simulate parts of the task on Earth. They test how the rover behaves when information is delayed, when a sensor is uncertain, or when the ground differs from the simplest model. No test environment reproduces every condition on another world, so the results must be interpreted with that limitation in mind.\n\nA communication protocol also matters. Commands and responses need clear structure so that missing, repeated, or outdated information does not produce an unsafe action. A parameter controlling the distance of a movement, for example, must have a meaning that both the planning software and the rover’s system handle consistently.\n\nPeople still monitor the mission and make important decisions. The work is not a choice between complete human control and complete machine independence. It involves dividing responsibilities according to distance, uncertainty, available information, and the consequences of an error.\n\nThe same principle appears in less dramatic settings. A remote system becomes dependable when its designers recognize the conditions under which immediate correction is impossible. The challenge is not merely to send instructions faster. It is to design sensible behavior for the time when a new instruction cannot arrive. Space exploration makes that usually invisible interval central to the way a system is planned.",
+      "vocabulary": [
+        "v_latency",
+        "v_autonomy",
+        "v_simulate",
+        "v_protocol",
+        "v_parameter",
+        "v_monitor"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "How does communication delay affect rover design?",
+          "choices": [
+            "It means commands need no structure",
+            "It requires bounded autonomous behavior and clear divisions of responsibility",
+            "It makes all human decisions unnecessary",
+            "It guarantees that classroom controls work unchanged"
+          ],
+          "answer": 1,
+          "explanation": "Delayed correction creates a need for tested local responses and careful planning."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What example of bounded autonomy does the text give?",
+          "choices": [
+            "Making any decision without constraints",
+            "Moving continuously regardless of sensor information",
+            "Stopping when specified conditions occur",
+            "Understanding every possible human intention"
+          ],
+          "answer": 2,
+          "explanation": "The rover can follow defined rules without having unrestricted independence."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why is an Earth simulation useful despite its limits?",
+          "choices": [
+            "It can test important behaviors without claiming to reproduce every planetary condition",
+            "It proves that delayed signals are imaginary",
+            "It guarantees complete certainty about another world",
+            "It removes the need to monitor missions"
+          ],
+          "answer": 0,
+          "explanation": "Limited models can investigate specific questions while leaving some conditions untested."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “protocol” mean in the communication system?",
+          "choices": [
+            "An unrestricted personal choice",
+            "A photograph of the classroom floor",
+            "Agreed rules for structuring commands and responses",
+            "The physical color of the rover"
+          ],
+          "answer": 2,
+          "explanation": "Consistent message rules help systems interpret information safely."
+        }
+      ],
+      "references": [
+        {
+          "title": "NASA Science: Mars exploration",
+          "url": "https://science.nasa.gov/mars/"
+        }
+      ]
+    },
+    {
+      "id": "a_a-forest-is-not-just-a-collection-of-trees",
+      "title": "A Forest Is Not Just a Collection of Trees",
+      "level": "B2",
+      "category": "Nature",
+      "reading_minutes": 3,
+      "body": "When a hillside has lost much of its woodland, planting trees can look like an obvious solution. A photograph of new rows may provide a satisfying image of progress. Yet a forest is more than a count of standing trunks. It is an ecosystem involving plants, animals, fungi, soils, water, and processes that change over time.\n\nThis distinction matters for restoration. A planting project may succeed in establishing trees while still leaving important ecological functions incomplete. The species chosen, the surrounding habitat, the condition of the soil, and the care provided after planting all affect what develops. An impressive first-day total cannot settle those longer-term questions.\n\nBiodiversity is one consideration, but it should not become another unexplained slogan. Different kinds of living things use different resources and interact in different ways. The appropriate goals depend on the setting and on evidence about what the damaged area needs, rather than a universal rule that one planting pattern fits every place.\n\nA local project therefore begins by examining the existing terrestrial environment. Which plants already grow there? How does water move through the slope? Are there remaining patches that could support natural recovery? Consultation with people who know the place can reveal past use and practical constraints that a brief outside inspection might miss.\n\nChoosing indigenous plants may be useful, but labels still require care. A species naturally found in a wider region may not suit every particular location within it. An introduced species is not automatically invasive, while an invasive species is identified through its spread and harmful ecological effects in the new setting. Good decisions need the relevant context rather than a simple division into attractive and unattractive plants.\n\nThe project’s records should continue after the planting event. Survival, changes in ground cover, signs of wildlife use, and unintended effects may help evaluate progress. These observations do not all become meaningful at the same speed. A young planting cannot honestly be described as a mature forest merely because its plan is ambitious.\n\nRestoration is consequently a relationship between an aim and a continuing process of learning. The strongest project is not necessarily the one with the largest opening photograph. It is the one able to explain what recovery means in that place, observe what actually happens, and revise its actions when the living system responds differently from the original expectation.",
+      "vocabulary": [
+        "v_ecosystem",
+        "v_restoration",
+        "v_biodiversity",
+        "v_terrestrial",
+        "v_indigenous",
+        "v_invasive"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why is tree count alone an incomplete restoration measure?",
+          "choices": [
+            "Standing trees have no ecological importance",
+            "Planting is always harmful",
+            "A forest involves many interacting conditions and longer-term functions",
+            "Every forest develops in exactly the same way"
+          ],
+          "answer": 2,
+          "explanation": "The article connects trees with soils, water, species, and changing ecological processes."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What should records do after the planting event?",
+          "choices": [
+            "Treat every young planting as mature woodland",
+            "Stop once the first photograph is taken",
+            "Count only the number of volunteers",
+            "Continue tracking relevant changes and unintended effects"
+          ],
+          "answer": 3,
+          "explanation": "Longer-term observation is needed to evaluate what actually develops."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why consult people with knowledge of the place?",
+          "choices": [
+            "They can guarantee every planted tree survives",
+            "They may identify past use and constraints missed during a short inspection",
+            "Their memories replace all ecological evidence",
+            "Only residents can identify a tree"
+          ],
+          "answer": 1,
+          "explanation": "Local knowledge adds relevant context without eliminating other forms of investigation."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What distinguishes “invasive” from merely introduced in this article?",
+          "choices": [
+            "A species planted in straight rows",
+            "Every plant naturally found in a region",
+            "Spread with harmful ecological effects in the new setting",
+            "Any plant that someone dislikes"
+          ],
+          "answer": 2,
+          "explanation": "The text warns against treating all introduced species as automatically invasive."
+        }
+      ],
+      "references": [
+        {
+          "title": "U.S. Forest Service: forest science and management background",
+          "url": "https://www.fs.usda.gov/"
+        }
+      ]
+    },
+    {
+      "id": "a_feedback-that-arrived-before-the-grade",
+      "title": "Feedback That Arrived Before the Grade",
+      "level": "B2",
+      "category": "Education",
+      "reading_minutes": 3,
+      "body": "Two classes completed the same writing task, but the timing of feedback differed. In one class, learners received comments only after submitting the final version. In the other, they discussed an early draft and had time to revise it before the final assessment. The difference was not simply how many comments appeared on the page; it was what learners could still do with them.\n\nFeedback intended to guide learning while it is happening is often described as formative. It can reveal a missing explanation, an unsupported claim, or a misunderstanding about the task. For it to be useful, however, the learner needs a realistic opportunity to respond. Advice arriving after every relevant decision is closed may describe a problem without helping the learner practice a solution.\n\nA summative judgment has another role. It records achievement at the end of a defined period or task. Such a judgment can be important, but it should not be confused with the whole learning process. A final score alone rarely explains which change would make the next attempt stronger.\n\nIn the second class, a shared rubric described the criteria before peer discussion began. Learners looked for a clear central idea, relevant support, and links between paragraphs. They were asked to identify what the writing already achieved as well as where a reader became uncertain. This reduced the temptation to replace another person’s voice with a preferred personal style.\n\nThe teacher then asked each writer to choose one change and explain the reason for it. Learners did not have to accept every comment automatically. They needed to consider the evidence, the purpose of the task, and the possible effect on their reader. Keeping earlier drafts in a portfolio made those choices visible over time.\n\nThe class comparison was not a controlled scientific study, so it could not prove that one routine would work best everywhere. It illustrated a practical principle: useful feedback connects observation with an opportunity to act. Learners need more than a description of where they stand. They need a manageable way to explore what comes next.\n\nThe final grade still mattered to the course. It simply stopped pretending to carry responsibilities that belonged to practice, explanation, and revision. The most valuable comment was not necessarily the longest one, but the one a learner could understand, question, and use.",
+      "vocabulary": [
+        "v_revise",
+        "v_formative",
+        "v_summative",
+        "v_rubric",
+        "v_criteria",
+        "v_portfolio"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes the earlier feedback potentially useful?",
+          "choices": [
+            "It eliminates the need for any criteria",
+            "Learners still have an opportunity to understand and act on it",
+            "It guarantees a perfect final score",
+            "It requires accepting every suggestion automatically"
+          ],
+          "answer": 1,
+          "explanation": "The article connects feedback with realistic revision and practice."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What do writers do after considering comments?",
+          "choices": [
+            "Delete every earlier draft",
+            "Choose a change and explain its reason",
+            "Ignore the task’s purpose",
+            "Replace their voice with the reviewer’s style"
+          ],
+          "answer": 1,
+          "explanation": "The teacher asks for a considered decision rather than automatic acceptance."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why keep drafts in a portfolio?",
+          "choices": [
+            "They prove every comment was correct",
+            "They guarantee an officially validated language level",
+            "They can make learning choices and changes visible over time",
+            "They remove the need to read the final text"
+          ],
+          "answer": 2,
+          "explanation": "Comparing versions reveals what the learner changed and why."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What is “formative” feedback intended to do?",
+          "choices": [
+            "Prevent further questions",
+            "Guide improvement while learning is still happening",
+            "Only rank final submissions",
+            "Replace every summative judgment"
+          ],
+          "answer": 1,
+          "explanation": "Formative feedback is directed toward ongoing learning and next steps."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-queue-that-moved-faster-on-paper",
+      "title": "The Queue That Moved Faster on Paper",
+      "level": "B2",
+      "category": "Real-world problem solving",
+      "reading_minutes": 2,
+      "body": "A service center wanted to reduce waiting times. Its first improvement moved the initial document check to a desk outside the main waiting room. The visible queue became shorter almost immediately. A photograph of the room suggested a more efficient service, but several visitors said their total visit had not become shorter at all.\n\nThe project team realized that its indicator had changed location rather than captured the whole experience. People now waited outside before joining a smaller indoor queue. Counting only those inside made the room appear less crowded while leaving part of the process outside the measurement.\n\nTo examine the actual outcome, the team returned to its baseline records. It needed a consistent starting and ending point for each visit. Did waiting begin at arrival, at registration, or at the first document check? Without an agreed definition, two reports could use the same phrase while measuring different parts of the journey.\n\nThe next investigation combined timing with qualitative information. Visitors described confusion about which desk to approach, whether they could leave briefly, and how to ask for assistance. Staff explained that missing documents caused repeated trips between counters. A single average time would not reveal all of these difficulties, even if calculated correctly.\n\nThe main constraint turned out to be a review stage that only a small number of trained staff could perform. Moving an earlier desk did not increase the capacity of that stage. The team considered clearer preparation instructions and better scheduling alongside any physical rearrangement. It also checked whether a change that helped one group created an additional barrier for another.\n\nThe revised report was less visually dramatic than the original photograph. It distinguished room occupancy, total visit time, repeated visits, and access needs. Efficiency became a question about useful service delivered under real conditions, not simply the appearance of movement.\n\nThe center did not reject measurement. It improved the connection between a measurement and the purpose it was supposed to serve. When a process crosses several desks, doors, or digital screens, the boundary of a statistic can decide which difficulties become visible. A responsible improvement begins by making that boundary explicit.",
+      "vocabulary": [
+        "v_indicator",
+        "v_outcome",
+        "v_baseline",
+        "v_qualitative",
+        "v_constraint",
+        "v_efficiency"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why is the shorter indoor queue not enough to establish improvement?",
+          "choices": [
+            "The service center no longer has visitors",
+            "A photograph cannot show any real objects",
+            "Some waiting has moved outside the measured area",
+            "All timing data must be abandoned"
+          ],
+          "answer": 2,
+          "explanation": "The visible change excludes an earlier part of the same visitor experience."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What turns out to be the main constraint?",
+          "choices": [
+            "The number of clocks above the entrance",
+            "A lack of photographs",
+            "A review stage requiring a limited number of trained staff",
+            "The color of the waiting room"
+          ],
+          "answer": 2,
+          "explanation": "Rearranging the initial check does not increase the capacity of the later review stage."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why define a consistent beginning and end for visits?",
+          "choices": [
+            "Reports need to measure comparable parts of the process",
+            "A baseline should never include arrival times",
+            "Every visitor must spend the same time at every desk",
+            "Definitions automatically remove all delays"
+          ],
+          "answer": 0,
+          "explanation": "Otherwise, apparently similar waiting-time measures may describe different experiences."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “qualitative” information contribute?",
+          "choices": [
+            "A replacement for every observation",
+            "Only a new total of chairs",
+            "Descriptions of experiences and difficulties beyond numerical timing alone",
+            "A guarantee that no one waits"
+          ],
+          "answer": 2,
+          "explanation": "Visitor and staff descriptions reveal confusion and practical barriers that times alone miss."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

@@ -165,7 +165,7 @@ class _VocabularyScreenState extends ConsumerState<VocabularyScreen> {
                         icon: Icons.style_outlined,
                         title: 'No saved words',
                         message:
-                            'Add a word or save a selection while reading. Meanings and translations are entered by you; they are not invented offline.'),
+                            'Browse the built-in library to save words with authored meanings and translations, add your own word, or save a selection while reading.'),
                   if(_words.length>=_visibleLimit) TextButton(onPressed:(){_visibleLimit+=100;_load();},child:const Text('Load more saved words')),
                   for (final word in _words)
                     Padding(

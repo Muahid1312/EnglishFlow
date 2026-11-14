@@ -1,0 +1,365 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_the-library-list-chosen-by-a-machine",
+      "title": "The Library List Chosen by a Machine",
+      "level": "B1",
+      "category": "Artificial intelligence",
+      "reading_minutes": 2,
+      "body": "A library tested a tool that could recommend books from a reader’s earlier choices. The first list looked impressive: several titles matched the reader’s interests. Yet one volunteer noticed that the suggestions were becoming very similar. A useful beginning could also become a narrow path.\n\nThe tool worked with information available to it, such as borrowed titles and descriptions of books. It could suggest connections, but it did not know everything about why a person had made a choice. A borrowed book might have been for a friend, a class assignment, or a subject the reader no longer wanted to explore.\n\nLibrarians asked readers what they hoped to discover next. Some wanted more of a familiar kind of story. Others wanted something completely different. A list based only on earlier behavior could miss that new purpose, even when its descriptions were accurate.\n\nThe library added several ways to browse. Readers could follow a recommendation, look through a topic shelf, or ask a person for help. A staff member also checked whether the lists continued to include a varied selection instead of repeating only already popular titles.\n\nPeople could explain what they prefer without accepting every prediction about their interests. The list was presented as an invitation, not a judgment about the kind of person they were. The library also explained which information supported the suggestions and let readers choose other ways to find material.\n\nThe trial did not show that machine suggestions were useless. It showed that discovery has more than one route. A recommendation can save effort, while a surprising shelf or a conversation can introduce something the earlier record did not predict. The most helpful library left room for both familiarity and change.",
+      "vocabulary": [
+        "v_recommend",
+        "v_suggest",
+        "v_choice",
+        "v_discover",
+        "v_include",
+        "v_prefer"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the library keep several ways to browse?",
+          "choices": [
+            "Machine suggestions are always inaccurate",
+            "Earlier choices can help recommendations but may not reflect every new purpose",
+            "Readers must borrow only one topic forever",
+            "Librarians cannot discuss books with people"
+          ],
+          "answer": 1,
+          "explanation": "The library combines useful predictions with opportunities for variety and change."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Why might a borrowed title not reflect a reader’s own lasting interest?",
+          "choices": [
+            "All books contain the same story",
+            "The library never records titles",
+            "It could have been borrowed for a friend or assignment",
+            "Borrowing always proves dislike"
+          ],
+          "answer": 2,
+          "explanation": "The article gives several reasons why past behavior can have different meanings."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "What could be lost if suggestions repeat only familiar popular titles?",
+          "choices": [
+            "Opportunities to encounter something different",
+            "The ability to print a borrowing receipt",
+            "Every accurate description",
+            "All information about earlier choices"
+          ],
+          "answer": 0,
+          "explanation": "A narrow recommendation path can limit exploration beyond past patterns."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “prefer” express about readers?",
+          "choices": [
+            "A guaranteed official reading level",
+            "What a machine may force them to read",
+            "The number printed on a library card",
+            "What they like more among the available choices"
+          ],
+          "answer": 3,
+          "explanation": "Readers can state their interests rather than accept every prediction."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-map-of-things-we-do-not-know",
+      "title": "A Map of Things We Do Not Know",
+      "level": "B1",
+      "category": "Space",
+      "reading_minutes": 2,
+      "body": "A map of space can contain bright points, colored areas, and empty-looking sections. It is easy to read the blank parts as places where nothing exists. Sometimes, however, the blank part tells us more about the information available than about what is actually there.\n\nScientists observe the universe with instruments designed for particular tasks. One instrument may detect information that another cannot. Conditions, distance, and the kind of observation all affect what can be recorded. A chart therefore needs an explanation of what its marks and empty spaces represent.\n\nIn a school activity, students made a map using observations from one small part of a pretend sky. They labeled the limit of the information clearly. When another group asked about a blank corner, they did not answer that the universe ended there. They explained that their assigned records did not cover it.\n\nThe activity helped distinguish several statements. “We found evidence here” was different from “nothing exists elsewhere.” “A particular explanation is possible” was different from “the explanation has been established.” Small changes in language changed how much the students were claiming.\n\nA new discovery can fill one gap while creating more questions. That is not a sign that earlier learning was worthless. Knowledge develops when observations are checked, explanations are compared, and uncertainty is described clearly enough for another investigation to begin.\n\nThe class kept the blank areas on its final display. Instead of treating them as embarrassing mistakes, students added questions about what kind of information would be needed next. The map became a guide to both learning and further inquiry. A useful scientific picture can show what is known while helping people notice the boundary beyond which they should not yet pretend to have an answer.",
+      "vocabulary": [
+        "v_observe",
+        "v_limit",
+        "v_evidence",
+        "v_possible",
+        "v_discovery",
+        "v_knowledge"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What can an empty-looking part of a space map mean?",
+          "choices": [
+            "Proof that the universe ends at that edge",
+            "A guarantee that no instrument can ever help",
+            "A boundary or gap in the available information rather than proven emptiness",
+            "A mistake that must always be hidden"
+          ],
+          "answer": 2,
+          "explanation": "The article asks readers to distinguish the limits of records from claims about reality."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "How do students respond to questions about their blank corner?",
+          "choices": [
+            "Claim that all space is empty",
+            "Remove the questions from the display",
+            "Invent observations to complete the page",
+            "Explain that their assigned records do not cover it"
+          ],
+          "answer": 3,
+          "explanation": "They describe the actual coverage of their information."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why can a discovery create further questions?",
+          "choices": [
+            "Knowledge can develop only when maps contain no blanks",
+            "Any new question cancels all earlier learning",
+            "New evidence can clarify one issue while revealing others to investigate",
+            "A discovery must provide every possible answer"
+          ],
+          "answer": 2,
+          "explanation": "Scientific learning can expand both understanding and awareness of what remains uncertain."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “limit” mean for the class’s map?",
+          "choices": [
+            "The boundary of the information it includes",
+            "A rule against asking questions",
+            "The end of the entire universe",
+            "The price of the display materials"
+          ],
+          "answer": 0,
+          "explanation": "The label states what the supplied observations can cover."
+        }
+      ],
+      "references": [
+        {
+          "title": "NASA Science: the universe",
+          "url": "https://science.nasa.gov/universe/"
+        }
+      ]
+    },
+    {
+      "id": "a_why-the-cheapest-ticket-was-not-the-lowest-cost",
+      "title": "Why the Cheapest Ticket Was Not the Lowest Cost",
+      "level": "B1",
+      "category": "Work and careers",
+      "reading_minutes": 2,
+      "body": "Two coworkers needed tickets for the same training event. The first option had a lower advertised price, so it seemed an obvious choice. Before paying, however, one coworker asked them to compare everything they would need for the trip rather than the first number on the screen.\n\nThe cheaper ticket did not include one service their group required. Adding it increased the total. The second option included that service but had different rules for changing the booking. Neither option was automatically best. The useful comparison depended on the real purpose and the conditions of the purchase.\n\nThe coworkers wrote down each relevant expense. They included the ticket, necessary additions, and the cost of reaching the event from the arrival point. They did not add imagined fees simply to make one option look worse. If a condition was unclear, they checked it with the provider before making the payment.\n\nThey also considered uncertainty. A cheaper booking with strict conditions might suit a fixed plan. A different arrangement might be useful if the event time was still likely to change. The coworkers needed to decide how much that possibility mattered rather than assume flexibility was either always valuable or never needed.\n\nTheir final note explained the reason for the chosen ticket and kept a copy of the conditions. This made it easier for the office to understand the decision later. It also prevented the group from remembering only the attractive advertised price while forgetting what they had actually agreed to buy.\n\nThe experience did not teach them to avoid every low-price offer. It taught them to connect price with a defined need. A good decision compares complete, relevant options. The lowest visible number becomes meaningful only after the buyer understands what it includes and what remains outside it.",
+      "vocabulary": [
+        "v_choice",
+        "v_compare",
+        "v_total",
+        "v_purchase",
+        "v_expense",
+        "v_payment"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes the ticket comparison useful?",
+          "choices": [
+            "Rejecting every cheaper offer automatically",
+            "Comparing complete options against the trip’s real needs",
+            "Assuming every added service is unnecessary",
+            "Choosing the lowest advertised number without reading conditions"
+          ],
+          "answer": 1,
+          "explanation": "The coworkers examine relevant inclusions, extra costs, and conditions."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What do they do when a condition is unclear?",
+          "choices": [
+            "Ignore the condition because the price is low",
+            "Ask an unrelated traveler to guarantee it",
+            "Check it with the provider before paying",
+            "Invent an extra fee"
+          ],
+          "answer": 2,
+          "explanation": "They obtain relevant information instead of guessing."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why might flexibility matter differently for different trips?",
+          "choices": [
+            "Flexible tickets always have the lowest total",
+            "Its value depends partly on how certain the plan is",
+            "Every booking must change",
+            "A fixed plan removes every travel expense"
+          ],
+          "answer": 1,
+          "explanation": "Different circumstances can change which condition is useful."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “total” mean in the comparison?",
+          "choices": [
+            "The number of people at the training event",
+            "A promise that the timetable cannot change",
+            "The combined relevant amount to be paid",
+            "Only the first advertised price"
+          ],
+          "answer": 2,
+          "explanation": "The total includes necessary additions rather than just the initial figure."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_drawing-without-naming",
+      "title": "Drawing Without Naming",
+      "level": "B1",
+      "category": "Everyday communication",
+      "reading_minutes": 2,
+      "body": "In a conversation class, one partner received a simple picture while the other received a blank sheet. The first partner had to describe the picture without naming familiar objects. The aim was not to create perfect art. It was to notice how much meaning an instruction needs before another person can use it.\n\nAt first, the speaker said, “Put a small shape next to the big one.” Her partner drew something reasonable, but not what she expected. “Next to” did not explain which side, how close, or whether the shapes touched. The missing detail became visible only when the drawing was compared with the original.\n\nThey tried again. This time, the speaker used clearer relationships: above, below, inside, and near the left edge. She asked her partner to explain what he understood before adding the next part. A short question prevented several later mistakes.\n\nThe teacher then allowed a gesture or one extra example. These helped, but they also raised another question: which information came from the words and which from what the partner could see? The class kept the distinction clear instead of treating every successful drawing as proof that the spoken explanation alone had been enough.\n\nAfter switching roles, both partners found new difficulties. The person giving directions could see the whole picture and sometimes forgot that the listener could not. Describing from shared knowledge was different from describing for someone meeting the arrangement for the first time.\n\nThe activity ended with a practical lesson for ordinary communication. Clear instructions are not simply longer instructions. They include the details the other person needs, in an order they can follow, with a chance to ask questions. Understanding improves when speakers check the meaning they have actually communicated rather than the picture already inside their own heads.",
+      "vocabulary": [
+        "v_describe",
+        "v_meaning",
+        "v_instruction",
+        "v_detail",
+        "v_gesture",
+        "v_example"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What is the drawing activity intended to reveal?",
+          "choices": [
+            "How explanations need to account for what the listener actually knows",
+            "Who can draw the most expensive object",
+            "Why questions must never interrupt instructions",
+            "That longer directions always prevent mistakes"
+          ],
+          "answer": 0,
+          "explanation": "The partners learn to provide relevant details and check the listener’s understanding."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Why is “next to” initially insufficient?",
+          "choices": [
+            "It tells the listener every relationship precisely",
+            "It guarantees the shapes are identical",
+            "It leaves side, distance, and contact unclear",
+            "It names a forbidden animal"
+          ],
+          "answer": 2,
+          "explanation": "Several reasonable arrangements fit the vague phrase."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why distinguish words from gestures during the activity?",
+          "choices": [
+            "Success may depend on visual help rather than the spoken explanation alone",
+            "Gestures can never communicate anything",
+            "The drawing becomes invalid if anyone moves",
+            "Only the teacher may see the picture"
+          ],
+          "answer": 0,
+          "explanation": "The class needs to know which information actually helped the listener."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “detail” mean when the first drawing differs?",
+          "choices": [
+            "An unrelated personal story",
+            "The cost of the paper",
+            "A specific piece of information needed to place the shapes",
+            "The whole purpose of every language course"
+          ],
+          "answer": 2,
+          "explanation": "Missing location information leads to a different interpretation."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_conflicting-reviews-of-the-same-product",
+      "title": "Conflicting Reviews of the Same Product",
+      "level": "B1",
+      "category": "Critical thinking",
+      "reading_minutes": 2,
+      "body": "A small backpack received two very different online reviews. One buyer praised its light weight and simple design. Another complained that it could not carry everything needed for a weekend journey. A student trying to choose a bag wondered whether one of the reviewers had to be wrong.\n\nShe began by identifying the purpose behind each opinion. The first reviewer carried a notebook and a light lunch on a crowded bus. The second needed clothing and other supplies for several days. The same small size could be a benefit in one situation and a drawback in the other.\n\nThe student then checked the source of each statement. Was the writer describing actual use, repeating an advertisement, or discussing a different model? A detailed reason was more useful than a strong adjective by itself. “Too small” needed an explanation of what the person had tried to carry.\n\nShe also looked for information both reviews agreed on. They described the same number of compartments and a similar fastening. Those details helped her compare the product with her own needs. She did not assume that every disagreement made the shared factual information worthless.\n\nBefore buying, the student checked the listed size and the return conditions. Her final choice was based on the work she wanted the bag to do, not simply on which review sounded more confident. She could use other people’s experience without treating it as a decision made for her.\n\nReviews become more useful when readers connect judgments to circumstances. A product can satisfy one person and disappoint another without either account being dishonest. The task is not always to find the strongest opinion. It is to understand the reasons well enough to decide which experience is relevant to your own question.",
+      "vocabulary": [
+        "v_opinion",
+        "v_benefit",
+        "v_drawback",
+        "v_source",
+        "v_reason",
+        "v_compare"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why can the two reviews both be reasonable?",
+          "choices": [
+            "Confident writing guarantees a universal judgment",
+            "The buyers use the same feature for different purposes",
+            "Every online opinion is equally useful",
+            "A product can have no measurable features"
+          ],
+          "answer": 1,
+          "explanation": "Small size helps the commuter but limits the weekend traveler."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does the first reviewer usually carry?",
+          "choices": [
+            "Only an empty suitcase",
+            "A notebook and a light lunch",
+            "Equipment for a month-long trip",
+            "Several large cooking pots"
+          ],
+          "answer": 1,
+          "explanation": "The first reviewer’s needs explain why a compact bag is useful."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why examine information the reviews agree on?",
+          "choices": [
+            "Shared factual details may still help a relevant comparison",
+            "Disagreement makes all measurements false",
+            "Agreement proves every opinion must match",
+            "Only positive comments may be read"
+          ],
+          "answer": 0,
+          "explanation": "Different judgments do not automatically invalidate common descriptive information."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What is a “drawback” in the weekend traveler’s use?",
+          "choices": [
+            "A financial reward from the seller",
+            "A guarantee of poor quality for everyone",
+            "A disadvantage that reduces the bag’s usefulness for that purpose",
+            "The product’s official name"
+          ],
+          "answer": 2,
+          "explanation": "The limited capacity is a problem relative to that traveler’s needs."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

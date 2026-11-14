@@ -1,0 +1,365 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_a-letter-about-the-shared-kitchen",
+      "title": "A Letter About the Shared Kitchen",
+      "level": "B1",
+      "category": "Society",
+      "reading_minutes": 2,
+      "body": "Dear building committee,\n\nI am writing as a resident who uses the shared kitchen after an evening shift. I appreciate the work volunteers have done to keep the room clean. However, the new closing time creates a difficulty that the recent notice does not mention. Some of us return from work after the kitchen is already locked.\n\nThis is not a complaint about the person who closes the room. I understand that checking the equipment and cleaning the tables takes time. The present arrangement asks one volunteer to carry most of that responsibility. Simply telling that person to stay later would not be a fair solution.\n\nCould we discuss two possibilities at the next meeting? One is to train more volunteers and share the closing task. Another is to keep a smaller area available later, with clear limits on what can be used. Either option would need a practical plan for safety, noise, and cleaning. I am willing to help examine those details.\n\nAn agreement should also explain how residents can report a problem. A rule that looks simple on paper may affect people differently according to their working hours or family responsibilities. We will understand those effects better if the discussion includes people who cannot attend a meeting in the early evening.\n\nI hope we can talk about this with respect for everyone involved. A later opening time may not be possible immediately, and I do not expect volunteers to solve every difficulty alone. I am asking for the problem to be recognized and for the alternatives to be examined together.\n\nThe kitchen has helped our building feel like a community. Keeping that benefit means listening both to the people who care for the space and to those who find it difficult to use. Thank you for considering a discussion rather than assuming the current arrangement works equally well for all of us.\n\nSincerely,\nAmina",
+      "vocabulary": [
+        "v_resident",
+        "v_shift",
+        "v_complaint",
+        "v_solution",
+        "v_agreement",
+        "v_respect"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What is Amina asking the committee to do?",
+          "choices": [
+            "Force one volunteer to work later immediately",
+            "Close the kitchen permanently",
+            "Ignore all cleaning and safety tasks",
+            "Discuss fair, practical ways to address access after evening work"
+          ],
+          "answer": 3,
+          "explanation": "She wants the difficulty recognized and alternatives examined with everyone affected."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What is one alternative Amina suggests?",
+          "choices": [
+            "Charging all residents for a second room",
+            "Training more volunteers to share closing tasks",
+            "Leaving all equipment on overnight",
+            "Removing every kitchen rule"
+          ],
+          "answer": 1,
+          "explanation": "Sharing the responsibility is one of two specific possibilities."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does Amina mention people unable to attend early meetings?",
+          "choices": [
+            "They should not use shared spaces",
+            "They have already agreed with the rule",
+            "They are not residents",
+            "Their absence may hide how the rule affects them"
+          ],
+          "answer": 3,
+          "explanation": "A discussion at one time may exclude the people most affected by the closing time."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “shift” refer to in Amina’s letter?",
+          "choices": [
+            "A period of paid work",
+            "A method of cleaning",
+            "A written rule",
+            "A change of furniture"
+          ],
+          "answer": 0,
+          "explanation": "Her evening work period ends after the kitchen closes."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_how-a-seed-travels",
+      "title": "How a Seed Travels",
+      "level": "B1",
+      "category": "Nature",
+      "reading_minutes": 2,
+      "body": "A seed begins in one place, but a new plant may grow somewhere else. This movement can be a short fall into nearby soil or a much longer journey. Different plants have different ways of moving seeds, and the shape of a seed can offer clues about how that happens.\n\nSome seeds have light structures that help the wind carry them. They may turn or float as they fall. Their shape does not allow them to choose a destination. A seed may land in a suitable place, but it may also reach a roof, a road, or ground where it cannot grow.\n\nOther seeds travel with animals. Some are inside fruit that animals eat. Others have small structures that catch on fur or clothing. These are different methods, so it would be a mistake to explain every seed using the same story. A plant’s surroundings also affect which journeys are possible.\n\nWater can carry certain seeds too. Whether a seed stays near the surface or sinks depends on its features and the conditions. Watching a seed in a small classroom container can begin an investigation, but it cannot reproduce every event in a stream or on a coast.\n\nThe outer covering has another important role: it can help protect what is inside during the journey. Protection alone is not enough for successful growth. A seed still needs suitable conditions after it arrives. The needs differ from one species to another.\n\nLooking carefully at seeds therefore connects several questions. How might this shape affect movement? What could carry it? What conditions would it find after landing? These questions help us notice the relationship between a living thing and its environment without imagining that every seed follows a perfect plan. Many journeys end without a new plant, while a few begin another stage in the plant’s life.",
+      "vocabulary": [
+        "v_seed",
+        "v_journey",
+        "v_wind",
+        "v_surface",
+        "v_protect",
+        "v_species"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does the article explain about seed movement?",
+          "choices": [
+            "Different features and surroundings create different possible journeys",
+            "Every seed chooses where it will grow",
+            "Reaching a new place guarantees a new plant",
+            "All seeds move only through water"
+          ],
+          "answer": 0,
+          "explanation": "Seed shape, carriers, and local conditions all matter, and successful growth is not guaranteed."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "How can some seeds travel with fur or clothing?",
+          "choices": [
+            "The seeds deliberately call an animal",
+            "Small structures catch onto it",
+            "All seeds melt into it",
+            "The plant sends instructions through it"
+          ],
+          "answer": 1,
+          "explanation": "The article describes seeds with structures that attach to passing carriers."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why is a classroom water container an incomplete model?",
+          "choices": [
+            "Seeds never enter water",
+            "Classrooms have no air",
+            "Every coast has the same conditions as the container",
+            "It cannot reproduce all conditions in natural water systems"
+          ],
+          "answer": 3,
+          "explanation": "A small model leaves out many conditions encountered in real environments."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “species” mean when discussing different seed needs?",
+          "choices": [
+            "The exact time of a journey",
+            "The color of a road",
+            "A particular kind of living thing",
+            "A type of classroom container"
+          ],
+          "answer": 2,
+          "explanation": "Different kinds of plants can need different growing conditions."
+        }
+      ],
+      "references": [
+        {
+          "title": "Royal Botanic Gardens, Kew: plant science background",
+          "url": "https://www.kew.org/"
+        }
+      ]
+    },
+    {
+      "id": "a_the-search-result-at-the-top",
+      "title": "The Search Result at the Top",
+      "level": "B1",
+      "category": "Technology",
+      "reading_minutes": 2,
+      "body": "When a search engine gives an answer in a fraction of a second, it is tempting to trust the first link. That first result is easy to reach, and its short description may sound exactly right. Yet a high position on a page does not, by itself, prove that the information fits your question.\n\nA student named Ben decided to search for the current opening hours of a local museum. His search showed an attractive travel website near the top. The page listed the hours clearly, but Ben noticed that its most recent update was old. The museum had recently changed its schedule, so a familiar-looking answer might no longer be useful.\n\nHe opened the museum’s own website and found a notice about the change. Before sharing the details with his classmates, he checked whether the notice described the building they planned to visit or another branch. He also looked for a date. Even an official source needs to be read in relation to the actual question.\n\nFor another topic, a single official page might not be enough. A reader may need to compare several sources, especially when information is uncertain or different organizations describe the same event differently. The goal is not to collect the largest possible number of links. It is to understand who provides the information, how recent it is, and what supports it.\n\nBen wrote a short message with the confirmed hours and a link to the relevant notice. He did not send a screenshot with no date or address. The classmates could check the source themselves if their plans changed.\n\nSearching well therefore involves more than entering a few words. It includes pausing after the result appears. A small check of purpose, date, and source can be more valuable than the speed of the first answer.",
+      "vocabulary": [
+        "v_search",
+        "v_result",
+        "v_website",
+        "v_source",
+        "v_compare",
+        "v_check"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes a search result useful rather than merely easy to find?",
+          "choices": [
+            "Its relevance, source, timing, and supporting information",
+            "The number of screenshots it contains",
+            "Its position alone",
+            "The brightness of its title"
+          ],
+          "answer": 0,
+          "explanation": "The article asks readers to examine information after finding it."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What first makes Ben question the travel website’s hours?",
+          "choices": [
+            "A broken classroom chair",
+            "The page’s old update date",
+            "A change in his email address",
+            "The absence of a colorful museum photo"
+          ],
+          "answer": 1,
+          "explanation": "The listed information may predate the museum’s changed schedule."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does Ben share a link to the dated notice?",
+          "choices": [
+            "He wants the museum to change its name",
+            "Links guarantee that no future change is possible",
+            "Classmates can examine the information and check it again if needed",
+            "A screenshot would always contain more context"
+          ],
+          "answer": 2,
+          "explanation": "A traceable source is useful when plans or information change."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “source” mean in the article?",
+          "choices": [
+            "The speed of the student’s device",
+            "The school’s final destination",
+            "A folder of unrelated photographs",
+            "The person or organization supplying the information"
+          ],
+          "answer": 3,
+          "explanation": "Readers need to know where the claim about the museum comes from."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-story-told-by-a-receipt",
+      "title": "A Story Told by a Receipt",
+      "level": "B1",
+      "category": "History",
+      "reading_minutes": 2,
+      "body": "An old receipt is not an exciting object at first sight. It may contain only a shop name, a date, a quantity, and a total. For a class exploring everyday history, however, an imagined receipt from a fictional town became the beginning of several useful questions.\n\nThe purchase included flour, soap, and a repair item. Students first described only what the paper actually showed. Then they suggested possible stories: perhaps a family was preparing for visitors, or perhaps these were ordinary weekly supplies. The same list could fit several situations. A possible story was not automatically evidence of what had happened.\n\nNext, the class considered the prices. A low number from an earlier period did not necessarily mean that the products had been easy for everyone to afford. To understand that question, they would need more context, such as typical income, the amount purchased, and other costs of living. One receipt could not provide all of that information.\n\nThe teacher asked what was missing from the document. It did not name every person who would use the goods. It did not explain unpaid work at home or show products bought somewhere else. It recorded one transaction for a practical purpose, not a complete account of a household’s life.\n\nStudents wrote two labels for the receipt. One stated the visible details. The other listed questions that additional sources might help answer. Keeping those labels separate made the display both clearer and more honest.\n\nBy the end of the activity, the ordinary piece of paper seemed more interesting. It offered a small view of daily life while reminding the class that every source has limits. Reading history carefully means noticing both the information an object preserves and the larger story it cannot tell alone.",
+      "vocabulary": [
+        "v_receipt",
+        "v_quantity",
+        "v_total",
+        "v_purchase",
+        "v_evidence",
+        "v_context"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does the receipt activity teach about historical evidence?",
+          "choices": [
+            "An ordinary document can be useful while revealing only part of the past",
+            "Missing information should always be invented",
+            "Old prices are easy to compare without other information",
+            "One purchase proves a whole family’s story"
+          ],
+          "answer": 0,
+          "explanation": "The class separates visible details from possible explanations and unanswered questions."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Why are earlier prices not enough to judge affordability?",
+          "choices": [
+            "A receipt cannot contain numbers",
+            "Soap is never sold by shops",
+            "Income, quantities, and other living costs also matter",
+            "The fictional town has no shops"
+          ],
+          "answer": 2,
+          "explanation": "The meaning of a price depends on its wider economic and household context."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why write two separate labels?",
+          "choices": [
+            "To make the receipt appear twice as old",
+            "To distinguish what is established from what still needs investigation",
+            "To remove all questions from the display",
+            "To hide the purchase details"
+          ],
+          "answer": 1,
+          "explanation": "Separating evidence from questions prevents suggestions being mistaken for facts."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “context” mean when interpreting prices?",
+          "choices": [
+            "The shop’s handwriting style alone",
+            "A second total on the same receipt",
+            "Only the color of the paper",
+            "The surrounding information needed to understand their significance"
+          ],
+          "answer": 3,
+          "explanation": "Income and other costs help readers understand what a listed price meant."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-recipe-that-needed-a-smaller-pan",
+      "title": "The Recipe That Needed a Smaller Pan",
+      "level": "B1",
+      "category": "Real-world problem solving",
+      "reading_minutes": 2,
+      "body": "A recipe describes a system, not just a list of ingredients. The quantity of food, the size of the container, and the way heat reaches the food can all matter. This becomes clear when someone tries to make a smaller portion of a familiar dish.\n\nIn a fictional cooking class, Nora wanted to prepare half the amount of a baked vegetable dish. She carefully divided every ingredient by two. Then she spread the mixture across the same large pan used for the full recipe. The layer was much thinner, although she planned to use the original cooking time.\n\nHer instructor asked her to compare the arrangements before continuing. The smaller amount did not occupy the pan in the same way. A thinner layer exposed more of the food to different conditions, so reducing ingredients alone did not guarantee the same result. The instructor helped Nora choose suitable equipment and follow the class’s checked cooking instructions.\n\nThe discussion was not about memorizing one rule for every possible recipe. Different foods and methods require different judgments. Simply dividing every number, including cooking time, could also create a problem. A useful change needs to respect the process, not only the amount written beside each ingredient.\n\nNora began keeping notes on the equipment and method she used. She learned to measure carefully, but also to ask which conditions had changed. If the result differed, she could return to the notes instead of depending on a vague memory that she had done “the same thing.”\n\nThe lesson helped her see recipes as explanations of connected actions. Numbers are important, yet they make sense within a particular arrangement. Whether cooking, building a model, or carrying out a classroom test, adapting a plan works better when we understand what the measurements belong to.",
+      "vocabulary": [
+        "v_quantity",
+        "v_portion",
+        "v_compare",
+        "v_result",
+        "v_method",
+        "v_measure"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why is dividing ingredient amounts not the whole task?",
+          "choices": [
+            "Recipes never contain useful measurements",
+            "A smaller portion always needs exactly half the time",
+            "The same pan guarantees an identical layer",
+            "The process and equipment can also change the outcome"
+          ],
+          "answer": 3,
+          "explanation": "The article emphasizes relationships between amounts, equipment, and cooking conditions."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "How does Nora arrange the smaller amount initially?",
+          "choices": [
+            "Inside a sealed water bottle",
+            "Without any vegetables",
+            "In a thinner layer across the original large pan",
+            "In a larger quantity than the original dish"
+          ],
+          "answer": 2,
+          "explanation": "Using the same pan with half the mixture changes the layer’s thickness."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why are notes about equipment useful?",
+          "choices": [
+            "They remove all need for checked instructions",
+            "They make measurements unnecessary",
+            "They help explain which conditions differed if the result changes",
+            "They prove every dish needs the same pan"
+          ],
+          "answer": 2,
+          "explanation": "Notes preserve relevant conditions instead of relying on an imprecise memory."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “method” mean in Nora’s notes?",
+          "choices": [
+            "The price of the pan",
+            "The color of the kitchen wall",
+            "The name of her classmate",
+            "The particular way she prepares the dish"
+          ],
+          "answer": 3,
+          "explanation": "Method refers to the organized process used, not simply ingredient quantities."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

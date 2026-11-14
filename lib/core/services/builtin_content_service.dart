@@ -34,13 +34,14 @@ class BuiltinCatalog {
 }
 
 class BuiltinContentService {
-  BuiltinContentService(this.database,{Future<BuiltinCatalog> Function()? catalog}) : _catalog=catalog??BuiltinCatalog.load;
+  BuiltinContentService(this.database,{Future<BuiltinCatalog> Function()? catalog,DateTime Function()? now}) : _catalog=catalog??BuiltinCatalog.load,_now=now??DateTime.now;
   final AppDatabase database;
+  final DateTime Function() _now;
   final Future<BuiltinCatalog> Function() _catalog;
   Future<List<Map<String,dynamic>>> states() async => (await database.db).select('SELECT * FROM builtin_article_state');
   Future<Map<String,dynamic>> openArticle(String id) async {
     final article=(await _catalog()).article(id);final d=await database.db;
-    d.execute('INSERT INTO builtin_article_state(article_id,last_opened_at) VALUES(?,?) ON CONFLICT(article_id) DO UPDATE SET last_opened_at=excluded.last_opened_at',[id,DateTime.now().toUtc().toIso8601String()]);
+    d.execute('INSERT INTO builtin_article_state(article_id,last_opened_at) VALUES(?,?) ON CONFLICT(article_id) DO UPDATE SET last_opened_at=excluded.last_opened_at',[id,_now().toUtc().toIso8601String()]);
     return {...article,...d.select('SELECT * FROM builtin_article_state WHERE article_id=?',[id]).single};
   }
   Future<void> savePosition(String id,double offset) async {
@@ -59,7 +60,7 @@ class BuiltinContentService {
       usageExample:word['example'] as String,collocations:word['collocation'] as String,
       partOfSpeech:word['part_of_speech'] as String);
     (await database.db).execute('UPDATE vocabulary_entries SET definition=COALESCE(definition,?),translation=COALESCE(translation,?),level=COALESCE(level,?) WHERE id=?',[word['definition'],word['translation'],word['level'],entry]);
-    (await database.db).execute('INSERT INTO builtin_word_saves(word_id,entry_id,saved_at) VALUES(?,?,?) ON CONFLICT(word_id) DO UPDATE SET entry_id=excluded.entry_id',[id,entry,DateTime.now().toUtc().toIso8601String()]);
+    (await database.db).execute('INSERT INTO builtin_word_saves(word_id,entry_id,saved_at) VALUES(?,?,?) ON CONFLICT(word_id) DO UPDATE SET entry_id=excluded.entry_id',[id,entry,_now().toUtc().toIso8601String()]);
     return entry;
   }
   Future<List<Map<String,dynamic>>> history(String id) async => (await database.db).select('SELECT * FROM builtin_reading_attempts WHERE article_id=? ORDER BY completed_at DESC LIMIT 20',[id]);
@@ -70,12 +71,12 @@ class BuiltinContentService {
     if(!readConfirmed)throw StateError('Confirm that you finished reading before submitting.');
     final questions=(article['questions'] as List).map((q){final m=q as Map;final choices=m['choices'] as List;return <String,dynamic>{'id':m['id'],'question_type':'mc','correct_answer':choices[m['answer'] as int]};}).toList();
     final grade=gradeAssessment(questions,answers,writingReviewed:false);
-    final now=DateTime.now().toUtc().toIso8601String();
+    final now=_now().toUtc().toIso8601String();
     d.execute('BEGIN IMMEDIATE');
     try {
       d.execute('INSERT INTO builtin_reading_attempts(id,article_id,content_version,questions_json,answers_json,correct,total,started_at,completed_at) VALUES(?,?,?,?,?,?,?,?,?)',[token,id,catalog.version,jsonEncode(article['questions']),jsonEncode(answers),grade.correct,grade.objectiveCount,startedAt,now]);
       d.execute('INSERT INTO builtin_article_state(article_id,read_confirmed,completed_at) VALUES(?,1,?) ON CONFLICT(article_id) DO UPDATE SET read_confirmed=1,completed_at=excluded.completed_at',[id,now]);
-      d.execute('INSERT OR IGNORE INTO learning_activities(id,type,module,metadata,local_date) VALUES(?,?,?,?,?)',['builtin-reading:$token','builtin_reading_completed','reading',jsonEncode({'article_id':id,'correct':grade.correct,'total':grade.objectiveCount}),localDateString()]);
+      d.execute('INSERT OR IGNORE INTO learning_activities(id,type,module,metadata,local_date) VALUES(?,?,?,?,?)',['builtin-reading:$token','builtin_reading_completed','reading',jsonEncode({'article_id':id,'correct':grade.correct,'total':grade.objectiveCount}),localDateString(_now())]);
       d.execute('COMMIT');
     } catch(_){d.execute('ROLLBACK');rethrow;}
     return d.select('SELECT * FROM builtin_reading_attempts WHERE id=?',[token]).single;
@@ -84,7 +85,7 @@ class BuiltinContentService {
     final catalog=await _catalog();final d=await database.db;
     final saved=d.select('SELECT word FROM vocabulary_entries WHERE is_saved=1').map((r)=>normalizeWord(r['word'] as String)).toSet();
     final target=['B1','B2'].contains(level)?level!:'B1';
-    final today=localDateString();
+    final today=localDateString(_now());
     final previous=d.select('SELECT word_ids_json FROM builtin_daily_words WHERE local_date=? AND level=?',[today,target]);
     if(previous.isNotEmpty){final ids=(jsonDecode(previous.single['word_ids_json'] as String) as List).cast<String>();return catalog.words.where((w)=>ids.contains(w['id'])).toList();}
     final selected=catalog.words.where((w)=>w['level']==target&&!saved.contains(normalizeWord(w['word'] as String))).take(count).toList();

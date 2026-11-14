@@ -1,0 +1,366 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_taking-a-break-from-the-most-convincing-story",
+      "title": "Taking a Break From the Most Convincing Story",
+      "level": "B2",
+      "category": "Critical thinking",
+      "reading_minutes": 3,
+      "body": "A customer told a community meeting that a new appointment system had worked perfectly for her. She described the steps clearly and spoke with obvious relief. Her story was credible and useful: it showed how the system could improve a real experience. The difficulty began when someone treated that single account as proof that the system worked well for everyone.\n\nA vivid example can make a problem understandable in ways that a table cannot. It gives readers a sequence, a person, and a reason to care. Yet a memorable account is not necessarily representative of the larger group. People who could not complete the booking process might never appear in a collection of successful appointments.\n\nThe meeting therefore needed two related questions. What did this person experience, and how common was that experience among others? Neither question could replace the other. Dismissing the story because it involved one person would lose valuable information. Extending it to every user would make an unsupported interpretation.\n\nAn empirical investigation could examine completed and abandoned bookings, ask people about barriers, and explain how participants were reached. The relevant proportion would need a clear denominator. A high success rate among completed forms would answer a different question from a high success rate among everyone who tried to obtain help.\n\nOne resident offered a counterexample: a neighbor had been unable to use the form with an older device. This did not prove that the system failed for most people. It did challenge the absolute claim that it worked for everyone, and it identified a condition worth examining. The group could now ask whether the barrier affected others and what alternative route was available.\n\nThe chair kept the successful account in the report while changing the conclusion around it. The story illustrated one possible benefit. Wider evidence was needed to assess how benefits and difficulties were distributed. The revised wording respected the speaker without asking her experience to carry a claim it could not establish.\n\nPausing after a convincing story is therefore a way of listening carefully. It creates room for both the individual and the wider pattern. A strong account can guide the next question, suggest what to measure, and reveal what a summary has overlooked. Its value does not depend on being mistaken for the whole picture.",
+      "vocabulary": [
+        "v_credible",
+        "v_representative",
+        "v_interpretation",
+        "v_empirical",
+        "v_proportion",
+        "v_counterexample"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "How should the meeting use the successful customer’s account?",
+          "choices": [
+            "As a reason to stop collecting other accounts",
+            "As irrelevant because only one person spoke",
+            "As useful individual evidence alongside an investigation of the wider pattern",
+            "As proof that every user succeeds"
+          ],
+          "answer": 2,
+          "explanation": "The story illustrates a benefit, but the larger claim needs broader evidence."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Why might completed booking forms give an incomplete picture?",
+          "choices": [
+            "People who could not finish may be absent from those records",
+            "Only staff are allowed to complete forms",
+            "Every completed form records all failed attempts",
+            "The forms necessarily contain incorrect dates"
+          ],
+          "answer": 0,
+          "explanation": "A dataset of completed forms can exclude the people who encountered barriers."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "What does the neighbor’s experience justify?",
+          "choices": [
+            "Assuming the neighbor represents every older-device user",
+            "Deleting all successful accounts",
+            "Concluding that most users must fail",
+            "Questioning the universal claim and investigating the device barrier"
+          ],
+          "answer": 3,
+          "explanation": "One counterexample challenges “everyone” without determining how common the difficulty is."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “representative” mean in this discussion?",
+          "choices": [
+            "Being the first account recorded",
+            "Holding an elected position",
+            "Speaking more emotionally than other people",
+            "Reflecting important characteristics of the larger group"
+          ],
+          "answer": 3,
+          "explanation": "The question is whether one account reflects experiences across the relevant population."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_an-observatory-that-had-to-share-the-sky",
+      "title": "An Observatory That Had to Share the Sky",
+      "level": "B2",
+      "category": "Space",
+      "reading_minutes": 3,
+      "body": "An observatory near a growing town wanted darker conditions for its nighttime work. Nearby residents wanted to move safely along a path after evening classes. The first public discussion presented these interests as a choice between science and everyday life. That framing made agreement difficult before anyone had examined the actual lighting arrangements.\n\nThe observatory team explained that unwanted artificial light could interfere with observations. The effect depended on several conditions, including direction, timing, and the part of the light spectrum relevant to the work. A lamp could not be judged only by whether it appeared bright to a person standing beneath it.\n\nResidents described a different set of conditions. Some used the path late, some had difficulty seeing changes in the ground, and some worried about a dark entrance. Each stakeholder brought information about how the area was used. Their concerns were evidence for planning, rather than interruptions to a technical presentation.\n\nTo negotiate a useful response, the group mapped where light was needed and where it traveled unnecessarily. Qualified lighting and access specialists reviewed possible changes. The aim was not to provide readers with a universal installation rule, but to develop an arrangement suitable for that particular place and its requirements.\n\nThe resulting compromise combined several measures for professional assessment. These included more careful direction of light, suitable controls, and attention to periods of use. The proposal retained necessary access while seeking to reduce unwanted light reaching the observatory. No one promised that one change would remove every conflict.\n\nThe plan also required evaluation after installation. A design that looked successful on paper might create an overlooked difficulty along the path, while a reduction in wasted light might still leave an observation problem unresolved. Mitigation meant reducing the problem responsibly, not declaring it solved because a meeting had ended.\n\nThe group agreed to review both user experience and observation conditions before judging the outcome. This shared process changed the argument. Instead of asking whose activity mattered more, participants asked which needs could be met together and where a real tradeoff remained. A dark sky and an accessible town were no longer abstract slogans. They became practical responsibilities that could be discussed, tested, and revised in the same plan.",
+      "vocabulary": [
+        "v_spectrum",
+        "v_stakeholder",
+        "v_negotiate",
+        "v_compromise",
+        "v_mitigation",
+        "v_outcome"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What helps the observatory and residents make progress?",
+          "choices": [
+            "Removing all lighting without assessing access",
+            "Deciding in advance that only one activity matters",
+            "Examining specific needs and evaluating a shared lighting plan",
+            "Assuming every lamp affects observations identically"
+          ],
+          "answer": 2,
+          "explanation": "Mapping needs and reviewing actual conditions makes a practical agreement possible."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Who reviews possible changes to the lighting arrangement?",
+          "choices": [
+            "No one until every lamp has been removed",
+            "Qualified lighting and access specialists",
+            "Only people who never use the area",
+            "A visitor reading a single photograph"
+          ],
+          "answer": 1,
+          "explanation": "The group asks relevant specialists to assess changes for that location."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why evaluate the plan after installation?",
+          "choices": [
+            "The real effects may differ from expectations and reveal overlooked problems",
+            "Scientific observations should end after agreement",
+            "Residents’ experiences cannot provide useful information",
+            "A completed meeting guarantees the design is effective"
+          ],
+          "answer": 0,
+          "explanation": "Post-installation review tests both access and observation conditions."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “mitigation” mean here?",
+          "choices": [
+            "Action intended to reduce unwanted effects responsibly",
+            "A measurement of the observatory’s age",
+            "A guarantee that all competing needs disappear",
+            "A decision to stop discussing evidence"
+          ],
+          "answer": 0,
+          "explanation": "The article explicitly distinguishes reducing a problem from claiming it has vanished."
+        }
+      ],
+      "references": [
+        {
+          "title": "NASA Science: Skywatching",
+          "url": "https://science.nasa.gov/skywatching/"
+        }
+      ]
+    },
+    {
+      "id": "a_a-better-test-for-a-claim-about-memory",
+      "title": "A Better Test for a Claim About Memory",
+      "level": "B2",
+      "category": "Psychology",
+      "reading_minutes": 3,
+      "body": "A study group heard that a new review routine could greatly improve retention. One learner had tried it before a short quiz and received an excellent result. The group was interested, but its tutor pointed out that an immediate success did not establish how much would be remembered later. The claim needed a clearer question and a more careful comparison.\n\nFor a classroom investigation, the group wrote a hypothesis about remembering a defined set of unfamiliar expressions after an agreed delay. This narrowed the task. They were not trying to prove that one method was best for every learner, every subject, or every length of time. They wanted to examine a specific prediction under stated conditions.\n\nA brief initial check provided a baseline. Without it, the group might confuse earlier knowledge with learning during the activity. The tutor also considered how participants would be assigned to routines. Random assignment could reduce deliberate selection into a preferred group, but it would not guarantee that a small classroom sample had perfectly balanced every relevant difference.\n\nThe comparison needed more than two labels on a chart. Both groups required comparable material, a defined study period, and the same timing and conditions for the later check. If one group spent longer studying, the investigation would mix the effect of time with the effect of the routine it was meant to examine.\n\nParticipants received an explanation of the voluntary activity, and the tutor avoided turning individual results into public rankings. The question concerned a learning approach, not a judgment about anyone’s intelligence. Any report would describe the process and its limits without identifying a learner unnecessarily.\n\nEven an encouraging result would leave a limitation: one small group working on one task could not settle the larger claim. Another group could try to replicate the procedure, and a later investigation could examine a different delay or kind of material. A disagreement between results would call for examination rather than an immediate accusation that one group was dishonest.\n\nThe value of this investigation was not a dramatic announcement. It was a clearer connection between a claim, a test, and the evidence needed to assess it. The learners could still choose routines that helped them, while recognizing that a useful personal experience and a general conclusion require different kinds of support.",
+      "vocabulary": [
+        "v_retention",
+        "v_hypothesis",
+        "v_random",
+        "v_baseline",
+        "v_replicate",
+        "v_limitation"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What change makes the memory claim more testable?",
+          "choices": [
+            "Defining the material, delay, comparison, and limits of the investigation",
+            "Allowing different study times without recording them",
+            "Treating one immediate quiz as a universal result",
+            "Ranking participants publicly by intelligence"
+          ],
+          "answer": 0,
+          "explanation": "The tutor turns a broad claim into a specific prediction with a clearer comparison."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What is the purpose of the initial check?",
+          "choices": [
+            "To guarantee that the groups will be identical",
+            "To decide which learners deserve public criticism",
+            "To identify knowledge already present before the activity",
+            "To replace every later assessment"
+          ],
+          "answer": 2,
+          "explanation": "The baseline helps distinguish prior knowledge from learning during the activity."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why use comparable study periods?",
+          "choices": [
+            "Longer study always has no effect",
+            "The initial check measures all future study time",
+            "The routines must be identical in every respect",
+            "Otherwise time spent could be confused with the effect of the routine"
+          ],
+          "answer": 3,
+          "explanation": "Unequal time would introduce another explanation for differences in later results."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does it mean to “replicate” the procedure?",
+          "choices": [
+            "Announce that no further investigation is needed",
+            "Change every condition without recording it",
+            "Repeat it to examine whether its findings are supported",
+            "Copy only the most successful learner’s answers"
+          ],
+          "answer": 2,
+          "explanation": "Replication examines findings by repeating a described study or test."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_what-remains-when-a-project-ends",
+      "title": "What Remains When a Project Ends",
+      "level": "B2",
+      "category": "Personal development",
+      "reading_minutes": 3,
+      "body": "When a volunteer learning project reached its final month, its coordinator wanted to leave something useful behind. The shelves were full of materials, and a folder contained hundreds of files. Yet the next team could not easily tell which resources were current, who had created them, or how the weekly sessions were organized. Possession of material was not the same as continuity.\n\nThe coordinator began by asking what a new volunteer would need to maintain the project. A simple account of responsibilities, contact routes, and recurring tasks proved more useful than a large collection of unlabelled documents. The team tested the account with someone who had not helped write it, then clarified the points that caused confusion.\n\nThey also decided what to archive. Finished material that was no longer used belonged in a clearly marked historical collection rather than beside current instructions. Retaining it could preserve useful context, but only within the project’s privacy and retention rules. Personal information did not become suitable for unrestricted sharing simply because a project had ended.\n\nAttribution required similar care. A shared lesson might include an activity devised by one volunteer and a revised explanation contributed by another. The handover recorded these contributions and the permissions attached to the material. A new coordinator should not have to guess who could authorize reuse or correction.\n\nFor the outgoing volunteers, the project offered an opportunity for transfer: they could apply what they had learned about planning and communication in a different setting. One prepared a small portfolio showing an early plan, feedback, and a revised version. It illustrated development without presenting the experience as an official qualification it did not provide.\n\nThe final meeting made room for initiative from the incoming team. The old coordinator explained why certain arrangements had been chosen, but did not insist that every choice remain permanent. Understanding a decision’s purpose would help new volunteers judge when changed circumstances required a different approach.\n\nThe project’s most durable result was therefore neither the fullest shelf nor the largest folder. It was a workable connection between people, records, responsibilities, and useful learning. A careful ending allowed the next group to begin with enough knowledge to act confidently, while leaving it the freedom and responsibility to improve what it inherited.",
+      "vocabulary": [
+        "v_maintain",
+        "v_archive",
+        "v_attribution",
+        "v_transfer",
+        "v_portfolio",
+        "v_initiative"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes the project handover useful?",
+          "choices": [
+            "Preventing the incoming team from making any changes",
+            "Clear responsibilities, usable records, and learning the next team can apply",
+            "Calling all volunteer experience an official qualification",
+            "Keeping the largest possible collection of unlabelled files"
+          ],
+          "answer": 1,
+          "explanation": "Continuity depends on understandable knowledge and responsibilities, not merely stored objects."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "How does the team check whether the handover account is clear?",
+          "choices": [
+            "Only the original writers approve it without a trial",
+            "They remove every explanation of recurring tasks",
+            "The coordinator counts its pages",
+            "Someone who did not write it tries to use it"
+          ],
+          "answer": 3,
+          "explanation": "A new reader helps identify assumptions that the writers may not notice."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why explain the reasons behind earlier arrangements?",
+          "choices": [
+            "The incoming team can judge whether those reasons still apply",
+            "Every original arrangement must remain unchanged",
+            "The next team should avoid taking initiative",
+            "Reasons are more important than any current requirement"
+          ],
+          "answer": 0,
+          "explanation": "Understanding purpose supports responsible changes when circumstances differ."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “transfer” mean for the outgoing volunteers?",
+          "choices": [
+            "Applying learning from the project in a different setting",
+            "Receiving an automatic professional license",
+            "Replacing attribution with an anonymous collection",
+            "Moving every private record into an unrestricted folder"
+          ],
+          "answer": 0,
+          "explanation": "The article uses transfer in its learning sense: applying skills in a new context."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-conclusion-with-room-for-the-next-question",
+      "title": "A Conclusion With Room for the Next Question",
+      "level": "B2",
+      "category": "Academic English",
+      "reading_minutes": 3,
+      "body": "An adult learning center compared two ways of introducing a reading activity. In one class, learners received a brief purpose statement before reading. In another, they began with the text alone. Afterward, the center collected responses about whether learners understood the task. The first draft of its report concluded that purpose statements improved reading for everyone.\n\nThat conclusion went beyond the investigation’s scope. The responses concerned understanding the immediate task, not every aspect of reading ability. The groups also met at different times, and the report did not establish that their earlier experience was comparable. A broad claim could not be justified simply because the center wanted a clear final sentence.\n\nThe reviewers asked what the evidence could substantiate. Learners in one group had reported greater clarity under the conditions described. That was an observation worth examining. It did not by itself show that the introductory statement caused the difference, or that the same effect would appear in every class.\n\nThe revised report explained its methodology: how the activity was organized, what question was asked, and how the responses were collected. It identified the comparison between separate classes as a limitation rather than hiding it in a footnote. Readers could then judge the finding in relation to the actual process that produced it.\n\nA provisional interpretation remained useful. A short statement of purpose might help learners understand what they were being asked to do. The center could test this more carefully by planning a comparison that addressed relevant differences between groups and by using measures appropriate to the claim. The next question followed directly from the gap in the current evidence.\n\nThe report also preserved an insight from the learners’ comments: some had understood the text but misunderstood why they were reading it. This distinction suggested a practical issue for teachers to investigate. It did not require the center to claim that every learner faced the same difficulty or that one sentence would solve it.\n\nThe final paragraph was clearer because it separated an observation, a possible explanation, and a proposed next step. Its careful boundaries did not make it empty or indecisive. They showed readers what had been learned, why the claim had that particular size, and what further work could make the next conclusion stronger.",
+      "vocabulary": [
+        "v_conclusion",
+        "v_scope",
+        "v_limitation",
+        "v_provisional",
+        "v_substantiate",
+        "v_insight",
+        "v_methodology"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What improves the center’s final conclusion?",
+          "choices": [
+            "Separating supported observations, possible explanations, and the next investigation",
+            "Treating learner comments as proof of every reading outcome",
+            "Removing all discussion of the comparison",
+            "Making the strongest possible universal claim"
+          ],
+          "answer": 0,
+          "explanation": "The revised conclusion matches the evidence and identifies a useful next step."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What did the center’s responses directly concern?",
+          "choices": [
+            "The performance of every adult class in the country",
+            "The cost of producing purpose statements",
+            "Whether learners understood the immediate reading task",
+            "Every participant’s lifelong reading ability"
+          ],
+          "answer": 2,
+          "explanation": "The article distinguishes immediate task clarity from general reading ability."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why mention that the classes met at different times?",
+          "choices": [
+            "Time of day proves the purpose statement had no effect",
+            "Differences between classes may offer another explanation for the result",
+            "All comparisons between classes must always be abandoned",
+            "The report already measured every relevant difference"
+          ],
+          "answer": 1,
+          "explanation": "Unaddressed group differences limit a causal interpretation without making the observation worthless."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “substantiate” mean in the reviewers’ question?",
+          "choices": [
+            "Shorten a report by deleting its methods",
+            "Support a claim with appropriate evidence",
+            "State a claim more confidently without new support",
+            "Replace observations with a preferred explanation"
+          ],
+          "answer": 1,
+          "explanation": "The reviewers ask which claim the available evidence can actually support."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

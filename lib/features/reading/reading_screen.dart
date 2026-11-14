@@ -1,4 +1,3 @@
-import '../../core/services/review_schedule.dart' show normalizeWord;
 import 'dart:async';
 import 'dart:io';
 
@@ -95,7 +94,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
                     children: [
                       const SectionHeader(
-                          title: 'Library',
+                          title: 'Your imported articles',
                           subtitle:
                               'Offline articles · TXT and selectable-text PDF'),
                       FilledButton.tonal(onPressed:()=>context.push('/learn/reading/library'),child:const Text('Browse built-in reading library')),
@@ -103,7 +102,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                       if (_articles.isEmpty)
                         const EmptyState(
                             icon: Icons.menu_book_outlined,
-                            title: 'No articles yet',
+                            title: 'No imported articles yet',
                             message:
                                 'Import a UTF-8 TXT file or a PDF with selectable text. Scanned PDFs require OCR and are not supported.'),
                       for (final article in _articles)
@@ -215,15 +214,9 @@ class _ArticleReaderScreenState extends ConsumerState<ArticleReaderScreen>
     }
     _savingWord = true;
     try {
-      final catalog=_builtin?await BuiltinCatalog.load():null;
-      final known=catalog?.words.where((w)=>normalizeWord(w['word'] as String)==normalizeWord(word)).toList();
-      if(known!=null&&known.isNotEmpty){await BuiltinContentService(_db).saveWord(known.first['id'] as String,sentence:sourceSentence(body,selection.start,selection.end),source:_article!['title'] as String,articleId:widget.articleId);}else{
       await _db.saveVocabulary(
-          word: word,
-          sentence: sourceSentence(body, selection.start, selection.end),
-          source: _article!['title'] as String,
-          articleId: widget.articleId);
-      }
+          word:word,sentence:sourceSentence(body,selection.start,selection.end),
+          source:_article!['title'] as String,articleId:widget.articleId);
       if (!mounted) return;
       ref.invalidate(dashboardProvider);
       ScaffoldMessenger.of(context).showSnackBar(

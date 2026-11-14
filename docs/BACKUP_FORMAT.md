@@ -25,7 +25,7 @@ new private staging directory.
 {
   "format": "lexiflow",
   "version": 1,
-  "databaseVersion": 9,
+  "databaseVersion": 11,
   "createdAt": "2026-11-14T10:00:00.000Z",
   "files": {
     "database.sqlite": {"size": 123456, "sha256": "<64 lowercase hex digits>"},
@@ -41,8 +41,8 @@ Sizes and hashes describe the exact uncompressed bytes. The manifest is covered
 by ZIP CRC32; every other entry must appear exactly once in the checksum
 inventory. The media inventory must match every nonempty managed-media reference
 in the database. The database and all attachments must pass validation before
-replacement. Format 1 accepts database schemas 7, 8, 9 and 10. Older schemas are validated against
-their exact trusted template before migration to schema 10 in staging. Future schemas
+replacement. Format 1 accepts database schemas 7, 8, 9, 10 and 11. Older schemas are validated against
+their exact trusted template before migration to schema 11 in staging. Future schemas
 need an explicit compatibility policy rather than silent merge.
 
 ## Snapshot contents
@@ -128,3 +128,11 @@ images join the media manifest. Hiding/deleting a course retains its PDF and
 historical certificates. Legacy schema 7–9 archives validate against their own
 template before the additive migration; generated certificate PDFs can be
 recreated from their immutable issued metadata.
+
+Schema 11 adds built-in article bookmarks, reading positions, explicit reading
+completion, immutable question/answer snapshots, saved-word links, and stable
+daily word selections. These learner records are included in the database
+snapshot. The versioned 1,000-word and 100-article catalogue stays bundled in the
+application assets; it is not copied into personal articles or automatically
+inserted into personal vocabulary. Legacy schema 10 archives validate against
+their own trusted template before the additive migration to schema 11.

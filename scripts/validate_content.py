@@ -11,7 +11,7 @@ def validate(partial=False):
  def read(path):
   try:return json.loads((ROOT/path).read_bytes().decode('utf-8',errors='strict'))
   except (ValueError,OSError) as e:errors.append(f'{path}: {e}');return {}
- manifest=read('assets/content/v1/manifest.json');check(manifest.get('schema_version')==1,'Unsupported manifest schema')
+ manifest=read('assets/content/v1/manifest.json');check(manifest.get('schema_version')==1,'Unsupported manifest schema');check(bool(re.fullmatch(r'\d+\.\d+\.\d+',str(manifest.get('content_version','')))),'Invalid content version')
  vocab=[];articles=[]
  for key,field,out in [('vocabulary_files','entries',vocab),('article_files','articles',articles)]:
   paths=manifest.get(key,[]);check(len(paths)==len(set(paths)),f'Duplicate paths: {key}')
@@ -46,7 +46,7 @@ def validate(partial=False):
    if link in vocabulary:check(bool(re.search(r'\b'+re.escape(vocabulary[link]['word'])+r'\b',body,re.I)),f'{key}: linked word {link} absent from article')
   qs=row.get('questions',[]);check(len(qs)==4,f'{key}: needs exactly four questions');check({q.get('type') for q in qs}=={'main_idea','detail','inference','vocabulary'},f'{key}: missing question types');check(len({q.get('id') for q in qs})==len(qs),f'{key}: duplicate question IDs')
   for q in qs:
-   label=f'{key}/{q.get("id")}';choices=q.get('choices',[]);check(bool(q.get('prompt')) and bool(q.get('explanation')),f'{label}: incomplete question');check(len(choices)==4 and len(set(choices))==4 and all(isinstance(c,str) and c.strip() for c in choices),f'{label}: need four distinct options');check(type(q.get('answer')) is int and 0<=q['answer']<len(choices),f'{label}: invalid answer reference')
+   label=f'{key}/{q.get("id")}';check(bool(re.fullmatch(r'q[1-4]',str(q.get('id','')))),f'{label}: invalid question ID');choices=q.get('choices',[]);check(bool(q.get('prompt')) and bool(q.get('explanation')),f'{label}: incomplete question');check(len(choices)==4 and len(set(choices))==4 and all(isinstance(c,str) and c.strip() for c in choices),f'{label}: need four distinct options');check(type(q.get('answer')) is int and 0<=q['answer']<len(choices),f'{label}: invalid answer reference')
   for ref in row.get('references',[]):check(bool(ref.get('title')) and str(ref.get('url','')).startswith('https://'),f'{key}: malformed background reference')
  for row in vocab+articles:check(not re.search(r'\b(?:TODO|TBD|placeholder|lorem ipsum)\b',json.dumps(row),re.I),f'{row.get("id")}: placeholder content')
  levels=collections.Counter(r.get('level') for r in vocab);article_levels=collections.Counter(r.get('level') for r in articles)

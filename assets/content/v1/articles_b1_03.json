@@ -22,12 +22,12 @@
           "type": "main_idea",
           "prompt": "What does the doorway test show?",
           "choices": [
-            "A welcoming message is enough on its own",
             "Access should be checked through practical experiences",
-            "Only the inside of a building matters",
-            "Every improvement needs expensive equipment"
+            "A welcoming message is enough on its own",
+            "Every improvement needs expensive equipment",
+            "Only the inside of a building matters"
           ],
-          "answer": 1,
+          "answer": 0,
           "explanation": "The committee learns from people attempting real tasks at the entrance."
         },
         {
@@ -35,12 +35,12 @@
           "type": "detail",
           "prompt": "Which small obstacle does the group find?",
           "choices": [
-            "A loose mat on the path",
             "A broken roof above the stage",
+            "A locked storage cupboard upstairs",
             "A missing bus engine",
-            "A locked storage cupboard upstairs"
+            "A loose mat on the path"
           ],
-          "answer": 0,
+          "answer": 3,
           "explanation": "The loose mat is one of the problems noticed during the practical checks."
         },
         {
@@ -48,12 +48,12 @@
           "type": "inference",
           "prompt": "Why does the committee avoid declaring the whole building accessible?",
           "choices": [
-            "It wants to stop holding public meetings",
             "Solving one problem does not prove that every access need is met",
+            "The sign has been removed",
             "Visitors no longer need to enter",
-            "The sign has been removed"
+            "It wants to stop holding public meetings"
           ],
-          "answer": 1,
+          "answer": 0,
           "explanation": "Several problems remain, so a broad claim would go beyond the work completed."
         },
         {
@@ -61,12 +61,12 @@
           "type": "vocabulary",
           "prompt": "What does “access” mean in the final discussion?",
           "choices": [
-            "The color of the sign",
             "The ability to reach and use the building and its activities",
             "The committee’s private address",
+            "The color of the sign",
             "The cost of buying a table"
           ],
-          "answer": 1,
+          "answer": 0,
           "explanation": "Access concerns whether people can actually enter and participate."
         }
       ],
@@ -93,10 +93,10 @@
           "type": "main_idea",
           "prompt": "Why do the friends keep more than the average waiting time?",
           "choices": [
-            "The calculation is mathematically wrong",
+            "Only Rosa’s waiting time should be recorded",
             "One number can hide important differences between journeys",
             "Averages never provide useful information",
-            "Only Rosa’s waiting time should be recorded"
+            "The calculation is mathematically wrong"
           ],
           "answer": 1,
           "explanation": "The correct average does not show how differently the five passengers experienced the service."
@@ -106,12 +106,12 @@
           "type": "detail",
           "prompt": "What is the average of the five waiting times?",
           "choices": [
-            "Five minutes",
             "Ten minutes",
-            "Thirty minutes",
-            "Fifty minutes"
+            "Five minutes",
+            "Fifty minutes",
+            "Thirty minutes"
           ],
-          "answer": 1,
+          "answer": 0,
           "explanation": "The total is fifty minutes, divided by five records."
         },
         {
@@ -120,9 +120,9 @@
           "prompt": "Why collect records from another week?",
           "choices": [
             "Five journeys may not represent the whole service",
+            "More records guarantee no future delays",
             "The first five records must be destroyed",
-            "Long waits stop mattering after a week",
-            "More records guarantee no future delays"
+            "Long waits stop mattering after a week"
           ],
           "answer": 0,
           "explanation": "Different days and times may reveal patterns missing from the small first set."
@@ -132,12 +132,12 @@
           "type": "vocabulary",
           "prompt": "What does “range” help show in this article?",
           "choices": [
-            "The variety between the shortest and longest waits",
             "The number of seats on a bus",
+            "The distance to the hospital",
             "The passengers’ ticket prices",
-            "The distance to the hospital"
+            "The variety between the shortest and longest waits"
           ],
-          "answer": 0,
+          "answer": 3,
           "explanation": "Looking at the low and high values reveals variation hidden by the average."
         }
       ],
@@ -164,10 +164,10 @@
           "type": "main_idea",
           "prompt": "What is the repair event’s wider purpose?",
           "choices": [
-            "To promise a repair for every item",
+            "To encourage visitors to buy more devices",
             "To combine practical help, learning, and honest safety limits",
             "To replace all professional technicians",
-            "To encourage visitors to buy more devices"
+            "To promise a repair for every item"
           ],
           "answer": 1,
           "explanation": "The event involves owners in learning and recognizes when work is outside the volunteers’ abilities."
@@ -177,9 +177,9 @@
           "type": "detail",
           "prompt": "What does the owner do during an inspection?",
           "choices": [
-            "Always leaves immediately",
-            "Stays involved in the process",
             "Signs away ownership",
+            "Stays involved in the process",
+            "Always leaves immediately",
             "Buys a new device before any questions"
           ],
           "answer": 1,
@@ -190,12 +190,12 @@
           "type": "inference",
           "prompt": "Why does Ben value the availability of spare parts when shopping?",
           "choices": [
-            "It may make a product easier to maintain and keep using",
-            "It guarantees that the product will never break",
             "Spare parts are always free",
-            "Instructions are no longer necessary"
+            "It may make a product easier to maintain and keep using",
+            "Instructions are no longer necessary",
+            "It guarantees that the product will never break"
           ],
-          "answer": 0,
+          "answer": 1,
           "explanation": "His experience shows that future repair possibilities matter when choosing a product."
         },
         {
@@ -203,12 +203,12 @@
           "type": "vocabulary",
           "prompt": "What does “reuse” mean near the end of the interview?",
           "choices": [
-            "Continuing to use an existing item instead of discarding it",
-            "Making every item look new",
             "Buying the same item twice",
-            "Ignoring all safety warnings"
+            "Continuing to use an existing item instead of discarding it",
+            "Ignoring all safety warnings",
+            "Making every item look new"
           ],
-          "answer": 0,
+          "answer": 1,
           "explanation": "Ben connects reuse with keeping products useful through care and repair."
         }
       ],
@@ -250,11 +250,11 @@
           "prompt": "When do staff check their ingredient list again?",
           "choices": [
             "Only after a year",
-            "Whenever a supplier or recipe changes",
+            "Only if a dish becomes more expensive",
             "Only when the menu color changes",
-            "Only if a dish becomes more expensive"
+            "Whenever a supplier or recipe changes"
           ],
-          "answer": 1,
+          "answer": 3,
           "explanation": "Changes to supplies or recipes may change the relevant information."
         },
         {
@@ -262,12 +262,12 @@
           "type": "inference",
           "prompt": "Why can “house sauce” be an unhelpful description?",
           "choices": [
-            "It may sound appealing without identifying what the sauce contains",
+            "It prevents anyone from making a request",
             "It is always an incorrect name",
             "It proves the sauce contains nuts",
-            "It prevents anyone from making a request"
+            "It may sound appealing without identifying what the sauce contains"
           ],
-          "answer": 0,
+          "answer": 3,
           "explanation": "An attractive label alone does not provide enough ingredient detail."
         },
         {
@@ -275,12 +275,12 @@
           "type": "vocabulary",
           "prompt": "What does “confirm” mean when staff examine the soup details?",
           "choices": [
-            "Make a confident guess",
-            "Check that the information is correct",
             "Change the customer’s request",
-            "Remove all descriptions from the menu"
+            "Remove all descriptions from the menu",
+            "Check that the information is correct",
+            "Make a confident guess"
           ],
-          "answer": 1,
+          "answer": 2,
           "explanation": "They consult the actual recipe, labels, and preparation information."
         }
       ],
@@ -288,7 +288,7 @@
     },
     {
       "id": "a_where-did-the-puddle-go",
-      "title": "Where Did the Puddle Go",
+      "title": "Where Did the Puddle Go?",
       "level": "B1",
       "category": "Nature",
       "reading_minutes": 2,
@@ -307,12 +307,12 @@
           "type": "main_idea",
           "prompt": "What does the puddle discussion help students understand?",
           "choices": [
-            "Water can only leave a puddle by entering soil",
             "An ordinary change can involve several connected processes",
+            "Every puddle dries at exactly the same speed",
             "Sunlight makes water stop existing",
-            "Every puddle dries at exactly the same speed"
+            "Water can only leave a puddle by entering soil"
           ],
-          "answer": 1,
+          "answer": 0,
           "explanation": "The article considers flow, soaking into soil, and evaporation together."
         },
         {
@@ -320,12 +320,12 @@
           "type": "detail",
           "prompt": "What is evaporation in the article?",
           "choices": [
-            "Liquid water becoming vapor and entering the air",
             "Water freezing beneath a gate",
             "A drain filling with soil",
-            "Rain forming a new puddle"
+            "Rain forming a new puddle",
+            "Liquid water becoming vapor and entering the air"
           ],
-          "answer": 0,
+          "answer": 3,
           "explanation": "The second paragraph explains evaporation as a change from liquid water to vapor."
         },
         {
@@ -333,12 +333,12 @@
           "type": "inference",
           "prompt": "Why can the class not explain every change with sunlight alone?",
           "choices": [
-            "Several conditions, including soil and wind, also differ",
             "Sunlight never affects puddles",
+            "Water cannot move across paving",
             "The students do not have notebooks",
-            "Water cannot move across paving"
+            "Several conditions, including soil and wind, also differ"
           ],
-          "answer": 0,
+          "answer": 3,
           "explanation": "Several conditions can influence what happens at the same time."
         },
         {
@@ -346,12 +346,12 @@
           "type": "vocabulary",
           "prompt": "What does “cycle” describe in the students’ drawing?",
           "choices": [
-            "A single measurement of puddle depth",
-            "A series of connected events that can repeat",
             "The school’s morning timetable",
-            "A type of garden tool"
+            "A type of garden tool",
+            "A single measurement of puddle depth",
+            "A series of connected events that can repeat"
           ],
-          "answer": 1,
+          "answer": 3,
           "explanation": "Their drawing connects repeated movement and changes in water’s form."
         }
       ],

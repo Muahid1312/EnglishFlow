@@ -1,0 +1,371 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_why-the-best-explanation-was-not-the-longest",
+      "title": "Why the Best Explanation Was Not the Longest",
+      "level": "B2",
+      "category": "Education",
+      "reading_minutes": 3,
+      "body": "A student asked why a simple electrical switch could stop a lamp from working. The first explanation introduced so many technical terms that the student could no longer identify the original question. The speaker had supplied information, but had not yet built a useful route through it.\n\nAn explanation needs a purpose and an audience. A concise answer is not merely a shorter answer; it includes what the listener needs to understand a particular relationship. Removing essential steps can create confusion just as adding every available detail can overwhelm. The challenge is to choose a coherent structure rather than count sentences.\n\nThe teacher began again with a concrete example of a complete and interrupted connection. She used an analogy to something familiar, then explained where the comparison stopped being useful. The analogy was a bridge toward the idea, not a claim that two very different systems behaved identically in every respect.\n\nOnly after the student understood the basic relationship did the teacher introduce a more abstract description. The technical terms now named ideas the student had already begun to organize. Instead of sounding like a barrier, they provided a more precise way to ask the next question.\n\nThe teacher also defined the scope. The explanation addressed the ordinary function of a switch, not every possible fault in a real electrical installation. It did not qualify the student to inspect dangerous equipment. Understanding a principle and being trained to carry out a task were separate achievements.\n\nA useful check came when the student explained the idea back using a different simple example. Repeating the teacher’s exact words would have shown some memory, but not necessarily the same understanding. The new example revealed which relationships the student could apply and where further clarification was needed.\n\nBy the end, the explanation was neither extremely short nor impressively long. Its parts served a visible learning purpose. The lesson was not that expertise should be hidden or that difficult vocabulary should never appear. It was that information becomes an explanation when its organization helps someone build and test understanding. The strongest answer leaves the learner better able to ask a meaningful question, not merely aware that the speaker knows many words.",
+      "vocabulary": [
+        "v_concise",
+        "v_coherent",
+        "v_concrete",
+        "v_analogy",
+        "v_abstract",
+        "v_scope"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes an explanation effective in the article?",
+          "choices": [
+            "Its organization helps a particular learner understand and apply a relationship",
+            "It turns basic understanding into professional qualification",
+            "It includes every technical word the speaker knows",
+            "It is always the shortest possible sentence"
+          ],
+          "answer": 0,
+          "explanation": "The teacher connects audience, purpose, sequence, and checks of understanding."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "When does the teacher introduce the more abstract description?",
+          "choices": [
+            "Never, because technical terms are forbidden",
+            "Before the student knows the question",
+            "Only after a professional electrical repair",
+            "After establishing the basic relationship through a concrete example"
+          ],
+          "answer": 3,
+          "explanation": "The terminology becomes useful when it names ideas already being organized."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why ask for a different example rather than exact repetition?",
+          "choices": [
+            "Only the teacher may use the original example",
+            "It guarantees complete expertise",
+            "Memory is never part of learning",
+            "It can reveal whether the learner can apply the relationship"
+          ],
+          "answer": 3,
+          "explanation": "Application provides evidence beyond simply reproducing the same wording."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “scope” mean for the switch explanation?",
+          "choices": [
+            "The number of words in a dictionary",
+            "The limits of the question the explanation is meant to answer",
+            "A certificate authorizing repairs",
+            "The electrical power of every lamp"
+          ],
+          "answer": 1,
+          "explanation": "The explanation covers a principle without claiming to address every real fault."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_printing-changed-more-than-the-number-of-books",
+      "title": "Printing Changed More Than the Number of Books",
+      "level": "B2",
+      "category": "History",
+      "reading_minutes": 2,
+      "body": "Producing more copies of a text can change who encounters an idea, but the history of printing cannot be reduced to a single machine suddenly making everyone able to read. Printing developed in different forms and places, and its consequences depended on social conditions as well as technical innovation.\n\nOne important change involved distribution. Compared with producing every copy separately by hand, printing could support larger numbers of related texts. Yet readers still needed access to the material, the language in which it appeared, and the skills required to use it. More copies did not automatically create universal literacy.\n\nCost, education, geography, and public rules affected circulation. A book might exist in many copies while remaining difficult for a particular person to obtain or understand. The relationship between technology and participation therefore involved institutions, habits, and practical opportunities, not only the production process.\n\nPrinting also changed the way texts could be compared. Repeated copies might make shared reference easier, but errors could travel widely too. A correction in a later edition did not remove earlier copies from every shelf. Readers examining historical material need to know which version they are using and how it relates to others.\n\nThis becomes clear when a museum places a printed page beside a handwritten note. The page may show a text intended for wider circulation; the note may reveal how one reader responded to it. Neither object gives a complete account of its audience. Their different purposes help historians ask different questions about use and interpretation.\n\nAccessibility remains part of this history rather than a separate modern concern. A text’s physical availability is only one condition of meaningful access. Clear language, suitable formats, and opportunities to learn all influence who can participate in reading. The existence of a printed object does not settle those questions on its own.\n\nThe history of books is consequently a useful example of technology interacting with society. A tool can expand possibilities without determining every outcome. Preserving that complexity makes cultural heritage more informative: it allows us to see both the innovation and the people, institutions, and decisions through which its effects developed.",
+      "vocabulary": [
+        "v_innovation",
+        "v_distribution",
+        "v_literacy",
+        "v_interpretation",
+        "v_accessibility",
+        "v_heritage"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why is printing’s history more than a story of producing copies?",
+          "choices": [
+            "Every historical copy is identical in accuracy and purpose",
+            "A machine automatically makes all readers understand a language",
+            "Its effects also depend on education, access, institutions, and use",
+            "Printed texts never circulated widely"
+          ],
+          "answer": 2,
+          "explanation": "The article places technological change within social and practical conditions."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What can happen to an error in a printed text?",
+          "choices": [
+            "It can circulate widely in existing copies even after a later correction",
+            "It automatically disappears from every earlier copy",
+            "It proves the printing process never worked",
+            "It prevents any reader from making notes"
+          ],
+          "answer": 0,
+          "explanation": "Different editions and surviving copies can retain different information."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why compare a printed page with a reader’s handwritten note?",
+          "choices": [
+            "They can answer different questions about circulation and individual response",
+            "The printed page explains every private experience",
+            "The note proves every reader had the same reaction",
+            "Only handwriting can preserve historical information"
+          ],
+          "answer": 0,
+          "explanation": "Sources created for different purposes provide complementary but limited perspectives."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “literacy” refer to in this history?",
+          "choices": [
+            "The ownership of a library building",
+            "The ability to read and write effectively",
+            "The color of a printed page",
+            "The number of machines in a workshop"
+          ],
+          "answer": 1,
+          "explanation": "Increasing copies does not by itself teach the skills needed to use them."
+        }
+      ],
+      "references": [
+        {
+          "title": "Library of Congress: collections and history of books",
+          "url": "https://www.loc.gov/"
+        }
+      ]
+    },
+    {
+      "id": "a_a-sensor-with-two-jobs",
+      "title": "A Sensor With Two Jobs",
+      "level": "B2",
+      "category": "Environment",
+      "reading_minutes": 3,
+      "body": "A community group installed a small air sensor near a busy street. Some members wanted a simple number showing whether the neighborhood was healthy. Others wanted information that might help identify patterns worth investigating. These purposes sounded similar, but they required different levels of evidence and interpretation.\n\nA sensor can respond to particular conditions without measuring every relevant contaminant equally well. Its readings may also depend on placement, weather, maintenance, and the way its signals are converted into reported values. The existence of a display does not establish that the displayed number is a complete measure of personal health or local environmental quality.\n\nThe group consulted relevant guidance and asked what the device was designed to detect. They learned how to check its operation and when a qualified comparison might be needed to calibrate it. They also recorded a baseline before making claims about the effect of a particular traffic change.\n\nThe device’s first useful role was as an indicator of patterns. Repeated observations could suggest times or conditions that deserved closer examination. Its second possible role was stronger: supporting a specific claim about pollution levels. That role required suitable methods, comparisons, and an account of uncertainty. The group avoided treating the first role as automatic proof of the second.\n\nTransparency helped make the project more trustworthy. Public notes described where the sensor was placed, periods when it was not working, and changes in the process. Missing data was not silently replaced with a convenient estimate. People reading a graph could see some of the limits behind its clean lines.\n\nThe group also considered how to communicate responsibly. It could share a pattern and recommend further investigation without diagnosing an individual’s health or declaring every possible cause established. This was not an excuse to ignore concerns. It was a way to connect action with evidence at the right level.\n\nThe project became more useful when its question became clearer. A small device can contribute to environmental understanding without being asked to provide a final verdict on everything around it. Its value depends on the relationship between a measured signal, a stated purpose, and the care with which people explain what follows from the reading.",
+      "vocabulary": [
+        "v_contaminant",
+        "v_calibrate",
+        "v_baseline",
+        "v_indicator",
+        "v_uncertainty",
+        "v_transparency"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the group distinguish the sensor’s two roles?",
+          "choices": [
+            "Every displayed number diagnoses individual health",
+            "Public notes make measurement unnecessary",
+            "Suggesting a pattern and proving a specific claim require different support",
+            "An indicator can never contribute useful information"
+          ],
+          "answer": 2,
+          "explanation": "The article distinguishes exploratory use from stronger claims requiring suitable evidence."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What is recorded before claiming an effect from a traffic change?",
+          "choices": [
+            "A prediction with no observations",
+            "The favorite colors of all residents",
+            "A complete diagnosis for every passenger",
+            "A baseline"
+          ],
+          "answer": 3,
+          "explanation": "A prior reference helps interpret later changes."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why record periods when the device was not working?",
+          "choices": [
+            "Missing periods prove the street was clean",
+            "Transparency requires no explanation of methods",
+            "The group must replace every missing value with zero",
+            "A graph’s apparent continuity could otherwise hide important gaps"
+          ],
+          "answer": 3,
+          "explanation": "Readers need to understand what was and was not measured."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What is an “indicator” in the sensor’s initial role?",
+          "choices": [
+            "A guarantee that no comparison is needed",
+            "An official medical conclusion",
+            "A complete explanation of every cause",
+            "A sign that can help identify a wider pattern"
+          ],
+          "answer": 3,
+          "explanation": "An indicator can guide attention without settling every question."
+        }
+      ],
+      "references": [
+        {
+          "title": "U.S. Environmental Protection Agency: Air Sensor Toolbox",
+          "url": "https://www.epa.gov/air-sensor-toolbox"
+        }
+      ]
+    },
+    {
+      "id": "a_the-last-file-in-the-backup",
+      "title": "The Last File in the Backup",
+      "level": "B2",
+      "category": "Technology",
+      "reading_minutes": 2,
+      "body": "A training organization copied its learning records every week. Each backup appeared in the expected folder, and the file sizes looked reasonable. Staff described the process as successful until a test on a separate installation revealed that several recordings could not be found. The database had been copied, but some files it referred to had not.\n\nA useful backup needs to preserve relationships, not merely produce an object with a reassuring name. A record may identify an audio file, a document, or an image stored elsewhere. If that dependency is missing, the record can remain readable while the activity it describes no longer works.\n\nThe organization revised its procedure. It identified which files belonged to the learning system and checked that each referenced item was available. It also excluded unrelated private documents and credentials. Copying an entire folder without understanding its contents could create a privacy problem while still failing to capture the right dependencies.\n\nIntegrity checks added another layer. A checksum could help detect whether a file had changed during copying or afterward. However, a matching checksum did not prove that the collection could be used correctly by the application. It established a particular relationship between bytes, not every condition needed for recovery.\n\nVersion information mattered too. A later application might store records differently from an earlier one. A responsible restore process needed to recognize compatible structures and preserve old learning data through a supported update. Guessing how to interpret an unfamiliar database was not a safe substitute for a defined migration.\n\nThe team therefore tested restoration in an isolated environment using disposable copies. It checked real activities: opening a document, replaying audio, viewing a saved draft, and reading progress records. The test did not overwrite a learner’s only working installation simply to see what might happen.\n\nThe final report separated several outcomes. The backup had been created, the files had been verified, and the isolated restore had either succeeded or revealed a specific problem. These were related statements, not interchangeable ones. The last file in a backup was important, but so was the last step in proving that the saved collection could actually support recovery.",
+      "vocabulary": [
+        "v_backup",
+        "v_procedure",
+        "v_integrity",
+        "v_checksum",
+        "v_version",
+        "v_recovery"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes a backup meaningfully useful?",
+          "choices": [
+            "Assuming that a visible database includes every dependency",
+            "Having the largest possible filename",
+            "Preserving required relationships and verifying restoration, not just creating a file",
+            "Copying credentials into every archive"
+          ],
+          "answer": 2,
+          "explanation": "The article combines complete contents, integrity, compatibility, and actual restore checks."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Where does the organization test restoration?",
+          "choices": [
+            "An isolated environment with disposable copies",
+            "A public shared account containing real credentials",
+            "An unrelated office printer",
+            "The learner’s only working installation"
+          ],
+          "answer": 0,
+          "explanation": "The test protects existing working data from experimentation."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why is a matching checksum not the whole proof?",
+          "choices": [
+            "Every matching file is guaranteed to contain the correct records",
+            "Byte consistency does not establish all application dependencies and compatibility",
+            "Version information becomes unnecessary after hashing",
+            "Checksums never detect any changes"
+          ],
+          "answer": 1,
+          "explanation": "Integrity of a file is one requirement within a wider recovery process."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “integrity” mean in this backup discussion?",
+          "choices": [
+            "The color of an archive icon",
+            "The completeness and consistency of data",
+            "The personal honesty of a volunteer",
+            "The speed of an internet advertisement"
+          ],
+          "answer": 1,
+          "explanation": "The article uses integrity in its data-related sense."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_an-exercise-in-changing-your-mind",
+      "title": "An Exercise in Changing Your Mind",
+      "level": "B2",
+      "category": "Critical thinking",
+      "reading_minutes": 2,
+      "body": "A group discussing public transport considered two claims. The first said that every bus on a certain route arrived on time. The second said that buses on the route were usually punctual. A member produced a record of one late arrival and announced that both claims had been disproved. The facilitator kept both original statements visible throughout the discussion.\n\nThe facilitator asked the group to slow down. A genuine counterexample was enough to challenge the first statement because it made a claim about every case. The second statement was different. One late bus could fit a generally reliable service. Evaluating “usually” required more information about the proportion and distribution of journeys.\n\nThe discussion revealed why changing one’s mind is not always a choice between keeping everything and rejecting everything. The appropriate revision depends on what the evidence conflicts with. A contradiction of an absolute claim does not automatically settle a more limited claim about a pattern.\n\nThe group also examined the late-arrival record itself. Which route, date, and timetable did it refer to? A plausible-looking example was useful only if it actually matched the statement being tested. A bus operating under a different schedule could create an apparent contradiction without addressing the original question.\n\nMembers then rewrote their conclusions at different levels of confidence. They rejected the universal statement if the record was verified. They left the broader pattern open while requesting additional data. This was not indecision. It was an attempt to make each judgment no stronger or weaker than the evidence allowed.\n\nConsistency mattered in how they treated new information. They agreed to apply the same checking standards whether a record supported or challenged their preferred view. Otherwise, the exercise would simply become another way to protect an existing opinion.\n\nBy the end, the group could reconsider a position without treating every qualification as a retreat. A careful generalization might survive new evidence in a revised form, while an absolute assertion might not. Intellectual flexibility did not mean agreeing with the latest speaker. It meant understanding exactly which part of a claim had been tested and being willing to adjust that part for a stated reason.",
+      "vocabulary": [
+        "v_counterexample",
+        "v_proportion",
+        "v_contradiction",
+        "v_plausible",
+        "v_consistency",
+        "v_reconsider",
+        "v_generalization"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does the exercise teach about revising beliefs?",
+          "choices": [
+            "Evidence should change the specific strength and scope of the claim it addresses",
+            "One late bus disproves every positive statement about a route",
+            "Qualified conclusions contain no information",
+            "Changing one’s mind means accepting the latest speaker automatically"
+          ],
+          "answer": 0,
+          "explanation": "The article distinguishes a universal claim from a claim about a general pattern."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does one verified late arrival directly challenge?",
+          "choices": [
+            "Every possible measure of overall punctuality",
+            "The statement that every bus is on time",
+            "The existence of the transport system",
+            "The meaning of all future timetables"
+          ],
+          "answer": 1,
+          "explanation": "A single exception is enough against an absolute every-case assertion."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why verify the example’s route and timetable?",
+          "choices": [
+            "Only supporting examples require checking",
+            "Any late vehicle belongs to the same route",
+            "Verification removes all future uncertainty",
+            "An example must match the actual claim before it can contradict it"
+          ],
+          "answer": 3,
+          "explanation": "An apparent contradiction may disappear if it concerns different conditions."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What is a “generalization” in the final paragraph?",
+          "choices": [
+            "A broader statement drawn from particular observations",
+            "A refusal to use any evidence",
+            "A guaranteed statement about every possible case",
+            "A private vehicle registration"
+          ],
+          "answer": 0,
+          "explanation": "A generalization can be revised in light of additional cases without becoming a universal guarantee."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

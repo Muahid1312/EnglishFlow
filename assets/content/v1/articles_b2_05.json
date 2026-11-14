@@ -1,0 +1,371 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_why-mass-and-weight-travel-differently",
+      "title": "Why Mass and Weight Travel Differently",
+      "level": "B2",
+      "category": "Science",
+      "reading_minutes": 3,
+      "body": "In everyday conversation, people often use mass and weight as though they mean exactly the same thing. A kitchen scale may even display a value in units of mass while responding to a force. This ordinary convenience becomes confusing when the discussion moves from a familiar room to another environment.\n\nMass describes the amount of matter in an object. Weight concerns the gravitational force acting on that object in a particular setting. Moving an object does not normally change its mass simply because the local gravitational conditions differ. Its weight, however, can change. The distinction matters when comparing situations rather than just reading a familiar label.\n\nA classroom model can make this clearer without pretending to reproduce space travel. Students imagine taking the same sealed container to different places. The contents remain the same, while the force associated with gravity need not. If a device estimates mass from force, its assumptions and calibration become part of interpreting the displayed value.\n\nThis is one reason to calibrate instruments for their intended conditions and purpose. The label on a scale is not an explanation of every physical process inside it. A reading becomes useful when people understand the relationship between the measured effect and the property they want to describe.\n\nAn orbit introduces another important distinction. Astronauts can appear weightless even though gravity is still acting. Their condition is connected with the motion of the spacecraft and its occupants, not with gravity simply disappearing. Describing the appearance alone can encourage the wrong explanation if the underlying motion is ignored.\n\nNone of this makes everyday language useless. People can buy vegetables successfully without discussing gravitational fields at the market. Scientific language becomes necessary when ordinary shortcuts no longer keep the relevant differences clear. The aim is not to correct every casual sentence, but to choose words appropriate to the question.\n\nThe class ends by rewriting two statements: one about what remains with an object and another about a force under particular conditions. The revised sentences are less interchangeable, and therefore more informative. A familiar measurement becomes easier to understand when its meaning is separated from the device or situation in which people first learned to read it.",
+      "vocabulary": [
+        "v_mass",
+        "v_force",
+        "v_gravity",
+        "v_calibrate",
+        "v_property",
+        "v_orbit"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why distinguish mass from weight?",
+          "choices": [
+            "A scale’s label explains all gravitational effects",
+            "They are unrelated to any real measurement",
+            "Mass always disappears during travel",
+            "They describe different things that may behave differently when conditions change"
+          ],
+          "answer": 3,
+          "explanation": "Mass concerns matter, whereas weight concerns gravitational force in a setting."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does the classroom imagine moving between places?",
+          "choices": [
+            "An uncalibrated timetable",
+            "The same sealed container",
+            "Only the numbers printed on a label",
+            "Different objects with unknown contents"
+          ],
+          "answer": 1,
+          "explanation": "Keeping the object the same helps separate its matter from changing conditions."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why might a familiar scale reading need interpretation elsewhere?",
+          "choices": [
+            "The device may infer mass through a force under particular assumptions",
+            "All scales measure time instead of force",
+            "Calibration changes an object’s identity",
+            "Numbers automatically have the same meaning under every condition"
+          ],
+          "answer": 0,
+          "explanation": "Instrument behavior and calibration affect the relationship between a physical effect and the displayed quantity."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “property” mean in discussing the desired measurement?",
+          "choices": [
+            "A spacecraft’s name",
+            "Ownership of a shop",
+            "A characteristic of an object or material",
+            "A person’s salary"
+          ],
+          "answer": 2,
+          "explanation": "The article uses property in its physical-science sense."
+        }
+      ],
+      "references": [
+        {
+          "title": "NASA Science: solar system and gravitational settings",
+          "url": "https://science.nasa.gov/solar-system/"
+        }
+      ]
+    },
+    {
+      "id": "a_the-translation-that-preserved-the-wrong-promise",
+      "title": "The Translation That Preserved the Wrong Promise",
+      "level": "B2",
+      "category": "Everyday communication",
+      "reading_minutes": 2,
+      "body": "A small organization translated a message about a delayed delivery. The original English said that staff would try to send the materials by Friday. The first translated version sounded more definite: the materials would arrive on Friday. The sentences were close in topic but different in the commitment they communicated.\n\nThis distinction is a matter of nuance, not simply vocabulary accuracy. A translation can preserve names, dates, and familiar words while changing how certain a statement sounds. The recipient may make plans based on a promise the sender did not intend to make. A smooth sentence is therefore not sufficient evidence that the intended meaning has survived.\n\nThe reviewer asked the team to paraphrase the message in plain English before checking the other language. What was confirmed? What remained uncertain? What action did the recipient need to take? These questions made the sender’s intention explicit and revealed an ambiguity that had already existed in the original draft.\n\nThe team then discussed an appropriate tone. They wanted to sound responsible without hiding the uncertainty behind vague language. Repeating “we hope” without a clear explanation could appear evasive, while removing every qualification could create an unsupported guarantee. The challenge was to communicate both care and the actual state of the arrangement.\n\nA revised message separated the confirmed facts from the expected next step. It explained the delay, identified when another update would be provided, and avoided presenting an estimated dispatch time as a guaranteed arrival time. The translation was checked against those distinctions rather than judged only by whether each word had an obvious dictionary partner.\n\nThe process took longer than accepting the first polished version. Yet it reduced the chance that different readers would receive different promises. It also improved the English original, because translation had exposed an unclear relationship between the date and the action described.\n\nLanguage support is most useful when it helps people examine meaning, not when it encourages them to stop examining it. A responsible translation asks what the message does in a particular relationship. Does it request, suggest, confirm, or guarantee? Preserving that function can matter more than preserving the shape of the first sentence.",
+      "vocabulary": [
+        "v_nuance",
+        "v_paraphrase",
+        "v_intention",
+        "v_explicit",
+        "v_ambiguity",
+        "v_appropriate",
+        "v_tone"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What is the translation’s main problem?",
+          "choices": [
+            "It omits the organization’s logo",
+            "It strengthens an uncertain commitment into a definite promise",
+            "It uses a different alphabet",
+            "It contains no date at all"
+          ],
+          "answer": 1,
+          "explanation": "Trying to dispatch by a date is different from guaranteeing arrival on that date."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What do reviewers do before comparing the translation?",
+          "choices": [
+            "Assume the original wording cannot be improved",
+            "Delete every qualification automatically",
+            "Paraphrase the intended message in plain English",
+            "Ask recipients to invent a delivery date"
+          ],
+          "answer": 2,
+          "explanation": "Clarifying the original intention helps establish what the translation must preserve."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why can translation improve the original text?",
+          "choices": [
+            "It can expose ambiguity already present in the first language",
+            "A dictionary determines every possible intention",
+            "Only translated sentences need responsible wording",
+            "The original must always be wrong"
+          ],
+          "answer": 0,
+          "explanation": "Questions raised during translation reveal unclear relationships between facts, estimates, and promises."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “nuance” refer to in this case?",
+          "choices": [
+            "A small but important difference in the degree of commitment",
+            "The number of staff on duty",
+            "An unrelated change in document color",
+            "The physical size of a package"
+          ],
+          "answer": 0,
+          "explanation": "The difference between an attempt and a guarantee has a major practical consequence."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_citizen-science-and-the-uneven-map",
+      "title": "Citizen Science and the Uneven Map",
+      "level": "B2",
+      "category": "Nature",
+      "reading_minutes": 3,
+      "body": "A public wildlife map showed many observations in parks near the city center and very few in the surrounding hills. One reader concluded that biodiversity must be much lower outside the city. A project volunteer offered another possibility: the map might partly show where people had looked, not only where wildlife existed.\n\nCitizen observations can make an important contribution to scientific work. Many people recording what they see can cover places and times that a small professional team might struggle to reach. The value of those records, however, depends on understanding how they were collected and what kind of claim they can support.\n\nThe frequency of visits is one relevant factor. A popular path may produce many records because observers return repeatedly. A less accessible location may remain nearly blank because few people visit it with the tools or knowledge needed to report a sighting. A distribution of records is therefore not automatically an unbiased distribution of organisms.\n\nThe project reviewed its methods. It distinguished casual reports from observations made under a defined survey procedure. It also recorded relevant effort where possible, such as the time spent looking. These details did not remove every limitation, but they made comparisons more informative than counting dots alone.\n\nThe volunteers discussed whether the data was representative of the region they wanted to describe. They identified gaps and invited additional participation without implying that a missing record proved a missing species. An absence claim generally required more carefully defined searching than a single positive observation did.\n\nEmpirical evidence remained central. The team did not replace measurements with a preferred story about neglected places. It used uncertainty to guide better investigation. New records could clarify the picture, while repeated observations under comparable conditions could help distinguish ecological patterns from patterns of human attention.\n\nThe map became more useful after its empty spaces were explained. It still celebrated public contributions, but it no longer asked viewers to mistake participation for a complete ecological survey. Good citizen science combines curiosity with records that preserve how an observation was made. The question is not merely what the map shows, but what work would be necessary before it could show something more.",
+      "vocabulary": [
+        "v_biodiversity",
+        "v_frequency",
+        "v_distribution",
+        "v_limitation",
+        "v_representative",
+        "v_empirical"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What caution should readers apply to the wildlife map?",
+          "choices": [
+            "The city center must contain every regional species",
+            "Recorded sightings partly reflect observer effort and access",
+            "Every blank area contains no life",
+            "Public observations have no scientific value"
+          ],
+          "answer": 1,
+          "explanation": "The map may show where people look as well as where organisms occur."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What additional information does the project try to record?",
+          "choices": [
+            "Relevant effort, including time spent looking",
+            "Every visitor’s private medical history",
+            "Only the color of each observer’s clothing",
+            "The retail price of all binoculars"
+          ],
+          "answer": 0,
+          "explanation": "Effort helps interpret differences between numbers of sightings."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why is claiming absence often harder than reporting a sighting?",
+          "choices": [
+            "Species cannot move through landscapes",
+            "A search must be adequate before not seeing something becomes strong evidence of absence",
+            "A blank map is always complete evidence",
+            "A positive observation can never be checked"
+          ],
+          "answer": 1,
+          "explanation": "Failure to observe may result from limited searching rather than true absence."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “representative” ask about the data?",
+          "choices": [
+            "Whether one person owns the whole map",
+            "Whether it adequately reflects the wider region being described",
+            "Whether all observers are professionals",
+            "Whether every record is visually attractive"
+          ],
+          "answer": 1,
+          "explanation": "The team compares the data’s coverage with the region and question of interest."
+        }
+      ],
+      "references": [
+        {
+          "title": "Cornell Lab of Ornithology: bird research and public participation",
+          "url": "https://www.birds.cornell.edu/home/"
+        }
+      ]
+    },
+    {
+      "id": "a_the-value-of-an-unsuccessful-prototype",
+      "title": "The Value of an Unsuccessful Prototype",
+      "level": "B2",
+      "category": "Technology",
+      "reading_minutes": 3,
+      "body": "The first prototype of a portable reading stand failed during a public workshop. It held a small book neatly, but a larger one made it unstable. A participant using only one hand also found the adjustment difficult. The design team could have hidden the model and presented a smoother account of progress. Instead, it kept the failure at the center of the next discussion.\n\nThe prototype had answered questions that a drawing could not settle. It revealed assumptions about book size, hand movement, and the surface on which the stand would be used. These were not merely cosmetic details. They were part of the relationship between the object and the people expected to use it.\n\nThe team examined each constraint before changing the design. Adding weight might improve stability while reducing portability. A stronger adjustment mechanism might cost more or demand a movement some users could not comfortably perform. The aim was not to produce a feature with no disadvantages, but to understand which trade-offs served the intended purpose.\n\nThey used simple tests to simulate selected conditions rather than every possible use. Different books, table surfaces, and ways of adjusting the stand were included. The team explained that these tests were limited and invited further feedback instead of treating a few successful attempts as a universal guarantee.\n\nThe most useful insight came from watching someone attempt a task the designers had considered obvious. Their instructions said “adjust as needed,” but did not explain how a person would hold the book while releasing the support. The problem was not necessarily a lack of skill in the user. It was an incomplete account of the action required.\n\nA revised model addressed that issue, and the team kept records of why the change had been made. This helped it evaluate the next outcome against a real problem rather than simply celebrate a newer version. Later contributors could understand the reasoning instead of reopening the same question from the beginning.\n\nAn unsuccessful prototype can be valuable because it makes hidden assumptions visible while change is still possible. Its value is not automatic: a failure ignored or explained away teaches little. Learning occurs when people observe carefully, revise for a stated reason, and test whether the revision addresses the difficulty actually found.",
+      "vocabulary": [
+        "v_prototype",
+        "v_constraint",
+        "v_simulate",
+        "v_insight",
+        "v_outcome",
+        "v_revise"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes the failed prototype valuable?",
+          "choices": [
+            "The team hides all difficult observations",
+            "Failure alone guarantees a successful product",
+            "The team uses it to expose assumptions and test reasoned changes",
+            "A newer version is automatically better in every way"
+          ],
+          "answer": 2,
+          "explanation": "The value comes from examining what failed and checking whether a revision addresses it."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What difficulty does a one-handed participant encounter?",
+          "choices": [
+            "Finding the workshop’s entrance",
+            "Reading the team’s budget",
+            "Adjusting the stand while managing the book",
+            "Choosing the color of the carrying bag"
+          ],
+          "answer": 2,
+          "explanation": "The design had not fully accounted for the actual sequence of hand actions."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why preserve reasons for changes?",
+          "choices": [
+            "Documentation removes every need for testing",
+            "The first prototype must remain unchanged forever",
+            "Only the latest appearance matters",
+            "Future contributors can evaluate decisions without repeating the same unexplained assumptions"
+          ],
+          "answer": 3,
+          "explanation": "Traceable reasoning connects later decisions with the problems already observed."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “simulate” mean in the testing process?",
+          "choices": [
+            "Copy another team’s final product",
+            "Represent selected use conditions in a model or test",
+            "Pretend all difficulties have disappeared",
+            "Guarantee every possible situation has been reproduced"
+          ],
+          "answer": 1,
+          "explanation": "The tests model particular conditions while openly retaining limits."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-shared-room-and-unequal-access",
+      "title": "A Shared Room and Unequal Access",
+      "level": "B2",
+      "category": "Society",
+      "reading_minutes": 3,
+      "body": "A neighborhood center divided its meeting room into identical two-hour bookings. The rule appeared to offer equality: every group could request the same amount of time under the same procedure. Yet several groups rarely managed to use the room. Examining their difficulties raised a question about the difference between an equal rule and equitable access.\n\nOne group included members who needed an earlier finish to catch the last suitable bus. Another relied on a volunteer who was available only after work. A third needed additional setup time for accessible equipment. None of these circumstances meant that one group’s interests automatically overruled the others. They showed that the practical meaning of a booking depended on more than its printed duration.\n\nThe center invited each stakeholder to explain the activity and the barrier involved. Staff asked for relevant information without requiring people to disclose unnecessary private details. The purpose was to understand needs, not to rank the personal worth of different participants.\n\nEquity entered the discussion as attention to those different conditions. It did not supply a simple formula that removed every disagreement. The room remained a limited resource. Giving extra time in one situation could affect another group, so reasons and consequences needed to be explained openly.\n\nThe revised proposal kept a common booking process but added ways to request suitable arrangements. Some setup could take place before a session, different time slots were trialed, and information about accessibility became easier to find. The center also created a review date so that a temporary compromise would not silently become a permanent rule without further evidence.\n\nParticipation increased for some groups, but the center avoided declaring the entire access problem solved. It continued asking who was still missing and whether a helpful change for one group had created a new obstacle for another. An improvement was a reason to examine the system again, not to stop listening.\n\nThe shared room illustrated a wider point: fairness is not always visible in identical treatment alone. It also concerns whether people can meaningfully use an opportunity. Responsible planning connects clear rules with an honest account of circumstances, constraints, and the continuing choices a community must make together.",
+      "vocabulary": [
+        "v_equality",
+        "v_stakeholder",
+        "v_equity",
+        "v_accessibility",
+        "v_compromise",
+        "v_participation"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does the center learn about fair access?",
+          "choices": [
+            "Identical booking rules can affect groups differently because circumstances differ",
+            "Longer bookings guarantee complete equality",
+            "One group’s needs automatically cancel every other need",
+            "Any shared rule must be removed"
+          ],
+          "answer": 0,
+          "explanation": "The center examines practical access alongside a common process."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Why does one group need an earlier finish?",
+          "choices": [
+            "The room has no clock",
+            "Members must catch the last suitable bus",
+            "Its members refuse all common procedures",
+            "Its activity requires no preparation"
+          ],
+          "answer": 1,
+          "explanation": "Transport timing makes an identical booking slot less usable for that group."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why set a review date for the compromise?",
+          "choices": [
+            "Its real effects should be examined rather than assumed permanently fair",
+            "A trial can never produce useful information",
+            "Every participant has already reached identical views",
+            "Reviewing guarantees unlimited room space"
+          ],
+          "answer": 0,
+          "explanation": "The center needs evidence about benefits and new barriers after the change."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “equity” add to the discussion?",
+          "choices": [
+            "A requirement to ignore all constraints",
+            "A claim that every preference is equally urgent",
+            "Attention to different needs and barriers when pursuing fairness",
+            "A decision to remove public access"
+          ],
+          "answer": 2,
+          "explanation": "Equity asks how people can actually use the opportunity, not only whether the written rule is identical."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

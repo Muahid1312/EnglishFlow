@@ -1,0 +1,361 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_a-language-choice-in-an-emergency-notice",
+      "title": "A Language Choice in an Emergency Notice",
+      "level": "B2",
+      "category": "Everyday communication",
+      "reading_minutes": 3,
+      "body": "A building team prepared an emergency notice in several languages. The first draft contained every technical detail from the internal procedure. It was accurate in parts, but difficult to scan quickly. The team needed to ask not only whether the words had been translated, but whether the notice could convey the intended action clearly under pressure.\n\nA notice for an unfamiliar reader serves a different purpose from a full professional manual. It needs appropriate language, a clear sequence, and information that matches the approved safety procedure. Making it concise does not mean deleting a qualification that changes the instruction. The essential message must remain intact.\n\nThe translators therefore began with the function of each sentence. Was it identifying a place, stating a prohibition, or directing someone toward an approved source of assistance? A phrase that sounded polite in ordinary conversation might create hesitation in an urgent notice if its practical meaning remained unclear.\n\nNuance still mattered. An instruction beginning after a condition was met could become unsafe if the translation sounded immediate. A difference between “staff will confirm” and “staff have confirmed” could alter what a reader believed had already happened. The team checked these relationships rather than treating each word as an isolated item.\n\nTo interpret the notice fairly, reviewers also needed context about the building and the approved procedure. They did not invent new safety advice merely to make a translation sound natural. Questions beyond their role went back to the responsible qualified staff. Clear communication depended on coordination between language expertise and operational knowledge.\n\nThe team tested readability with suitable reviewers and kept a full version of the procedure available separately. It made the source, approval, and revision date explicit. If the building arrangement changed, the notice would need review rather than remain trusted simply because it had once been professionally translated.\n\nThe work showed that multilingual communication is not a final decorative layer placed over a finished design. It is part of understanding the audience and the task. A responsible notice connects accurate wording, practical use, and a clear authority for the underlying instruction. Its success is not measured by how much text it contains, but by how faithfully and clearly it communicates what the intended reader needs to understand.",
+      "vocabulary": [
+        "v_convey",
+        "v_appropriate",
+        "v_concise",
+        "v_nuance",
+        "v_interpret",
+        "v_explicit"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does the team need beyond word-by-word translation?",
+          "choices": [
+            "A longer notice containing every possible technical detail",
+            "A faithful, readable message connected to the approved task and procedure",
+            "Unreviewed new safety instructions written by translators alone",
+            "Only an attractive layout"
+          ],
+          "answer": 1,
+          "explanation": "The article connects language choices with function, context, and operational responsibility."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What happens to questions beyond the translators’ role?",
+          "choices": [
+            "They are answered by inventing a simpler procedure",
+            "They automatically cancel every translated notice",
+            "They are hidden from the final reviewers",
+            "They return to responsible qualified staff"
+          ],
+          "answer": 3,
+          "explanation": "Language expertise does not replace the authority needed for the underlying safety procedure."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why review the notice if the building arrangement changes?",
+          "choices": [
+            "Dates are only decorative",
+            "An earlier approved message may no longer fit the actual setting",
+            "A professional translation guarantees all future conditions",
+            "Readers must already know every internal change"
+          ],
+          "answer": 1,
+          "explanation": "The notice’s usefulness depends on the current relationship between wording and place."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “concise” require in this context?",
+          "choices": [
+            "The fewest words even if the instruction changes",
+            "Necessary meaning expressed clearly without unnecessary detail",
+            "Only informal language",
+            "A complete absence of conditions or qualifications"
+          ],
+          "answer": 1,
+          "explanation": "Conciseness must preserve the essential message rather than merely reduce length."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-new-species-name-in-the-news",
+      "title": "A New Species Name in the News",
+      "level": "B2",
+      "category": "Nature",
+      "reading_minutes": 3,
+      "body": "A news headline announces that researchers have described a new species. The phrase can sound as though a creature has just appeared in the world. Usually, however, the event concerns human knowledge and classification: researchers have identified and documented a kind of organism that had not previously been formally recognized in that way.\n\nThe distinction matters because discovery is not always the same as first contact. People living near an organism may have known it for generations. A scientific description can contribute important evidence without erasing that existing knowledge or claiming that the living thing had no history before researchers examined it.\n\nMethods of distinguishing species vary across groups and questions. Researchers may compare physical features, behavior, location, and, where appropriate, genetic information. No simple classroom description should be treated as a complete rule for every form of life. The relevant methods and the limits of the comparison need to be explained.\n\nA careful report therefore asks what supports the proposed distinction. How were specimens or observations obtained? What comparisons were made with already described groups? What uncertainty remains? A clear technical name is useful for communication, but the name itself does not replace the reasoning behind the description.\n\nPeer examination can help identify weaknesses or overlooked comparisons. A peer may question whether a difference is stable, whether variation within a known group has been considered, or whether the available material is sufficient. This process does not guarantee that no later revision will occur. It makes the current proposal easier to evaluate.\n\nThe interpretation may remain provisional while further evidence develops. A later study might support the distinction more strongly, refine its boundaries, or suggest a different arrangement. Such changes need not mean that the earlier work was dishonest. Classification is an attempt to organize knowledge as carefully as the evidence allows.\n\nFor readers, the most informative story extends beyond the exciting label. It explains what was found, what was already known locally, how the comparison was made, and what follows from the result. A species name can open a conversation about biodiversity, history, and scientific method. It should not close that conversation with the impression that a headline contains the whole discovery.",
+      "vocabulary": [
+        "v_species",
+        "v_organism",
+        "v_evidence",
+        "v_genetic",
+        "v_peer",
+        "v_provisional"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does a new species announcement generally concern?",
+          "choices": [
+            "A documented change in scientific recognition and classification",
+            "A final end to every future comparison",
+            "A guarantee that the organism has just come into existence",
+            "Proof that local people had never encountered it"
+          ],
+          "answer": 0,
+          "explanation": "The article distinguishes an event in knowledge from the organism’s prior existence and human familiarity."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What kinds of information may researchers compare?",
+          "choices": [
+            "Only the newest headline",
+            "Only the number of letters in a name",
+            "Features, behavior, location, and appropriate genetic evidence",
+            "Only the attractiveness of a photograph"
+          ],
+          "answer": 2,
+          "explanation": "The article lists several possible sources of comparative evidence."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why acknowledge existing local knowledge?",
+          "choices": [
+            "Only researchers can ever observe living things",
+            "Scientific description does not automatically equal first human awareness",
+            "A formal name proves all earlier knowledge is false",
+            "Local accounts always replace every scientific method"
+          ],
+          "answer": 1,
+          "explanation": "Recognition of a scientific description should not erase other histories of knowing the organism."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “provisional” suggest about an interpretation?",
+          "choices": [
+            "It contains no evidence at all",
+            "It is open to refinement as further evidence becomes available",
+            "It is only a spelling choice",
+            "It is guaranteed never to change"
+          ],
+          "answer": 1,
+          "explanation": "Further work may support, refine, or reorganize the proposed distinction."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-limits-of-a-perfectly-organized-table",
+      "title": "The Limits of a Perfectly Organized Table",
+      "level": "B2",
+      "category": "Academic English",
+      "reading_minutes": 3,
+      "body": "A report displayed its findings in a beautifully organized table. The columns aligned, the totals matched, and every percentage had the same number of decimal places. A reader could easily mistake this visual discipline for a complete demonstration of quality. Yet formatting says little about whether the underlying question, data, and interpretation fit one another.\n\nThe table described responses to a training survey. Its quantitative information showed how many people selected each answer. The report did not initially explain who had been invited, how many had not responded, or whether the question meant the same thing to every participant. Those omissions limited what the numbers could support.\n\nA statistical summary can make a pattern easier to see while hiding other features of the distribution. An average may not reveal an unusual concentration at opposite ends. A total may combine groups facing different circumstances. A tidy presentation remains useful, but only if readers understand which distinctions it preserves and which it sets aside.\n\nThe reviewers asked for qualitative information as well. Short explanations from participants helped clarify why the same answer might reflect different experiences. Someone could select “difficult” because the material was demanding, because the instructions were unclear, or because a required tool was unavailable. The response category alone did not settle that difference.\n\nThe revised report made its scope explicit. It described a particular group and activity rather than claiming to establish the quality of all training. It also distinguished missing information from a confirmed zero. An empty cell was not silently filled with a convenient value merely to make the table appear complete.\n\nThese changes did not reduce the importance of accurate calculations. Correct totals and clear labels were still necessary. They were simply not sufficient. A numerical error and an unsupported interpretation were different problems, and either could mislead readers even if the other part of the work was strong.\n\nThe most useful final table was therefore connected to an account of the process behind it. Readers could examine the question, the participants, the categories, and the limits before deciding what followed. Good presentation helped them navigate the evidence; it did not ask them to replace judgment with the comfort of straight lines.",
+      "vocabulary": [
+        "v_quantitative",
+        "v_interpretation",
+        "v_statistical",
+        "v_distribution",
+        "v_qualitative",
+        "v_scope"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why is polished table formatting not enough?",
+          "choices": [
+            "Correct arithmetic has no value",
+            "A claim also depends on the question, data collection, and interpretation",
+            "All percentages are necessarily misleading",
+            "Visual organization prevents useful questions"
+          ],
+          "answer": 1,
+          "explanation": "The article separates clear presentation from the wider conditions of evidence quality."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What can the response “difficult” conceal?",
+          "choices": [
+            "Only a dislike of the table’s colors",
+            "Different reasons such as demanding content, unclear instructions, or missing tools",
+            "A guarantee that the course has failed",
+            "An exact explanation shared by every participant"
+          ],
+          "answer": 1,
+          "explanation": "Qualitative accounts reveal meanings not established by the response category alone."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why distinguish a blank cell from zero?",
+          "choices": [
+            "Every blank cell must contain the highest value",
+            "A table should always hide incomplete records",
+            "Missing information does not prove the absence of the measured event",
+            "Zeros can never be confirmed"
+          ],
+          "answer": 2,
+          "explanation": "Filling a gap with zero could create unsupported data."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “distribution” describe in the report?",
+          "choices": [
+            "Only the delivery of printed copies",
+            "How values or responses are spread across the data",
+            "The number of page margins",
+            "The author’s job title"
+          ],
+          "answer": 1,
+          "explanation": "Averages and totals can hide important patterns in how observations are spread."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-day-a-local-word-entered-the-guide",
+      "title": "The Day a Local Word Entered the Guide",
+      "level": "B2",
+      "category": "History",
+      "reading_minutes": 3,
+      "body": "A team preparing a neighborhood guide found that residents used a local expression for a gathering place. The phrase carried memories of shared work, celebrations, and ordinary conversation. An early editor replaced it with a familiar general term, hoping to make the guide easier for visitors to read. Several residents felt that the replacement had removed something important.\n\nThe difficulty was not that every local word must remain untranslated. A guide needs to be understandable. The question was what the original expression contributed and whether a short explanation could preserve that contribution without asking visitors to guess. The word belonged to a history of use, not merely a dictionary entry.\n\nThe team began an intercultural discussion involving residents and readers unfamiliar with the phrase. People described contexts in which it sounded natural and situations where a general substitute would be appropriate. The examples revealed a nuance connected with belonging and shared responsibility that the first replacement had missed.\n\nA quotation from one resident helped explain the expression, but the editor handled it carefully. The speaker’s wording was preserved, permission was obtained, and attribution made clear whose account it was. The guide did not present one memory as the final statement of an entire community’s heritage.\n\nThe revised entry kept the local word, offered an accessible explanation, and provided a concrete example of its use. It also acknowledged that people might use the expression differently across generations or situations. A useful account did not need to force every variation into one fixed definition.\n\nThe change improved the guide for visitors as well as residents. Instead of encountering an unfamiliar term without support, readers could see why it mattered. They learned something about how a place was experienced, not only where it appeared on a map.\n\nThe episode illustrated a balance in cultural communication. Replacing every unfamiliar expression can make a text smooth while flattening its meaning. Preserving every word without explanation can create another barrier. Responsible editing connects clarity with respect for the people and histories through which language gains its significance. The most appropriate choice may be a brief explanation that lets a reader enter the context rather than pretending the context is unnecessary.",
+      "vocabulary": [
+        "v_intercultural",
+        "v_appropriate",
+        "v_nuance",
+        "v_quotation",
+        "v_attribution",
+        "v_heritage"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the team revise its treatment of the local expression?",
+          "choices": [
+            "Every local word must remain unexplained",
+            "One resident’s memory defines an entire culture permanently",
+            "A clear explanation can preserve meaning that a general replacement would lose",
+            "Visitors cannot understand any unfamiliar term"
+          ],
+          "answer": 2,
+          "explanation": "The revised entry combines accessibility with attention to the expression’s context and history."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does the revised entry include besides the local word?",
+          "choices": [
+            "An explanation and a concrete example",
+            "A claim that no variation exists",
+            "An anonymous invented quotation",
+            "Only a direction to buy another guide"
+          ],
+          "answer": 0,
+          "explanation": "These additions give unfamiliar readers support for understanding the term."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why identify the source of the resident’s quotation?",
+          "choices": [
+            "Only one person is allowed to remember the place",
+            "Readers should know whose perspective is represented",
+            "A named account automatically proves every interpretation",
+            "Attribution removes the need for permission"
+          ],
+          "answer": 1,
+          "explanation": "Clear attribution distinguishes one contribution from a universal community claim."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “nuance” refer to in the discussion?",
+          "choices": [
+            "The cost of printing the guide",
+            "A subtle meaning associated with belonging and responsibility",
+            "Only the length of the written word",
+            "A mistake in the map’s scale"
+          ],
+          "answer": 1,
+          "explanation": "The general substitute misses a small but significant part of how the expression is used."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_when-a-helpful-volunteer-needed-a-clear-boundary",
+      "title": "When a Helpful Volunteer Needed a Clear Boundary",
+      "level": "B2",
+      "category": "Work and careers",
+      "reading_minutes": 3,
+      "body": "At a community advice desk, a volunteer helped visitors understand forms and find the appropriate service. She was patient and experienced in explaining instructions. Over time, some visitors began asking her to decide matters that required professional expertise. Her willingness to help was being interpreted as authority she did not actually possess.\n\nThe coordinator discussed the difference between assistance and responsibility for a specialist judgment. Explaining where a form asked for a date was not the same as giving legal or medical advice about what a person should do. A confident answer could be harmful if it extended beyond the volunteer’s knowledge and role.\n\nThe desk therefore clarified its boundaries. Volunteers could help people locate information, read general instructions, and prepare questions for an appropriate professional. When a matter required another service, a referral needed to be accurate enough to be useful. Simply telling someone to “ask elsewhere” could leave the person with the same practical barrier.\n\nPrivacy was part of this process. A visitor’s story might be confidential even when it was shared in an informal room. The team requested consent before passing relevant details to another service and avoided collecting information that was unnecessary for its task. Kindness did not create unlimited permission to record or disclose personal circumstances.\n\nThe volunteer worried that setting a limit would sound uncaring. Training helped her practice a response that combined honesty with a next step: she could explain what she was able to do, what required a qualified decision, and how the visitor might reach the right support. A boundary became part of useful assistance rather than a way to end the conversation abruptly.\n\nAccountability also became clearer. Records showed which action had actually been taken and which remained pending. A referral request was not labeled as a completed specialist consultation. This distinction prevented an internal checklist from creating a misleading impression of the help already received.\n\nThe advice desk remained welcoming, but its promises became more precise. The team learned that responsible support includes recognizing the limits of one’s role. A useful volunteer does not need to have an answer to every question. She needs to connect patience, appropriate information, privacy, and an honest route toward the expertise the situation requires.",
+      "vocabulary": [
+        "v_volunteer",
+        "v_expertise",
+        "v_responsibility",
+        "v_referral",
+        "v_confidential",
+        "v_consent",
+        "v_accountability"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes the advice desk’s limits helpful?",
+          "choices": [
+            "They connect honest role boundaries with practical routes to qualified support",
+            "They prevent volunteers from listening at all",
+            "They allow private information to be shared without permission",
+            "They turn every request into a completed professional consultation"
+          ],
+          "answer": 0,
+          "explanation": "The desk remains supportive while making its abilities, actions, and responsibilities clearer."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What is not labeled as a completed specialist consultation?",
+          "choices": [
+            "A verified appointment that actually occurred",
+            "A referral request",
+            "An ordinary explanation of a date field",
+            "A visitor’s choice to ask a question"
+          ],
+          "answer": 1,
+          "explanation": "Requesting a referral and receiving specialist help are distinct stages."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why practice a response rather than simply announce a limit?",
+          "choices": [
+            "A practiced phrase creates professional qualifications",
+            "Limits remove every need for empathy",
+            "The volunteer should hide her actual role",
+            "Visitors still need a respectful explanation and a usable next step"
+          ],
+          "answer": 3,
+          "explanation": "A helpful boundary needs to work in a real conversation, not only in a policy statement."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “expertise” mean in this situation?",
+          "choices": [
+            "The length of a visitor’s form",
+            "Specialized knowledge and skill appropriate to the decision",
+            "A willingness to answer every question immediately",
+            "A guarantee provided by a friendly tone"
+          ],
+          "answer": 1,
+          "explanation": "Some judgments require knowledge and qualifications beyond the volunteer’s assistance role."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

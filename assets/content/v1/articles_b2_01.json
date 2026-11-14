@@ -1,0 +1,381 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_the-measure-that-changed-with-the-method",
+      "title": "The Measure That Changed With the Method",
+      "level": "B2",
+      "category": "Science",
+      "reading_minutes": 3,
+      "body": "The temperature sensor in a college greenhouse produced impressively neat results. Whenever a technician repeated a measurement under the same conditions, the readings were almost identical. A student report therefore described the sensor as accurate. Its supervisor crossed out that word and asked the group to explain what had actually been demonstrated.\n\nThe students had shown precision: repeated readings agreed closely with one another. They had not yet established how closely those readings matched an appropriate reference. An instrument can repeat the same error very consistently. A stable pattern is useful, but stability alone does not show that the pattern is correct.\n\nThe group borrowed a checked reference instrument and followed a written procedure. Before comparing readings, they allowed both devices to reach the same conditions and recorded where each was placed. The purpose was not to make one instrument display the answer they preferred. It was to investigate the difference systematically and decide whether an adjustment was justified.\n\nTheir supervisor asked them to calibrate the sensor using the laboratory’s established process rather than an improvised kitchen test. The comparison revealed a small, consistent difference across the conditions examined. It also showed that readings varied slightly depending on placement. The original report had ignored that source of uncertainty.\n\nThe students kept the original baseline measurements instead of replacing them silently. Their revised methodology explained the reference used, the adjustment made, and the conditions under which it had been checked. Someone reading the report could now distinguish the raw observations from the corrected interpretation.\n\nThis did not turn the sensor into a perfect instrument. A later change in conditions might require another check, and the reference itself had documented limits. The group learned to report a useful degree of confidence without pretending to possess an exact value beyond all doubt.\n\nThe experience changed how they read other scientific reports. They began asking not only whether a table looked consistent, but how the measurements had been obtained. A careful account of limitations did not weaken the investigation. It made the result easier to understand, compare, and, where necessary, question. What mattered was not the appearance of certainty but the quality of the connection between the method and the claim.",
+      "vocabulary": [
+        "v_precision",
+        "v_calibrate",
+        "v_uncertainty",
+        "v_baseline",
+        "v_methodology",
+        "v_interpretation"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What central distinction does the sensor investigation establish?",
+          "choices": [
+            "Every precise instrument is already accurate",
+            "Adjusting an instrument removes every future uncertainty",
+            "A neat table is stronger evidence than a documented method",
+            "Consistent readings alone do not establish accuracy against a suitable reference"
+          ],
+          "answer": 3,
+          "explanation": "The report initially confuses repeatability with agreement with an appropriate reference."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Why do the students keep the baseline measurements?",
+          "choices": [
+            "To hide the reference instrument",
+            "To avoid explaining placement",
+            "To claim that the first report was complete",
+            "To allow readers to distinguish original readings from later adjustments"
+          ],
+          "answer": 3,
+          "explanation": "The original values make the investigation and its changes traceable."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does using a checked reference not produce absolute certainty?",
+          "choices": [
+            "The reference and the tested conditions also have limits",
+            "References cannot be used in science",
+            "The students stop recording measurements",
+            "Every adjustment is necessarily arbitrary"
+          ],
+          "answer": 0,
+          "explanation": "The article explicitly notes the reference’s documented limits and possible changes in conditions."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “methodology” mean in the revised report?",
+          "choices": [
+            "The brand name of the sensor",
+            "The organized methods and reasons behind the investigation",
+            "The appearance of the greenhouse",
+            "The highest reading alone"
+          ],
+          "answer": 1,
+          "explanation": "The methodology explains how the comparison and adjustment were carried out."
+        }
+      ],
+      "references": [
+        {
+          "title": "NIST Physical Measurement Laboratory: measurement background",
+          "url": "https://www.nist.gov/pml"
+        }
+      ]
+    },
+    {
+      "id": "a_when-a-useful-prediction-became-a-rule",
+      "title": "When a Useful Prediction Became a Rule",
+      "level": "B2",
+      "category": "Artificial intelligence",
+      "reading_minutes": 3,
+      "body": "A library network tested a system that predicted which borrowed books might be returned late. The original aim was modest: help staff decide when a friendly reminder could be useful. During the trial, however, a manager proposed using the prediction to limit borrowing automatically. A tool designed to guide attention was becoming a rule affecting people’s access.\n\nThe project team paused to examine that change. An algorithm identifies patterns in the information it receives, but a pattern is not a complete explanation of an individual’s circumstances. Past records might reflect interrupted transport, confusing notices, or an earlier failure in the reminder service. Treating the output as a personal judgment could hide those differences.\n\nThe team also asked what counted as success. Fewer late returns would be one indicator, but not the only one. If people stopped borrowing because the process became discouraging, a lower number could look positive while the service’s wider purpose was being weakened. The team needed to evaluate access and the experience of readers, not simply one convenient statistic.\n\nA revised proposal kept the system’s role limited. Staff could use it to decide where to offer help, but not to impose a restriction without examining the actual situation. Readers would receive a clear explanation of any decision and a way to correct inaccurate information. The policy also described which data was used and who could question an outcome.\n\nThis arrangement required human work. It did not promise the efficiency of a completely automatic decision. Yet the team recognized a trade-off: reducing staff effort was not the same as improving the service. Some tasks needed judgment because the consequences reached beyond the prediction itself.\n\nThe trial continued with several kinds of evidence. Staff tracked whether reminders reached readers, whether errors could be corrected, and whether the system treated different situations appropriately. A useful prediction remained useful only if people understood its limits and retained responsibility for how it was applied.\n\nThe library did not reject artificial intelligence. It rejected the assumption that a technical output automatically justified a broader power. The important question became less glamorous but more practical: which decision was the tool actually qualified to support, and what safeguards did that decision require?",
+      "vocabulary": [
+        "v_algorithm",
+        "v_indicator",
+        "v_evaluate",
+        "v_policy",
+        "v_outcome",
+        "v_trade-off"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the library pause before turning predictions into restrictions?",
+          "choices": [
+            "A tool useful for offering help may not justify automatic limits on access",
+            "Every reminder must be written by hand",
+            "Technical tools have no possible place in libraries",
+            "Borrowing records can never be informative"
+          ],
+          "answer": 0,
+          "explanation": "The proposed use changes the consequences and therefore the evidence and safeguards required."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What route does the revised proposal provide for readers?",
+          "choices": [
+            "A rule forbidding staff from discussing decisions",
+            "A way to correct inaccurate information",
+            "A requirement to publish their borrowing history",
+            "A guarantee of unlimited loans without any rules"
+          ],
+          "answer": 1,
+          "explanation": "Readers can question decisions and correct errors in relevant information."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why might fewer late returns be a misleading success measure?",
+          "choices": [
+            "It proves reminders reached everyone",
+            "It eliminates the need for any evaluation",
+            "It always means more books were repaired",
+            "It could result from people being discouraged from borrowing"
+          ],
+          "answer": 3,
+          "explanation": "The same statistic could reflect reduced access rather than a better service."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “trade-off” identify in the staff discussion?",
+          "choices": [
+            "A mistake in a book title",
+            "A payment for an overdue book",
+            "A situation where reducing one cost may sacrifice another important benefit",
+            "The replacement of all staff by new devices"
+          ],
+          "answer": 2,
+          "explanation": "Saving staff effort could conflict with fair, useful individual judgment."
+        }
+      ],
+      "references": [
+        {
+          "title": "NIST: AI Risk Management Framework",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+        }
+      ]
+    },
+    {
+      "id": "a_a-clear-picture-is-not-a-direct-view",
+      "title": "A Clear Picture Is Not a Direct View",
+      "level": "B2",
+      "category": "Space",
+      "reading_minutes": 3,
+      "body": "An image from a space telescope can look so immediate that viewers forget how much work lies between a detector and the final picture. A student sees a bright cloud on a screen and asks whether its colors are what a person would see through a window. The most useful answer begins by asking how the image was made.\n\nLight can be examined across a spectrum that extends beyond the small portion visible to human eyes. Different instruments detect different parts of that range. A particular wavelength may reveal information that would not be available in an ordinary photograph. When scientists combine these measurements into a visible picture, they need a way to represent information that people cannot directly see.\n\nAssigning visible colors can make those differences understandable. It does not automatically make an image false. A map also uses colors to represent features rather than copying the exact appearance of the ground. The important question is whether the representation is explained clearly and preserves a useful relationship with the measurements.\n\nProcessing involves choices. An editor may adjust contrast, combine separate observations, or remove a known detector artifact. A parameter that makes a faint structure easier to examine can also change the impression given by the picture. Scientific value therefore depends partly on documentation: viewers need to know which observations were combined and what the displayed colors mean.\n\nThe same care applies to explanations of what an object seems to emit. A visible feature may represent radiation recorded by an instrument, not a direct view of material glowing in that exact color to human sight. The interpretation should remain connected to the instrument’s capabilities and the limits of the data.\n\nIn class, the students compare a dramatic image with its accompanying technical description. They do not conclude that beautiful images are untrustworthy. Instead, they learn to read the description as part of the image. A responsible presentation should disclose important processing choices and distinguish measured features from illustrations added only to help an audience imagine a scene.\n\nThe picture becomes more interesting after this discussion, not less. It is both a scientific product and a carefully designed form of communication. Understanding the bridge between the two allows viewers to appreciate the image while asking better questions about what it actually shows.",
+      "vocabulary": [
+        "v_spectrum",
+        "v_wavelength",
+        "v_parameter",
+        "v_emit",
+        "v_radiation",
+        "v_interpretation",
+        "v_disclose"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "How should viewers judge a processed space image?",
+          "choices": [
+            "By rejecting any image that uses contrast adjustments",
+            "By assuming that every color must match unaided human vision",
+            "By examining how its representation connects to measurements and documented choices",
+            "By deciding that beauty proves scientific accuracy"
+          ],
+          "answer": 2,
+          "explanation": "The article emphasizes documented relationships between instruments, processing, and interpretation."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Why can visible colors be assigned during processing?",
+          "choices": [
+            "To prove no instruments were used",
+            "To represent measurements outside human visible vision",
+            "To replace every original observation",
+            "To guarantee that no explanation is needed"
+          ],
+          "answer": 1,
+          "explanation": "Some detected wavelengths cannot be directly displayed as colors humans naturally see."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why is the accompanying description part of understanding the image?",
+          "choices": [
+            "It makes the original measurements unnecessary",
+            "It ensures every viewer has identical feelings",
+            "It proves that every picture is only an illustration",
+            "It explains choices that affect what the viewer can reasonably conclude"
+          ],
+          "answer": 3,
+          "explanation": "The description gives context about wavelengths, processing, and limitations."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “disclose” require in the final discussion?",
+          "choices": [
+            "Conceal technical information",
+            "Make all images look alike",
+            "Choose the brightest possible colors",
+            "Explain important processing choices openly"
+          ],
+          "answer": 3,
+          "explanation": "Responsible presentation makes relevant methods and choices available to the audience."
+        }
+      ],
+      "references": [
+        {
+          "title": "NASA Science: James Webb Space Telescope",
+          "url": "https://science.nasa.gov/mission/webb/"
+        }
+      ]
+    },
+    {
+      "id": "a_the-opinion-we-tried-to-disprove",
+      "title": "The Opinion We Tried to Disprove",
+      "level": "B2",
+      "category": "Psychology",
+      "reading_minutes": 2,
+      "body": "A discussion group believed that short online lessons were always more useful than longer ones. Members could easily recall several successful short activities and a few long sessions that had felt tiring. Their conclusion seemed obvious until a facilitator asked them to collect the strongest evidence against it.\n\nThe request changed the task. Instead of finding more examples that agreed with their assumption, members looked for cases that might contradict it. One remembered a longer workshop that had allowed time for practical feedback. Another described a short video that was entertaining but had not helped her complete a real task. The original comparison had mixed length with several other differences.\n\nThe facilitator introduced confirmation bias as a tendency to favor information that supports an existing view. Knowing the term did not make the group immune to it. It gave them a useful question to ask while searching: were they applying the same standards to examples they liked and examples they disliked?\n\nThey revised their claim. Lesson length might matter, but so could the learner’s purpose, prior knowledge, opportunities for practice, and the quality of the explanation. They could no longer defend the word “always.” A more cautious statement would describe which kinds of short lessons had helped with which tasks.\n\nEach member then wrote a counterargument to the revised statement. The aim was not to win by making the other side look foolish. A weak opposing argument would provide little information. A serious challenge had to represent a view fairly enough that a thoughtful supporter could recognize it.\n\nThe group did not end with complete agreement. Some still preferred short activities for busy evenings. Others wanted longer sessions for complex projects. Their conclusion remained provisional because they had not conducted a controlled study and their examples came from personal experience.\n\nNevertheless, the discussion became more useful. Skepticism was no longer aimed only at other people’s claims. Members began questioning the reasons behind their own confidence. They had not proved that either lesson format was best in general. They had learned how a familiar opinion could become a clearer, narrower question that evidence might actually help answer.",
+      "vocabulary": [
+        "v_assumption",
+        "v_contradict",
+        "v_confirmation-bias",
+        "v_counterargument",
+        "v_provisional",
+        "v_skepticism"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What changes most in the group’s reasoning?",
+          "choices": [
+            "It decides that examples cannot inform any discussion",
+            "It proves all long lessons are harmful",
+            "It replaces every personal preference with a fixed rule",
+            "It moves from defending a broad preference to examining a narrower evidence-based question"
+          ],
+          "answer": 3,
+          "explanation": "Searching for contrary evidence reveals hidden differences and weakens the claim that one format is always best."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does one member report about a successful longer workshop?",
+          "choices": [
+            "It was useful only because it was online",
+            "It allowed time for practical feedback",
+            "It required no learner participation",
+            "It contained no explanations"
+          ],
+          "answer": 1,
+          "explanation": "That example challenges the simple claim that shorter automatically means more useful."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why would a deliberately weak counterargument be unhelpful?",
+          "choices": [
+            "It would necessarily support the opposite view",
+            "Defeating it would not seriously test the group’s position",
+            "It would turn personal experience into a controlled study",
+            "It would force everyone to agree immediately"
+          ],
+          "answer": 1,
+          "explanation": "A fair challenge is needed to expose real weaknesses in the argument."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “provisional” mean for the group’s conclusion?",
+          "choices": [
+            "Accepted for now but open to revision with better information",
+            "Based only on an official certificate",
+            "Final and impossible to question",
+            "True for every learner and task"
+          ],
+          "answer": 0,
+          "explanation": "The group recognizes that its evidence remains limited."
+        }
+      ],
+      "references": [
+        {
+          "title": "APA Dictionary of Psychology: confirmation bias",
+          "url": "https://dictionary.apa.org/confirmation-bias"
+        }
+      ]
+    },
+    {
+      "id": "a_repairability-is-more-than-a-label",
+      "title": "Repairability Is More Than a Label",
+      "level": "B2",
+      "category": "Environment",
+      "reading_minutes": 3,
+      "body": "The purchasing team at an adult education center wanted equipment that would remain useful for years. A supplier described its new tablets as repairable, and the phrase fitted the center’s interest in a circular economy. Before accepting the claim, however, the team asked what an actual repair would involve.\n\nThe first answers concerned physical parts. Could a worn battery be replaced without damaging the case? Were instructions available to qualified technicians? Would suitable parts still be supplied after the model was no longer the newest product? A device could be easy to open yet difficult to maintain if the necessary replacement part disappeared.\n\nSoftware introduced another set of questions. The team considered compatibility with the reading applications it already used and the length of time essential updates were expected to remain available. Hardware that still worked might become less useful if a required service or application no longer supported it. The purchasing decision therefore extended beyond the visible construction of the tablet.\n\nProcurement staff compared these details with costs, training needs, and the experience of the people who would use the devices. They resisted turning one attractive label into a complete judgment. A cheaper repair might be offset by transport, specialist labor, or a long period when learners had no equipment. Those factors did not make repair pointless; they made the comparison more realistic.\n\nThere was also a trade-off between replacing an old device and extending its life. The team could not assume that one choice was environmentally preferable in every situation. Energy consumption, expected use, replacement parts, and eventual disposal all affected the scope of the question. A broad environmental claim required a broader account than the price of one battery.\n\nThe center finally requested clear written commitments and tested a small number of devices before a larger purchase. Its aim was not to find a product without any drawbacks. It wanted evidence that important claims described a process the center could actually follow.\n\nThe experience offered a practical lesson in reading product language. Labels can point toward useful qualities, but they are a beginning, not an answer. A product becomes meaningfully repairable when parts, knowledge, software support, cost, and responsible decision-making remain connected throughout its working life.",
+      "vocabulary": [
+        "v_circular-economy",
+        "v_compatibility",
+        "v_procurement",
+        "v_trade-off",
+        "v_consumption",
+        "v_disposal"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does the team’s investigation show about repairability?",
+          "choices": [
+            "It can be established only by opening a case once",
+            "It guarantees the lowest environmental impact in every situation",
+            "It depends on connected practical conditions, not a label alone",
+            "It makes software support irrelevant"
+          ],
+          "answer": 2,
+          "explanation": "The article connects parts, skills, software, cost, and future use."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does the team do before buying a large number of devices?",
+          "choices": [
+            "Tests a small number and requests written commitments",
+            "Chooses only by the color of the case",
+            "Discards all existing equipment immediately",
+            "Stops asking about spare parts"
+          ],
+          "answer": 0,
+          "explanation": "A limited trial and documented commitments make the claims easier to examine."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why could working hardware still become less useful?",
+          "choices": [
+            "Training can never help users",
+            "A device must stop working when its case is opened",
+            "A required application or service may stop supporting it",
+            "Every new model makes older screens physically disappear"
+          ],
+          "answer": 2,
+          "explanation": "Software compatibility and support affect the device’s practical usefulness."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “procurement” refer to at the center?",
+          "choices": [
+            "The chemical disposal of a battery",
+            "The speed of a screen animation",
+            "The content of a language lesson",
+            "The organized process of selecting and obtaining equipment"
+          ],
+          "answer": 3,
+          "explanation": "Procurement considers requirements, comparisons, and purchasing decisions."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

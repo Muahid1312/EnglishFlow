@@ -1,0 +1,371 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_the-comment-box-that-nobody-used",
+      "title": "The Comment Box That Nobody Used",
+      "level": "B2",
+      "category": "Society",
+      "reading_minutes": 3,
+      "body": "A community center installed an online comment form and received almost no responses. Its first report suggested that users must be satisfied. The director questioned that inference. A quiet channel could indicate satisfaction, but it could also mean that people did not know about it, could not use it, or did not believe anything would happen after they wrote.\n\nThe center began examining participation rather than interpreting silence as a complete message. Staff asked visitors how they normally raised a concern and whether the new process made sense. Some people preferred speaking privately. Others had no reliable internet access or found the form difficult to read on a phone.\n\nAccessibility was therefore part of the communication question. A form could be technically available without offering a practical route for every user. The team also reviewed voluntary demographic information to understand which groups were missing from its earlier consultation. It avoided assuming that an absence of data meant an absence of needs.\n\nTrust introduced another difficulty. Several visitors were uncertain who would see a comment. The center had described the form as confidential, but had not explained what that meant in practice. Staff needed a clear account of access, use, and any limits. A reassuring word without a defined procedure did not answer the visitor’s question.\n\nThe revised process offered several routes: a simpler form, a private conversation, and paper comments placed where people could use them without an audience. The center explained what would happen next and published general updates without revealing private details. People could see whether a concern had led to a response.\n\nThe number of comments increased, but that indicator also needed interpretation. More comments did not automatically mean that the service had become worse. The change could partly show that the route for communicating had become more usable and credible. Counts were informative only when read alongside the conditions that produced them.\n\nThe project taught the center to treat feedback as a relationship rather than a box. Inviting a response creates responsibilities: making the invitation understandable, protecting appropriate privacy, and showing that listening can lead somewhere. Silence remained a possible piece of information, but no longer a convenient substitute for examining whether people had a meaningful opportunity to speak.",
+      "vocabulary": [
+        "v_participation",
+        "v_accessibility",
+        "v_demographic",
+        "v_trust",
+        "v_confidential",
+        "v_indicator"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the center question its first interpretation of silence?",
+          "choices": [
+            "People may face barriers to responding even when they have concerns",
+            "Every visitor must use the same online channel",
+            "A quiet form always proves dissatisfaction",
+            "Counts can never provide any information"
+          ],
+          "answer": 0,
+          "explanation": "The center examines awareness, usability, privacy, and trust before judging what low response means."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What do visitors want to know about confidentiality?",
+          "choices": [
+            "Who will see comments and how they will be used",
+            "The number of chairs in the director’s office",
+            "The color of the website banner",
+            "Every other visitor’s identity"
+          ],
+          "answer": 0,
+          "explanation": "A general promise needs practical information about access and limits."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why can more comments be a positive sign?",
+          "choices": [
+            "More comments always mean worse conditions",
+            "It removes the need to respond",
+            "It proves every service problem has disappeared",
+            "The communication process may have become easier and more trustworthy"
+          ],
+          "answer": 3,
+          "explanation": "The same count can have different meanings depending on how feedback is collected."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “indicator” mean when discussing comment numbers?",
+          "choices": [
+            "A measure that needs context to understand a wider condition",
+            "A guarantee that every group participated",
+            "A complete proof of satisfaction by itself",
+            "A private description of one visitor"
+          ],
+          "answer": 0,
+          "explanation": "The count is one sign, not a full account of user experience."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_planning-for-the-person-who-arrives-late",
+      "title": "Planning for the Person Who Arrives Late",
+      "level": "B2",
+      "category": "Real-world problem solving",
+      "reading_minutes": 3,
+      "body": "A workshop schedule assumed that every participant would arrive before the first explanation. The plan looked efficient: equipment was introduced once, groups began together, and no time was reserved for repetition. On the day, a delayed bus brought several learners after the activity had started. The schedule had been precise about an ideal sequence but fragile under an ordinary disruption.\n\nThe organizer first tried to repeat the whole introduction while other groups waited. This created a second difficulty. Participants already working lost momentum, while the newcomers felt responsible for delaying everyone. A practical solution needed to protect essential information without turning every late arrival into a restart of the entire session.\n\nThe team reviewed the scope of what newcomers needed immediately. Safety instructions and the task’s main purpose were a priority. Background stories and optional examples could be provided later. Distinguishing these categories made it possible to design a short, accurate entry point rather than an improvised incomplete explanation.\n\nCapacity also mattered. One facilitator could not lead the main activity and answer several individual questions at once. The next plan assigned a supporting role and prepared a brief guide connected to a clear place for questions. This was a resource decision, not simply a request that staff work faster.\n\nThe revised timetable remained provisional until the team tried it with real participants. It included a reasonable amount of flexibility without promising that every delay could be absorbed. The organizer explained which parts of the session required attendance from the beginning and offered an alternative when missing essential information made participation inappropriate.\n\nTo coordinate the process, the team kept messages consistent across booking information, signs, and spoken instructions. A supportive procedure would fail if one channel promised something another could not provide. The arrangement needed to be understandable before the workshop as well as during it.\n\nPlanning for disruption did not mean assuming that nobody would follow the schedule. It meant recognizing a constraint on real participation and designing within it. A robust plan preserves its essential purpose when conditions are less tidy than expected. The best timetable is not always the one with no empty space, but the one that can explain what happens when ordinary life enters the room.",
+      "vocabulary": [
+        "v_scope",
+        "v_priority",
+        "v_capacity",
+        "v_provisional",
+        "v_coordinate",
+        "v_constraint"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What weakness does the original workshop schedule reveal?",
+          "choices": [
+            "It makes safety information unnecessary",
+            "It contains too much room for every possible delay",
+            "It lacks a workable response to predictable variation in arrival",
+            "It proves late participants cannot learn"
+          ],
+          "answer": 2,
+          "explanation": "The ideal sequence fails when ordinary transport disruption occurs."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Which information is treated as immediately essential?",
+          "choices": [
+            "Every optional background story",
+            "Only the organizer’s personal interests",
+            "The complete history of the venue",
+            "Safety instructions and the task’s main purpose"
+          ],
+          "answer": 3,
+          "explanation": "The revised entry point distinguishes essentials from material that can wait."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why assign a supporting facilitator?",
+          "choices": [
+            "Every learner must receive a separate workshop",
+            "A short guide removes all need for questions",
+            "The main facilitator’s capacity is limited when two tasks occur at once",
+            "Repeating a task guarantees additional staff appear"
+          ],
+          "answer": 2,
+          "explanation": "The team recognizes a real resource limit rather than relying on greater speed alone."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “provisional” mean for the revised timetable?",
+          "choices": [
+            "Guaranteed to handle every delay",
+            "To be tested and possibly adjusted rather than treated as final",
+            "Unrelated to the workshop’s purpose",
+            "Secret and unavailable to participants"
+          ],
+          "answer": 1,
+          "explanation": "The team checks the revised arrangement in practice before making stronger claims."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-learning-portfolio-without-a-perfect-story",
+      "title": "A Learning Portfolio Without a Perfect Story",
+      "level": "B2",
+      "category": "Education",
+      "reading_minutes": 3,
+      "body": "A learner assembling a portfolio selected only polished essays and successful quiz results. The collection looked impressive, but it was difficult to see how her understanding had developed. A teacher asked her to include one early draft, one persistent difficulty, and one example of using a skill outside the original lesson.\n\nThe request did not turn the portfolio into a record of failure. It changed the question the collection was answering. A selection of strong final products can show certain achievements. It does not automatically show the process, the decisions made during revision, or whether learning can transfer to a different situation.\n\nThe learner added a draft in which the main claim was unclear. Beside it, she placed a later version and a short explanation of the changes. She did not claim that every difference represented improvement. She identified the criteria she had used: relevance to the question, appropriate evidence, and links that helped a reader follow the reasoning.\n\nAnother item came from a conversation task. The learner had practiced making polite requests in class and later used a similar structure to ask for help with an actual booking. Her note described the situation without exposing another person’s private details. It showed a possible instance of transfer, not proof that she could manage every unfamiliar conversation.\n\nRetention required a different kind of evidence. A skill used immediately after a lesson might not remain equally available a month later. The portfolio therefore included a later attempt as well as the first one. The comparison helped the learner reflect on what had remained useful and what needed more practice.\n\nThe teacher emphasized that this collection was not, by itself, an officially validated measure of overall language proficiency. Its value depended on the task, the selection process, and the explanation attached to each example. A tidy folder could not remove those limits.\n\nThe revised portfolio told a less perfect but more informative story. It connected achievement with evidence of change, uncertainty, and application. The learner could now use it to plan the next stage rather than merely display the best moments from the previous one. Honest selection made the work easier to understand without making it less worthy of recognition.",
+      "vocabulary": [
+        "v_portfolio",
+        "v_transfer",
+        "v_criteria",
+        "v_retention",
+        "v_reflect",
+        "v_proficiency"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the teacher ask for more than polished work?",
+          "choices": [
+            "A portfolio should contain no explanations",
+            "Development, limits, and application need evidence that final successes alone may not show",
+            "Every early draft is better than every final version",
+            "Successful work has no value"
+          ],
+          "answer": 1,
+          "explanation": "The collection becomes informative about learning rather than only a display of selected outcomes."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "How does the learner show a possible transfer of learning?",
+          "choices": [
+            "Copies a classmate’s private messages",
+            "Describes using a practiced request structure in a real booking situation",
+            "Removes every connection to earlier lessons",
+            "Claims fluency in every possible conversation"
+          ],
+          "answer": 1,
+          "explanation": "The example connects classroom practice with a different practical context."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why include a later attempt when discussing retention?",
+          "choices": [
+            "Practice after a lesson erases the original result",
+            "Immediate performance does not establish that a skill remains available over time",
+            "Only delayed work can ever be useful",
+            "A later attempt automatically proves an official level"
+          ],
+          "answer": 1,
+          "explanation": "Retention concerns what is remembered or usable after an interval."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “proficiency” refer to in the teacher’s caution?",
+          "choices": [
+            "A developed level of language skill",
+            "The price of the course",
+            "The color used to mark changes",
+            "The number of pages in the folder"
+          ],
+          "answer": 0,
+          "explanation": "The teacher distinguishes useful portfolio evidence from a validated overall skill judgment."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-coastline-that-refused-a-single-number",
+      "title": "A Coastline That Refused a Single Number",
+      "level": "B2",
+      "category": "Science",
+      "reading_minutes": 3,
+      "body": "A student comparing two maps found different figures for the length of the same coastline. One number was not necessarily a careless mistake. Measuring a highly irregular boundary requires choices about detail, and those choices can affect the result. A line that looks smooth from far away may reveal many bends when examined more closely.\n\nTo quantify the coastline, a mapmaker must decide which features to include and at what level of detail. Small inlets, rocky edges, and the exact position of the water can matter. A measuring process that follows more of these features can produce a different length from one using a coarser representation.\n\nThis does not mean that measurement is meaningless. It means that the methodology belongs with the number. A result becomes easier to interpret when readers know the scale, the reference boundary, and the conditions used. Without that information, apparent precision may hide a difference in the question being answered.\n\nThe coastal setting adds another source of uncertainty. Water levels and shore conditions can change, so an observed boundary is not necessarily a permanently fixed line. A study needs a suitable definition that matches its purpose rather than an assumption that one visible edge settles every legal, ecological, or navigational question.\n\nThe class explored the issue with a simplified drawing. Students measured it first with long straight segments and then with shorter ones following more detail. They did not treat the classroom picture as a full model of a real shore. It illustrated how a parameter in the method could change what was counted.\n\nFor comparisons over time, a benchmark should be sufficiently consistent to support the intended claim. If the technique changes, a difference in the reported length may partly reflect that change rather than a physical transformation of the coast. The scope of the conclusion must therefore match the record of how the measurements were made.\n\nThe student’s final report kept both original figures and explained why they should not be compared as if they came from identical procedures. The coastline had not refused knowledge. It had refused an oversimplified idea of what a number could mean without a method. Precision became more useful when its conditions were visible.",
+      "vocabulary": [
+        "v_quantify",
+        "v_methodology",
+        "v_coastal",
+        "v_uncertainty",
+        "v_parameter",
+        "v_benchmark",
+        "v_scope"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why can coastline measurements differ without a simple error?",
+          "choices": [
+            "The definition and level of detail used in measurement can differ",
+            "A longer figure always proves the land expanded",
+            "Every mapmaker chooses random numbers",
+            "Coastlines contain no measurable features"
+          ],
+          "answer": 0,
+          "explanation": "The article links a reported value with its method, reference boundary, and purpose."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What comparison do students make with their drawing?",
+          "choices": [
+            "The cost of two rulers",
+            "Only two different paper colors",
+            "Long straight measuring segments versus shorter ones following more detail",
+            "The number of labels on a classroom door"
+          ],
+          "answer": 2,
+          "explanation": "The activity illustrates how measurement detail changes what is counted."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why document technique changes in a comparison over time?",
+          "choices": [
+            "A benchmark eliminates every uncertainty",
+            "A new number may partly reflect a new method rather than physical change",
+            "Changing technique guarantees the coast is unchanged",
+            "Only the newest number can contain any information"
+          ],
+          "answer": 1,
+          "explanation": "Comparable methods are needed to interpret a trend responsibly."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “parameter” mean in the classroom activity?",
+          "choices": [
+            "A guarantee that the line is smooth",
+            "A permanent national border",
+            "A setting or condition defining the measurement process",
+            "The teacher’s personal opinion"
+          ],
+          "answer": 2,
+          "explanation": "The chosen segment detail influences how the procedure measures the drawing."
+        }
+      ],
+      "references": [
+        {
+          "title": "NOAA National Ocean Service: coastal science background",
+          "url": "https://oceanservice.noaa.gov/"
+        }
+      ]
+    },
+    {
+      "id": "a_the-sound-you-could-not-see",
+      "title": "The Sound You Could Not See",
+      "level": "B2",
+      "category": "Science",
+      "reading_minutes": 2,
+      "body": "A recorded sound can be represented by a graph, but the graph is not the experience of hearing it. It highlights selected features of a changing signal. Understanding what is displayed helps listeners use the picture without mistaking it for a complete account of what every person hears.\n\nOne useful feature is frequency: the rate of a repeating change. A sound can contain several frequencies at once, and a spectrum can show how components are distributed. These representations help analysts ask questions that might be difficult to answer through an informal impression alone.\n\nSound also depends on a medium through which disturbances travel. A particle in the medium does not need to make the entire journey from the source to the listener in order for the disturbance to move. A model can illustrate local motion and the transfer of a pattern without presenting the process as a stream of material thrown across the room.\n\nIn a classroom activity, learners compare the same short recording through listening and through a simple display. Their qualitative notes describe what the sound seems like: sharp, distant, uneven, or difficult to follow. Quantitative information expresses selected measurable features as numbers or relationships. Neither description automatically replaces the other.\n\nThe interpretation depends on the purpose. A musician may be interested in timing and pitch relationships. Someone examining speech clarity may need to consider room effects, background noise, and the listener’s position. One attractive graph cannot answer all of those questions merely because its lines look exact.\n\nThe class also recognizes limits. Its activity does not diagnose hearing conditions or justify producing loud test sounds. It uses a comfortable recording and appropriate classroom tools to examine how different kinds of description connect. Personal hearing concerns belong with suitable professional assessment, not an inference from one informal exercise.\n\nBy the end, learners can explain why a visual display is both useful and incomplete. It turns selected aspects of sound into a form people can compare, but it still needs context about measurement and use. A graph adds another way to investigate an experience; it does not make the experience, the environment, or the listener disappear.",
+      "vocabulary": [
+        "v_frequency",
+        "v_spectrum",
+        "v_particle",
+        "v_qualitative",
+        "v_quantitative",
+        "v_interpretation"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "How should a sound graph be understood?",
+          "choices": [
+            "As every listener’s complete hearing experience",
+            "As an automatic diagnosis from any short exercise",
+            "As proof that sound needs no medium",
+            "As a useful representation of selected features that still needs context"
+          ],
+          "answer": 3,
+          "explanation": "The article connects measurable features with purpose, environment, and experience."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What do qualitative notes describe in the class activity?",
+          "choices": [
+            "The price of recording equipment",
+            "Only a list of exact numeric frequencies",
+            "How the sound seems, such as sharp or distant",
+            "Every listener’s medical history"
+          ],
+          "answer": 2,
+          "explanation": "Qualitative descriptions concern qualities of the experience rather than numbers alone."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why might two users need different information from the same recording?",
+          "choices": [
+            "One graph guarantees every possible answer",
+            "Their questions and purposes differ",
+            "A spectrum is always unrelated to speech",
+            "The recording cannot contain measurable features"
+          ],
+          "answer": 1,
+          "explanation": "Music analysis and speech clarity can emphasize different relationships and conditions."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “frequency” mean here?",
+          "choices": [
+            "The rate of a repeating change",
+            "The amount of paper in a notebook",
+            "The total number of learners in every course",
+            "The distance from the classroom to the library"
+          ],
+          "answer": 0,
+          "explanation": "Frequency describes repetition in the signal, not how often a person attends class."
+        }
+      ],
+      "references": [
+        {
+          "title": "National Institute on Deafness and Other Communication Disorders: how we hear",
+          "url": "https://www.nidcd.nih.gov/health/how-do-we-hear"
+        }
+      ]
+    }
+  ]
+}

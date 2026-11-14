@@ -72,15 +72,18 @@ void main() {
     expect(rows.any((r)=>r['module']=='grammar_writing'),isTrue);
   });
 
-  test('empty installation offers real writing creation with clear import guidance',() async {
+  test('fresh installation recommends real offline reading and vocabulary without imports',() async {
     final empty=AppDatabase(path:'${dir.path}/empty.sqlite');
     final emptySessions=StudySessionService(empty,now:()=>now);
     try {
       final rows=await DailyPlanService(empty,emptySessions,now:()=>now).today(goal:15);
-      expect(rows,hasLength(1));
-      expect(rows.single['route'],'/learn/grammar/writing');
-      expect(rows.single['reason'],contains('Import reading and audio'));
-      expect(rows.single['minutes'],15);
+      expect(rows,hasLength(3));
+      expect(rows.first['route'],startsWith('/learn/reading/builtin'));
+      expect(rows.any((r)=>r['route']=='/learn/vocabulary/library?daily=true'),isTrue);
+      expect(rows.any((r)=>r['route']=='/learn/grammar/writing'),isTrue);
+      expect(rows.fold<int>(0,(sum,r)=>sum+(r['minutes'] as int)),15);
+      expect(await empty.getVocabulary(),isEmpty);
+      expect((await empty.db).select('SELECT * FROM builtin_reading_attempts'),isEmpty);
     } finally { emptySessions.dispose(); empty.close(); }
   });
 

@@ -15,8 +15,8 @@ void main(){
   });
   tearDown((){database.close();directory.deleteSync(recursive:true);});
   test('bundled catalog has exact level distributions without personal seeding',()async{
-    expect(catalog.words,hasLength(1000));expect(catalog.words.where((w)=>w['level']=='B1'),hasLength(500));expect(catalog.words.where((w)=>w['level']=='B2'),hasLength(500));
-    expect(catalog.articles,hasLength(100));expect(catalog.articles.where((a)=>a['level']=='B1'),hasLength(50));expect(catalog.articles.where((a)=>a['level']=='B2'),hasLength(50));
+    expect(catalog.words.length,1000);expect(catalog.words.where((w)=>w['level']=='B1').length,500);expect(catalog.words.where((w)=>w['level']=='B2').length,500);
+    expect(catalog.articles.length,100);expect(catalog.articles.where((a)=>a['level']=='B1').length,50);expect(catalog.articles.where((a)=>a['level']=='B2').length,50);
     expect(await database.getVocabulary(),isEmpty);expect(await database.getArticles(),isEmpty);
   });
   test('opening and bookmarking never grant completion; progress survives restart',()async{
@@ -53,10 +53,37 @@ void main(){
     final article=await service.nextArticle('B1');expect(article!['level'],'B1');
   });
   test('catalog updates retain stable IDs and original submitted question snapshots',()async{
+    final article=catalog.articles.first;final questions=article['questions'] as List;
+    await service.submit(id:article['id'] as String,token:'before-update',startedAt:'2026-01-01',answers:{for(final q in questions)q['id'] as String:(q['choices'] as List)[q['answer'] as int] as String},readConfirmed:true);
     final manifest=jsonDecode(await File('assets/content/v1/manifest.json').readAsString()) as Map<String,dynamic>;
-    manifest['content_version']='1.0.1';final updated=await BuiltinCatalog.read((path)async=>path.endsWith('manifest.json')?jsonEncode(manifest):File(path).readAsString());
+    manifest['content_version']='1.0.1';final updated=await BuiltinCatalog.read((path)async{
+      if(path.endsWith('manifest.json'))return jsonEncode(manifest);
+      final data=jsonDecode(await File(path).readAsString()) as Map<String,dynamic>;
+      if(data.containsKey('articles'))for(final row in data['articles'] as List){if(row['id']==article['id'])(row['questions'] as List).first['prompt']='Updated prompt';}
+      return jsonEncode(data);
+    });
     final word=catalog.words.first;final original=await service.saveWord(word['id'] as String);final newer=BuiltinContentService(database,catalog:()async=>updated);
     expect(await newer.saveWord(word['id'] as String),original);expect(await database.getVocabulary(),hasLength(1));
+    expect(((updated.article(article['id'] as String)['questions'] as List).first as Map)['prompt'],'Updated prompt');
+    final attempt=(await newer.history(article['id'] as String)).single;
+    expect((jsonDecode(attempt['questions_json'] as String) as List).first['prompt'],(questions.first as Map)['prompt']);expect(attempt['content_version'],'1.0.0');
+  });
+  test('daily selection follows the local date and unread recommendations skip real completions',()async{
+    var now=DateTime(2026,11,14,10);service=BuiltinContentService(database,catalog:()async=>catalog,now:()=>now);
+    final today=await service.recommendedWords(level:'B1');await service.saveWord(today.first['id'] as String);
+    now=now.add(const Duration(days:1));final tomorrow=await service.recommendedWords(level:'B1');
+    expect(tomorrow.any((w)=>w['id']==today.first['id']),isFalse);expect((await database.db).select('SELECT * FROM builtin_daily_words'),hasLength(2));
+    final first=(await service.nextArticle('B1'))!;final questions=first['questions'] as List;
+    await service.submit(id:first['id'] as String,token:'read-first',startedAt:now.toIso8601String(),answers:{for(final q in questions)q['id'] as String:(q['choices'] as List)[q['answer'] as int] as String},readConfirmed:true);
+    expect((await service.nextArticle('B1'))!['id'],isNot(first['id']));
+  });
+  test('schema 10 installation upgrades additively with personal reviews unchanged',()async{
+    final legacy=AppDatabase.schemaTemplate(10);final path='${directory.path}/legacy.sqlite';
+    try{final d=await legacy.db;d.execute("INSERT INTO vocabulary_entries(id,word,normalized_word,definition) VALUES('old','preserve','preserve','Keep my meaning')");d.execute("INSERT INTO vocabulary_reviews(id,entry_id,next_review_at,review_count) VALUES('old-review','old','2030-01-01',9)");await legacy.snapshot(path);}finally{legacy.close();}
+    final upgraded=AppDatabase(path:path);try{
+      final d=await upgraded.db;expect(d.select('PRAGMA user_version').single['user_version'],11);expect(d.select('SELECT * FROM builtin_article_state'),isEmpty);
+      expect((await upgraded.getVocabulary()).single['definition'],'Keep my meaning');expect(d.select('SELECT next_review_at,review_count FROM vocabulary_reviews').single,{'next_review_at':'2030-01-01','review_count':9});expect(d.select('PRAGMA foreign_key_check'),isEmpty);
+    }finally{upgraded.close();}
   });
   test('full backup restores built-in bookmarks and evidence without copying content into personal articles',()async{
     final id=catalog.articles.first['id'] as String;await service.bookmark(id,true);await service.saveWord(catalog.words.first['id'] as String);

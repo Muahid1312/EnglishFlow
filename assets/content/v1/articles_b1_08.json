@@ -1,0 +1,360 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_two-ways-to-cross-the-same-town",
+      "title": "Two Ways to Cross the Same Town",
+      "level": "B1",
+      "category": "Real-world problem solving",
+      "reading_minutes": 2,
+      "body": "A route planner offered Salma two ways to reach her evening course. The first looked faster on the screen. It involved changing buses near a busy intersection. The second took longer but used one bus and stopped close to the classroom. Choosing a journey was not simply a matter of selecting the smallest number of minutes.\n\nSalma checked the details before deciding. The first route assumed that the second bus arrived soon after the first. If she missed that connection, the advantage might disappear. The second route was slower on an ordinary day but easier to follow while carrying her work bag.\n\nShe also considered when she would return. A route available before class might have a different schedule later in the evening. The planner’s first answer had been about reaching the course, not the complete trip home. Salma needed to examine both parts of the journey.\n\nRather than guessing, she asked the transport office to explain the current timetable. She wrote down the relevant stops and kept an offline copy. On her first evening, she allowed extra time and checked that the stop names matched the signs around her. A digital suggestion was useful, but it did not replace attention to the actual place.\n\nAfter two weeks, Salma had a better basis for her choice. She recorded the trips that went smoothly as well as delays. One difficult journey did not prove that the entire route was unreliable, and one fast trip did not guarantee the same result every evening.\n\nHer final plan included a usual route and a reasonable alternative. The aim was not to find one answer that would always be best. It was to understand the conditions that made each option useful. A good travel decision connected time, effort, information, and the needs of the person making the trip.",
+      "vocabulary": [
+        "v_journey",
+        "v_advantage",
+        "v_available",
+        "v_schedule",
+        "v_explain",
+        "v_choice"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does Salma look beyond the shortest displayed travel time?",
+          "choices": [
+            "Every route planner deliberately gives false information",
+            "The usefulness of a route depends on connections, return travel, and her circumstances",
+            "A slower route must always be best",
+            "Timetables cannot help with travel"
+          ],
+          "answer": 1,
+          "explanation": "She evaluates the whole journey rather than one convenient figure."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does the first route require?",
+          "choices": [
+            "No travel after the course",
+            "A private car reservation",
+            "A bus change near a busy intersection",
+            "An overnight stay"
+          ],
+          "answer": 2,
+          "explanation": "The connection introduces an additional condition into its apparent time advantage."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why keep records of smooth journeys as well as delays?",
+          "choices": [
+            "Only delays should count as evidence",
+            "A fair judgment needs more than the most memorable bad experience",
+            "Records can replace all stop signs",
+            "A single fast journey guarantees every future trip"
+          ],
+          "answer": 1,
+          "explanation": "Including ordinary journeys helps avoid judging the route from an unusual event alone."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “advantage” mean for the first route?",
+          "choices": [
+            "A guaranteed result under all conditions",
+            "A bus company’s private password",
+            "The course’s examination score",
+            "A potentially useful feature, such as a shorter trip"
+          ],
+          "answer": 3,
+          "explanation": "Its possible speed benefit depends on making the connection."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-lesson-in-an-empty-bird-feeder",
+      "title": "The Lesson in an Empty Bird Feeder",
+      "level": "B1",
+      "category": "Nature",
+      "reading_minutes": 2,
+      "body": "For several mornings, a family saw no birds near an old feeder outside the kitchen. One person decided that all the birds had left the neighborhood. Another thought a nearby repair project had frightened them away. Both explanations sounded possible, but neither came directly from what the family had observed.\n\nTheir observation was narrower: no bird had been seen at that particular place during a few short visits to the window. The family had not watched the whole neighborhood or every hour of the day. A statement about all local wildlife went far beyond the record they actually had.\n\nThey began noting the time, weather, and activity around the garden without disturbing the animals. On a later afternoon, they noticed birds in a tree at the other end of the street. This did not identify the cause of the empty feeder, but it showed that the first conclusion had been too broad.\n\nThe season was changing, and food and shelter elsewhere might have changed as well. The family read local wildlife guidance before considering whether any action was appropriate. They avoided assuming that putting out more food was automatically helpful in every situation. Watching wildlife also involves responsibility for the effects of human behavior.\n\nTheir notes gradually became more precise. Instead of writing “no birds,” they wrote “none seen at the feeder between seven and ten past eight.” The second statement was less dramatic but easier to compare with another morning’s record.\n\nThe empty feeder had not supplied a complete explanation. It had supplied a question. The family learned that what we fail to see can matter, but absence from a small observation is not the same as absence everywhere. Careful language kept curiosity open instead of ending the investigation with a confident guess.",
+      "vocabulary": [
+        "v_possible",
+        "v_observation",
+        "v_wildlife",
+        "v_cause",
+        "v_conclusion",
+        "v_season"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does the family learn from the empty feeder?",
+          "choices": [
+            "An empty feeder proves every bird has left",
+            "A limited absence of sightings does not justify a broad claim about all birds",
+            "Short observations reveal every cause immediately",
+            "More food is always the correct response"
+          ],
+          "answer": 1,
+          "explanation": "The article distinguishes a narrow observation from a much wider conclusion."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Where do they later notice birds?",
+          "choices": [
+            "At a distant zoo",
+            "Only in an old photograph",
+            "Inside a sealed cupboard",
+            "In a tree elsewhere on the street"
+          ],
+          "answer": 3,
+          "explanation": "The sighting challenges the claim that all neighborhood birds are gone."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why is the precise time note more useful than “no birds”?",
+          "choices": [
+            "It defines what was actually observed and makes comparison easier",
+            "It eliminates the need for later observations",
+            "It describes every garden in town",
+            "It proves the weather caused the absence"
+          ],
+          "answer": 0,
+          "explanation": "A clear record states its own limits."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “cause” refer to in the discussion?",
+          "choices": [
+            "The number of windows in the kitchen",
+            "A written rule about grammar",
+            "The reason something happens",
+            "The color of the feeder alone"
+          ],
+          "answer": 2,
+          "explanation": "The family does not yet know why birds were not seen at that place and time."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_one-page-for-a-new-employee",
+      "title": "One Page for a New Employee",
+      "level": "B1",
+      "category": "Education",
+      "reading_minutes": 2,
+      "body": "The new employee received a thick handbook on her first morning. It contained useful information, but she could not easily find what she needed before opening the reception desk. The problem was not that the handbook was too detailed. It lacked a clear starting point for someone without the team’s everyday knowledge.\n\nHer supervisor prepared a one-page guide for the first duty of the day. It showed which information to check, where to find the contact list, and whom to ask if a record was missing. Each instruction described an action instead of using an unexplained office abbreviation.\n\nThe guide did not replace the full handbook. A short section at the bottom pointed to the relevant pages for more complicated situations. It also identified tasks that required training or approval before a new worker could perform them. A simple guide should not make unfamiliar responsibilities appear safer or easier than they are.\n\nDuring the first week, the supervisor watched how the employee used the page. When a line caused confusion, they revised the wording together. They did not assume that the new worker was careless merely because she interpreted an instruction differently from its writer.\n\nThe employee became more independent as she learned the routine. She kept using the guide as a check rather than treating memory as the only sign of competence. Experienced staff sometimes found the page useful too, especially after working on another task for several days.\n\nThe team’s aim was not to reduce all work to one sheet. It was to connect a manageable beginning with reliable ways to learn more. Good instructions respect the difference between a person who already knows a system and a person meeting it for the first time. That difference is a design problem the whole team can help solve.",
+      "vocabulary": [
+        "v_employee",
+        "v_duty",
+        "v_instruction",
+        "v_section",
+        "v_training",
+        "v_independent"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes the one-page guide useful?",
+          "choices": [
+            "It requires new workers to memorize all abbreviations",
+            "It provides a clear beginning connected to fuller information and support",
+            "It proves the handbook has no value",
+            "It removes every need for training"
+          ],
+          "answer": 1,
+          "explanation": "The guide supports an initial task while preserving access to detail and appropriate limits."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What is placed at the bottom of the guide?",
+          "choices": [
+            "A promise that every task is safe without approval",
+            "A rule banning all questions",
+            "Directions to relevant handbook pages",
+            "A list of unrelated personal details"
+          ],
+          "answer": 2,
+          "explanation": "The short page points workers toward additional information when needed."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why do experienced staff sometimes use the page?",
+          "choices": [
+            "Written instructions always replace understanding",
+            "A reliable checklist can help after time away from a task",
+            "Only new workers are allowed to ask for support",
+            "They have forgotten every skill permanently"
+          ],
+          "answer": 1,
+          "explanation": "The article treats checking information as useful support, not proof of inability."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “duty” mean on the first morning?",
+          "choices": [
+            "An optional decoration",
+            "A private belief about the supervisor",
+            "A work responsibility the employee is expected to perform",
+            "A payment for entering the building"
+          ],
+          "answer": 2,
+          "explanation": "The page focuses on a particular responsibility at the reception desk."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-notification-worth-keeping",
+      "title": "A Notification Worth Keeping",
+      "level": "B1",
+      "category": "Technology",
+      "reading_minutes": 2,
+      "body": "Every few minutes, Mina’s phone displayed another notification. Some messages concerned her evening class. Others advertised products or announced changes she did not need to know immediately. By the end of a study session, every sound seemed equally urgent, although the messages had very different purposes.\n\nMina did not decide to turn off every alert. She wanted to understand which messages helped her act at the right time. In settings, she examined the options for each application and separated useful reminders from announcements she could read later. She kept essential safety and personal communication needs in mind rather than following a rule meant for everyone.\n\nHer first question was practical: what should this message remind me to do? A class reminder could help her prepare before leaving home. A message about an available library book might matter within the day, but not within the next ten seconds. Some offers did not require her attention at all.\n\nShe tried the changes for a week. The phone still interrupted sometimes, and she occasionally needed to adjust an option she had misunderstood. She treated that as information about her choice, not proof that the whole plan had failed.\n\nMina also noticed that fewer sounds did not automatically create concentration. She still needed a suitable task, a place to work, and realistic expectations about interruptions from ordinary life. Notification controls were one part of a routine, not a complete answer to every difficulty.\n\nAt the end of the week, the most useful change was clarity. An alert was more meaningful when it related to something she had chosen to notice promptly. Her phone had not become silent, but it had become easier to interpret. Technology served her better when urgency was a decision rather than a property of every message.",
+      "vocabulary": [
+        "v_notification",
+        "v_settings",
+        "v_remind",
+        "v_available",
+        "v_attention",
+        "v_choice"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What is Mina trying to improve?",
+          "choices": [
+            "A rule that no message may ever arrive",
+            "The total number of applications on every person’s phone",
+            "The relationship between alerts and what actually needs timely attention",
+            "The volume of all advertising alerts"
+          ],
+          "answer": 2,
+          "explanation": "She distinguishes useful timing from unnecessary urgency."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does Mina consider before changing alerts?",
+          "choices": [
+            "A stranger’s complete phone settings",
+            "Essential safety and personal communication needs",
+            "Whether every message contains a discount",
+            "Only the most colorful icons"
+          ],
+          "answer": 1,
+          "explanation": "She adapts controls to her own responsibilities rather than applying a blanket rule."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why are fewer alerts not a complete solution?",
+          "choices": [
+            "A phone controls every aspect of attention",
+            "Settings can never be changed",
+            "Every interruption has the same purpose",
+            "Concentration also depends on the task, surroundings, and ordinary life"
+          ],
+          "answer": 3,
+          "explanation": "The article places notification controls within a wider learning routine."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “remind” mean in Mina’s question?",
+          "choices": [
+            "Help her remember to do something",
+            "Make a message private automatically",
+            "Replace the original task",
+            "Force her to buy a product"
+          ],
+          "answer": 0,
+          "explanation": "She judges a message by the action or information it helps her remember."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-market-after-the-rain",
+      "title": "The Market After the Rain",
+      "level": "B1",
+      "category": "Environment",
+      "reading_minutes": 2,
+      "body": "Heavy rainfall left standing water near the entrance to a neighborhood market. Several stalls could not open safely, and a small flood damaged boxes stored too close to the ground. People wanted a quick explanation. Some blamed one blocked drain; others blamed every shopkeeper on the street.\n\nThe market committee asked residents to cooperate with trained workers rather than enter the water or handle damaged electrical equipment themselves. Keeping people safe came before proving whose explanation sounded strongest. The workers checked the drainage system and recorded the places where water had collected.\n\nThe first inspection found waste near one drain, but it did not show that this was the only cause. The amount of rain, the condition of the system, and the way water reached the entrance also needed attention. A single visible problem could be important without explaining the entire event.\n\nAfter the area was made safe, the committee gathered photographs, repair information, and accounts from people using different parts of the market. It separated confirmed damage from guesses about responsibility. The aim was to understand what could be improved, not to turn an incomplete story into an accusation.\n\nThe community then agreed on several practical steps. Storage arrangements were reviewed, clear information about reporting blocked drains was displayed, and maintenance questions were sent to the appropriate service. The committee also discussed how to share warnings with people who did not use the market’s online group.\n\nThe experience showed that preparing for weather is not only a matter of predicting it. It also involves the condition of shared places and the way people communicate. A useful response connected immediate safety, careful investigation, and ordinary maintenance instead of expecting one dramatic action to solve every future problem.",
+      "vocabulary": [
+        "v_rainfall",
+        "v_flood",
+        "v_damage",
+        "v_cooperate",
+        "v_waste",
+        "v_community"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "How does the market respond responsibly?",
+          "choices": [
+            "By immediately blaming every shopkeeper",
+            "By assuming one photograph explains every cause",
+            "By sending untrained residents into the water",
+            "By connecting safety, investigation, communication, and maintenance"
+          ],
+          "answer": 3,
+          "explanation": "The committee avoids a premature single-cause story and organizes practical responses."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does the first inspection find near a drain?",
+          "choices": [
+            "An unused classroom printer",
+            "Waste",
+            "A new bus timetable",
+            "A complete weather station"
+          ],
+          "answer": 1,
+          "explanation": "The finding matters but is not treated as proof of the only cause."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why consider people outside the online group?",
+          "choices": [
+            "Only one communication method is allowed",
+            "An online message prevents all rain damage",
+            "Warnings need to reach those who may otherwise miss them",
+            "Those people never visit the market"
+          ],
+          "answer": 2,
+          "explanation": "Effective preparation depends on reaching real users through appropriate channels."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “cooperate” mean in the committee’s request?",
+          "choices": [
+            "Work together with the appropriate workers and shared safety plan",
+            "Compete to enter the water first",
+            "Ignore trained advice",
+            "Make separate accusations without information"
+          ],
+          "answer": 0,
+          "explanation": "Cooperation supports an organized, safer response."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

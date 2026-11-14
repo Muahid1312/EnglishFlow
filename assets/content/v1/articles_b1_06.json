@@ -1,0 +1,370 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_the-handover-note",
+      "title": "The Handover Note",
+      "level": "B1",
+      "category": "Work and careers",
+      "reading_minutes": 2,
+      "body": "At a busy repair desk, one employee finished work just as another arrived. They usually shared a quick conversation about the day. Most of the time this worked, but one important customer request was missed when the room was noisy and the arriving employee had to answer the telephone.\n\nThe manager introduced a short handover note. It was not intended to describe every minute of the earlier shift. It needed to show unfinished work, urgent messages, and the next action required. The team agreed that a useful note should help another person continue without depending on a perfect memory.\n\nAt first, the notes were too vague. “Printer problem” did not explain which printer, what had been checked, or who was waiting for a reply. “Call customer” left out the reason for the call. Staff revised the form so each task had a clear status and a named person responsible for the next step.\n\nThey also discussed privacy. A shared handover page was not the right place for unnecessary personal details. Only information relevant to the work should be included, and the page should remain where authorized staff could use it. A convenient note could still create a problem if it was visible to everyone passing the desk.\n\nThe written record did not replace talking. When a situation was complicated, the two workers still asked questions. The note gave that conversation a reliable starting point and helped them check what remained after an interruption.\n\nAfter several weeks, the team reviewed the new routine. Some notes were still unclear, but fewer tasks disappeared between shifts. The improvement came from agreeing what another person actually needed to know. Good teamwork was not only helping during the same hour; it was also leaving work in a state that someone else could understand.",
+      "vocabulary": [
+        "v_employee",
+        "v_customer",
+        "v_shift",
+        "v_task",
+        "v_privacy",
+        "v_reliable"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What is the handover note meant to achieve?",
+          "choices": [
+            "Replace every conversation permanently",
+            "Record every personal detail about all customers",
+            "Help another worker continue unfinished work clearly",
+            "Make the outgoing employee work two shifts"
+          ],
+          "answer": 2,
+          "explanation": "The note makes status, next actions, and responsibility easier to understand."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Why is “Printer problem” an inadequate note?",
+          "choices": [
+            "It does not identify enough details or what has already been checked",
+            "It is written in capital letters",
+            "It includes too many clear instructions",
+            "Printers are never part of the work"
+          ],
+          "answer": 0,
+          "explanation": "The next worker needs to know which printer and the state of the investigation."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why do staff still talk about complicated cases?",
+          "choices": [
+            "A short record may need clarification rather than replacing all discussion",
+            "The notes must always be destroyed immediately",
+            "Written information cannot ever be useful",
+            "No worker is allowed to ask questions"
+          ],
+          "answer": 0,
+          "explanation": "The written record supports a conversation instead of eliminating the need for judgment."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “reliable” describe about the note?",
+          "choices": [
+            "A private customer’s opinion",
+            "A starting point that can be depended on",
+            "A completely finished repair",
+            "An expensive type of paper"
+          ],
+          "answer": 1,
+          "explanation": "A clear record reduces dependence on incomplete memory."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_reading-the-edge-of-a-river",
+      "title": "Reading the Edge of a River",
+      "level": "B1",
+      "category": "Nature",
+      "reading_minutes": 2,
+      "body": "A riverbank can look quiet even while water is moving soil and small pieces of rock. After rain, a familiar path may have a different shape, and the water may look much less clear. These changes invite questions, but they should be observed from a safe place away from unstable edges.\n\nWater does not move at the same speed everywhere in a river. The shape of the channel, the amount of water, and obstacles can affect its movement. Material carried in faster-moving water may settle when conditions change. A single visit, however, cannot tell the complete story of how a bank developed.\n\nA school group visited a stream from a public footbridge. They could observe floating leaves and compare how quickly they passed different parts of the bridge. They did not throw objects into the water or climb down to collect material. The activity was a beginning for questions, not a professional river survey.\n\nThe teacher asked them to describe the water’s surface separately from the nearby ground. One student saw an area where soil seemed newly exposed. Another noticed a quiet patch where fine material had collected. The group recorded those details without deciding that one short observation explained every past change.\n\nOld photographs offered a longer view. Comparing images from different times showed that part of the bank had moved. Even then, the photographs did not reveal every condition between the visits. The group needed to keep the difference between a visible change and an explanation of its cause.\n\nThe river lesson connected time, movement, and evidence. A landscape is not simply a fixed picture waiting to be named. It is a place where processes leave traces. Learning to read those traces begins with careful observation, honest questions, and respect for the dangers of the setting.",
+      "vocabulary": [
+        "v_river",
+        "v_speed",
+        "v_stream",
+        "v_observe",
+        "v_surface",
+        "v_soil"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "How should the students approach changes at the riverbank?",
+          "choices": [
+            "Enter unstable banks to obtain a better photograph",
+            "Treat a landscape as something that never changes",
+            "Assume one short visit explains every past event",
+            "Observe safely and separate visible details from explanations that need more evidence"
+          ],
+          "answer": 3,
+          "explanation": "The article emphasizes safety, observation, and the limits of a short visit."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Where does the group observe the stream?",
+          "choices": [
+            "From a private boat without instructions",
+            "From a public footbridge",
+            "From a newly collapsed bank",
+            "From inside the deepest water"
+          ],
+          "answer": 1,
+          "explanation": "The bridge provides a safe place for their introductory observations."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why are old photographs useful but incomplete?",
+          "choices": [
+            "They always explain the cause of every change",
+            "They make current observation unnecessary",
+            "They cannot contain any visible information",
+            "They show change between moments without showing every intervening condition"
+          ],
+          "answer": 3,
+          "explanation": "Images extend the time perspective while still leaving gaps."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “surface” mean in the water observation?",
+          "choices": [
+            "The river’s complete history",
+            "A professional survey certificate",
+            "The deepest rock beneath the bank",
+            "The visible upper layer of the water"
+          ],
+          "answer": 3,
+          "explanation": "The students describe what they can see on top separately from the ground nearby."
+        }
+      ],
+      "references": [
+        {
+          "title": "USGS Water Science School: water science background",
+          "url": "https://www.usgs.gov/special-topics/water-science-school"
+        }
+      ]
+    },
+    {
+      "id": "a_teaching-a-friend-to-use-the-printer",
+      "title": "Teaching a Friend to Use the Printer",
+      "level": "B1",
+      "category": "Education",
+      "reading_minutes": 2,
+      "body": "A person who knows a machine well may forget how confusing it looked at first. When Sam offered to explain the office printer to a new colleague, he began by naming every menu and setting. After two minutes, his colleague was still unsure where to begin.\n\nThey changed the task. Instead of learning everything, the colleague would print one ordinary document. Sam asked what she could already do and let her carry out each step. He explained an instruction only when it became relevant, rather than giving a long list that she would need to remember later.\n\nThe colleague selected a file, checked the page count, and found the correct printer. Before pressing the final button, she read the preview. A page had moved onto a separate sheet because the text was too large. This was a useful moment to discuss layout. It made more sense now than it had during Sam’s first description of every possible setting.\n\nAfter the first copy, they tried another file. Sam stayed nearby but did not take over the keyboard. His colleague used a short note when she needed a reminder. Practice involved making decisions herself, not simply watching someone who already knew the answers.\n\nThey kept a clear boundary around the task. Neither of them opened the machine or attempted an electrical repair. If a physical fault appeared, they would follow the office’s instructions for asking trained staff to help. Learning ordinary controls did not mean being qualified to fix every problem.\n\nBy the end of the session, the colleague was more independent. She did not know every feature, but she could complete a useful task and recognize when to ask for help. Teaching had become easier when the explanation followed a real purpose rather than the order of a complicated menu.",
+      "vocabulary": [
+        "v_printer",
+        "v_explain",
+        "v_instruction",
+        "v_button",
+        "v_practice",
+        "v_independent"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes the second teaching approach more effective?",
+          "choices": [
+            "It requires memorizing every menu before starting",
+            "It connects explanations to a useful task the learner performs herself",
+            "It prevents the learner from touching the controls",
+            "It treats all faults as safe to repair without training"
+          ],
+          "answer": 1,
+          "explanation": "Relevant steps and independent practice replace an overwhelming list of settings."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What problem does the preview reveal?",
+          "choices": [
+            "The document has no title",
+            "Large text has moved content onto another sheet",
+            "The room has no paper storage",
+            "The colleague has selected a different language course"
+          ],
+          "answer": 1,
+          "explanation": "The layout issue becomes meaningful while preparing the actual print job."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does Sam avoid taking over the keyboard on the second task?",
+          "choices": [
+            "The printer only accepts Sam’s files",
+            "Watching cannot provide any information at all",
+            "The colleague needs to practice making the decisions herself",
+            "The colleague must never ask a question"
+          ],
+          "answer": 2,
+          "explanation": "Independent action helps establish whether the learner can use the explanation."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “independent” mean at the end?",
+          "choices": [
+            "Unwilling to cooperate with colleagues",
+            "Qualified to repair every electrical fault",
+            "Able to complete ordinary work with less direct help",
+            "Unable to use a written reminder"
+          ],
+          "answer": 2,
+          "explanation": "She can perform the useful task while still recognizing appropriate limits."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-model-you-can-walk-across",
+      "title": "A Model You Can Walk Across",
+      "level": "B1",
+      "category": "Space",
+      "reading_minutes": 2,
+      "body": "The school wanted a model of the solar system that visitors could walk through. Students first chose ordinary objects to represent the Sun and planets. They soon faced a problem: making the objects easy to see and showing the distances clearly were not the same task.\n\nA tiny object might represent a planet’s size, but the space between planets could require a much larger area than the classroom. If students placed every object close together for convenience, the model could give visitors a wrong impression of the distances. If they followed one strict size-and-distance scale, some parts might become too small to notice.\n\nThe class decided to make two connected displays. One helped visitors compare relative sizes. Another used marked positions along a walking route to explore distance. The labels explained that the two displays used different arrangements and should not be treated as a single perfect picture.\n\nVisitors were invited to imagine traveling from one marked position to another. Each number on the route referred to the chosen model, not the time needed for an actual space journey. The students checked their calculations and asked the science teacher to review the labels before opening the display.\n\nThe model had a useful limit: it could emphasize only certain relationships at once. It did not show all movement, every moon, or the changing positions of real objects over time. A short explanation helped visitors understand what the class had included and what it had left out.\n\nThis did not make the model a failure. Models can help us think precisely because they simplify. Their value depends on knowing which questions they are built to answer. The visitors left with a better sense of space, and the students learned that an honest label can be as important as the objects in a display.",
+      "vocabulary": [
+        "v_object",
+        "v_distance",
+        "v_compare",
+        "v_imagine",
+        "v_number",
+        "v_limit"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the class explain the model’s choices and limits?",
+          "choices": [
+            "Real planets fit inside an ordinary classroom",
+            "A model must include every detail to be useful",
+            "A simplified model can help only if viewers know what its arrangement represents",
+            "The students want to hide their calculations"
+          ],
+          "answer": 2,
+          "explanation": "Clear labels prevent useful simplifications from becoming misleading impressions."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What do the two connected displays emphasize?",
+          "choices": [
+            "Relative sizes and distances",
+            "Ticket prices and weather",
+            "Only the colors of the planets",
+            "Different kinds of classroom furniture"
+          ],
+          "answer": 0,
+          "explanation": "The class separates two relationships that are difficult to show clearly in one small setting."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why ask the teacher to review the labels?",
+          "choices": [
+            "Errors or unclear explanations could mislead visitors even if the objects look attractive",
+            "Only teachers can walk along the route",
+            "Visitors are not allowed to read numbers",
+            "Reviewing removes every possible limitation"
+          ],
+          "answer": 0,
+          "explanation": "Accurate communication is part of the model’s educational usefulness."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “limit” mean in discussing the model?",
+          "choices": [
+            "The weight of the largest chair",
+            "The school’s opening hour",
+            "A boundary on what the model can show",
+            "A guarantee that every detail is included"
+          ],
+          "answer": 2,
+          "explanation": "The model emphasizes selected relationships while leaving others out."
+        }
+      ],
+      "references": [
+        {
+          "title": "NASA Science: solar system overview",
+          "url": "https://science.nasa.gov/solar-system/"
+        }
+      ]
+    },
+    {
+      "id": "a_when-a-familiar-word-hid-a-new-meaning",
+      "title": "When a Familiar Word Hid a New Meaning",
+      "level": "B1",
+      "category": "Psychology",
+      "reading_minutes": 2,
+      "body": "Recognizing a word can create a pleasant feeling of understanding. Sometimes that feeling arrives too early. A familiar spelling may carry a different meaning in another sentence, and the surrounding context can matter more than the first definition we remember.\n\nConsider the word “right.” In one sentence, it may describe a correct answer. In another, it may name a direction. In a discussion of public services, it may refer to something a person is entitled to. These uses are connected through one spelling, but a reader cannot replace each one with the same explanation.\n\nA learner named Dana noticed this while reading a short report. She could recognize almost every word but still misunderstood the main point. Instead of looking at the whole paragraph, she had matched each familiar word with the meaning from her first vocabulary lesson. Her guess sounded reasonable until another sentence contradicted it.\n\nDana began saving a complete example with each new use. She noted the surrounding words and the subject being discussed. Her aim was not to collect every possible definition at once. It was to remember enough of the context to understand the particular sense she had encountered.\n\nWhen she wanted to review the language, she covered the explanation and asked what the expression meant in that sentence. If she could only remember a translation unrelated to the passage, she read the example again. Recognizing the shape of a word was a useful beginning, not the whole learning task.\n\nThis habit made reading slower at first. Over time, it also made Dana less likely to accept the first convenient interpretation. A familiar word became an invitation to check its role in the sentence. Understanding grew when she connected the word, its surroundings, and the idea the writer was actually expressing.",
+      "vocabulary": [
+        "v_meaning",
+        "v_context",
+        "v_recognize",
+        "v_guess",
+        "v_example",
+        "v_review"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does Dana learn about familiar vocabulary?",
+          "choices": [
+            "Recognizing spelling is not enough to identify the meaning used in context",
+            "Every word always has one fixed translation",
+            "Reading should avoid complete sentences",
+            "A first guess can never be checked"
+          ],
+          "answer": 0,
+          "explanation": "The passage distinguishes familiar form from understanding a particular sense."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does Dana save with a new use?",
+          "choices": [
+            "A complete example and its surrounding context",
+            "A list of every book she owns",
+            "Only the number of letters",
+            "An unrelated translation"
+          ],
+          "answer": 0,
+          "explanation": "The saved sentence helps her remember which meaning was relevant."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why might many familiar words still lead to misunderstanding?",
+          "choices": [
+            "Every familiar word is unnecessary",
+            "A known spelling guarantees the author is wrong",
+            "The passage must contain no main idea",
+            "The reader may choose meanings that do not fit the passage"
+          ],
+          "answer": 3,
+          "explanation": "Matching each word with its first learned sense can distort the overall message."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “review” involve in Dana’s routine?",
+          "choices": [
+            "Returning to the sentence to check understanding",
+            "Avoiding all earlier examples",
+            "Copying a word without reading it",
+            "Guessing without looking at the passage"
+          ],
+          "answer": 0,
+          "explanation": "She studies the relevant use again rather than relying only on recognition."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

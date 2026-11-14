@@ -1,0 +1,365 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_the-long-life-of-a-library-card",
+      "title": "The Long Life of a Library Card",
+      "level": "B1",
+      "category": "Society",
+      "reading_minutes": 2,
+      "body": "A library card looks like a very small object. Yet it connects a person with a shared system: books, borrowing dates, quiet rooms, and people who can help. In this imagined neighborhood library, a new card also begins a conversation about rights and responsibilities.\n\nWhen a person becomes a member, a worker explains which services are public and which require registration. Reading at a table does not require the same process as borrowing a book to take home. The library tries to make that difference clear, so people do not assume they are excluded from every activity if they cannot register immediately.\n\nThe worker also explains why certain information is requested. A contact detail helps the library send a borrowing reminder. It should not become a reason to collect every possible fact about a reader’s life. The library’s privacy notice describes what is kept and who may see it.\n\nA borrowing record has a practical purpose, but the library does not treat it as a complete picture of someone’s interests or beliefs. A person might borrow a book for a friend, for a school task, or simply out of curiosity. Guessing too much from that record could create a misleading story.\n\nThe card carries a simple rule: return shared materials on time or ask for help if a problem occurs. That rule protects access for the next reader. Staff explain it respectfully rather than assuming that every late return is careless.\n\nOver the years, the card may become worn while its owner’s needs change. Someone first borrowing children’s stories may later use the library to look for work or study a language. A useful public service leaves room for those changes instead of deciding in advance what kind of reader a person must be.",
+      "vocabulary": [
+        "v_member",
+        "v_public",
+        "v_privacy",
+        "v_purpose",
+        "v_rule",
+        "v_access"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does the library card represent in this article?",
+          "choices": [
+            "Only permission to sit at a table",
+            "A promise never to need help",
+            "A complete record of a person’s beliefs",
+            "A connection to shared services with clear rights and responsibilities"
+          ],
+          "answer": 3,
+          "explanation": "The card connects people with services while raising questions about fair access and responsible information use."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Why does this library ask for a contact detail?",
+          "choices": [
+            "To limit all public activities",
+            "To judge every book a person reads",
+            "To publish the reader’s home address",
+            "To send borrowing reminders"
+          ],
+          "answer": 3,
+          "explanation": "The article gives reminders as a practical reason for collecting a contact detail."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why should staff avoid judging someone from one borrowed book?",
+          "choices": [
+            "Borrowing records are always false",
+            "The book may have been borrowed for several different reasons",
+            "All books contain identical information",
+            "Nobody reads borrowed books"
+          ],
+          "answer": 1,
+          "explanation": "A borrowing action does not reveal a complete picture of the reader’s purpose or beliefs."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “access” mean when discussing the next reader?",
+          "choices": [
+            "The opportunity to use shared materials and services",
+            "The condition of a card’s plastic surface",
+            "The title of a borrowing reminder",
+            "The price of a printer"
+          ],
+          "answer": 0,
+          "explanation": "Returning books helps other people obtain and use them."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_listening-for-the-whole-message",
+      "title": "Listening for the Whole Message",
+      "level": "B1",
+      "category": "Everyday communication",
+      "reading_minutes": 2,
+      "body": "“I cannot finish it today,” said Leo, placing a folder on the desk. His colleague heard the first few words and immediately began offering solutions. She suggested working later, skipping lunch, and sending a shorter report. Leo looked increasingly uncomfortable. None of those suggestions answered what he had meant to say.\n\nThe full message was different: Leo could not finish because a necessary document had not arrived. He had completed his own part and wanted to explain what information was missing. His colleague had heard a problem with effort where there was actually a problem with available material.\n\nThey restarted the conversation. This time, she let him finish before asking a question. “Can you clarify which document we still need?” That question made it easier to identify a useful next step. They could contact the person responsible for sending the document rather than change Leo’s lunch break.\n\nListening does not require agreeing with everything someone says. It does require giving the message enough space to become clear. If we interrupt too quickly, we may respond to the story we expect rather than the one being told.\n\nA polite reply can include a brief check of understanding: “So your part is ready, but you are waiting for the figures. Is that right?” Such a sentence gives the speaker a chance to correct a mistake before it affects the decision. It is particularly useful when people are tired or discussing a complicated task.\n\nLeo and his colleague did not need a special communication tool. They needed a short pause and a better question. Once the whole message was heard, the work became easier to organize and the disagreement they had nearly created was no longer necessary.",
+      "vocabulary": [
+        "v_explain",
+        "v_conversation",
+        "v_clarify",
+        "v_interrupt",
+        "v_respond",
+        "v_polite"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What improves the conversation between the colleagues?",
+          "choices": [
+            "Giving advice before hearing the problem",
+            "Making Leo work through lunch",
+            "Listening fully and checking the intended meaning",
+            "Avoiding all questions"
+          ],
+          "answer": 2,
+          "explanation": "Once the colleague listens and asks a focused question, the real issue becomes clear."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Why can Leo not finish the report?",
+          "choices": [
+            "He refuses to do his part",
+            "He has lost his folder",
+            "The office has closed permanently",
+            "A necessary document has not arrived"
+          ],
+          "answer": 3,
+          "explanation": "His own part is complete, but he needs missing information."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does repeating a short understanding check help?",
+          "choices": [
+            "It allows the speaker to correct a mistaken interpretation",
+            "It prevents the speaker from finishing",
+            "It proves the listener always agrees",
+            "It removes the need for any documents"
+          ],
+          "answer": 0,
+          "explanation": "Checking meaning can stop a misunderstanding from shaping the next decision."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “clarify” ask Leo to do?",
+          "choices": [
+            "Hide the delay",
+            "Finish without any figures",
+            "Make the missing information more specific and clear",
+            "Accept every suggestion"
+          ],
+          "answer": 2,
+          "explanation": "The question asks exactly which document is still needed."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_what-a-forecast-can-and-cannot-promise",
+      "title": "What a Forecast Can and Cannot Promise",
+      "level": "B1",
+      "category": "Environment",
+      "reading_minutes": 2,
+      "body": "A weather forecast helps people make plans, but it is not a promise about every place and moment. Two friends learned this while organizing an outdoor reading event. The forecast suggested that rain was possible in the afternoon. One friend wanted to cancel immediately; the other wanted to ignore the warning because the morning sky looked clear.\n\nThey decided to separate two questions. How likely was rain according to the available information? What would happen if it arrived? A small chance might be acceptable for a short walk with a coat. The same chance could matter more when borrowed books, electrical equipment, and many visitors were involved.\n\nThe friends checked the latest forecast again before the event. Conditions can change, so an earlier message may no longer be the best guide. They also paid attention to the area covered. A general forecast did not describe the exact conditions at every corner of their park.\n\nTheir final plan included a covered room nearby. They told visitors where to go if the event moved indoors and kept the announcement short enough to read on a phone. They did not claim that rain would certainly arrive, or that good weather was guaranteed.\n\nDuring the afternoon, a brief shower crossed part of the neighborhood. Some visitors stayed under the roof while others had not seen rain on their journey. That difference did not automatically show that someone’s account was wrong. Nearby people can experience different conditions.\n\nThe event continued successfully because the organizers considered both uncertainty and risk. They did not need perfect knowledge to act responsibly. A forecast becomes useful when people understand what it suggests, recognize what it cannot settle, and prepare for a reasonable alternative.",
+      "vocabulary": [
+        "v_forecast",
+        "v_likely",
+        "v_plan",
+        "v_certainly",
+        "v_risk",
+        "v_prepare"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "How do the friends use the forecast responsibly?",
+          "choices": [
+            "They treat it as a guaranteed account of every street",
+            "They ignore it after looking at the morning sky",
+            "They assume any rain must last all day",
+            "They combine its uncertainty with the possible consequences and a backup plan"
+          ],
+          "answer": 3,
+          "explanation": "They consider both the likelihood of rain and what rain would affect."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What alternative location do they arrange?",
+          "choices": [
+            "A private office with no visitor access",
+            "An uncovered field",
+            "A covered room nearby",
+            "A bus station in another town"
+          ],
+          "answer": 2,
+          "explanation": "The covered room lets the reading event continue if the weather changes."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why can two nearby visitors report different weather?",
+          "choices": [
+            "Conditions can vary across places and moments",
+            "Forecasts never describe real weather",
+            "The event changed the climate",
+            "One visitor must be lying"
+          ],
+          "answer": 0,
+          "explanation": "The shower crosses only part of the neighborhood."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “risk” add to the friends’ discussion?",
+          "choices": [
+            "A guarantee that nothing will go wrong",
+            "The exact time of sunrise",
+            "The possible harm if an uncertain event happens",
+            "Only the color of the clouds"
+          ],
+          "answer": 2,
+          "explanation": "They consider what rain would mean for visitors, books, and electrical equipment."
+        }
+      ],
+      "references": [
+        {
+          "title": "National Weather Service: weather information",
+          "url": "https://www.weather.gov/"
+        }
+      ]
+    },
+    {
+      "id": "a_the-small-test-before-the-school-fair",
+      "title": "The Small Test Before the School Fair",
+      "level": "B1",
+      "category": "Real-world problem solving",
+      "reading_minutes": 2,
+      "body": "The school fair committee had a generous idea: build a large display where visitors could leave messages about their favorite books. The drawing looked attractive, but nobody had tried using it. Before spending most of the budget, two volunteers suggested making a smaller model from spare material.\n\nThe model did not need to look finished. Its job was to answer practical questions. Could people read the instructions quickly? Could younger visitors reach the writing space? Would a message stay attached when someone opened the nearby door? These questions were easier to discuss with something people could actually touch.\n\nDuring the first test, one visitor tried to write directly on the board instead of on a separate card. Another could not find a pen. A third stood in front of the instructions while reading the messages. The volunteers wrote these problems down without blaming the visitors for using the display differently from the drawing.\n\nThe committee changed the arrangement. Pens were placed where people naturally paused. A short instruction appeared on both sides of the writing space. The bottom row was moved lower, and the cards were attached more securely. The team then invited a different small group to try again.\n\nNot every problem disappeared, but the second test made the design easier to use. More importantly, the committee could prepare the full display with better reasons for each choice. The small model had cost very little compared with rebuilding the finished board.\n\nAt the fair, volunteers still watched how people used the display. A test was not a promise that every difficulty had been found. It was a way to learn early, when changes were less expensive. The strongest part of the design was not its first neat drawing, but the team’s willingness to question it.",
+      "vocabulary": [
+        "v_budget",
+        "v_material",
+        "v_instruction",
+        "v_visitor",
+        "v_problem",
+        "v_prepare"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the committee make a small model first?",
+          "choices": [
+            "To learn about use before committing most of the budget",
+            "To avoid holding the fair",
+            "To replace books with a new product",
+            "To prove visitors always follow drawings"
+          ],
+          "answer": 0,
+          "explanation": "The inexpensive model reveals practical issues while changes are still easy."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What happens to the bottom row after the first test?",
+          "choices": [
+            "It is moved lower",
+            "It is hidden behind the door",
+            "It is written only in pencil",
+            "It is removed from the event entirely"
+          ],
+          "answer": 0,
+          "explanation": "Lowering it helps visitors who cannot reach the original position."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why invite a different group for the second test?",
+          "choices": [
+            "The first visitors are not allowed to read",
+            "Only one group can use pens",
+            "New visitors can show whether the changed design is understandable without prior experience",
+            "The committee wants identical comments"
+          ],
+          "answer": 2,
+          "explanation": "People unfamiliar with the first model provide a fresh view of the revised design."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “material” mean in making the small model?",
+          "choices": [
+            "The supplies used to construct it",
+            "The fair’s final attendance count",
+            "The money charged for entry",
+            "The names on the committee"
+          ],
+          "answer": 0,
+          "explanation": "Spare physical supplies make the early model possible."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-museum-label-in-two-voices",
+      "title": "A Museum Label in Two Voices",
+      "level": "B1",
+      "category": "History",
+      "reading_minutes": 2,
+      "body": "A small museum borrowed an old cooking pot for an exhibition. One label described its size, material, and age. A second label explained how one family had used a similar pot during celebrations. Both labels concerned the same kind of object, but they invited different questions.\n\nThe first label helped visitors compare the pot with others in the display. It focused on details that could be examined or connected with records. The second introduced a family tradition. It described preparing food together and passing recipes between generations. That account added human experience, but it did not prove that every family used the pot in the same way.\n\nThe museum’s editor wanted both voices to be clear about their source. A written inventory supported some information about the borrowed pot. A recorded conversation supplied the family account. The editor did not turn the family’s memory into a general rule about an entire culture.\n\nDifferent members of the audience noticed different things. One visitor asked about the mark on the handle. Another remembered a similar kitchen smell from childhood. A third wanted to know who had usually done the cooking and whose work the original display had failed to mention.\n\nThese questions encouraged the museum to add another short note. It invited visitors to share a memory while explaining that new accounts would be checked and clearly identified. The exhibition was not complete simply because the labels had been printed.\n\nA museum label cannot tell every possible story. It can, however, show where information comes from and leave room for more than one perspective. In this exhibition, careful detail and personal memory worked best when neither pretended to speak for everyone.",
+      "vocabulary": [
+        "v_object",
+        "v_detail",
+        "v_tradition",
+        "v_source",
+        "v_culture",
+        "v_audience"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the museum use two kinds of label?",
+          "choices": [
+            "To show that records and memories always agree",
+            "To avoid explaining sources",
+            "To claim that all families share one tradition",
+            "To offer different useful perspectives while identifying their limits"
+          ],
+          "answer": 3,
+          "explanation": "Physical details and family experience contribute different kinds of understanding."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Where does the family account come from?",
+          "choices": [
+            "An unmarked online advertisement",
+            "A recorded conversation",
+            "A bus timetable",
+            "A measurement of the pot’s weight"
+          ],
+          "answer": 1,
+          "explanation": "The recorded conversation is identified separately from the written inventory."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why should the family’s memory not become a rule about an entire culture?",
+          "choices": [
+            "One account cannot represent every family’s experience",
+            "Museums cannot discuss food",
+            "The family has no right to tell its story",
+            "Physical objects contain no information"
+          ],
+          "answer": 0,
+          "explanation": "The editor avoids making a broad generalization from one particular experience."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "Who is the “audience” in this exhibition?",
+          "choices": [
+            "Only the family that owns a pot",
+            "The objects stored outside the museum",
+            "Only the people who wrote the labels",
+            "The people viewing and engaging with the display"
+          ],
+          "answer": 3,
+          "explanation": "Audience refers to the visitors who encounter and interpret the display."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

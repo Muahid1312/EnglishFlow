@@ -1,0 +1,370 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_the-missing-participants-in-the-survey",
+      "title": "The Missing Participants in the Survey",
+      "level": "B2",
+      "category": "Science",
+      "reading_minutes": 3,
+      "body": "A neighborhood association wanted to understand how residents used the local park. It published a short online survey and received many enthusiastic responses. The first summary described strong support for adding a digital booking system to the sports area. Before treating that result as the neighborhood’s view, one member asked who had actually been able to respond.\n\nThe question revealed a possible selection bias. The survey link had circulated mainly through a sports club’s messaging group. Residents who did not belong to that group, did not use the platform, or needed assistance with the form were less likely to appear in the records. A large number of responses did not automatically make the sample representative.\n\nThe association reviewed the demographic information it had collected voluntarily. Several age groups and streets were barely present. This did not prove that every missing resident opposed the booking system. Silence could not fairly be turned into either agreement or disagreement. It showed that the existing evidence did not cover the community evenly.\n\nMembers then considered what further information they needed. Short conversations at the park, paper forms at the library, and meetings at different times might reach other users. These methods also had limitations. People passing through at one particular hour would not represent everyone, and a conversation could be influenced by how a question was asked.\n\nThe aim was not to discover a method without any weaknesses. It was to understand the weaknesses well enough to avoid an exaggerated inference. The team could quantify what respondents had said while clearly identifying who those respondents were. Broader claims required broader support.\n\nThe revised report kept the original responses but changed the conclusion. It said that the proposed system was popular among those reached by the first survey, and that additional consultation was needed before a decision affecting everyone. This statement was less dramatic than announcing a clear community mandate. It was also more defensible.\n\nEvery survey leaves something outside its frame. The practical responsibility is to notice that boundary before using the results. A limitation becomes particularly important when the people missing from the data are also those most likely to face difficulty with the proposed change.",
+      "vocabulary": [
+        "v_selection-bias",
+        "v_representative",
+        "v_demographic",
+        "v_inference",
+        "v_quantify",
+        "v_limitation"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What weakens the initial claim about neighborhood support?",
+          "choices": [
+            "Every online response must be false",
+            "The form contains no questions about the park",
+            "A large survey can never contain useful information",
+            "The people reached do not necessarily reflect the wider community"
+          ],
+          "answer": 3,
+          "explanation": "The distribution channel and access requirements leave important residents outside the response group."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Where was the link mainly circulated?",
+          "choices": [
+            "A national newspaper advertisement",
+            "Every household’s printed bill",
+            "A sports club’s messaging group",
+            "The local hospital’s private records"
+          ],
+          "answer": 2,
+          "explanation": "That narrow route helps explain the pattern of respondents."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "What can be concluded about residents who did not respond?",
+          "choices": [
+            "They have stopped using the park",
+            "They all oppose digital systems",
+            "Their views cannot be assumed from their absence alone",
+            "They all approve the proposal"
+          ],
+          "answer": 2,
+          "explanation": "The article explicitly separates missing evidence from evidence of either agreement or disagreement."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “representative” mean for the sample?",
+          "choices": [
+            "Large enough to fill a room",
+            "Identical to the sports committee",
+            "Chosen only from confident internet users",
+            "Reflecting relevant features of the wider group"
+          ],
+          "answer": 3,
+          "explanation": "Representation concerns the relationship between respondents and the community being described."
+        }
+      ],
+      "references": [
+        {
+          "title": "U.S. Census Bureau: surveys and population information",
+          "url": "https://www.census.gov/"
+        }
+      ]
+    },
+    {
+      "id": "a_who-gets-to-tell-a-local-history",
+      "title": "Who Gets to Tell a Local History",
+      "level": "B2",
+      "category": "History",
+      "reading_minutes": 3,
+      "body": "A committee preparing a neighborhood history planned to place one short description beneath a photograph of the old market. The first draft described the market as a meeting place that had united everyone. It sounded suitable for a public display, but several residents questioned whose experience the word “everyone” represented.\n\nOne person remembered the market as a place of independence, where she had first earned her own money. Another recalled physical barriers that made it difficult to enter. A former worker emphasized the early mornings and demanding labor hidden behind cheerful pictures. These accounts did not necessarily cancel one another. They described different positions within the same setting.\n\nThe committee decided to treat heritage as something interpreted through evidence and lived experience, not as a single comfortable story. It recorded interviews with consent and explained how extracts might be used. Interviewees could choose not to answer a question, and personal details unnecessary for the display were not automatically included.\n\nWhen selecting a quotation, editors preserved the speaker’s wording and identified its source. Clear attribution helped readers distinguish a resident’s memory from a statement supported by several records. The committee also avoided editing a difficult account into a cheerful sentence simply because it fitted the exhibition’s original tone.\n\nWritten documents added another perspective. A record of stall fees showed an administrative concern, but it did not capture every exchange or relationship. The photograph preserved visible details from one moment, not the feelings of every person outside its frame. Each source offered information while leaving other questions unanswered.\n\nThe final panel used several short accounts and explained that its interpretation remained provisional. New records might clarify dates, and further interviews might reveal experiences the committee had not yet heard. Acknowledging this possibility did not mean that every claim deserved equal confidence. Specific statements still needed support appropriate to what they asserted.\n\nThe resulting display was less simple than the first draft. It invited visitors to consider belonging, access, work, and memory together. Local history became an opportunity to examine how a shared place can hold different meanings. The committee’s responsibility was not to force those meanings into one voice, but to present them carefully enough that readers could see both the evidence and the choices made in telling the story.",
+      "vocabulary": [
+        "v_heritage",
+        "v_consent",
+        "v_quotation",
+        "v_attribution",
+        "v_interpretation",
+        "v_provisional"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What principle shapes the revised exhibition?",
+          "choices": [
+            "Every memory must be treated as an exact record of all events",
+            "Written records should be removed whenever memories differ",
+            "The committee should publish only the most cheerful account",
+            "Different supported experiences should be presented without forcing a single comfortable story"
+          ],
+          "answer": 3,
+          "explanation": "The committee makes room for different positions while retaining careful source standards."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "How are selected interview quotations handled?",
+          "choices": [
+            "Their source is hidden to make them universal",
+            "Their wording is preserved and their source is identified",
+            "Speakers’ private details are always included",
+            "They are rewritten to sound identical"
+          ],
+          "answer": 1,
+          "explanation": "Preserving wording and attribution separates a personal account from the editors’ broader claims."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why can a record of stall fees not settle the whole history?",
+          "choices": [
+            "It proves that no market existed",
+            "It documents an administrative purpose rather than every human experience",
+            "Written documents contain no useful details",
+            "Interviewees are always more accurate about dates"
+          ],
+          "answer": 1,
+          "explanation": "Each source answers some questions and leaves others outside its scope."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “provisional” communicate about the interpretation?",
+          "choices": [
+            "It has no supporting information",
+            "It cannot be questioned by visitors",
+            "It is deliberately fictional in every detail",
+            "It is temporary and may be refined as evidence develops"
+          ],
+          "answer": 3,
+          "explanation": "The panel recognizes the possibility of additional records and perspectives."
+        }
+      ],
+      "references": [
+        {
+          "title": "Library of Congress: using primary sources",
+          "url": "https://www.loc.gov/programs/teachers/getting-started-with-primary-sources/"
+        }
+      ]
+    },
+    {
+      "id": "a_the-cost-hidden-in-a-free-service",
+      "title": "The Cost Hidden in a Free Service",
+      "level": "B2",
+      "category": "Technology",
+      "reading_minutes": 3,
+      "body": "A training center discovered an online service that could turn recorded discussions into searchable text. The basic account was free, and the demonstration seemed impressive. Several staff members wanted to upload workshop recordings immediately. The procurement officer asked them to pause: a zero price did not mean that every relevant cost or responsibility had disappeared.\n\nThe recordings included participants discussing work difficulties and personal experiences. Some information was confidential even though it had been shared within a classroom. Agreeing to join a workshop did not necessarily mean agreeing to send a recording to another organization. The center needed informed consent for the proposed use, not an assumption that general participation covered everything.\n\nStaff examined the service’s terms and settings. What happened to uploaded material after a transcript was created? Who could access it? Did the default retain recordings longer than the center needed? Could users delete their material, and what did deletion actually cover? The answers mattered more than the speed of the demonstration.\n\nThe service did disclose several relevant conditions, but they were not all presented on the first screen. A careful review also required time and appropriate expertise. Free access to a tool could therefore create new administrative work rather than remove it. That work belonged in the decision, even if it did not appear on an invoice.\n\nThere was a trade-off between convenience and control. An online service might save transcription time and provide useful search functions. A local process might offer different protections but require more equipment or manual effort. Neither option could be judged responsibly through a slogan such as “online is always unsafe” or “free means there is nothing to lose.”\n\nThe center decided to test the service only with a newly recorded, nonprivate demonstration for which participants had explicitly agreed to the purpose. It also prepared questions for a fuller review before handling real workshop material. The trial evaluated usefulness without treating people’s personal information as convenient test data.\n\nThe lesson extended beyond this one service. The meaningful price of a tool includes the commitments it asks users and organizations to make. Responsible adoption involves understanding those commitments, explaining them to affected people, and recognizing when a useful feature does not justify a particular use.",
+      "vocabulary": [
+        "v_procurement",
+        "v_confidential",
+        "v_consent",
+        "v_default",
+        "v_disclose",
+        "v_trade-off"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the procurement officer ask staff to pause?",
+          "choices": [
+            "The center has no interest in searchable notes",
+            "A free tool may create privacy commitments and other costs that need review",
+            "Free services cannot produce accurate text",
+            "All online transcription is forbidden"
+          ],
+          "answer": 1,
+          "explanation": "The decision must include responsibilities toward participants and the work required to understand the service."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What material does the center use for its limited trial?",
+          "choices": [
+            "Private interviews copied without permission",
+            "A new nonprivate demonstration with explicit agreement",
+            "A confidential staff database",
+            "All older workshop recordings"
+          ],
+          "answer": 1,
+          "explanation": "The test avoids using real private workshop material as convenient trial data."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why is general workshop participation not enough?",
+          "choices": [
+            "Participants cannot understand technology",
+            "A transcript can contain no private details",
+            "Consent to attend and consent to a different data use are not necessarily the same",
+            "Attendance prevents any future discussion"
+          ],
+          "answer": 2,
+          "explanation": "The proposed transfer introduces a purpose and recipient not automatically covered by attending."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “default” refer to in reviewing the service?",
+          "choices": [
+            "The final transcript’s title",
+            "An error made by a workshop participant",
+            "A compulsory payment in every account",
+            "The setting used unless the user changes it"
+          ],
+          "answer": 3,
+          "explanation": "Default settings may retain data longer than the center intends."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_when-a-milestone-replaced-the-goal",
+      "title": "When a Milestone Replaced the Goal",
+      "level": "B2",
+      "category": "Work and careers",
+      "reading_minutes": 2,
+      "body": "A company introduced a training program to help staff handle customer complaints more clearly. Its project plan listed several useful milestones: preparing examples, giving workshops, and making practice activities available. Within a few months, every milestone had a check mark beside it. The project was described as complete, although nobody had examined whether staff could use the approach in difficult conversations.\n\nThe distinction between an activity and an outcome had been lost. Producing a workshop is something a team can count directly. Improving communication is harder to establish. The easier measure gradually became the main indicator of success, even though it was only a step toward the original goal.\n\nA reviewer asked for evidence beyond attendance. Could staff identify the customer’s actual concern? Could they explain a decision without blaming the customer? Could they recognize when a case needed support from another team? These questions required practical demonstrations and careful observation, not just a list of completed sessions.\n\nThe team designed a limited follow-up task using fictional cases. An objective check covered essential details that every response needed to address. Other parts, such as tone and clarity, required informed judgment supported by a shared rubric. The team did not turn every aspect of conversation into an invented numerical proficiency score.\n\nThe results were mixed. Some staff applied the approach confidently. Others remembered the terminology but struggled to use it when the fictional customer introduced a new complication. This finding did not erase the value of the workshops. It showed where the project’s claims needed to be narrower and where further practice would be useful.\n\nAccountability meant reporting that difference openly. The project leader retained the milestone record but separated it from claims about improved performance. Future reports would state what had been delivered, what had actually been tested, and which conclusions remained uncertain.\n\nThe company learned that a well-organized project can still answer the wrong question. Milestones help coordinate effort, but they cannot automatically substantiate the final benefit. A useful measure should remain connected to the purpose it was chosen to serve. When the measure becomes the goal, neat progress can hide the very work that still needs to happen.",
+      "vocabulary": [
+        "v_milestone",
+        "v_outcome",
+        "v_indicator",
+        "v_objective",
+        "v_accountability",
+        "v_substantiate"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What is the project’s central measurement problem?",
+          "choices": [
+            "It confuses completed activities with evidence of the intended improvement",
+            "It has no workshops or practice tasks",
+            "It assumes fictional cases are real customer complaints",
+            "It refuses to count anything"
+          ],
+          "answer": 0,
+          "explanation": "Check marks show delivery, not necessarily the ability to apply learning."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does the follow-up task use?",
+          "choices": [
+            "Private customer recordings shared publicly",
+            "A survey of unrelated product colors",
+            "Only a count of workshop chairs",
+            "Fictional customer cases"
+          ],
+          "answer": 3,
+          "explanation": "Fictional cases allow practical assessment without treating real customers as test material."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why keep the milestone record after discovering mixed results?",
+          "choices": [
+            "It proves further practice is unnecessary",
+            "It makes the rubric an official qualification",
+            "It eliminates all uncertainty about performance",
+            "It still documents delivered work, even though it cannot prove every claimed benefit"
+          ],
+          "answer": 3,
+          "explanation": "The team separates evidence of delivery from evidence of outcomes instead of discarding either distinction."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “substantiate” mean in discussing the final benefit?",
+          "choices": [
+            "Replace practice with attendance",
+            "Make a claim more attractive through formatting",
+            "Describe every conversation as identical",
+            "Support a claim with appropriate evidence"
+          ],
+          "answer": 3,
+          "explanation": "The benefit needs evidence showing more than completion of preparatory steps."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_learning-to-leave-a-task-unfinished",
+      "title": "Learning to Leave a Task Unfinished",
+      "level": "B2",
+      "category": "Personal development",
+      "reading_minutes": 3,
+      "body": "When Farah joined a volunteer mapping project, she offered to improve the entire neighborhood guide. She wanted clearer routes, better descriptions, translated notices, and a new system for checking changes. Her motivation was genuine, but the plan quietly assumed more time than she could provide alongside work and family responsibilities.\n\nAs the deadline approached, she treated every unfinished item as evidence of personal failure. Her workload grew while the guide became harder to organize. New ideas entered the project faster than completed sections left it. A colleague asked whether the scope still matched the purpose of the first release.\n\nThat question was different from telling Farah to care less. The guide’s first priority was to provide checked directions to essential services. Decorative improvements and additional stories could be valuable later, but they were not equally urgent. Some items also depended on information the team had not yet obtained.\n\nFarah and her colleague identified each constraint explicitly. They had limited time, a small printing budget, and only a few people available to verify details. Instead of hiding these limits, they used them to separate essential work from work that could be postponed. An unfinished optional feature was not the same as an unchecked safety-critical direction.\n\nThe revised plan included a provisional list for a later edition. Postponed tasks remained visible, with reasons, rather than disappearing into a vague promise to finish everything eventually. Contributors could see what had changed and decide whether they wished to help with a particular item. The team also explained the first guide’s boundaries to readers.\n\nFarah’s well-being improved when the project stopped depending on constant extra hours. More importantly, the core guide became easier to check because fewer unfinished ideas competed for attention. This was not proof that reducing effort always improves results. It showed that effort directed toward an unclear and expanding scope can work against the original aim.\n\nLeaving a task unfinished can be irresponsible if the task is essential and its absence is hidden. It can also be a responsible choice when priorities are clear, limits are acknowledged, and consequences are explained. Farah learned to judge completion by the work actually promised, not by an endless collection of possible improvements.",
+      "vocabulary": [
+        "v_workload",
+        "v_scope",
+        "v_priority",
+        "v_constraint",
+        "v_provisional",
+        "v_well-being"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes postponing some tasks responsible in Farah’s case?",
+          "choices": [
+            "The guide no longer needs checked directions",
+            "Any unfinished task can be ignored without explanation",
+            "Personal effort never affects quality",
+            "The team distinguishes essential work, explains limits, and keeps postponed work visible"
+          ],
+          "answer": 3,
+          "explanation": "Responsible prioritization depends on clarity about purpose, limits, and consequences."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What is the first release’s main priority?",
+          "choices": [
+            "The most decorative cover available",
+            "Checked directions to essential services",
+            "Every possible neighborhood story",
+            "A promise to include all future features immediately"
+          ],
+          "answer": 1,
+          "explanation": "The guide’s core purpose becomes the basis for choosing what must be finished."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does the provisional list help contributors?",
+          "choices": [
+            "It guarantees all ideas will be completed the next day",
+            "It hides which promises have changed",
+            "It replaces all verification tasks",
+            "It makes deferred work and its reasons visible enough to discuss or support"
+          ],
+          "answer": 3,
+          "explanation": "An explicit list allows informed decisions rather than vague expectations."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “scope” mean in the colleague’s question?",
+          "choices": [
+            "The physical size of a map’s letters",
+            "The boundaries of what the first release is intended to include",
+            "The number of streets that exist in the city",
+            "Farah’s total income"
+          ],
+          "answer": 1,
+          "explanation": "Scope concerns the project’s agreed coverage, not every possible improvement."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

@@ -1,0 +1,377 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_why-encryption-does-not-replace-consent",
+      "title": "Why Encryption Does Not Replace Consent",
+      "level": "B2",
+      "category": "Technology",
+      "reading_minutes": 3,
+      "body": "A team preparing a report wanted to send interview notes through an online writing service. The service advertised encrypted connections. Several team members assumed this settled the privacy question: if the transfer was protected, surely the material could be uploaded safely. Their colleague pointed out that protection during transfer and permission to share were different questions.\n\nEncryption can help prevent unauthorized parties from reading data while it travels or remains stored in a protected form. It does not decide whether the intended recipient should receive the information in the first place. A securely delivered message can still disclose confidential details to an organization that the interviewee never agreed to involve.\n\nAuthentication addresses another part of the problem. It helps establish that a user or system is who it claims to be. Authorization then concerns what an identified party is allowed to access or do. These controls are related, but passing one does not automatically satisfy the others. Knowing the identity of a recipient is not the same as having permission to give that recipient every document.\n\nThe team returned to the original consent process. Interviewees had agreed that selected extracts could appear in a particular report. The agreement had not mentioned sending full notes to a separate service. Some notes also included details that were unnecessary for the writing task. The convenience of the new tool did not expand the original permission.\n\nThey considered several alternatives. Could the task be completed locally? Could they create a nonprivate example that tested the service’s usefulness? Could relevant participants be asked about a clearly described new use? Each possibility required an explanation of what would happen, rather than a reassuring technical label alone.\n\nThe revised procedure kept security and consent checks separate. Staff still needed protected connections and appropriate account controls. They also needed a reason to share each category of information, an authorized recipient, and a clear understanding of retention and use.\n\nThe lesson was not that encryption was unimportant. It was that a useful safeguard should not be asked to answer a different question. Privacy depends on several connected decisions about people, purposes, access, and technology. A lock can protect a delivery route without deciding whether the parcel belongs at that destination.",
+      "vocabulary": [
+        "v_encryption",
+        "v_disclose",
+        "v_confidential",
+        "v_authentication",
+        "v_authorization",
+        "v_consent"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What mistake does the team initially make?",
+          "choices": [
+            "It refuses every possible privacy safeguard",
+            "It treats protected transmission as permission for a new disclosure",
+            "It assumes interview notes contain no words",
+            "It decides authentication and encryption are identical to printing"
+          ],
+          "answer": 1,
+          "explanation": "Security of the route does not establish whether the recipient is authorized for that material."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What had interviewees originally agreed to?",
+          "choices": [
+            "Publication of every private detail",
+            "Automatic changes to the agreement whenever staff find a tool",
+            "Unlimited use of full notes by any service",
+            "Selected extracts appearing in a particular report"
+          ],
+          "answer": 3,
+          "explanation": "The original permission was narrower than the proposed full-note transfer."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why can a nonprivate example help during evaluation?",
+          "choices": [
+            "It establishes consent on behalf of all future participants",
+            "It proves every data-retention policy is acceptable",
+            "It can test usefulness without exposing real interview material",
+            "It makes account controls unnecessary"
+          ],
+          "answer": 2,
+          "explanation": "A limited trial can answer a practical question without expanding disclosure of confidential data."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “authorization” refer to here?",
+          "choices": [
+            "The visual design of a website",
+            "The writer’s preference for a longer paragraph",
+            "Permission for an identified party to access or act on information",
+            "The speed of a connection"
+          ],
+          "answer": 2,
+          "explanation": "Authorization concerns allowed access and actions, not merely identity."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_water-below-the-street",
+      "title": "Water Below the Street",
+      "level": "B2",
+      "category": "Nature",
+      "reading_minutes": 3,
+      "body": "The most visible water in a town may be the river, a reservoir, or rain running along the road. Yet part of the water system lies below the surface, stored in spaces in soil and rock. Understanding groundwater requires attention to processes that are less immediately visible than a flowing stream.\n\nRain does not all follow the same route. Some water runs across the surface, some returns to the atmosphere, and some enters the ground. Under suitable conditions, this movement can help replenish underground stores. How much water follows each path depends on the materials, land cover, weather, and other local conditions.\n\nA well provides one useful view into this system, but it is not a transparent window onto every underground process. Changes in a measured water level may reflect extraction, recharge, nearby pumping, or other influences. A single reading can be an indicator without fully explaining why the system is changing.\n\nConsider a town where water demand rises during a dry season. Residents notice lower levels in several wells and ask whether depletion is occurring. The question needs records over time, information about use, and an understanding of the local geology. It cannot be settled simply by looking at the nearest river on one wet afternoon.\n\nThe watershed offers a helpful way to organize questions about water draining across the landscape. Underground flow, however, may require additional information; it should not automatically be assumed to follow every boundary visible on a surface map. The scope of an investigation must match the question being asked.\n\nThis complexity does not justify delaying every practical decision until knowledge is perfect. A community can measure use, repair avoidable leaks, and examine demand while specialists investigate the wider system. What matters is distinguishing an action supported by current evidence from a claim that every cause and consequence is already known.\n\nGroundwater is therefore both a physical resource and a lesson in reading evidence. Its hidden location makes simple stories attractive: an empty-looking river proves there is no water below, or a rainy day proves every store has recovered. A more useful account connects measurements, timescales, and local conditions, leaving room for uncertainty without abandoning responsibility.",
+      "vocabulary": [
+        "v_groundwater",
+        "v_replenish",
+        "v_extraction",
+        "v_indicator",
+        "v_depletion",
+        "v_watershed",
+        "v_scope"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does groundwater need more than a single visible observation?",
+          "choices": [
+            "A river’s appearance reveals all underground movement",
+            "Its condition reflects several processes across time and local geology",
+            "It is unrelated to any human activity",
+            "One rainy afternoon always restores every store"
+          ],
+          "answer": 1,
+          "explanation": "The article connects underground conditions with recharge, use, materials, and timescales."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What can influence a well’s measured level?",
+          "choices": [
+            "Extraction, recharge, and nearby pumping among other factors",
+            "Only the name of the town",
+            "The number of maps in the library",
+            "Only the color of the well cover"
+          ],
+          "answer": 0,
+          "explanation": "The passage identifies several influences rather than one guaranteed cause."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why can leak repair be reasonable before every cause is known?",
+          "choices": [
+            "Every local action has an identical effect",
+            "Specialist investigation is always unnecessary",
+            "Repairing a leak proves groundwater is unlimited",
+            "Some practical actions are supported without a complete explanation of the wider system"
+          ],
+          "answer": 3,
+          "explanation": "Incomplete understanding does not mean no responsible action is possible."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “scope” mean for the investigation?",
+          "choices": [
+            "The retail price of water",
+            "The color of the river after rain",
+            "The depth of every well exactly",
+            "The boundaries of what it examines"
+          ],
+          "answer": 3,
+          "explanation": "The investigation’s coverage needs to fit the question, including relevant processes beyond a simple surface view."
+        }
+      ],
+      "references": [
+        {
+          "title": "USGS Water Science School: groundwater background",
+          "url": "https://www.usgs.gov/special-topics/water-science-school"
+        }
+      ]
+    },
+    {
+      "id": "a_an-archive-with-a-gap",
+      "title": "An Archive With a Gap",
+      "level": "B2",
+      "category": "History",
+      "reading_minutes": 3,
+      "body": "A researcher examining the history of a community workshop found a puzzling gap. The archive contained meeting notes from several years, but one period had almost no records. Later interviews described an important disagreement during that time. It was tempting to assume that someone had deliberately removed the relevant documents.\n\nThat explanation was possible, but it was not established by the gap itself. Records may be lost, never created, stored elsewhere, or excluded by an earlier collection policy. An archive is a preserved selection of material, not a complete recording of everything that happened. Its arrangement has a history of its own.\n\nThe researcher therefore began with a different question: what was known about the collection process? She examined inventories, spoke with former volunteers, and checked whether similar gaps appeared in unrelated subjects. One contributor remembered storing papers temporarily during a building repair. That account was useful, but it still needed to be distinguished from direct evidence about the missing files.\n\nAttribution became especially important in the final notes. A reference identified each surviving document used. A statement supported by a dated inventory was labeled differently from a memory offered decades later. The researcher preserved each person’s words carefully rather than turning uncertain recollection into an official-looking institutional account.\n\nThe scope of the project also mattered. Its purpose was to understand the workshop’s role in local life, not to resolve every possible question about its records. The missing period was a limitation that affected some conclusions more than others. Information about later activities could remain useful even if the earlier disagreement was not fully explained.\n\nThe final interpretation was provisional. It identified several plausible reasons for the absence and described what additional evidence could help distinguish between them. It did not treat all explanations as equally likely, but it avoided presenting the most dramatic possibility as a fact merely because it made a stronger story.\n\nA gap can be meaningful without having one obvious meaning. Historical work involves reading what survives while asking how it came to survive. The most careful account may leave an unresolved space visible. That openness gives future readers a way to question, extend, or correct the work rather than inherit an unsupported certainty.",
+      "vocabulary": [
+        "v_reference",
+        "v_attribution",
+        "v_scope",
+        "v_limitation",
+        "v_interpretation",
+        "v_provisional"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "How does the researcher handle the missing records?",
+          "choices": [
+            "She replaces missing files with invented meeting notes",
+            "She assumes all later records are useless",
+            "She investigates the collection history and keeps unsupported explanations provisional",
+            "She announces deliberate destruction immediately"
+          ],
+          "answer": 2,
+          "explanation": "The article distinguishes the existence of a gap from an established explanation of it."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What practical event does a contributor remember?",
+          "choices": [
+            "A confirmed public order to destroy all files",
+            "Temporary paper storage during a building repair",
+            "A new workshop opening in another country",
+            "A complete digital copy with no missing pages"
+          ],
+          "answer": 1,
+          "explanation": "The recollection suggests a possible route of loss but does not settle the matter."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why can later records still be useful?",
+          "choices": [
+            "The gap limits particular conclusions rather than automatically invalidating all surviving evidence",
+            "Later records prove the earlier disagreement never happened",
+            "Every archived statement is necessarily true",
+            "The project has no defined purpose"
+          ],
+          "answer": 0,
+          "explanation": "The significance of missing evidence depends on which question is being addressed."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “attribution” help readers distinguish?",
+          "choices": [
+            "The paper’s exact physical weight",
+            "The number of shelves in a room",
+            "Who supplies a statement and what kind of source supports it",
+            "The workshop’s present electricity bill"
+          ],
+          "answer": 2,
+          "explanation": "Clear source identification separates dated records from later recollections."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_carbon-footprints-and-the-boundary-question",
+      "title": "Carbon Footprints and the Boundary Question",
+      "level": "B2",
+      "category": "Environment",
+      "reading_minutes": 2,
+      "body": "Two suppliers claimed that their notebooks had a smaller carbon footprint than competing products. One emphasized recycled paper. The other highlighted a shorter delivery route. A purchasing group wanted to compare the claims, but the descriptions did not cover the same parts of the products’ lives.\n\nA carbon footprint estimates greenhouse-gas emissions associated with a defined activity or product. The word “defined” matters. A calculation might include raw-material extraction and production, or it might also consider transport, use, maintenance, and disposal. Without knowing the scope, readers may compare numbers that answer different questions.\n\nThe group asked both suppliers to explain their boundaries and assumptions. Which processes were included? What information came from measurements, and what came from general estimates? What baseline was used for the claim that the product was “lower” in emissions? A comparison needs an identified reference, not just a favorable adjective.\n\nThe team also considered whether the notebooks would actually serve the intended purpose. A product with an attractive production estimate might be wasted if its paper was unsuitable for the course. Another might last longer or reduce the need for replacements. Environmental evaluation should remain connected to the service a product provides rather than treating the object as isolated from use.\n\nNo single factor settled the decision. Recycled content, delivery distance, energy consumption, expected waste, and eventual disposal could all matter within a properly defined comparison. The presence of a trade-off did not mean that every choice was equally good. It meant that reasons and assumptions needed to be made explicit.\n\nThe final purchase report therefore separated verified information from supplier claims that remained incomplete. It did not publish an invented precise ranking. Instead, it explained which option best met the group’s requirements under the evidence available and what would need review in a later order.\n\nThe exercise made environmental labels more useful by asking less dramatic questions. Lower than what? Measured across which stages? Under which conditions? A clear boundary does not remove every uncertainty, but it gives a claim a shape that other people can examine. Without that shape, a small number can create a very large misunderstanding.",
+      "vocabulary": [
+        "v_carbon-footprint",
+        "v_extraction",
+        "v_scope",
+        "v_baseline",
+        "v_consumption",
+        "v_disposal",
+        "v_trade-off"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why must the group examine the boundaries of the footprint claims?",
+          "choices": [
+            "Every environmental claim is automatically false",
+            "The suppliers may be counting different stages and using different comparisons",
+            "Delivery distance never affects a product’s footprint",
+            "Only the lowest printed number can be relevant"
+          ],
+          "answer": 1,
+          "explanation": "A fair comparison needs sufficiently comparable scope and assumptions."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does the group ask about the claim that emissions are lower?",
+          "choices": [
+            "Which baseline is used",
+            "Whether a notebook has a title page",
+            "Which color the supplier prefers",
+            "How many adjectives appear on the label"
+          ],
+          "answer": 0,
+          "explanation": "A lower-emission claim needs an identified reference for comparison."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why consider whether the paper suits the course?",
+          "choices": [
+            "Use can never affect an environmental comparison",
+            "A suitable notebook requires no production",
+            "Recycled content guarantees every classroom need",
+            "A product that is not useful may be wasted or require replacement"
+          ],
+          "answer": 3,
+          "explanation": "The evaluation concerns a useful service over time, not an isolated production label."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “scope” identify in a footprint estimate?",
+          "choices": [
+            "The stages and processes included in the calculation",
+            "The exact size of the supplier’s office",
+            "The color of a delivery truck",
+            "A promise that no assumptions were used"
+          ],
+          "answer": 0,
+          "explanation": "Scope defines the calculation’s coverage and therefore the meaning of its result."
+        }
+      ],
+      "references": [
+        {
+          "title": "U.S. Environmental Protection Agency: greenhouse-gas equivalencies background",
+          "url": "https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator"
+        }
+      ]
+    },
+    {
+      "id": "a_boredom-is-not-a-diagnosis",
+      "title": "Boredom Is Not a Diagnosis",
+      "level": "B2",
+      "category": "Psychology",
+      "reading_minutes": 3,
+      "body": "An adult learner described an evening of study as a complete failure. He had felt restless, checked the same page repeatedly, and finished little work. After reading several online comments, he wondered whether this single experience revealed a serious problem. His tutor suggested beginning with a description of what happened rather than attaching an immediate label.\n\nThe evening had followed a long workday. The learner was experiencing fatigue, the room was noisy, and the chosen task had no clear stopping point. These details did not prove one explanation, but they mattered. An isolated difficult session could not responsibly establish a diagnosis of a mental or physical condition.\n\nWords such as anxiety and depression have important meanings, and they should not be used as interchangeable names for every unpleasant moment. Worry before an unfamiliar task is not, by itself, a complete account of someone’s health. Persistent difficulties, their severity, and their effect on daily life require appropriate consideration, sometimes with qualified professional support.\n\nThe tutor kept the discussion within an educational role. She asked what the learner had intended to do, what he could realistically observe, and which practical conditions might be changed for the next session. They chose a shorter task with a clear endpoint and planned a break. This was a study experiment, not a treatment plan or a promise to remove every difficulty.\n\nThe learner also began separating facts from judgments in his notes. “I returned to the same paragraph four times” was an observation. “I am incapable of learning” was a much broader conclusion that the observation did not justify. The distinction allowed a more useful conversation about the task without denying his frustration.\n\nWell-being remained important. The point was not to dismiss every problem as a matter of better organization. It was to avoid turning a vocabulary label into an explanation that had not been established. A responsible tutor could support learning while recognizing the limits of that support.\n\nThe next session was more manageable, but the learner did not treat one improvement as proof that every question was solved. He had gained a more careful way to describe his experience. Sometimes that is the most useful first step: enough clarity to choose an appropriate next action without pretending that one evening tells the whole story.",
+      "vocabulary": [
+        "v_fatigue",
+        "v_diagnosis",
+        "v_anxiety",
+        "v_depression",
+        "v_well-being",
+        "v_observation"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What approach does the tutor encourage?",
+          "choices": [
+            "Use one difficult session to diagnose a condition",
+            "Describe the experience carefully and respect the limits of an educational explanation",
+            "Dismiss persistent problems as laziness",
+            "Promise that a shorter task cures every difficulty"
+          ],
+          "answer": 1,
+          "explanation": "The tutor distinguishes practical study support from conclusions about health."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What change do they choose for the next session?",
+          "choices": [
+            "No opportunity to ask questions",
+            "A shorter task with a clear endpoint and a break",
+            "An entire night without rest",
+            "A public ranking of the learner’s health"
+          ],
+          "answer": 1,
+          "explanation": "The change is a manageable educational experiment rather than a treatment claim."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why is “I am incapable of learning” not justified by rereading a paragraph?",
+          "choices": [
+            "Every learner must understand a page immediately",
+            "It extends far beyond the limited observation",
+            "Only tutors can make any observations",
+            "Rereading proves there was no difficulty"
+          ],
+          "answer": 1,
+          "explanation": "A specific event does not establish a broad permanent judgment about ability."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “diagnosis” mean in this discussion?",
+          "choices": [
+            "Any word used in an online comment",
+            "A count of unfinished paragraphs",
+            "Identification of a health condition through appropriate assessment",
+            "A preferred study schedule"
+          ],
+          "answer": 2,
+          "explanation": "The article treats diagnosis as a conclusion requiring more than one isolated experience."
+        }
+      ],
+      "references": [
+        {
+          "title": "National Institute of Mental Health: depression background",
+          "url": "https://www.nimh.nih.gov/health/topics/depression"
+        }
+      ]
+    }
+  ]
+}

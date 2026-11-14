@@ -1,0 +1,360 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_a-fair-price-for-a-shared-tool",
+      "title": "A Fair Price for a Shared Tool",
+      "level": "B1",
+      "category": "Work and careers",
+      "reading_minutes": 2,
+      "body": "The neighborhood workshop owned a set of tools that residents could borrow. At first, every person paid the same small fee. The money helped replace worn parts, but the committee soon found that one simple price did not answer every question about fairness.\n\nSome people needed a tool for one afternoon. Others used equipment regularly for paid work. A person borrowing a large machine also created different maintenance needs from someone taking a hand tool. The committee wanted a clear rule without making the process so complicated that nobody could understand it.\n\nMembers began by examining the budget. They listed actual repair costs, storage expenses, and the money collected. They did not guess that the workshop was making a profit merely because several payments had arrived. A fair discussion needed a view of both income and costs.\n\nThe revised agreement described the borrowing period, responsibility for returning equipment, and how damage would be reported. A receipt showed the payment and the item taken. The rules also explained that staff could lend only equipment suitable for the borrower’s training and the workshop’s safety requirements.\n\nThe committee added a way to ask about help with fees. It did not require people to discuss private financial details in front of a queue. Clear information and a respectful conversation were part of making the service usable.\n\nNo price satisfied every preference, but residents could now see the reasons behind the system. The committee set a date to review the arrangement after collecting more experience. Fairness became an ongoing responsibility rather than a word printed above the counter. The tools were shared resources, and the rules needed to help keep them useful for the next person as well as the current borrower.",
+      "vocabulary": [
+        "v_borrow",
+        "v_budget",
+        "v_fair",
+        "v_agreement",
+        "v_receipt",
+        "v_lend"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "How does the workshop improve its borrowing system?",
+          "choices": [
+            "It assumes every identical fee is automatically fair",
+            "It treats every borrower as equally trained",
+            "It connects clear rules and actual costs with respectful access",
+            "It removes all maintenance checks"
+          ],
+          "answer": 2,
+          "explanation": "The committee examines costs, use, safety, and practical barriers together."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What information does the receipt show?",
+          "choices": [
+            "The payment and borrowed item",
+            "The committee’s unrelated meeting notes",
+            "Every resident’s personal income",
+            "A guaranteed future profit"
+          ],
+          "answer": 0,
+          "explanation": "The receipt provides a clear record of the particular transaction."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why avoid discussing fee help publicly in the queue?",
+          "choices": [
+            "All financial conversations are forbidden",
+            "Nobody is allowed to ask for assistance",
+            "Respecting privacy can make support easier to request",
+            "The workshop has no responsibility for access"
+          ],
+          "answer": 2,
+          "explanation": "A private, respectful process reduces an unnecessary barrier to seeking help."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “lend” mean for the workshop?",
+          "choices": [
+            "Borrow money from a resident",
+            "Hide equipment from trained users",
+            "Sell every tool permanently",
+            "Give equipment for someone to return later"
+          ],
+          "answer": 3,
+          "explanation": "The workshop provides temporary use rather than transferring ownership."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-sound-in-the-empty-room",
+      "title": "The Sound in the Empty Room",
+      "level": "B1",
+      "category": "Science",
+      "reading_minutes": 2,
+      "body": "The first meeting in the new hall was difficult to follow. Voices seemed clear near the speaker but less clear at the back. People noticed an echo, especially when the room was almost empty. Before buying a louder sound system, the committee asked what else might affect the experience.\n\nSound can interact with the surfaces around it. A hard surface may reflect sound, while suitable soft material can absorb some of it. The shape of a room and the position of people also matter. Making a voice louder does not necessarily make every word easier to understand.\n\nA volunteer helped the committee compare different arrangements using ordinary speech at a comfortable level. They moved chairs, checked the speaker’s position, and followed professional advice about suitable room treatment. They did not attempt unsafe electrical work or produce loud test noise.\n\nAfter each change, listeners described what they could hear from several places. One person found the front clearer, while another still struggled near a wall. These differences were useful information. The committee needed to consider the audience across the room, not only the experience of the person operating the microphone.\n\nThey also tried to repeat the same short passage when comparing arrangements. If the speaker changed volume and position at the same time, it became harder to identify the effect of either change. The checks were practical observations, not a complete professional acoustic survey.\n\nThe eventual improvement combined a better arrangement with appropriate expert advice. The committee learned that a familiar problem can have several connected parts. “Not loud enough” was an understandable first description, but it was not yet an explanation. Careful listening helped turn a general complaint into questions that could lead to a more useful solution.",
+      "vocabulary": [
+        "v_sound",
+        "v_surface",
+        "v_material",
+        "v_compare",
+        "v_repeat",
+        "v_effect"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why does the committee look beyond a louder sound system?",
+          "choices": [
+            "An echo proves every microphone is broken",
+            "Loudness never affects hearing",
+            "Only the front audience matters",
+            "Clarity can depend on room surfaces and arrangement as well as volume"
+          ],
+          "answer": 3,
+          "explanation": "The article examines several interacting influences on understandable speech."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "How does the group make comparisons more consistent?",
+          "choices": [
+            "Ignores listeners near the walls",
+            "Repeats the same short passage",
+            "Tests only the person using the microphone",
+            "Changes every condition without notes"
+          ],
+          "answer": 1,
+          "explanation": "A repeated passage reduces one source of difference between checks."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why ask listeners in several positions?",
+          "choices": [
+            "Different reports are automatically false",
+            "Everyone must hear identically in every setting",
+            "A change may help one part of the room more than another",
+            "Only distant listeners understand speech"
+          ],
+          "answer": 2,
+          "explanation": "The committee needs to understand variation across the actual audience."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “effect” mean in comparing changes?",
+          "choices": [
+            "The speaker’s job title",
+            "A permission to use the building",
+            "The price printed on a microphone",
+            "The change produced by a particular action or condition"
+          ],
+          "answer": 3,
+          "explanation": "The checks try to identify what each adjustment changes."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_what-a-timeline-leaves-out",
+      "title": "What a Timeline Leaves Out",
+      "level": "B1",
+      "category": "History",
+      "reading_minutes": 2,
+      "body": "A timeline can make a complicated history easier to follow. Dates appear in order, and a reader can quickly see which event happened before another. Yet the neat arrangement can also create an impression that history is only a line of separate moments.\n\nA class made a timeline about a fictional town’s library. It included the opening, a move to another building, and the introduction of evening hours. At first, the display looked complete. Then one student asked where to place the years of ordinary work between those events.\n\nOne overlooked detail changed the project. A new building opened on a particular day, but planning, fundraising, and moving books took place over a longer period. Evening access also developed through discussions and small changes rather than one sudden decision. The date marked a visible stage, not the entire process.\n\nStudents added short notes beneath the main line. Each note identified its source and explained what the date represented. A photograph could show the opening ceremony without showing everyone who had contributed. A meeting record could preserve a decision without describing every conversation before it.\n\nThe class also asked what conclusion a reader might draw from the display. Placing two events close together did not prove that one caused the other. More context would be needed to explain a relationship. An attractive line should not quietly turn sequence into certainty.\n\nThe final timeline remained useful. It simply stopped pretending to be the whole story. Readers could follow the main dates while noticing the longer work and unanswered questions around them. A good historical display helps people organize information, but it also makes clear that organization is a choice about what to emphasize and what a single page cannot fully contain.",
+      "vocabulary": [
+        "v_event",
+        "v_stage",
+        "v_source",
+        "v_detail",
+        "v_conclusion",
+        "v_context"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What limit does the class discover in its timeline?",
+          "choices": [
+            "The library had no ordinary work between events",
+            "Every nearby pair of events proves causation",
+            "Selected dates do not fully represent longer processes and relationships",
+            "Dates can never help organize history"
+          ],
+          "answer": 2,
+          "explanation": "The class adds context around the visible milestones."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What is added beneath the main line?",
+          "choices": [
+            "Short notes identifying sources and explaining dates",
+            "A rule preventing further questions",
+            "Only more decorative colors",
+            "Unrelated advertisements"
+          ],
+          "answer": 0,
+          "explanation": "The notes clarify what each dated moment actually represents."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does sequence not establish a cause?",
+          "choices": [
+            "A relationship needs more support than the order of two events",
+            "All historical sources have the same purpose",
+            "Earlier events cannot affect later ones",
+            "Timelines must avoid every date"
+          ],
+          "answer": 0,
+          "explanation": "Order is one piece of information, not a complete causal explanation."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “context” add to the display?",
+          "choices": [
+            "A guarantee that the class included everything",
+            "Surrounding information that helps interpret the selected dates",
+            "Only the frame’s color",
+            "A replacement for all evidence"
+          ],
+          "answer": 1,
+          "explanation": "Context connects a date with the wider process and evidence."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-study-group-with-no-fastest-speaker",
+      "title": "The Study Group With No Fastest Speaker",
+      "level": "B1",
+      "category": "Education",
+      "reading_minutes": 2,
+      "body": "At the first meeting of a language study group, the fastest speaker answered almost every question. Other members appreciated his confidence, but several stopped trying to join in. The group needed a way to practice together without turning every conversation into a race.\n\nMembers began by discussing the purpose of the meetings. They wanted to use new language, listen carefully, and ask for clarification. Speaking quickly could be useful, but speed alone did not show whether someone understood the topic or helped a partner take part.\n\nThe group introduced short pair activities before whole-group discussion. Each partner had time to prepare an example and ask a question. During the larger conversation, members took turns and allowed a pause before adding another response. They did not treat silence as proof that a person had nothing to say.\n\nOne quieter learner explained that she could understand the reading but needed more time to form a sentence. Another was fluent in familiar conversation but found the new topic difficult. Their needs were different, so the group avoided dividing everyone into a simple order from best to worst.\n\nThe fastest speaker practiced a different skill: listening long enough to build on another person’s idea. He became more aware of when an explanation helped and when it simply filled the available space. Other members became more confident about asking to repeat or clarify a point.\n\nThe meetings did not produce an official measure of anyone’s language level. They produced more opportunities to participate. Respect meant more than being friendly; it involved arranging the activity so people could actually use their voices. A useful study group made room for different speeds while keeping the shared learning purpose clear.",
+      "vocabulary": [
+        "v_purpose",
+        "v_partner",
+        "v_fluent",
+        "v_confident",
+        "v_participate",
+        "v_respect"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What improves the study group?",
+          "choices": [
+            "Letting one confident member answer every question",
+            "Creating real opportunities for different members to speak and listen",
+            "Ranking everyone only by speaking speed",
+            "Preventing all pauses"
+          ],
+          "answer": 1,
+          "explanation": "The activity design supports participation rather than treating conversation as a race."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What happens before whole-group discussion?",
+          "choices": [
+            "A public language-level certificate ceremony",
+            "Short pair activities",
+            "An hour of silent ranking",
+            "A rule against questions"
+          ],
+          "answer": 1,
+          "explanation": "Pair work gives members time to prepare an example and ask a question."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why should silence not be treated as having no ideas?",
+          "choices": [
+            "Fast speech proves complete understanding",
+            "Everyone who is silent has identical needs",
+            "Questions are unnecessary after reading",
+            "A learner may understand but need more time to form a response"
+          ],
+          "answer": 3,
+          "explanation": "The article distinguishes time needed for expression from the presence of ideas."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “fluent” describe in the passage?",
+          "choices": [
+            "Speaking easily and smoothly in a familiar situation",
+            "Never needing a new word explained",
+            "Holding an official qualification in every topic",
+            "Always speaking faster than everyone else"
+          ],
+          "answer": 0,
+          "explanation": "Fluency in familiar conversation does not eliminate difficulty with a new subject."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_a-small-garden-on-a-busy-roof",
+      "title": "A Small Garden on a Busy Roof",
+      "level": "B1",
+      "category": "Nature",
+      "reading_minutes": 2,
+      "body": "The roof of a community building looked like an inviting place for a garden. It received sunlight, and residents imagined herbs growing in colorful containers. Before anyone carried soil upstairs, the building manager asked a less exciting question: was the roof suitable for the weight and use being proposed?\n\nThe group needed permission and professional advice. A drawing of attractive plants did not show the condition of the building or how water would move. Wet soil, containers, and people could create a load very different from a few empty pots. The project had to begin with the building’s limits, not the appearance of the first sketch.\n\nResidents also discussed practical care. Who would water the plants during a holiday? How would tools be stored? Could everyone reach the proposed space safely? The garden should not create a new difficulty for people using the building below it.\n\nA gardening adviser helped the group consider suitable plants and growing material after the technical questions were checked. A plant’s root system mattered as well as the color of its flowers. The choices needed to fit the approved containers, local conditions, and the amount of regular care available.\n\nSome original ideas were removed from the plan. The group accepted a smaller design instead of treating every reduction as a failure. Its purpose was to create a useful shared space while helping protect the building and the people who depended on it.\n\nThe finished proposal was less dramatic than the first picture, but more realistic. The lesson was not that residents should avoid ambitious ideas. It was that a living project needs support beyond enthusiasm: appropriate expertise, clear responsibilities, and a design connected to the place where it will actually exist.",
+      "vocabulary": [
+        "v_weight",
+        "v_soil",
+        "v_permission",
+        "v_material",
+        "v_root",
+        "v_protect"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why must the roof project begin with technical checks?",
+          "choices": [
+            "Sunlight guarantees a roof can hold any load",
+            "An attractive garden idea must fit the building’s real limits and responsibilities",
+            "Plants need no regular care",
+            "A smaller design is always a failure"
+          ],
+          "answer": 1,
+          "explanation": "The proposal must protect the building and people before focusing on appearance."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Which condition increases the load beyond a few empty pots?",
+          "choices": [
+            "The color of the first drawing",
+            "A notice on the ground floor",
+            "Wet soil and people using the space",
+            "The name of the committee"
+          ],
+          "answer": 2,
+          "explanation": "The actual garden creates a different structural demand from empty containers."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why does the group accept a smaller design?",
+          "choices": [
+            "Permission removes every need for maintenance",
+            "The group no longer wants plants",
+            "All roof gardens have identical requirements",
+            "A realistic approved plan can serve the purpose better than an unsafe ambitious one"
+          ],
+          "answer": 3,
+          "explanation": "The group adjusts its ideas to evidence and practical limits."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “permission” mean for starting the garden?",
+          "choices": [
+            "Agreement allowing the proposed use to go ahead",
+            "An estimate of flower color",
+            "A replacement for professional advice",
+            "A plant’s ability to grow without water"
+          ],
+          "answer": 0,
+          "explanation": "The building’s use requires authorization as well as suitability checks."
+        }
+      ],
+      "references": []
+    }
+  ]
+}

@@ -1,0 +1,360 @@
+{
+  "version": 1,
+  "articles": [
+    {
+      "id": "a_the-suggestion-under-the-sentence",
+      "title": "The Suggestion Under the Sentence",
+      "level": "B1",
+      "category": "Artificial intelligence",
+      "reading_minutes": 2,
+      "body": "A writing assistant can suggest a useful change, but the writer still needs to decide whether it fits. A highlighted sentence may contain a spelling mistake, an unusual expression, or a choice that the software does not understand in its full context. These are not always the same kind of problem.\n\nIn a language class, students compared two versions of a short invitation. One version sounded friendly and personal. The other was more formal. Both could be grammatically correct, depending on the relationship between the writer and the reader. Replacing every informal phrase did not automatically improve the message.\n\nThe teacher asked students to explain the meaning they intended before choosing which changes to accept. Did the invitation promise a confirmed meeting, or only ask whether a time was possible? A small change from a question to a statement could alter that meaning even if the new sentence looked smooth.\n\nStudents then used the assistant’s ideas to review their writing. They checked unfamiliar expressions in a suitable source and asked why a change might help. If they could not understand the suggested sentence, they did not simply copy it and hope that it was better.\n\nPrivacy mattered as well. The class practiced with fictional invitations rather than private messages from real people. Before using an online tool with personal writing, learners needed to know what would be sent and decide whether they wanted to share it.\n\nThe activity did not treat assistance as cheating or as a perfect authority. It treated the tool as one possible partner in a writing process. A useful correction should support the writer’s intended message, not quietly replace it. The final responsibility remained with a person who could read the whole invitation and explain why its words belonged there.",
+      "vocabulary": [
+        "v_suggest",
+        "v_correct",
+        "v_meaning",
+        "v_accept",
+        "v_review",
+        "v_source"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "How should learners use a writing assistant’s suggestions?",
+          "choices": [
+            "Assume formal language is always better",
+            "Consider whether each change supports the intended message",
+            "Use only sentences they cannot explain",
+            "Accept every highlighted change immediately"
+          ],
+          "answer": 1,
+          "explanation": "The activity connects grammar choices with purpose, context, and the writer’s responsibility."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What texts does the class use for practice?",
+          "choices": [
+            "Fictional invitations",
+            "Only official legal documents",
+            "Unread notes from other students’ phones",
+            "Private messages uploaded without permission"
+          ],
+          "answer": 0,
+          "explanation": "Fictional examples avoid exposing real private correspondence."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why might a smooth new sentence still be unsuitable?",
+          "choices": [
+            "Smooth sentences can never be grammatical",
+            "Every tool suggestion contains the same mistake",
+            "The writer is not allowed to use assistance",
+            "It could change a question into a promise or otherwise alter the intended meaning"
+          ],
+          "answer": 3,
+          "explanation": "Surface fluency does not guarantee that the sentence still communicates the desired message."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “accept” mean when selecting a suggestion?",
+          "choices": [
+            "Ask the reader to leave",
+            "Identify a private person",
+            "Choose to use the proposed change",
+            "Delete the whole writing task"
+          ],
+          "answer": 2,
+          "explanation": "Students decide which offered changes to adopt."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_paper-bridges-and-fair-comparisons",
+      "title": "Paper Bridges and Fair Comparisons",
+      "level": "B1",
+      "category": "Science",
+      "reading_minutes": 2,
+      "body": "Can a sheet of paper hold more weight after it has been folded? A class decided to investigate the question with two small bridges between blocks on a table. The teacher reminded everyone that the test concerned a paper model, not a bridge safe for people to cross.\n\nBoth bridges used the same kind and amount of material. The blocks stood the same distance apart. One sheet lay flat, while the other was folded into a different shape. If the class changed the paper, the distance, and the shape together, it would be harder to explain any difference in the result.\n\nStudents added small test objects carefully and stopped before the arrangement became unsafe. They recorded how much weight each model supported under their chosen conditions. The folds changed how the paper responded to the force, but the group did not assume that every folded design would behave in the same way.\n\nNext, another group repeated the activity. Its measurements differed slightly. Perhaps the folds were not identical, or the objects were placed a little differently. Instead of hiding these differences, the students wrote them down and discussed how to measure more consistently.\n\nThe teacher asked them to compare both the observations and the method. A statement such as “folding makes paper strong” was too broad for the evidence collected. A more useful conclusion described the particular shapes, materials, and arrangement they had actually tested.\n\nThe class displayed the failed models too. Their bent surfaces helped explain what had happened under increasing load. An unsuccessful design was not empty evidence. It could reveal a weakness or suggest a better question. The activity showed that a fair comparison depends on the choices made before the final object is added, not simply on which bridge wins.",
+      "vocabulary": [
+        "v_weight",
+        "v_material",
+        "v_result",
+        "v_force",
+        "v_measure",
+        "v_compare"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What makes the bridge investigation a fair comparison?",
+          "choices": [
+            "Hiding all failed bridges",
+            "Keeping relevant conditions similar while examining the design difference",
+            "Using a different material and distance for every model",
+            "Treating a paper model as safe for people"
+          ],
+          "answer": 1,
+          "explanation": "Controlled choices make the observed difference easier to interpret."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What is deliberately the same for both initial bridges?",
+          "choices": [
+            "The final supported weight",
+            "The students’ conclusions",
+            "The exact shape of every fold",
+            "The kind and amount of paper"
+          ],
+          "answer": 3,
+          "explanation": "The paper and spacing are kept similar while the shape changes."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why keep the failed models in the display?",
+          "choices": [
+            "Only damaged objects are allowed in science",
+            "Failure proves no useful observation was possible",
+            "They guarantee the next model will succeed",
+            "Their shape after failure can help explain weaknesses and suggest questions"
+          ],
+          "answer": 3,
+          "explanation": "Unsuccessful outcomes still provide information about what happened."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “force” refer to in the test?",
+          "choices": [
+            "A written permission form",
+            "The push or pull acting on the paper",
+            "The class’s favorite design",
+            "The price of the paper"
+          ],
+          "answer": 1,
+          "explanation": "The added load changes the forces the model must resist."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-appointment-nobody-had-confirmed",
+      "title": "The Appointment Nobody Had Confirmed",
+      "level": "B1",
+      "category": "Work and careers",
+      "reading_minutes": 2,
+      "body": "A customer arrived at a repair office on Tuesday, expecting an appointment. The receptionist could find her message, but the time had not been added to the final schedule. The customer had received an automatic reply and understood it as confirmation. The office had meant only to say that her request had arrived.\n\nNeither person had deliberately ignored the other. The problem was in the wording. “Thank you for your request” appeared above a large date and time. A smaller sentence explained that staff still needed to check whether a technician was available. The most important limit was also the easiest part to miss.\n\nThe receptionist apologized and looked for a practical solution. She explained what the office could offer that day without pretending the original message had been clear. The customer could leave the device for a later check or choose another confirmed time. She needed accurate options, not an argument about who should have read more carefully.\n\nAfterward, the team changed the messages. The first reply clearly stated that no appointment was booked yet. A separate message would confirm the arrangement only after staff checked the schedule. Both messages used the same clear language on a phone and on a larger screen.\n\nThe team also tested the wording with people who had not helped write it. They asked each reader what action they believed had already happened. A label that seemed obvious to office staff could mean something different to a person seeing it for the first time.\n\nThe experience showed why communication should reflect the real state of a process. Receiving, checking, and confirming were three different actions. Combining them in one friendly-looking message had created a promise the office was not yet ready to keep.",
+      "vocabulary": [
+        "v_customer",
+        "v_appointment",
+        "v_schedule",
+        "v_request",
+        "v_available",
+        "v_confirm"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What causes the misunderstanding about the appointment?",
+          "choices": [
+            "The schedule is printed in the wrong color",
+            "The office has no technicians at any time",
+            "The customer never sent a message",
+            "The reply’s wording suggests a completed booking before confirmation"
+          ],
+          "answer": 3,
+          "explanation": "A receipt of the request is confused with confirmation of the arrangement."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What change does the office make?",
+          "choices": [
+            "It removes every date from all records",
+            "It stops replying to all customers",
+            "It separates receipt of a request from the later confirmation",
+            "It confirms times before checking availability"
+          ],
+          "answer": 2,
+          "explanation": "The revised messages distinguish different stages of the booking process."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why test the message with unfamiliar readers?",
+          "choices": [
+            "Every customer already knows the internal process",
+            "Staff knowledge may hide an ambiguity obvious to a new user",
+            "Only new readers are allowed to book repairs",
+            "Testing wording replaces the need for a schedule"
+          ],
+          "answer": 1,
+          "explanation": "People outside the team can reveal interpretations the writers did not expect."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “confirm” mean in the new process?",
+          "choices": [
+            "Say only that a message has arrived",
+            "Ask the customer to guess",
+            "State that the checked arrangement is certain",
+            "Change the meaning of the request silently"
+          ],
+          "answer": 2,
+          "explanation": "Confirmation comes after staff verify that the proposed arrangement is possible."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-memory-of-a-busy-street",
+      "title": "The Memory of a Busy Street",
+      "level": "B1",
+      "category": "Psychology",
+      "reading_minutes": 2,
+      "body": "Two friends visited the same street festival and later described surprisingly different experiences. Maya remembered a musician beside the bookstall. Daniel remembered a blocked entrance and a queue near the food tables. Their accounts sounded as if they had attended different events, although they had walked together for most of the afternoon.\n\nThe difference began with attention. Maya had hoped to hear local music, so she noticed instruments and performances. Daniel was helping a relative find an accessible route, so entrances and crowded spaces mattered more to him. Neither person had observed every detail with equal care.\n\nWhen they started to compare their memories, each was initially sure the other had missed the important part. Then they looked at their photographs. One picture showed the musician just beyond the blocked entrance. Both observations could fit the same place, seen with different purposes in mind.\n\nThe photographs did not settle every question. They captured selected moments and angles. A clear image of one corner could not show what happened on the other side of the street or explain the full experience of everyone attending. The friends needed to distinguish what was visible from what they inferred afterward.\n\nMaya and Daniel decided to describe the event with their own positions made clear. Maya wrote about the music, and Daniel explained the route difficulties. Together, the accounts gave a wider view than either alone. They did not force every difference into a simple choice between truth and a lie.\n\nA memory can be useful without being a complete recording. Asking what a person was doing, noticing, and trying to achieve can help us understand why accounts differ. The conversation became more informative when the friends stopped defending a single perfect version and began asking how their partial views connected.",
+      "vocabulary": [
+        "v_attention",
+        "v_detail",
+        "v_compare",
+        "v_memory",
+        "v_sure",
+        "v_describe"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "Why do the friends remember the festival differently?",
+          "choices": [
+            "One account must be a deliberate lie",
+            "They definitely attend different festivals",
+            "Photographs record every experience equally",
+            "Their purposes direct attention toward different parts of the same event"
+          ],
+          "answer": 3,
+          "explanation": "The friends notice music and access issues according to what matters to them."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "What does one photograph show?",
+          "choices": [
+            "A different town entirely",
+            "The musician beyond the blocked entrance",
+            "Every visitor’s complete journey",
+            "An empty street with no festival"
+          ],
+          "answer": 1,
+          "explanation": "The photograph helps connect details from both accounts."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why do the friends explain their own positions in the final accounts?",
+          "choices": [
+            "It proves the photographs need no interpretation",
+            "It makes every memory exact",
+            "It prevents any comparison",
+            "Readers can better understand the limits and focus of each view"
+          ],
+          "answer": 3,
+          "explanation": "Stating perspective helps readers understand what each person was likely to notice."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What does “attention” mean in explaining the difference?",
+          "choices": [
+            "The focus given to particular information or events",
+            "The name of a camera setting",
+            "The amount paid for a ticket",
+            "A perfect copy of every moment"
+          ],
+          "answer": 0,
+          "explanation": "Different interests guide which details receive notice."
+        }
+      ],
+      "references": []
+    },
+    {
+      "id": "a_the-tree-that-changed-the-waiting-place",
+      "title": "The Tree That Changed the Waiting Place",
+      "level": "B1",
+      "category": "Nature",
+      "reading_minutes": 2,
+      "body": "The bus stop beside the clinic had a seat, a clear sign, and enough room for passengers. On hot afternoons, however, people often waited several steps away under a tree. A planning group wanted to understand this choice before deciding whether the stop needed a new shelter.\n\nMembers visited at different times rather than relying on one photograph. They noticed that the shade moved across the ground as the day passed. The tree covered part of the waiting area in the afternoon, while the metal seat and paved surface remained exposed for longer.\n\nThey recorded temperature readings with the same equipment and method, but they also asked passengers about comfort. One person valued shade because the bright light made reading difficult. Another wanted a seat near the information sign. A parent needed space to stand beside a stroller without blocking the path. A single measurement could not describe all of these needs.\n\nThe group also considered the season. The tree did not provide the same cover throughout the year, and rain introduced another problem. Its present benefit was real, but it did not answer every question about the future waiting place.\n\nThe final proposal combined several changes: safer seating positions, clearer space for movement, and professional advice about a suitable shelter and the existing tree. The group did not treat the tree as a free solution requiring no care. Roots, maintenance, and the surrounding path needed attention too.\n\nThe project began with a small observation: passengers were choosing somewhere other than the official seat. Listening to that behavior helped planners ask a better question. A useful place is not defined only by what is installed there. It is also shaped by sunlight, weather, movement, and the different ways people actually use it.",
+      "vocabulary": [
+        "v_choice",
+        "v_shade",
+        "v_surface",
+        "v_temperature",
+        "v_season",
+        "v_benefit"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "main_idea",
+          "prompt": "What does observing passengers help the group understand?",
+          "choices": [
+            "A tree removes all need for planning",
+            "Installing a seat guarantees comfort",
+            "A waiting place must respond to real use and several environmental conditions",
+            "One temperature reading answers every access question"
+          ],
+          "answer": 2,
+          "explanation": "The project connects physical conditions with the varied needs of passengers."
+        },
+        {
+          "id": "q2",
+          "type": "detail",
+          "prompt": "Why does one passenger prefer shade?",
+          "choices": [
+            "The ticket price is lower under the tree",
+            "The tree displays the bus timetable",
+            "Bright light makes reading difficult",
+            "The clinic forbids use of the official seat"
+          ],
+          "answer": 2,
+          "explanation": "Comfort includes more than air or surface temperature."
+        },
+        {
+          "id": "q3",
+          "type": "inference",
+          "prompt": "Why examine different seasons?",
+          "choices": [
+            "Passengers stop traveling outside summer",
+            "Trees always provide identical cover",
+            "The current cover may not meet the same needs throughout the year",
+            "Seasonal changes make all observation useless"
+          ],
+          "answer": 2,
+          "explanation": "Changing leaves and weather affect the tree’s usefulness as a waiting place."
+        },
+        {
+          "id": "q4",
+          "type": "vocabulary",
+          "prompt": "What is the tree’s “benefit” in the article?",
+          "choices": [
+            "The legal name of the clinic",
+            "A guarantee of perfect weather",
+            "The cost of a new bus",
+            "A helpful effect such as shade for waiting passengers"
+          ],
+          "answer": 3,
+          "explanation": "The benefit is real but does not settle every design need."
+        }
+      ],
+      "references": []
+    }
+  ]
+}
