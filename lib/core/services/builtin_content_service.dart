@@ -26,6 +26,7 @@ class BuiltinCatalog {
       Error.throwWithStackTrace(error, stack);
     });
   }
+
   static Future<BuiltinCatalog> read(
       Future<String> Function(String) loader) async {
     final manifest = jsonDecode(await loader('assets/content/v1/manifest.json'))

@@ -95,7 +95,13 @@ void main() {
     expect((await db.getPreferences()).dailyTargetMinutes, 30);
     await tester.ensureVisible(find.text('Skip').first);
     await tester.tap(find.text('Skip').first);
-    await waitForContent(tester, find.textContaining('skipped'));
+    await tester.pumpAndSettle();
+    expect((await db.db).select(
+        "SELECT state FROM planned_activities WHERE state='skipped'"),
+        hasLength(1));
+    // Removing the action buttons shrinks this card above the viewport.
+    await tester.scrollUntilVisible(find.text('مقاله آموزشی'), -250,
+        scrollable: find.byType(Scrollable).first);
     expect(find.textContaining('skipped'), findsOneWidget);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox());
