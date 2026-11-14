@@ -1,5 +1,38 @@
 # LexiFlow 2.0 final engineering audit
 
+## GitHub build follow-up
+
+The local-environment results below are the original Phase 5 baseline. Subsequent
+GitHub Actions execution is recorded here; the earlier zero-test/no-APK statements
+must not be read as the current GitHub build result.
+
+Code is pushed on branch `lexiflow-2.0-final`. Run
+https://github.com/Muahid1312/EnglishFlow/actions/runs/43582434776 built application
+commit `8379d63` successfully with Flutter 3.24.5 and Java 21. Package/signature
+verification and artifact upload also succeeded. The workflow remains failed
+because formatting/analyzer/regression checks are not all clean: the full suite
+reported **254 passed, 17 failed**. Production/device readiness is not established.
+
+Build troubleshooting restored the export screen's missing share_plus import,
+removed an intl/Flutter TextDirection collision, and supplied the database's B1
+listening-difficulty default when callers omit that optional map value. No schema
+or historical learner records were changed by those fixes.
+
+The uploaded artifact is `LexiFlow-2.0.0-build11-debug`:
+https://github.com/Muahid1312/EnglishFlow/actions/runs/43582434776/artifacts/14109555932
+
+Sign into GitHub and extract `LexiFlow-2.0.0-build11-debug.apk` from the ZIP. It
+contains package/version output, debug-signature verification, size and APK SHA-256
+metadata. GitHub displays the artifact as 105 MB and its **artifact archive digest**
+as `07e1101eddde8d2a8266bbf12f0748619183e778fa65ba81ab0a43ad80a1b0c2`;
+this is not asserted to be the APK's checksum. Artifact retention is 14 days.
+
+This cloud workspace could inspect the public run and upload result, but the
+artifact download requires a GitHub login and the GitHub API is blocked here.
+No local copy of the binary or physical-device validation is claimed. The source
+push and GitHub-hosted debug artifact are verified; the remaining failing checks
+and original release-signing requirements still block a production release.
+
 ## Baseline recorded before Phase 5 edits
 
 Source preservation: /workspace/phase5-validation/pre-phase5-source.tar.gz,
